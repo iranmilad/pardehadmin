@@ -1,0 +1,101 @@
+@import "./fontiran.css";
+@import "./fontawesome/fontawesome.css";
+@import "../plugins/custom/datatables/datatables.bundle.rtl.css";
+@tailwind components;
+@tailwind utilities;
+
+body,
+.editor-container {
+    font-family: "IRANSansX", sans-serif;
+    -moz-font-feature-settings: "ss02";
+    -webkit-font-feature-settings: "ss02";
+    font-feature-settings: "ss02";
+}
+
+.dashboard-card-chart {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-card-chart .card-body {
+    height: 100%;
+    flex: 1 1 0%;
+    display: flex;
+}
+
+.table tr td {
+    padding-right: 0 !important;
+}
+
+.table.gs-7 th:first-child {
+    padding-right: 0;
+}
+
+.date_column {
+    text-align: left !important;
+    padding-left: 0 !important;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.ck-powered-by {
+    display: none !important;
+}
+
+.ck-editor__editable {
+    min-height: 400px;
+    max-height: 500px;
+    overflow: auto;
+}
+
+.card{
+    @apply tw-shadow-md tw-shadow-slate-300/20 !important;
+}
+
+.card-header,
+.card-footer {
+    min-height: 48px !important;
+}
+
+.card-footer {
+    @apply tw-py-2 !important;
+}
+
+.image-input-placeholder {
+    background-image: url("/images/blank-image.svg") !important;
+}
+
+@media (min-width: 1200px) {
+    .post-type-row .col-xl-2 {
+        width: 20% !important;
+    }
+
+    .post-type-row .col-xl-10 {
+        width: 80% !important;
+    }
+}
+
+.select2-selection__choice__display{
+    padding-right: 15px;
+    padding-left: 0;
+    margin-left: 1px !important;
+}
+
+.select2-container--bootstrap5 .select2-dropdown .select2-results__option.select2-results__option--selected{
+    padding-right: 30px !important;
+}
+
+.intermediat-checkbox{
+    padding-right: 0;
+}
+
+.intermediat-checkbox li{
+    margin-bottom: 7px;
+    list-style: none;
+}
+
+#categoryCreateCollapse .card{
+    box-shadow: none !important;
+}
