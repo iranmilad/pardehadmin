@@ -11,6 +11,7 @@
 
     <title>@yield('title')</title>
     @vite(['resources/css/style-rtl.css'])
+    @vite(['resources/plugins/global/plugins.bundle.css'])
     @vite(['resources/plugins/global/plugins.bundle.rtl.css'])
     @vite(['resources/css/app.css'])
 </head>
@@ -99,11 +100,11 @@
     <!--end::Modals-->
     <!--begin::Javascript-->
     <!--end::سفارشی Javascript-->
-    @yield('script-before')
     <script src="{{asset('plugins/global/plugins.bundle.js')}}"></script>
     <script src="{{asset('js/scripts.bundle.js')}}"></script>
     <script src="{{asset('js/widgets.bundle.js')}}"></script>
     <script src="{{asset('js/custom/widgets.js')}}"></script>
+    @yield('script-before')
     @vite("resources/js/app.js")
     @yield('scripts')
     <!--end::Javascript-->

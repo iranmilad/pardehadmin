@@ -1,9 +1,9 @@
 <!--begin::Menu-->
 <div class="menu menu-column menu-rounded menu-sub-indention px-3" id="#kt_app_sidebar_menu" data-kt-menu="true">
 	<!--begin:Menu item-->
-	<div data-kt-menu-trigger="click" class="menu-item">
+	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="/" class="menu-link">
+		<a href="{{ route('index') }}" class="menu-link">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-grid-2"></i>
 			</span>
@@ -53,7 +53,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="../../demo1/dist/dashboards/projects.html">
+				<a class="menu-link" href="{{ route('post-categories') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -107,7 +107,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="../../demo1/dist/index.html">
+				<a class="menu-link" href="{{ route('page.list') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -225,9 +225,9 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
-	<div data-kt-menu-trigger="click" class="menu-item">
+	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="/slides" class="menu-link">
+		<a href="{{ route('slides') }}" class="menu-link">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-rectangle-history"></i>
 			</span>
@@ -301,6 +301,48 @@
 			<span class="menu-title">منو ها</span>
 		</a>
 		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+
+	<!--begin:Menu item-->
+	<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+		<!--begin:Menu link-->
+		<span class="menu-link">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-cube"></i>
+			</span>
+			<span class="menu-title">بلاک ها</span>
+			<span class="menu-arrow"></span>
+		</span>
+		<!--end:Menu link-->
+		<!--begin:Menu sub-->
+		<div class="menu-sub menu-sub-accordion">
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link" href="{{ route('block.list') }}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">همه ی بلاک ها</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link" href="{{ route('block.create') }}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">افزودن بلاک جدید</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+		</div>
+		<!--end:Menu sub-->
 	</div>
 	<!--end:Menu item-->
 

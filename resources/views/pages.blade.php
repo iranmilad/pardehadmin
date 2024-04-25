@@ -1,9 +1,9 @@
 @extends('layouts.primary')
 
-@section('title', 'نوشته ها')
+@section('title', 'برگه ها')
 
 @section("toolbar")
-<a href="{{route('post')}}?action=add" class="btn btn-primary">نوشته جدید</a>
+<a href="{{route('post')}}?action=add" class="btn btn-primary">برگه جدید</a>
 @endsection
 
 @section('content')
@@ -34,20 +34,18 @@
         </div>
 
         <!--end::Group actions-->
-        <table id="posts_table" class="table gy-5 gs-7">
+        <table id="pages_table" class="table gy-5 gs-7">
             <thead>
                 <tr class="fs-7 fw-bold text-gray-400 border-bottom-0">
                     <th class="w-10px">
                         <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                            <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#posts_table .form-check-input" value="1" />
+                            <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#pages_table .form-check-input" value="1" />
                         </div>
                     </th>
-                    <th class="cursor-pointer px-0 min-w-175px text-start">عنوان</th>
-                    <th class="cursor-pointer px-0 min-w-175px text-start">نویسنده</th>
-                    <th class="cursor-pointer px-0 min-w-175px text-start">دسته ها</th>
-                    <th class="px-0 min-w-100px text-start">برچسب ها</th>
-                    <th class="px-0 tw-max-w-20 text-start">نظرات</th>
-                    <th class="px-0 min-w-100px text-end">تاریخ</th>
+                    <th class="cursor-pointer px-0 min-w-100px text-start">عنوان</th>
+                    <th class="px-0 tw-max-w-20 text-start">نویسنده</th>
+                    <th class="px-0 tw-max-w-20 text-start">تاریخ</th>
+                    <th class=" text-end">عملیات</th>
                 </tr>
             </thead>
             <tbody>
@@ -58,48 +56,24 @@
                         </div>
                     </td>
                     <td>
-                        <a href=" {{route('post')}}?action=edit&id=1" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">نوشته اول</a>
+                        <a href="{{ route('page.edit',['id' => 1]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder">صفحه ی اصلی</a>
                     </td>
                     <td>
-                        <a href="">نویسنده</a>
+                        <span class="text-muted">فرهاد باقری</span>
                     </td>
                     <td>
-                        <a class="badge badge-primary" href="">دسته اول</a>
+                        <span class="text-primary">1400/01/01</span>
                     </td>
-                    <td>
-                        <a class="badge badge-primary" href="">برچسب اول</a>
-                    </td>
-                    <td>
-                        <a href="#" class="badge tw-px-0"><i class="bi bi-chat-square-text-fill fs-4 me-2"></i> 10</a>
-                    </td>
-                    <td class="date_column">
-                        <a href="">1400/01/01</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" data-id="2" />
+                    <td class="text-end">
+                        <div class="dropdown">
+                            <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                عملیات
+                            </button>
+                            <form method="post" action="{{ route('page.delete') }}" class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('page.edit',['id' => 1]) }}">ویرایش</a></li>
+                                <li><button type="submit" name="id" value="1" class="dropdown-item text-danger" href="#">حذف</button></li>
+                            </form>
                         </div>
-                    </td>
-                    <td>
-                        <a href="{{route('post')}}?action=edit&id=1" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">نوشته دوم</a>
-                    </td>
-                    <td>
-                        <a href="">نویسنده</a>
-                    </td>
-                    <td>
-                        <a class="badge badge-primary" href="">دسته اول</a>
-                        <a class="badge badge-primary" href="">دسته اول</a>
-                    </td>
-                    <td>
-                        <a class="badge badge-primary" href="">برچسب اول</a>
-                    </td>
-                    <td>
-                        <a href="#" class="badge tw-px-0"><i class="bi bi-chat-square-text-fill fs-4 me-2"></i> 0</a>
-                    </td>
-                    <td class="date_column">
-                        <a href="">1402/01/01</a>
                     </td>
                 </tr>
             </tbody>

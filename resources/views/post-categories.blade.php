@@ -1,9 +1,10 @@
+<!-- This blade is used for writing and editing a post -->
 @extends('layouts.primary')
 
-@section('title', 'نوشته ها')
+@section('title', 'دسته ها')
 
 @section("toolbar")
-<a href="{{route('post')}}?action=add" class="btn btn-primary">نوشته جدید</a>
+<a href="{{route('post-category')}}?action=add" class="btn btn-primary">نوشته جدید</a>
 @endsection
 
 @section('content')
@@ -34,20 +35,20 @@
         </div>
 
         <!--end::Group actions-->
-        <table id="posts_table" class="table gy-5 gs-7">
+        <table id="post_categories" class="table gy-5 gs-7">
             <thead>
                 <tr class="fs-7 fw-bold text-gray-400 border-bottom-0">
                     <th class="w-10px">
                         <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                            <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#posts_table .form-check-input" value="1" />
+                            <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#post_categories .form-check-input" value="1" />
                         </div>
                     </th>
                     <th class="cursor-pointer px-0 min-w-175px text-start">عنوان</th>
-                    <th class="cursor-pointer px-0 min-w-175px text-start">نویسنده</th>
-                    <th class="cursor-pointer px-0 min-w-175px text-start">دسته ها</th>
-                    <th class="px-0 min-w-100px text-start">برچسب ها</th>
-                    <th class="px-0 tw-max-w-20 text-start">نظرات</th>
+                    <th class="cursor-pointer px-0 min-w-175px text-start">توضیح</th>
+                    <th class="cursor-pointer px-0 min-w-175px text-start">نامک</th>
+                    <th class="px-0 min-w-100px text-start">تعداد</th>
                     <th class="px-0 min-w-100px text-end">تاریخ</th>
+                    <th class="px-0 tw-text-end">عملیات</th>
                 </tr>
             </thead>
             <tbody>
@@ -58,22 +59,22 @@
                         </div>
                     </td>
                     <td>
-                        <a href=" {{route('post')}}?action=edit&id=1" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">نوشته اول</a>
+                        <a href=" {{route('post-category')}}?action=edit&id=1" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">پرده های کتان</a>
                     </td>
                     <td>
-                        <a href="">نویسنده</a>
+                        <span class="text-muted">این یک توضیح کوتاه برای دسته بندی های کتان است</span>
                     </td>
                     <td>
-                        <a class="badge badge-primary" href="">دسته اول</a>
+                        <span class="badge badge-primary" >cottan-certain</span>
                     </td>
                     <td>
-                        <a class="badge badge-primary" href="">برچسب اول</a>
-                    </td>
-                    <td>
-                        <a href="#" class="badge tw-px-0"><i class="bi bi-chat-square-text-fill fs-4 me-2"></i> 10</a>
+                        2
                     </td>
                     <td class="date_column">
-                        <a href="">1400/01/01</a>
+                        <span href="">1400/01/01</span>
+                    </td>
+                    <td class="text-end">
+                        <a href="{{route('post-category')}}?action=edit&id=1" class="btn btn-sm btn-primary">ویرایش</a>
                     </td>
                 </tr>
                 <tr>
@@ -83,23 +84,22 @@
                         </div>
                     </td>
                     <td>
-                        <a href="{{route('post')}}?action=edit&id=1" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">نوشته دوم</a>
+                        <a href="{{route('post-category')}}?action=edit&id=2" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">پرده های کتان</a>
                     </td>
                     <td>
-                        <a href="">نویسنده</a>
+                        <span class="text-muted">این یک توضیح کوتاه برای دسته بندی های کتان است</span>
                     </td>
                     <td>
-                        <a class="badge badge-primary" href="">دسته اول</a>
-                        <a class="badge badge-primary" href="">دسته اول</a>
+                        <span class="badge badge-primary" >cottan-certain</span>
                     </td>
                     <td>
-                        <a class="badge badge-primary" href="">برچسب اول</a>
-                    </td>
-                    <td>
-                        <a href="#" class="badge tw-px-0"><i class="bi bi-chat-square-text-fill fs-4 me-2"></i> 0</a>
+                        2
                     </td>
                     <td class="date_column">
-                        <a href="">1402/01/01</a>
+                        <span href="">1400/01/01</span>
+                    </td>
+                    <td class="text-end">
+                        <a href="{{route('post-category')}}?action=edit&id=2" class="btn btn-sm btn-primary">ویرایش</a>
                     </td>
                 </tr>
             </tbody>

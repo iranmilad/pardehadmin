@@ -18,8 +18,7 @@
                     <label class="form-label ">توضیحات</label>
                     <div class="row row-editor">
                         <div class="editor-container">
-                            <div class="editor tw-max-h-96 tw-overflow-auto">
-                            </div>
+                            <div id="editor" class="editor tw-max-h-96 tw-overflow-auto"></div>
                         </div>
                     </div>
                 </div>
@@ -49,12 +48,16 @@
                 <!--begin::توضیحات-->
                 <div class="text-muted fs-7">وضعیت نوشته را تنظیم کنید.</div>
                 <!--end::توضیحات-->
-                <!--begin::تاریخpicker-->
-                <div class="d-none mt-10">
-                    <label for="kt_ecommerce_add_product_status_datepicker" class="form-label">انتخاب publishing date و time</label>
-                    <input class="form-control flatpickr-input" id="kt_ecommerce_add_product_status_datepicker" placeholder="انتخاب تاریخ &amp; time" type="text" readonly="readonly">
+                <!--begin::انتخاب2-->
+                <div class="form-check mt-5">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked />
+                    <label class="form-check-label text-dark" for="flexCheckChecked">
+                        فعال بودن دیدگاه ها
+                    </label>
                 </div>
-                <!--end::تاریخpicker-->
+
+
+                <!--end::انتخاب2-->
             </div>
             <!--end::کارت body-->
             <div class="card-footer text-end">
@@ -77,7 +80,38 @@
             <!--begin::کارت body-->
             <div class="card-body pt-0">
                 <!--begin::Input group-->
-                <x-post-type-category />
+                <div class="tw-max-h-56 tw-overflow-auto tw-pt-1">
+                    <ul class="intermediat-checkbox category-list">
+                        <li>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="tall" name="category1" />
+                                <label class="form-check-label" for="tall">
+                                    دسته ی پرده
+                                </label>
+                            </div>
+                            <ul>
+                                <li>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="tall2" name="category1['child1']" />
+                                        <label class="form-check-label" for="tall2">
+                                            پرده ی اتاق خواب
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="tall3" name="category1['child2']" />
+                                        <label class="form-check-label" for="tall3">
+                                            پرده ی اتاق نشیمن
+                                        </label>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <button class="nav-link" type="button" data-bs-toggle="modal" data-bs-target="#add-fast-category">افزودن دسته ی جدید</button>
+
             </div>
             <!--end::کارت body-->
         </div>
@@ -97,8 +131,8 @@
             <!--begin::کارت body-->
             <div class="card-body pt-0">
                 <!--begin::Input group-->
-                <select class="form-select mb-2 " data-control="select2" data-placeholder="انتخاب " data-allow-clear="true" data-select2-id="select2-data-12-s43z" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                </select>
+                <input class="form-control form-control-solid" value="برچسب 3 , برچسب 2 , برچسب 1" id="post-type-tags" />
+                <span class="text-muted fs-7">برچسب جدید را وارد کنید و Enter را بزنید</span>
             </div>
             <!--end::کارت body-->
         </div>
@@ -162,7 +196,9 @@
         <!-- END:THUMBNAIL -->
     </div>
 </form>
+<x-add-fast-category />
 @endsection
-@section('script-before')
 
-<script src="{{ asset('js/ckeditor.js') }}"></script>
+@section("script-before")
+<script src="{{ asset('/plugins/custom/ckeditor/ckeditor-classic.bundle.js') }}"></script>
+@endsection

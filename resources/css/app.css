@@ -50,7 +50,7 @@ body,
     overflow: auto;
 }
 
-.card{
+[data-bs-theme="light"] .card{
     @apply tw-shadow-md tw-shadow-slate-300/20 !important;
 }
 
@@ -98,4 +98,8 @@ body,
 
 #categoryCreateCollapse .card{
     box-shadow: none !important;
+}
+
+.tagify__tag-text{
+    word-break: break-all;
 }
