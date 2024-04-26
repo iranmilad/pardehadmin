@@ -88,3 +88,21 @@ Route::group(['prefix' => 'page'], function () {
         return view('page',['id' => $id]);
     })->name("page.delete");
 });
+
+Route::group(['prefix' => 'users'], function () {
+    Route::get('/', function () {
+        return view('users');
+    })->name("user.list");
+
+    Route::get('/create', function () {
+        return view('user');
+    })->name("user.create");
+
+    Route::get('/edit/{id}', function ($id) {
+        return view('user',['id' => $id]);
+    })->name("user.edit");
+
+    Route::post('/delete', function ($id) {
+        return view('user',['id' => $id]);
+    })->name("user.delete");
+});

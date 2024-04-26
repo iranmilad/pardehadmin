@@ -1,7 +1,6 @@
 import "./pages/dashboard";
 import "./create-fast-category";
-import "./pages/slides";
-import { PostCategoryTable, BlocksTable, PagesTable } from "./pages";
+import { PostCategoryTable, BlocksTable, PagesTable,UsersTable } from "./pages";
 
 function postsTable() {
     let table;
@@ -112,10 +111,11 @@ function postsTable() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    // postsTable();
-    // PostCategoryTable();
-    // BlocksTable();
-    // PagesTable();
+    postsTable();
+    PostCategoryTable();
+    BlocksTable();
+    PagesTable();
+    UsersTable();
 });
 
 if ($("#editor").length > 0) {

@@ -64,7 +64,7 @@
                     <!--begin::Form group-->
                     <div class="form-group">
                         <div data-repeater-list="edit_block_repeater">
-                            <div  class="mt-3" data-repeater-item>
+                            <div class="mt-3" data-repeater-item>
                                 <div class="form-group row">
                                     <div class="col-md-3">
                                         <label class="form-label">عنوان:</label>
@@ -103,4 +103,20 @@
 @endsection
 @section('script-before')
 <script src="{{asset('plugins/custom/formrepeater/formrepeater.bundle.js')}}"></script>
+@endsection
+
+@section("scripts")
+<script>
+    $('#edit_block_repeater').repeater({
+        initEmpty: false,
+
+        show: function() {
+            $(this).slideDown();
+        },
+
+        hide: function(deleteElement) {
+            $(this).slideUp(deleteElement);
+        }
+    });
+</script>
 @endsection

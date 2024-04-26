@@ -24,11 +24,11 @@
                         <div class="form-group row mt-3" data-repeater-item>
                             <div class="col-md-5">
                                 <label class="form-label">عنوان:</label>
-                                <input type="text" class="form-control mb-2 mb-md-0" placeholder="وارد کنید" />
+                                <input name="link" type="text" class="form-control mb-2 mb-md-0" placeholder="وارد کنید" />
                             </div>
                             <div class="col-md-5">
                                 <label class="form-label">تصویر:</label>
-                                <input type="file" class="form-control mb-2 mb-md-0" />
+                                <input name="file" type="file" class="form-control mb-2 mb-md-0" />
                             </div>
                             <div class="col-md-2">
                                 <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-8">
@@ -62,12 +62,12 @@
                     <div data-repeater-list="banner_slides">
                         <div class="form-group row mt-3" data-repeater-item>
                             <div class="col-md-5">
-                                <label class="form-label">عنوان:</label>
-                                <input type="text" class="form-control mb-2 mb-md-0" placeholder="وارد کنید" />
+                                <label class="form-label">لینک:</label>
+                                <input name="link" type="text" class="form-control mb-2 mb-md-0" placeholder="وارد کنید" />
                             </div>
                             <div class="col-md-5">
                                 <label class="form-label">تصویر:</label>
-                                <input type="file" class="form-control mb-2 mb-md-0" />
+                                <input name="file" type="file" class="form-control mb-2 mb-md-0" />
                             </div>
                             <div class="col-md-2">
                                 <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-8">
@@ -94,4 +94,24 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script-before')
+<script src="{{asset('plugins/custom/formrepeater/formrepeater.bundle.js')}}"></script>
+@endsection
+
+@section("scripts")
+<script>
+    $('#slider_banner,#comments_banner').repeater({
+        initEmpty: false,
+
+        show: function() {
+            $(this).slideDown();
+        },
+
+        hide: function(deleteElement) {
+            $(this).slideUp(deleteElement);
+        }
+    });
+</script>
 @endsection
