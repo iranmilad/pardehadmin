@@ -92,15 +92,28 @@ Route::group(['prefix' => 'page'], function () {
 Route::group(['prefix' => 'users'], function () {
     Route::get('/', function () {
         return view('users');
-    })->name("user.list");
+    })->name("users.list");
 
     Route::get('/create', function () {
-        return view('user');
+        return view('user-create');
     })->name("user.create");
 
+    Route::get('/profile/{id}', function ($id) {
+        return view('user-profile',['id' => $id]);
+    })->name("user.profile");
+
+    // User sessions for user login history like IP, browser, device, etc.
+    Route::get('/profile/sessions/{id}', function () {
+        return view('user-sessions');
+    })->name("user.sessions.show");
+    
+    Route::delete('/profile/sessions/{id}', function () {})->name("user.sessions.save");
+
     Route::get('/edit/{id}', function ($id) {
-        return view('user',['id' => $id]);
-    })->name("user.edit");
+        return view('user-detail',['id' => $id]);
+    })->name("user.edit.show");
+
+    Route::post('/edit/{id}', function ($id) {})->name("user.edit.save");
 
     Route::post('/delete', function ($id) {
         return view('user',['id' => $id]);

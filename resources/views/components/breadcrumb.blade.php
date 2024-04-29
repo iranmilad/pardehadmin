@@ -11,7 +11,7 @@
     </li>
     <!--end::آیتم-->
     <!--begin::آیتم-->
-    <li class="breadcrumb-item text-muted">داشبورد ها</li>
+    <li class="breadcrumb-item text-muted">داشبورد</li>
     <!--end::آیتم-->
 </ul>
 <!--end::Breadcrumb-->

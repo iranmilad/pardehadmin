@@ -227,6 +227,19 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
+		<a href="/" class="menu-link">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-bags-shopping"></i>
+			</span>
+			<span class="menu-title">سفارش ها</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
 		<a href="{{ route('slides') }}" class="menu-link">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-rectangle-history"></i>
@@ -250,7 +263,7 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
-	<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('user/*') ? 'show' : ''}}">
 		<!--begin:Menu link-->
 		<span class="menu-link">
 			<span class="menu-icon">
@@ -265,7 +278,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="../../demo1/dist/index.html">
+				<a class="menu-link" href="{{ route('users.list') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -277,7 +290,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="../../demo1/dist/dashboards/ecommerce.html">
+				<a class="menu-link" href="{{ route('user.create') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -288,6 +301,63 @@
 			<!--end:Menu item-->
 		</div>
 		<!--end:Menu sub-->
+	</div>
+	<!-- end:Menu item -->
+
+	<!--begin:Menu item-->
+	<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+		<!--begin:Menu link-->
+		<span class="menu-link">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-money-check-dollar"></i>
+			</span>
+			<span class="menu-title">چک ها</span>
+			<span class="menu-arrow"></span>
+		</span>
+		<!--end:Menu link-->
+		<!--begin:Menu sub-->
+		<div class="menu-sub menu-sub-accordion">
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link" href="{{ route('users.list') }}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">همه ی چک ها</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link" href="{{ route('user.create') }}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">افزودن چک برای کاربر</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+		</div>
+		<!--end:Menu sub-->
+	</div>
+	<!-- end:Menu item -->
+
+
+
+	<!--begin:Menu item-->
+	<div data-kt-menu-trigger="click" class="menu-item">
+		<!--begin:Menu link-->
+		<a href="/" class="menu-link">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-chart-simple"></i>
+			</span>
+			<span class="menu-title">گزارش ها</span>
+		</a>
+		<!--end:Menu link-->
 	</div>
 	<!--end:Menu item-->
 

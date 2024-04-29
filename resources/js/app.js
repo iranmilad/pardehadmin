@@ -111,11 +111,11 @@ function postsTable() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    postsTable();
-    PostCategoryTable();
-    BlocksTable();
-    PagesTable();
-    UsersTable();
+    // postsTable();
+    // PostCategoryTable();
+    // BlocksTable();
+    // PagesTable();
+    // UsersTable();
 });
 
 if ($("#editor").length > 0) {
@@ -201,4 +201,34 @@ let post_types_tags = new Tagify(input, {
     },
 });
 
+function generatePassword() {
+    var length = 8,
+        charset =
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+",
+        retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
+}
 
+
+// create password .create-password-input-group
+$(".create-password-input-group-generate").on("click", function () {
+    var password = generatePassword();
+    $(this).parent().find("input").val(password);
+});
+
+$(".create-password-input-group-copy").on("click", function () {
+    let copyText = $(this).parent().find("input");
+    if(copyText.val() == ""){
+        return;
+    }
+    copyText.select();
+    document.execCommand("copy");
+    // remove btn-dark and add btn-success for 2 seconds. after 2 seconds revert back to btn-dark
+    $(this).removeClass("btn-dark").addClass("btn-success");
+    setTimeout(() => {
+        $(this).removeClass("btn-success").addClass("btn-dark");
+    }, 2000);
+});

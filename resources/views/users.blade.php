@@ -58,32 +58,29 @@
                         </div>
                     </td>
                     <td>
-                        <a href="{{ route('page.edit',['id' => 1]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder">
-                            <div class="symbol symbol-40px me-3">
-                                <img src="/images/avatar.png" class="" alt="" />
-                            </div>
+                        <a href="{{ route('user.profile',['id' => 1]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder">
                             admin
                         </a>
                     </td>
                     <td>
-                        <span class="text-muted">فرهاد باقری</span>
+                        <a href="{{ route('user.profile',['id' => 1]) }}" class="text-muted">فرهاد باقری</a>
                     </td>
                     <td>
-                        <span class="text-primary">coding.farhad@gmail.com</span>
+                        <a href="{{ route('user.profile',['id' => 1]) }}" class="text-primary">coding.farhad@gmail.com</a>
                     </td>
                     <td>
-                        <span class="text-primary">مدیر کل</span>
+                        <a href="{{ route('user.profile',['id' => 1]) }}" class="text-primary">مدیر کل</a>
                     </td>
                     <td>
-                        <span class="text-primary">5</span>
+                        <a href="{{ route('user.profile',['id' => 1]) }}" class="text-primary">5</a>
                     </td>
                     <td class="text-end">
                         <div class="dropdown">
                             <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 عملیات
                             </button>
-                            <form method="post" action="{{ route('page.delete') }}" class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('page.edit',['id' => 1]) }}">ویرایش</a></li>
+                            <form method="post" action="{{ route('user.delete') }}" class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('user.edit.show',['id' => 1]) }}">ویرایش</a></li>
                                 <li><button type="submit" name="id" value="1" class="dropdown-item text-danger" href="#">حذف</button></li>
                             </form>
                         </div>

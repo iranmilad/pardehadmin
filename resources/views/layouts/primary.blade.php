@@ -81,7 +81,7 @@
                         <!--begin::Content-->
                         <div id="kt_app_content" class="app-content">
                             <!--begin::Content container-->
-                            <div id="kt_app_content_container" class="app-container container-fluid">
+                            <div id="kt_app_content_container" class="app-container container-xxl">
                                 @yield("content")
                             </div>
                             <!--end::Content container-->
