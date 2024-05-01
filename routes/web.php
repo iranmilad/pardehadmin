@@ -41,6 +41,8 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name("login");
 
+Route::post('/login', function () {})->name("login");
+
 Route::get('/signup', function () {
     return view('auth.signup');
 })->name("signup");
@@ -119,3 +121,10 @@ Route::group(['prefix' => 'users'], function () {
         return view('user',['id' => $id]);
     })->name("user.delete");
 });
+
+// table of posts
+Route::get('/settings', function () {
+    return view('settings');
+})->name("settings.show");
+
+Route::post('/settings', function () {})->name("settings.save");

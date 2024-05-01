@@ -113,7 +113,7 @@ function postsTable() {
 document.addEventListener("DOMContentLoaded", () => {
     // postsTable();
     // PostCategoryTable();
-    // BlocksTable();
+    BlocksTable();
     // PagesTable();
     // UsersTable();
 });

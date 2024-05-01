@@ -417,9 +417,9 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
-	<div data-kt-menu-trigger="click" class="menu-item">
+	<div  class="menu-item">
 		<!--begin:Menu link-->
-		<a href="/settings" class="menu-link">
+		<a href="{{route('settings.show')}}" class="menu-link">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-gear"></i>
 			</span>

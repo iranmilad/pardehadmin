@@ -1,3 +1,4 @@
+
 function BlocksTable() {
     let table;
     let dt = $("#blocks_table").DataTable({
@@ -21,7 +22,6 @@ function BlocksTable() {
                 className: "text-end",
             },
         ],
-        order: false,
         paging: false,
         searching: false,
         destroy: true,
