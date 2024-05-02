@@ -1,5 +1,5 @@
 import "./pages/dashboard";
-import "./create-fast-category";
+// import "./create-fast-category";
 import { PostCategoryTable, BlocksTable, PagesTable,UsersTable } from "./pages";
 
 function postsTable() {
@@ -232,3 +232,17 @@ $(".create-password-input-group-copy").on("click", function () {
         $(this).removeClass("btn-success").addClass("btn-dark");
     }, 2000);
 });
+
+$(document).ready(function(){
+    let firstClick = false;
+    $("#wide-container-changer").on("click",(e) => {
+        $("#kt_app_content_container").toggleClass("container-xxl");
+        if(!$("#kt_app_content_container").hasClass("container-xxl")){
+            $(e.target).text("حالت عادی")
+        }
+        else{
+            $(e.target).text("حالت عریض")
+        }
+    })
+    
+})

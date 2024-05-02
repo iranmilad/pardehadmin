@@ -103,3 +103,13 @@ body,
 .tagify__tag-text{
     word-break: break-all;
 }
+
+#wide-container-changer{
+    display: none;
+}
+
+@media (min-width 1400px){
+    #wide-container-changer{
+        display: block;
+    }
+}

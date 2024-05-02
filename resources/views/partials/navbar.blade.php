@@ -166,6 +166,18 @@
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
+					<span class="menu-title">افزودن محصول جدید</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link" href="../../demo1/dist/index.html">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
 					<span class="menu-title">همه ی محصولات</span>
 				</a>
 				<!--end:Menu link-->
@@ -417,7 +429,7 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
-	<div  class="menu-item">
+	<div class="menu-item">
 		<!--begin:Menu link-->
 		<a href="{{route('settings.show')}}" class="menu-link">
 			<span class="menu-icon">

@@ -44,6 +44,11 @@
 							<div class="app-navbar flex-shrink-0">
 								<!--begin::Theme mode-->
 								<div class="app-navbar-item ms-1 ms-md-3">
+									<button class="btn btn-light" id="wide-container-changer">
+										حالت عریض
+									</button>
+								</div>
+								<div class="app-navbar-item ms-1 ms-md-3">
 									<!--begin::Menu toggle-->
 									<a href="#" class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-30px h-30px w-md-40px h-md-40px" data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
 										<i class="ki-duotone ki-night-day theme-light-show fs-2 fs-lg-1">
@@ -135,7 +140,7 @@
 										<!--end::Menu separator-->
 										<!--begin::Menu item-->
 										<div class="menu-item px-5">
-											<a href="../../demo1/dist/account/overview.html" class="menu-link px-5">تنظیمات پروفایل</a>
+											<a href="{{route('user.edit.show',['id'=> 1])}}" class="menu-link px-5">تنظیمات پروفایل</a>
 										</div>
 										<!--end::Menu item-->
 

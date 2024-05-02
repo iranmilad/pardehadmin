@@ -1,5 +1,4 @@
 import ApexCharts from "apexcharts";
-import $ from "jquery";
 
 function generateTime() {
     var time = [];
