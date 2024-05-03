@@ -128,3 +128,12 @@ Route::get('/settings', function () {
 })->name("settings.show");
 
 Route::post('/settings', function () {})->name("settings.save");
+
+
+Route::group(['prefix' => 'products'], function () {
+
+    Route::get('/create/', function () {
+        return view('product');
+    })->name("product.create.show");
+
+});
