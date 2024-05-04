@@ -1,5 +1,6 @@
 
 function BlocksTable() {
+    if($("#blocks_table").length === 0) return
     let table;
     let dt = $("#blocks_table").DataTable({
         info: false,

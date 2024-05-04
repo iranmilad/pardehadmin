@@ -1,4 +1,5 @@
 function PostCategoryTable() {
+    if($("#post_categories").length === 0) return;
     let table;
     let dt = $("#post_categories").DataTable({
         info: false,

@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>@yield('title')</title>
+    @livewireStyles
     @vite(['resources/css/style-rtl.css'])
     @vite(['resources/plugins/global/plugins.bundle.css'])
     @vite(['resources/plugins/global/plugins.bundle.rtl.css'])
@@ -100,6 +101,7 @@
     <!--end::Modals-->
     <!--begin::Javascript-->
     <!--end::سفارشی Javascript-->
+
     <script src="{{asset('plugins/global/plugins.bundle.js')}}"></script>
     <script src="{{asset('js/scripts.bundle.js')}}"></script>
     <script src="{{asset('js/widgets.bundle.js')}}"></script>
@@ -107,6 +109,7 @@
     @yield('script-before')
     @vite("resources/js/app.js")
     @yield('scripts')
+    @livewireScripts
     <!--end::Javascript-->
 </body>
 

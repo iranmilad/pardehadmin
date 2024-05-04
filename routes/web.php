@@ -137,3 +137,23 @@ Route::group(['prefix' => 'products'], function () {
     })->name("product.create.show");
 
 });
+
+
+Route::group(['prefix' => 'attributes'], function () {
+    Route::get('/', function () {
+        return view('attributes');
+    })->name("attributes.list.show");
+
+    Route::get('/create/', function ($id) {
+        return view('attribute');
+    })->name("attribute.create.show");
+
+    Route::get('/edit/{id}', function ($id) {
+        return view('attribute');
+    })->name("attribute.show");
+
+    Route::post('/edit/{id}', function ($id) {})->name("attribute.save");
+
+    Route::post('/edit/children/{id}', function ($id) {})->name("attribute.children.save");
+
+});

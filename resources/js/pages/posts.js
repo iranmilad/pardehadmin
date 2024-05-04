@@ -1,31 +1,28 @@
-function PagesTable() {
-    if($("#pages_table").length === 0) return;
+function PostsTable(){
+    if($("#posts_table").length === 0) return;
     let table;
-    let dt = $("#pages_table").DataTable({
+    let dt = $("#posts_table").DataTable({
         info: false,
         columns: [
             { data: "checkbox" },
             { data: "title" },
             { data: "author" },
+            { data: "categories" },
+            { data: "tags" },
+            { data: "comments" },
             { data: "created_at" },
-            { data: "action" },
         ],
         columnDefs: [
             {
                 targets: 0,
                 orderable: false,
             },
-            {
-                targets: -1,
-                orderable: false,
-                className: "text-end",
-            },
         ],
-        order: false,
+        order: [[6]],
         paging: false,
         searching: false,
-        destroy: true,
         retrieve: true,
+        destroy: true,
     });
 
     dt.draw();
@@ -38,7 +35,7 @@ function PagesTable() {
     var initToggleToolbar = function () {
         // Toggle selected action toolbar
         // Select all checkboxes
-        const container = document.querySelector("#pages_table");
+        const container = document.querySelector("#posts_table");
         const checkboxes = container.querySelectorAll('[type="checkbox"]');
 
         // Select elements
@@ -61,7 +58,7 @@ function PagesTable() {
 
     var toggleToolbars = function () {
         // Define variables
-        const container = document.querySelector("#pages_table");
+        const container = document.querySelector("#posts_table");
         const toolbarSelected = document.querySelector(
             '[data-kt-docs-table-toolbar="selected"]'
         );
@@ -110,4 +107,4 @@ function PagesTable() {
     };
 }
 
-export default PagesTable;
+export default PostsTable
