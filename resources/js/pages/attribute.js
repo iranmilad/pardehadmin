@@ -1,4 +1,4 @@
-import * as bootstrap from "bootstrap";
+import {Modal} from "bootstrap";
 
 if ($("#edit_modal").length > 0) {
     let modal = new bootstrap.Modal("#edit_modal");

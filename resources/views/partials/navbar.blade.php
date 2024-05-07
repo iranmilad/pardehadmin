@@ -250,6 +250,48 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
+	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('user/*') ? 'show' : ''}}">
+		<!--begin:Menu link-->
+		<span class="menu-link">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-badge-percent"></i>
+			</span>
+			<span class="menu-title">تخفیف ها</span>
+			<span class="menu-arrow"></span>
+		</span>
+		<!--end:Menu link-->
+		<!--begin:Menu sub-->
+		<div class="menu-sub menu-sub-accordion">
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link" href="{{ route('users.list') }}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">همه ی تخفیف ها</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link" href="{{ route('user.create') }}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">افزودن تخفیف جدید</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+		</div>
+		<!--end:Menu sub-->
+	</div>
+	<!-- end:Menu item -->
+
+	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
 		<a href="{{ route('slides') }}" class="menu-link">

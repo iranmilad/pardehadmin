@@ -1,6 +1,7 @@
 @import "./fontiran.css";
 @import "./fontawesome/fontawesome.css";
 @import "../plugins/custom/datatables/datatables.bundle.rtl.css";
+@import "../plugins/custom/pickr/nano.min.css";
 @tailwind components;
 @tailwind utilities;
 

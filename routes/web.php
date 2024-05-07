@@ -136,6 +136,8 @@ Route::group(['prefix' => 'products'], function () {
         return view('product');
     })->name("product.create.show");
 
+    Route::delete('/delete/{id}', function () {})->name("product.delete");
+
 });
 
 

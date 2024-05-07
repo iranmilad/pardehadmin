@@ -45,7 +45,7 @@
 								<!--begin::Theme mode-->
 								<div class="app-navbar-item ms-1 ms-md-3">
 									<button class="btn btn-light" id="wide-container-changer">
-										حالت عریض
+										حالت عادی
 									</button>
 								</div>
 								<div class="app-navbar-item ms-1 ms-md-3">

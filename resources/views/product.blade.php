@@ -5,7 +5,7 @@
 
 @section('content')
 
-<form method="post" class="row post-type-row">
+<form method="post" class="row post-type-row" id="product-form">
     @csrf
     <div class="col-lg-8 col-xl-10">
         <div class="card mb-7">
@@ -13,12 +13,19 @@
                 <div class="mb-10">
                     <label for="title" class="required form-label">عنوان</label>
                     <input type="text" id="title" class="form-control" placeholder="عنوان را وارد کنید" />
+                    <a class="text-primary nav-link tw-w-max" href="#link_edit" data-bs-toggle="collapse">آدرس لینک</a>
                 </div>
-                <div class="mb-2">
+                <div class="collapse" id="link_edit">
+                    <div>
+                        <label for="link">آدرس محصول</label>
+                        <input type="text" name="link" id="link" class="form-control" placeholder="آدرس محصول را وارد کنید" />
+                    </div>
+                </div>
+                <div class="mb-2 mt-10">
                     <label class="form-label ">توضیحات</label>
                     <div class="row row-editor">
                         <div class="editor-container">
-                            <div id="editor" class="editor tw-max-h-96 tw-overflow-auto"></div>
+                            <div class="editor tw-max-h-96 tw-overflow-auto"></div>
                         </div>
                     </div>
                 </div>
@@ -84,12 +91,348 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="v-pills-relation" role="tabpanel" aria-labelledby="v-pills-disabled-tab" tabindex="0">
-                                                @livewire('product-attribute')
+                        <div>
+                            <label class="form-label" for="">انتخاب ویژگی</label>
+                            <select class="form-select form-select-solid" data-control="select2" name="" id="" multiple>
+                                <option value="1" selected>رنگ</option>
+                                <option value="2">سایز</option>
+                                <option value="3">جنس</option>
+                            </select>
+                        </div>
+
+                        <div class="mt-7">
+                            <div class="row">
+                                <div class="col-2">
+                                    <span class="fs-6">نام : <b>رنگ</b></span>
+                                </div>
+                                <div class="col-10">
+                                    <select class="form-select form-select-solid" data-control="select2" name="" id="" multiple>
+                                        <option value="red" selected>قرمز</option>
+                                        <option value="blue">آبی</option>
+                                        <option value="yellow">زرد</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-7">
+                            <div class="card border border-gray-300">
+                                <div class="card-header py-2">
+                                    <div class="d-flex align-items-center justify-content-between w-100">
+                                        <div class="d-flex align-items-center gap-4">
+                                            <b>#1</b>
+                                            <select class="form-select form-select-solid" name="" id="">
+                                                <option selected disabled>انتخاب رنگ</option>
+                                                <option value="red">قرمز</option>
+                                                <option value="blue">آبی</option>
+                                                <option value="yellow">زرد</option>
+                                            </select>
+                                            <select class="form-select form-select-solid" name="" id="">
+                                                <option selected disabled>انتخاب سایز</option>
+                                                <option value="small">کوچک</option>
+                                                <option value="medium">متوسط</option>
+                                                <option value="large">بزرگ</option>
+                                            </select>
+                                            <select class="form-select form-select-solid" name="" id="">
+                                                <option selected disabled>انتخاب جنس</option>
+                                                <option value="1">کتان</option>
+                                                <option value="2">نخی</option>
+                                                <option value="3">مخمل</option>
+                                            </select>
+                                        </div>
+                                        <button type="button" class="btn btn-sm btn-light" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                                            <i class="fas fa-chevron-down"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="collapse" id="collapse1">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="mb-8">
+                                                    <label for="exampleFormControlInput1" class="form-label">شناسه محصول</label>
+                                                    <input type="text" class="form-control form-control-solid" id="exampleFormControlInput1" placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6">
+                                                <div class="mb-8">
+                                                    <label for="exampleFormControlInput1" class="form-label">قیمت اصلی</label>
+                                                    <input type="text" class="form-control form-control-solid" id="exampleFormControlInput1" placeholder="قیمت(تومان)">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6">
+                                                <div class="mb-8">
+                                                    <label for="exampleFormControlInput1" class="form-label">قیمت فروش ویژه</label>
+                                                    <input type="text" class="form-control form-control-solid" id="exampleFormControlInput1" placeholder="قیمت(تومان)">
+                                                    <!-- id for collapse -->
+                                                    <a class="text-primary" data-bs-toggle="collapse" href="#timing1">زمان بندی فروش</a>
+                                                </div>
+                                            </div>
+                                            <div class="collapse col-12" id="timing1">
+                                                <div class="row mb-8">
+                                                    <div class="col-12 col-lg-6">
+                                                        <label class="form-label" for="">تاریخ شروع فروش ویژه</label>
+                                                        <input type="text" class="form-control form-control-solid first_time">
+                                                    </div>
+                                                    <div class="col-12 col-lg-6">
+                                                        <label class="form-label" for="">تاریخ پایان فروش ویژه</label>
+                                                        <input type="text" class="form-control form-control-solid second_time">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6">
+                                                <div class="mb-8">
+                                                    <label for="exampleFormControlInput1" class="form-label">موجودی</label>
+                                                    <select class="form-select form-select-solid" name="" id="">
+                                                        <option value="">موجود در انبار</option>
+                                                        <option value="">در انبار موجود نمیباشد</option>
+                                                        <option value="">در پیش خرید</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6">
+                                                <div class="mb-8">
+                                                    <label for="exampleFormControlInput1" class="form-label">وزن ( کیلوگر)</label>
+                                                    <input type="text" class="form-control form-control-solid" id="exampleFormControlInput1" placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <label for="exampleFormControlInput1" class="form-label">ابعاد ( سانتی متر)</label>
+                                                    <div class="col-4">
+                                                        <div class="mb-8">
+                                                            <input type="text" class="form-control form-control-solid" id="exampleFormControlInput1" placeholder="طول">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="mb-8">
+                                                            <input type="text" class="form-control form-control-solid" id="exampleFormControlInput1" placeholder="عرض">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="mb-8">
+                                                            <input type="text" class="form-control form-control-solid" id="exampleFormControlInput1" placeholder="ارتفاع">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="mb-8">
+                                                    <label for="exampleFormControlTextarea1" class="form-label">توضیحات</label>
+                                                    <textarea class="form-control form-control-solid" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="images-repeater w-100">
+                                                    <!--begin::Form group-->
+                                                    <div class="form-group">
+                                                        <div data-repeater-list="edit_block_repeater">
+                                                            <div class="mt-3" data-repeater-item>
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-10">
+                                                                        <label class="form-label">تصویر:</label>
+                                                                        <input name="option[image]" type="file" class="form-control form-control-solid mb-2 mb-md-0" placeholder="وارد کنید" />
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-8">
+                                                                            <i class="ki-duotone ki-trash fs-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--end::Form group-->
+
+                                                    <!--begin::Form group-->
+                                                    <div class="form-group mt-5">
+                                                        <a href="javascript:;" data-repeater-create class="btn btn-primary btn-sm">
+                                                            افزودن تصویر جدید
+                                                            <i class="ki-duotone ki-plus fs-3 pe-0"></i>
+                                                        </a>
+                                                    </div>
+                                                    <!--end::Form group-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-norelation" role="tabpanel" aria-labelledby="v-pills-disabled-tab" tabindex="0">
+                        <div>
+                            <label class="form-label" for="">انتخاب ویژگی</label>
+                            <select class="form-select form-select-solid" data-control="select2" name="" id="" multiple>
+                                <option value="1" selected>گارانتی</option>
+                            </select>
+                        </div>
+
+                        <div class="mt-7">
+                            <div class="row">
+                                <div class="col-2">
+                                    <span class="fs-6">نام : <b>رنگ</b></span>
+                                </div>
+                                <div class="col-10">
+                                    <select class="form-select form-select-solid" data-control="select2" name="" id="" multiple>
+                                        <option value="3month" selected>3 ماهه</option>
+                                        <option value="5month">5 ماهه</option>
+                                        <option value="1year">1 ساله</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-7">
+                            <div class="card border border-gray-300">
+                                <div class="card-header py-2">
+                                    <div class="d-flex align-items-center justify-content-between w-100">
+                                        <div class="d-flex align-items-center gap-4">
+                                            <b>#1</b>
+                                            <select class="form-select form-select-solid" name="" id="">
+                                                <option selected disabled>انتخاب گارانتی</option>
+                                                <option value="3month" selected>3 ماهه</option>
+                                                <option value="5month">5 ماهه</option>
+                                                <option value="1year">1 ساله</option>
+                                            </select>
+                                        </div>
+                                        <button type="button" class="btn btn-sm btn-light" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                                            <i class="fas fa-chevron-down"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="collapse" id="collapse1">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="mb-8">
+                                                    <label for="exampleFormControlInput1" class="form-label">شناسه محصول</label>
+                                                    <input type="text" class="form-control form-control-solid" id="exampleFormControlInput1" placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6">
+                                                <div class="mb-8">
+                                                    <label for="exampleFormControlInput1" class="form-label">قیمت اصلی</label>
+                                                    <input type="text" class="form-control form-control-solid" id="exampleFormControlInput1" placeholder="قیمت(تومان)">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6">
+                                                <div class="mb-8">
+                                                    <label for="exampleFormControlInput1" class="form-label">قیمت فروش ویژه</label>
+                                                    <input type="text" class="form-control form-control-solid" id="exampleFormControlInput1" placeholder="قیمت(تومان)">
+                                                    <!-- id for collapse -->
+                                                    <a class="text-primary" data-bs-toggle="collapse" href="#timing1">زمان بندی فروش</a>
+                                                </div>
+                                            </div>
+                                            <div class="collapse col-12" id="timing1">
+                                                <div class="row mb-8">
+                                                    <div class="col-12 col-lg-6">
+                                                        <label class="form-label" for="">تاریخ شروع فروش ویژه</label>
+                                                        <input type="text" class="form-control form-control-solid first_time">
+                                                    </div>
+                                                    <div class="col-12 col-lg-6">
+                                                        <label class="form-label" for="">تاریخ پایان فروش ویژه</label>
+                                                        <input type="text" class="form-control form-control-solid second_time">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6">
+                                                <div class="mb-8">
+                                                    <label for="exampleFormControlInput1" class="form-label">موجودی</label>
+                                                    <select class="form-select form-select-solid" name="" id="">
+                                                        <option value="">موجود در انبار</option>
+                                                        <option value="">در انبار موجود نمیباشد</option>
+                                                        <option value="">در پیش خرید</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6">
+                                                <div class="mb-8">
+                                                    <label for="exampleFormControlInput1" class="form-label">وزن ( کیلوگر)</label>
+                                                    <input type="text" class="form-control form-control-solid" id="exampleFormControlInput1" placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <label for="exampleFormControlInput1" class="form-label">ابعاد ( سانتی متر)</label>
+                                                    <div class="col-4">
+                                                        <div class="mb-8">
+                                                            <input type="text" class="form-control form-control-solid" id="exampleFormControlInput1" placeholder="طول">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="mb-8">
+                                                            <input type="text" class="form-control form-control-solid" id="exampleFormControlInput1" placeholder="عرض">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="mb-8">
+                                                            <input type="text" class="form-control form-control-solid" id="exampleFormControlInput1" placeholder="ارتفاع">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="mb-8">
+                                                    <label for="exampleFormControlTextarea1" class="form-label">توضیحات</label>
+                                                    <textarea class="form-control form-control-solid" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="images-repeater w-100">
+                                                    <!--begin::Form group-->
+                                                    <div class="form-group">
+                                                        <div data-repeater-list="edit_block_repeater">
+                                                            <div class="mt-3" data-repeater-item>
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-10">
+                                                                        <label class="form-label">تصویر:</label>
+                                                                        <input name="option[image]" type="file" class="form-control form-control-solid mb-2 mb-md-0" placeholder="وارد کنید" />
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-8">
+                                                                            <i class="ki-duotone ki-trash fs-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--end::Form group-->
+
+                                                    <!--begin::Form group-->
+                                                    <div class="form-group mt-5">
+                                                        <a href="javascript:;" data-repeater-create class="btn btn-primary btn-sm">
+                                                            افزودن تصویر جدید
+                                                            <i class="ki-duotone ki-plus fs-3 pe-0"></i>
+                                                        </a>
+                                                    </div>
+                                                    <!--end::Form group-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-10">
+            <div class="card-body">
+                <label class="form-label ">راهنمای اندازه گیری</label>
+                <div class="row row-editor">
+                    <div class="editor-container">
+                        <div class="editor tw-max-h-96 tw-overflow-auto"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="col-lg-4 col-xl-2 mt-5 mt-lg-0">
         <!-- START:STATUS -->
         <div class="card card-flush py-4 mb-5">
@@ -106,8 +449,8 @@
             <div class="card-body pt-0">
                 <!--begin::انتخاب2-->
                 <select class="form-select mb-2">
-                    <option selected value="published">فعال</option>
-                    <option value="inactive">غیرفعال</option>
+                    <option selected value="published">منتشر شده</option>
+                    <option value="inactive">پیش نویس</option>
                 </select>
                 <!--end::انتخاب2-->
                 <!--begin::توضیحات-->
@@ -126,7 +469,12 @@
             </div>
             <!--end::کارت body-->
             <div class="card-footer text-end">
-                <button class="btn btn-sm btn-primary">ذخیره تغییرات</button>
+                <div class="d-flex align-items-center justify-content-between">
+                    @csrf
+                    <!-- post id -->
+                    <button type="submit" name="remove-product" value="1" class="btn btn-sm btn-danger" id="remove-button">حذف</button>
+                    <button class="btn btn-sm btn-success">ذخیره تغییرات</button>
+                </div>
             </div>
         </div>
         <!-- END:STATUS -->
@@ -209,7 +557,7 @@
             <div class="card-header">
                 <!--begin::کارت title-->
                 <div class="card-title">
-                    <h4>تصویر شاخص</h4>
+                    <h4>ویدئو</h4>
                 </div>
                 <!--end::کارت title-->
             </div>
@@ -223,13 +571,13 @@
                     <div class="image-input-wrapper w-150px h-150px"></div>
                     <!--end::نمایش existing avatar-->
                     <!--begin::Tags-->
-                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
+                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض ویدئو">
                         <i class="ki-duotone ki-pencil fs-7">
                             <span class="path1"></span>
                             <span class="path2"></span>
                         </i>
                         <!--begin::Inputs-->
-                        <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+                        <input type="file" name="avatar" accept="mp4" />
                         <input type="hidden" name="avatar_remove" />
                         <!--end::Inputs-->
                     </label>
@@ -243,7 +591,7 @@
                     </span>
                     <!--end::انصراف-->
                     <!--begin::حذف-->
-                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف آواتار">
+                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف ویدئو">
                         <i class="ki-duotone ki-cross fs-2">
                             <span class="path1"></span>
                             <span class="path2"></span>
@@ -253,7 +601,7 @@
                 </div>
                 <!--end::Image input-->
                 <!--begin::توضیحات-->
-                <div class="text-muted fs-7">تصویر شاخص را انتخاب کنید</div>
+                <div class="text-muted fs-7">ویدئو محصول را انتخاب کنید</div>
                 <!--end::توضیحات-->
             </div>
             <!--end::کارت body-->
@@ -266,4 +614,50 @@
 
 @section("script-before")
 <script src="{{ asset('/plugins/custom/ckeditor/ckeditor-classic.bundle.js') }}"></script>
+<script src="{{asset('plugins/custom/formrepeater/formrepeater.bundle.js')}}"></script>
+<script src="{{asset('plugins/flatpicker_fa.js')}}"></script>
+<script src="{{asset('plugins/jdate.min.js')}}"></script>
+@endsection
+
+@section("scripts")
+<script>
+    window.Date = window.JDate;
+    $('.images-repeater').repeater({
+        initEmpty: false,
+
+        show: function() {
+            $(this).slideDown();
+        },
+
+        hide: function(deleteElement) {
+            $(this).slideUp(deleteElement);
+        }
+    });
+    flatpickr = $(".first_time,.second_time").flatpickr({
+        disableMobile: "true",
+        altInput: true,
+        altFormat: "Y-m-d",
+        dateFormat: "Y-m-d",
+        locale: "fa",
+    })
+
+    // FOR REMOVE BUTTON CONFIRM
+    document.addEventListener("DOMContentLoaded", () => {
+        $("#remove-button").on("click", (e) => {
+            e.preventDefault();
+            Swal.fire({
+                title: "آیا مطمعن هستید ؟",
+                icon: "info",
+                cancelButtonColor: "#f1416c",
+                showCancelButton: true,
+                confirmButtonText: "بله",
+                cancelButtonText: "خیر"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("#product-form").submit();
+                }
+            });
+        })
+    })
+</script>
 @endsection
