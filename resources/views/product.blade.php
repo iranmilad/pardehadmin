@@ -7,7 +7,7 @@
 
 <form method="post" class="row post-type-row" id="product-form">
     @csrf
-    <div class="col-lg-8 col-xl-10">
+    <div class="col-lg-8 col-xl-9">
         <div class="card mb-7">
             <div class="card-body">
                 <div class="mb-10">
@@ -433,7 +433,7 @@
         </div>
     </div>
 
-    <div class="col-lg-4 col-xl-2 mt-5 mt-lg-0">
+    <div class="col-lg-4 col-xl-3 mt-5 mt-lg-0">
         <!-- START:STATUS -->
         <div class="card card-flush py-4 mb-5">
             <!--begin::کارت header-->
@@ -469,7 +469,7 @@
             </div>
             <!--end::کارت body-->
             <div class="card-footer text-end">
-                <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center justify-content-between flex-wrap">
                     @csrf
                     <!-- post id -->
                     <button type="submit" name="remove-product" value="1" class="btn btn-sm btn-danger" id="remove-button">حذف</button>
@@ -544,7 +544,7 @@
             <!--begin::کارت body-->
             <div class="card-body pt-0">
                 <!--begin::Input group-->
-                <input class="form-control form-control-solid" value="برچسب 3 , برچسب 2 , برچسب 1" id="post-type-tags" />
+                <input class="form-control form-control-solid" id="product-type-tags" />
                 <span class="text-muted fs-7">برچسب جدید را وارد کنید و Enter را بزنید</span>
             </div>
             <!--end::کارت body-->
@@ -643,6 +643,9 @@
 
     // FOR REMOVE BUTTON CONFIRM
     document.addEventListener("DOMContentLoaded", () => {
+        new Tagify(document.querySelector('#product-type-tags'), {
+            whitelist: ['دسته پیشفرض']
+        })
         $("#remove-button").on("click", (e) => {
             e.preventDefault();
             Swal.fire({

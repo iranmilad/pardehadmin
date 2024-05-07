@@ -4,7 +4,7 @@
 @section('title', 'دسته ها')
 
 @section("toolbar")
-<a href="{{route('post-category')}}?action=add" class="btn btn-primary">نوشته جدید</a>
+<a href="{{route('post-category')}}?action=add" class="btn btn-primary">دسته ی جدید</a>
 @endsection
 
 @section('content')
@@ -45,7 +45,7 @@
                         <th class="cursor-pointer px-0 min-w-175px text-start">نامک</th>
                         <th class="px-0 min-w-100px text-start">تعداد</th>
                         <th class="px-0 min-w-100px text-end">تاریخ</th>
-                        <th class="px-0 tw-text-end">عملیات</th>
+                        <th class="tw-text-end">عملیات</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -65,13 +65,13 @@
                             <span class="badge badge-primary">cottan-certain</span>
                         </td>
                         <td>
-                            2
+                            1
                         </td>
                         <td class="date_column">
-                            <span href="">1400/01/01</span>
+                            <a href="{{route('post-category')}}?action=edit&id=1">1400/01/01</a>
                         </td>
                         <td class="text-end">
-                            <a href="{{route('post-category')}}?action=edit&id=1" class="btn btn-sm btn-primary">ویرایش</a>
+                            <a href="{{route('post-category')}}?action=edit&id=1" class="btn btn-sm btn-light">ویرایش</a>
                         </td>
                     </tr>
                     <tr>
@@ -93,10 +93,10 @@
                             2
                         </td>
                         <td class="date_column">
-                            <span href="">1400/01/01</span>
+                            <a href="{{route('post-category')}}?action=edit&id=2">1400/01/01</a>
                         </td>
                         <td class="text-end">
-                            <a href="{{route('post-category')}}?action=edit&id=2" class="btn btn-sm btn-primary">ویرایش</a>
+                            <a href="{{route('post-category')}}?action=edit&id=2" class="btn btn-sm btn-light">ویرایش</a>
                         </td>
                     </tr>
                 </tbody>

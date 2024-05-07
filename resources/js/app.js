@@ -1,12 +1,20 @@
 import $ from "jquery";
 import "jquery-validation";
 import "./pages/dashboard";
-import { PostCategoryTable, BlocksTable, PagesTable,UsersTable ,AttributesTable,PostsTable} from "./pages";
+import {
+    PostCategoryTable,
+    BlocksTable,
+    PagesTable,
+    UsersTable,
+    AttributesTable,
+    PostsTable,
+    ProductCategoriesTable,
+    ProductTagsTable
+} from "./pages";
 // import "./pages/attribute";
 // import "./create-fast-category";
 import { intermidiateCheckbox } from "./globals";
 import "jquery-validation";
-
 
 KTUtil.onDOMContentLoaded(function () {
     PostsTable()?.init();
@@ -15,10 +23,12 @@ KTUtil.onDOMContentLoaded(function () {
     PagesTable()?.init();
     UsersTable()?.init();
     AttributesTable()?.init();
+    ProductCategoriesTable()?.init();
+    ProductTagsTable()?.init();
 });
 
 if ($(".editor").length > 0) {
-    document.querySelectorAll(".editor").forEach(elm => {
+    document.querySelectorAll(".editor").forEach((elm) => {
         ClassicEditor.create(elm, {
             // Editor configuration.
         })
@@ -26,8 +36,7 @@ if ($(".editor").length > 0) {
                 window.editor = editor;
             })
             .catch();
-    })
-
+    });
 }
 
 // intermidiate checkbox
@@ -59,7 +68,6 @@ function generatePassword() {
     return retVal;
 }
 
-
 // create password .create-password-input-group
 $(".create-password-input-group-generate").on("click", function () {
     var password = generatePassword();
@@ -68,7 +76,7 @@ $(".create-password-input-group-generate").on("click", function () {
 
 $(".create-password-input-group-copy").on("click", function () {
     let copyText = $(this).parent().find("input");
-    if(copyText.val() == ""){
+    if (copyText.val() == "") {
         return;
     }
     copyText.select();
@@ -80,19 +88,17 @@ $(".create-password-input-group-copy").on("click", function () {
     }, 2000);
 });
 
-$(document).ready(function(){
+$(document).ready(function () {
     let firstClick = false;
-    $("#wide-container-changer").on("click",(e) => {
+    $("#wide-container-changer").on("click", (e) => {
         $("#kt_app_content_container").toggleClass("container-xxl");
-        if(!$("#kt_app_content_container").hasClass("container-xxl")){
-            $(e.target).text("حالت عادی")
+        if (!$("#kt_app_content_container").hasClass("container-xxl")) {
+            $(e.target).text("حالت عادی");
+        } else {
+            $(e.target).text("حالت عریض");
         }
-        else{
-            $(e.target).text("حالت عریض")
-        }
-    })
-    
-})
+    });
+});
 
 // Add custom method to jQuery validation
 $.validator.addMethod(

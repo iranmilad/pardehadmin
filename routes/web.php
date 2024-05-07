@@ -136,6 +136,26 @@ Route::group(['prefix' => 'products'], function () {
         return view('product');
     })->name("product.create.show");
 
+    Route::get('/categories/', function () {
+        return view('product-categories');
+    })->name("product.categories.show");
+
+    Route::get('/category/{id}', function ($id) {
+        return view('product-category');
+    })->name("product.category.show");
+
+    Route::get('/tags/', function () {
+        return view('product-tags');
+    })->name("product.tags.show");
+
+    Route::get('/tags/edit/{id}', function ($id) {
+        return view('product-tag');
+    })->name("product.tag.show");
+
+    Route::post('/category/{id}', function ($id) {})->name("product.category.save");
+
+
+
     Route::delete('/delete/{id}', function () {})->name("product.delete");
 
 });
