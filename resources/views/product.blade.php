@@ -470,7 +470,6 @@
             <!--end::کارت body-->
             <div class="card-footer text-end">
                 <div class="d-flex align-items-center justify-content-between flex-wrap">
-                    @csrf
                     <!-- post id -->
                     <button type="submit" name="remove-product" value="1" class="btn btn-sm btn-danger" id="remove-button">حذف</button>
                     <button class="btn btn-sm btn-success">ذخیره تغییرات</button>

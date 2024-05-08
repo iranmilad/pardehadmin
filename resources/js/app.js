@@ -9,7 +9,8 @@ import {
     AttributesTable,
     PostsTable,
     ProductCategoriesTable,
-    ProductTagsTable
+    ProductTagsTable,
+    ProductCommentsTable
 } from "./pages";
 // import "./pages/attribute";
 // import "./create-fast-category";
@@ -25,6 +26,7 @@ KTUtil.onDOMContentLoaded(function () {
     AttributesTable()?.init();
     ProductCategoriesTable()?.init();
     ProductTagsTable()?.init();
+    ProductCommentsTable()?.init();
 });
 
 if ($(".editor").length > 0) {

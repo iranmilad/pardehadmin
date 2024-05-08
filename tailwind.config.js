@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const plugin = require("tailwindcss/plugin");
+const colors = require("tailwindcss/colors");
 module.exports = {
     content: ["./resources/**/*.blade.php", "./resources/**/*.{js,jsx}"],
     theme: {
@@ -18,7 +19,7 @@ module.exports = {
                     800: "#420000",
                     900: "#240000",
                     950: "#0F0000"
-                  }
+                  },
             },
         },
     },

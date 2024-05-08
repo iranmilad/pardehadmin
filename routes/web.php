@@ -152,6 +152,14 @@ Route::group(['prefix' => 'products'], function () {
         return view('product-tag');
     })->name("product.tag.show");
 
+    Route::get('/comments/', function () {
+        return view('product-comments');
+    })->name("product.comments.show");
+
+    Route::get('/comment/{id}', function ($id) {
+        return view('product-comment');
+    })->name("product.comment.show");
+
     Route::post('/category/{id}', function ($id) {})->name("product.category.save");
 
 

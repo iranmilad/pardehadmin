@@ -6,6 +6,7 @@ import AttributesTable from "./attributes";
 import PostsTable from "./posts";
 import ProductCategoriesTable from "./product-categories";
 import ProductTagsTable from "./product-tags";
+import ProductCommentsTable from "./product-comments";
 
 export {
     PostCategoryTable,
@@ -15,5 +16,6 @@ export {
     AttributesTable,
     PostsTable,
     ProductCategoriesTable,
-    ProductTagsTable
+    ProductTagsTable,
+    ProductCommentsTable
 };

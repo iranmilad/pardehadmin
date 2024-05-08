@@ -5,7 +5,6 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/style-rtl.css',
                 'resources/css/app.css',
                 'resources/plugins/global/plugins.bundle.css',
                 'resources/plugins/global/plugins.bundle.rtl.css',

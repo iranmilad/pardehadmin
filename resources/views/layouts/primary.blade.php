@@ -10,10 +10,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>@yield('title')</title>
-    @livewireStyles
-    @vite(['resources/css/style-rtl.css'])
-    @vite(['resources/plugins/global/plugins.bundle.css'])
-    @vite(['resources/plugins/global/plugins.bundle.rtl.css'])
+    
+    <link rel="stylesheet" href="{{asset('css/style-rtl.css')}}">
+    <link rel="stylesheet" href="{{asset('plugins/global/plugins.bundle.css')}}">
+    <link rel="stylesheet" href="{{asset('plugins/global/plugins.bundle.rtl.css')}}">
     @vite(['resources/css/app.css'])
 </head>
 

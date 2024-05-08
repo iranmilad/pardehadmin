@@ -222,7 +222,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="../../demo1/dist/dashboards/ecommerce.html">
+				<a class="menu-link" href="{{route('product.comments.show')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
