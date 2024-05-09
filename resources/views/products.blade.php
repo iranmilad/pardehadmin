@@ -639,7 +639,7 @@
 
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="{{route('product.comment.show',['id' => 1])}}" class="menu-link px-3">
+                                    <a href="{{route('product.edit.show',['id' => 1])}}" class="menu-link px-3">
                                         ویرایش
                                     </a>
                                 </div>

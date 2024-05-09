@@ -197,6 +197,6 @@ Route::get('/reports', function () {
     return view('reports');
 })->name("reports");
 
-Route::get('/reports', function () {
-    return view('reports');
-})->name("reports");
+Route::get('/messages', function () {
+    return view('messages');
+})->name("messages.show");

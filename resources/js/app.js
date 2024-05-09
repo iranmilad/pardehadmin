@@ -29,6 +29,7 @@ KTUtil.onDOMContentLoaded(function () {
     ProductTagsTable()?.init();
     ProductCommentsTable()?.init();
     ProductsTable()?.init();
+    MessagesTable()?.init();
 });
 
 if ($(".editor").length > 0) {

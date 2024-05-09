@@ -304,9 +304,9 @@
 	</div>
 	<!--end:Menu item-->
 	<!--begin:Menu item-->
-	<div data-kt-menu-trigger="click" class="menu-item">
+	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="/slides" class="menu-link">
+		<a href="{{route('messages.show')}}" class="menu-link {{ Route::is('messages.show')  ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-messages"></i>
 			</span>
