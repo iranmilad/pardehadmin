@@ -8,7 +8,7 @@
 
 @section('content')
 <!-- START:TABLE -->
-<!-- this box is showed when we wants to edit products by checkboxes but for more than  -->
+<!-- this box is showed when we wants to edit posts by checkboxes but for more than  -->
 <div class="card mb-10">
     <div class="card-header">
         <div class="w-100 d-flex align-items-center justify-content-between">
@@ -18,7 +18,7 @@
             </button>
         </div>
     </div>
-    <div class="collapse show" id="edit-collapse">
+    <div class="collapse" id="edit-collapse">
         <div class="card-body">
             <form method="post" action class="row mt-5">
                 @csrf

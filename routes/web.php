@@ -132,9 +132,17 @@ Route::post('/settings', function () {})->name("settings.save");
 
 Route::group(['prefix' => 'products'], function () {
 
+    Route::get('/list/', function () {
+        return view('products');
+    })->name("products.list.show");
+
     Route::get('/create/', function () {
         return view('product');
     })->name("product.create.show");
+
+    Route::get('/edit/{id}', function ($id) {
+        return view('product');
+    })->name("product.edit.show");
 
     Route::get('/categories/', function () {
         return view('product-categories');
@@ -166,24 +174,29 @@ Route::group(['prefix' => 'products'], function () {
 
     Route::delete('/delete/{id}', function () {})->name("product.delete");
 
-});
-
-
-Route::group(['prefix' => 'attributes'], function () {
-    Route::get('/', function () {
+    Route::get('/attributes', function () {
         return view('attributes');
     })->name("attributes.list.show");
 
-    Route::get('/create/', function ($id) {
+    Route::get('/attributes/create/', function ($id) {
         return view('attribute');
     })->name("attribute.create.show");
 
-    Route::get('/edit/{id}', function ($id) {
+    Route::get('/attributes/edit/{id}', function ($id) {
         return view('attribute');
     })->name("attribute.show");
 
-    Route::post('/edit/{id}', function ($id) {})->name("attribute.save");
+    Route::post('/attributes/edit/{id}', function ($id) {})->name("attribute.save");
 
-    Route::post('/edit/children/{id}', function ($id) {})->name("attribute.children.save");
+    Route::post('/attributes/edit/children/{id}', function ($id) {})->name("attribute.children.save");
 
 });
+
+
+Route::get('/reports', function () {
+    return view('reports');
+})->name("reports");
+
+Route::get('/reports', function () {
+    return view('reports');
+})->name("reports");

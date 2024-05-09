@@ -7,6 +7,7 @@ import PostsTable from "./posts";
 import ProductCategoriesTable from "./product-categories";
 import ProductTagsTable from "./product-tags";
 import ProductCommentsTable from "./product-comments";
+import ProductsTable from "./products"
 
 export {
     PostCategoryTable,
@@ -17,5 +18,6 @@ export {
     PostsTable,
     ProductCategoriesTable,
     ProductTagsTable,
-    ProductCommentsTable
+    ProductCommentsTable,
+    ProductsTable
 };

@@ -156,7 +156,17 @@
                     <div class="row mb-6">
                         <label class="col-lg-4 col-form-label fw-semibold fs-6 required">کد کاربری</label>
                         <div class="col-lg-8 col-xl-6">
-                            <input type="text" name="province" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="کد پستی را وارد کنید" value="1212" disabled />
+                            <input type="text" name="zipcode" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="کد پستی را وارد کنید" value="1212" disabled />
+                            <span class="fs-8 text-muted">قابل ویرایش نیست</span>
+                        </div>
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-semibold fs-6 required">حساب بانکی</label>
+                        <div class="col-lg-8 col-xl-6">
+                            <input type="text" name="bankaccount" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="حساب بانکی را وارد کنید" value="1212" disabled />
+                            <span class="fs-8 text-muted">قابل ویرایش نیست</span>
                         </div>
                     </div>
                     <!--end::Input group-->

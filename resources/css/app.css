@@ -115,3 +115,7 @@ body,
         display: block;
     }
 }
+
+#products_table.dataTable tbody td {
+    vertical-align: middle;
+  }

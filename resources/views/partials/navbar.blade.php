@@ -147,7 +147,7 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
-	<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('products*') ? 'show' : ''}}">
 		<!--begin:Menu link-->
 		<span class="menu-link">
 			<span class="menu-icon">
@@ -162,7 +162,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="../../demo1/dist/index.html">
+				<a class="menu-link {{ Route::is('products.list.show')  ? 'active' : '' }}" href="{{route('products.list.show')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -174,7 +174,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{route('product.create.show')}}">
+				<a class="menu-link {{ Route::is('product.create.show')  ? 'active' : '' }}" href="{{route('product.create.show')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -186,7 +186,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{route('product.categories.show')}}">
+				<a class="menu-link {{ Route::is('product.categories.show') || Route::is('product.category.show')  ? 'active' : '' }}" href="{{route('product.categories.show')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -198,7 +198,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{route('product.tags.show')}}">
+				<a class="menu-link {{ Route::is('product.tags.show') || Route::is('product.tag.show')  ? 'active' : '' }}" href="{{route('product.tags.show')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -210,7 +210,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{route('attributes.list.show')}}">
+				<a class="menu-link {{ Route::is('attributes.list.show') || Route::is('attribute.create.show') || Route::is('attribute.show') ? 'active' : '' }}" href="{{route('attributes.list.show')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -222,7 +222,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{route('product.comments.show')}}">
+				<a class="menu-link {{ Route::is('product.comments.show') || Route::is('product.comment.show')  ? 'active' : '' }}" href="{{route('product.comments.show')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -317,7 +317,7 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
-	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('user/*') ? 'show' : ''}}">
+	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('users*') ? 'show' : ''}}">
 		<!--begin:Menu link-->
 		<span class="menu-link">
 			<span class="menu-icon">
@@ -332,7 +332,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{ route('users.list') }}">
+				<a class="menu-link {{ Route::is('users.list')  ? 'active' : '' }}" href="{{ route('users.list') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -403,9 +403,9 @@
 
 
 	<!--begin:Menu item-->
-	<div data-kt-menu-trigger="click" class="menu-item">
+	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="/" class="menu-link">
+		<a href="{{route('reports')}}" class="menu-link">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-chart-simple"></i>
 			</span>
@@ -416,7 +416,7 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
-	<div data-kt-menu-trigger="click" class="menu-item">
+	<div class="menu-item">
 		<!--begin:Menu link-->
 		<a href="/" class="menu-link">
 			<span class="menu-icon">
