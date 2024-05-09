@@ -10,7 +10,7 @@
 <!-- START:TABLE -->
 <div class="card">
     <div class="card-body">
-        <form class="d-flex align-items-center justify-content-end" action="" method="get">
+        <form class="d-flex align-items-center justify-content-end mb-10" action="" method="get">
             @csrf
             <div class="d-flex align-items-center position-relative my-1">
                 <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6"><span class="path1"></span><span class="path2"></span></i>
@@ -18,12 +18,43 @@
             </div>
         </form>
         <form method="post" class="" id="action_form">
-            <div class="d-flex tw-items-center tw-justify-start tw-w-full gap-4">
-                <select class="form-select form-select-solid tw-w-max" name="" id="">
-                    <option >عملیات</option>
-                    <option value="delete">حذف</option>
-                </select>
-                <button class="btn btn-primary" type="submit">اجرا</button>
+            <div class="d-flex tw-items-center tw-justify-between tw-w-full gap-4 mb-10">
+                <div class="d-flex align-items-center gap-5">
+                    <select class="form-select form-select-solid tw-w-max" name="" id="">
+                        <option>عملیات</option>
+                        <option value="delete">حذف</option>
+                    </select>
+                    <button class="btn btn-primary" type="submit">اجرا</button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#filter_collapse">فیلتر</button>
+                </div>
+            </div>
+            <div id="filter_collapse" class="collapse">
+                <div class="d-flex align-items-end flex-wrap w-100 gap-10">
+                    <div>
+                        <label class="form-label" for="">بخش</label>
+                        <select class="form-select form-select-solid" data-control="select2" name="" id="">
+                            <option value="1">مدیریت</option>
+                            <option value="2">خیاط</option>
+                            <option value="3">تامین کننده</option>
+                            <option value="4">مشتری</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label" for="">اولویت</label>
+                        <select class="form-select form-select-solid" data-control="select2" name="" id="">
+                            <option value="3">کم</option>
+                            <option value="2">متوسط</option>
+                            <option value="1">زیاد</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label" for="">تاریخ</label>
+                        <input class="form-control form-control-solid" placeholder="انتخاب تاریخ" name="date" id="filter_date">
+                    </div>
+                    <button type="submit" name="filter" class="btn btn-primary tw-h-max">اجرا</button>
+                </div>
             </div>
 
             <table id="messages_table" class="table gy-5 gs-7">
@@ -58,9 +89,9 @@
                             <a class="badge badge-secondary" href="{{route('attribute.show',['id' => 1])}}">مشتری</a>
                         </td>
                         <td>
-                            <a class="badge badge-success" href="{{route('attribute.show',['id' => 1])}}">زیاد</a>
-                            <a class="badge badge-warning" href="{{route('attribute.show',['id' => 1])}}">کم</a>
-                            <a class="badge badge-danger" href="{{route('attribute.show',['id' => 1])}}">متوسط</a>
+                            <a class="badge badge-success" href="{{route('attribute.show',['id' => 1])}}">کم</a>
+                            <a class="badge badge-warning" href="{{route('attribute.show',['id' => 1])}}">متوسط</a>
+                            <a class="badge badge-danger" href="{{route('attribute.show',['id' => 1])}}">زیاد</a>
                         </td>
                         <td>
                             <span>12/12/1403</span>
@@ -93,9 +124,25 @@
 
 @section('script-before')
 <script src="{{asset('plugins/custom/datatables/datatables.bundle.js')}}"></script>
+<script src="{{asset('plugins/flatpicker_fa.js')}}"></script>
+<script src="{{asset('plugins/jdate.min.js')}}"></script>
 <script>
     // if someone can remove messages set TRUE OR FALSE;
     // in js/pages/messages initTable we check it
     window['deleteAble'] = true;
+</script>
+@endsection
+
+@section("scripts")
+<script>
+    window.Date = window.JDate;
+
+    flatpickr = $("#filter_date").flatpickr({
+        disableMobile: "true",
+        altInput: true,
+        altFormat: "Y-m-d",
+        dateFormat: "Y-m-d",
+        locale: "fa",
+    })
 </script>
 @endsection

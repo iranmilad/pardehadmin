@@ -11,7 +11,8 @@ import {
     ProductCategoriesTable,
     ProductTagsTable,
     ProductCommentsTable,
-    ProductsTable
+    ProductsTable,
+    MessagesTable
 } from "./pages";
 // import "./pages/attribute";
 // import "./create-fast-category";
