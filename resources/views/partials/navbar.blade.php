@@ -3,7 +3,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{ route('index') }}" class="menu-link">
+		<a href="{{ route('index') }}" class="menu-link {{ Route::is('index') ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-grid-2"></i>
 			</span>
@@ -294,7 +294,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{ route('slides') }}" class="menu-link">
+		<a href="{{ route('slides.show') }}" class="menu-link {{ Route::is('slides.show') ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-rectangle-history"></i>
 			</span>
@@ -306,7 +306,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{route('messages.show')}}" class="menu-link {{ Route::is('messages.show')  ? 'active' : '' }}">
+		<a href="{{route('messages.show')}}" class="menu-link {{ Route::is('messages.show') || Route::is('message.show') ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-messages"></i>
 			</span>
@@ -344,7 +344,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{ route('user.create') }}">
+				<a class="menu-link {{ Route::is('user.create') ? 'active' : '' }}" href="{{ route('user.create') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -359,7 +359,7 @@
 	<!-- end:Menu item -->
 
 	<!--begin:Menu item-->
-	<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('checks*') ? 'show' : ''}}">
 		<!--begin:Menu link-->
 		<span class="menu-link">
 			<span class="menu-icon">
@@ -374,7 +374,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{ route('users.list') }}">
+				<a class="menu-link {{ Route::is('checks.list.show') || Route::is('check.show')  ? 'active' : '' }}" href="{{ route('checks.list.show') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -386,7 +386,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{ route('user.create') }}">
+				<a class="menu-link {{ Route::is('check.create.show')  ? 'active' : '' }}" href="{{ route('check.create.show') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -473,7 +473,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{route('settings.show')}}" class="menu-link">
+		<a href="{{route('settings.show')}}" class="menu-link {{ Route::is('settings.show') ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-gear"></i>
 			</span>

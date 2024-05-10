@@ -3,7 +3,7 @@
 @section('title', 'پیام ها')
 
 @section("toolbar")
-<a href="{{route('attribute.create.show')}}" class="btn btn-primary">پیام جدید</a>
+<a href="{{route('attribute.create.show')}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new_message">پیام جدید</a>
 @endsection
 
 @section('content')
@@ -34,8 +34,8 @@
                 <div class="d-flex align-items-end flex-wrap w-100 gap-10">
                     <div>
                         <label class="form-label" for="">بخش</label>
-                        <select class="form-select form-select-solid" data-control="select2" name="" id="">
-                            <option value="1">مدیریت</option>
+                        <select class="form-select form-select-solid" data-control="select2" name="" multiple id="">
+                            <option value="1" selected>مدیریت</option>
                             <option value="2">خیاط</option>
                             <option value="3">تامین کننده</option>
                             <option value="4">مشتری</option>
@@ -43,8 +43,8 @@
                     </div>
                     <div>
                         <label class="form-label" for="">اولویت</label>
-                        <select class="form-select form-select-solid" data-control="select2" name="" id="">
-                            <option value="3">کم</option>
+                        <select class="form-select form-select-solid" data-control="select2" name="" multiple id="">
+                            <option value="3" selected>کم</option>
                             <option value="2">متوسط</option>
                             <option value="1">زیاد</option>
                         </select>
@@ -80,24 +80,24 @@
                             </div>
                         </td>
                         <td>
-                            <a href="{{route('attribute.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">اندازه گیری پرده</a>
+                            <a href="{{route('message.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">اندازه گیری پرده</a>
                         </td>
                         <td>
-                            <a class="badge badge-success" href="{{route('attribute.show',['id' => 1])}}">مدیریت</a>
-                            <a class="badge badge-dark" href="{{route('attribute.show',['id' => 1])}}">خیاط</a>
-                            <a class="badge badge-info" href="{{route('attribute.show',['id' => 1])}}">تامین کننده</a>
-                            <a class="badge badge-secondary" href="{{route('attribute.show',['id' => 1])}}">مشتری</a>
+                            <a class="badge badge-success" href="{{route('message.show',['id' => 1])}}">مدیریت</a>
+                            <a class="badge badge-dark" href="{{route('message.show',['id' => 1])}}">خیاط</a>
+                            <a class="badge badge-info" href="{{route('message.show',['id' => 1])}}">تامین کننده</a>
+                            <a class="badge badge-secondary" href="{{route('message.show',['id' => 1])}}">مشتری</a>
                         </td>
                         <td>
-                            <a class="badge badge-success" href="{{route('attribute.show',['id' => 1])}}">کم</a>
-                            <a class="badge badge-warning" href="{{route('attribute.show',['id' => 1])}}">متوسط</a>
-                            <a class="badge badge-danger" href="{{route('attribute.show',['id' => 1])}}">زیاد</a>
+                            <a class="badge badge-success" href="{{route('message.show',['id' => 1])}}">کم</a>
+                            <a class="badge badge-warning" href="{{route('message.show',['id' => 1])}}">متوسط</a>
+                            <a class="badge badge-danger" href="{{route('message.show',['id' => 1])}}">زیاد</a>
                         </td>
                         <td>
                             <span>12/12/1403</span>
                         </td>
                         <td class="text-end">
-                            <a href="{{route('attribute.show',['id' => 1])}}" class="btn btn-light btn-sm">
+                            <a href="{{route('message.show',['id' => 1])}}" class="btn btn-light btn-sm">
                                 مشاهده
                             </a>
                         </td>
@@ -120,6 +120,52 @@
     </div>
 </div>
 <!-- END:TABLE -->
+
+<!-- NEW MESSAGE MODAL -->
+<div class="modal fade" id="new_message" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post" class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">پیام جدید</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row gy-5">
+                    <div class="col-12">
+                        <label class="form-label fw-bold">عنوان</label>
+                        <input type="text" class="form-control form-control-solid" placeholder="عنوان پیام">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-bold">بخش</label>
+                        <select class="form-select form-select-solid">
+                            <option value="">مدیریت</option>
+                            <option value="">خیاط</option>
+                            <option value="">تامین کننده</option>
+                            <option value="">مشتری</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-bold">اولویت</label>
+                        <select class="form-select form-select-solid">
+                            <option value="">کم</option>
+                            <option value="">متوسط</option>
+                            <option value="">زیاد</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-bold">متن پیام</label>
+                        <textarea class="form-control form-control-solid" name="" id="" rows="5" placeholder="متن پیام را بنویسید"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                <button type="submit" class="btn btn-primary">ارسال</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- NEW MESSAGE MODAL -->
 @endsection
 
 @section('script-before')

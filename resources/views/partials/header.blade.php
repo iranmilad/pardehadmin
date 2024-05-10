@@ -26,12 +26,12 @@
 								<!--begin::Menu-->
 								<div class="menu menu-rounded menu-column menu-lg-row my-5 my-lg-0 align-items-stretch fw-semibold px-2 px-lg-0" id="kt_app_header_menu" data-kt-menu="true">
 									<!--begin:Menu item-->
-									<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-end" class="menu-item here show menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
+									<div class="menu-item here show menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
 										<!--begin:Menu link-->
-										<span class="menu-link">
+										<a href="{{route('product.create.show')}}" class="menu-link">
 											<span class="menu-title">افزودن محصول</span>
 											<span class="menu-arrow d-lg-none"></span>
-										</span>
+										</a>
 										<!--end:Menu link-->
 									</div>
 									<!--end:Menu item-->

@@ -12,12 +12,15 @@ import {
     ProductTagsTable,
     ProductCommentsTable,
     ProductsTable,
-    MessagesTable
+    MessagesTable,
+    ChecksTable,
 } from "./pages";
 // import "./pages/attribute";
 // import "./create-fast-category";
 import { intermidiateCheckbox } from "./globals";
+import { hydrate, createElement } from "preact";
 import "jquery-validation";
+import "./pages/message";
 
 KTUtil.onDOMContentLoaded(function () {
     PostsTable()?.init();
@@ -31,6 +34,7 @@ KTUtil.onDOMContentLoaded(function () {
     ProductCommentsTable()?.init();
     ProductsTable()?.init();
     MessagesTable()?.init();
+    ChecksTable()?.init();
 });
 
 if ($(".editor").length > 0) {

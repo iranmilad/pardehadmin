@@ -1,5 +1,5 @@
 @php
-    use Illuminate\Support\Facades\Vite;
+use Illuminate\Support\Facades\Vite;
 @endphp
 
 <!DOCTYPE html>
@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>@yield('title')</title>
-    
+
     <link rel="stylesheet" href="{{asset('css/style-rtl.css')}}">
     <link rel="stylesheet" href="{{asset('plugins/global/plugins.bundle.css')}}">
     <link rel="stylesheet" href="{{asset('plugins/global/plugins.bundle.rtl.css')}}">
@@ -32,7 +32,7 @@
                     <!--begin::Logo-->
                     <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
                         <!--begin::Logo image-->
-                        <a href="../../demo1/dist/index.html">
+                        <a href="{{route('index')}}">
                             <img alt="Logo" src="/images/logo.svg" class="h-100px app-sidebar-logo-default" />
                             <img alt="Logo" src="/images/logo.svg" class="h-100px app-sidebar-logo-minimize" />
                         </a>
@@ -83,6 +83,16 @@
                         <div id="kt_app_content" class="app-content">
                             <!--begin::Content container-->
                             <div id="kt_app_content_container" class="app-container container-fluid">
+                                @if($errors->any())
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                @endif
+
                                 @yield("content")
                             </div>
                             <!--end::Content container-->
@@ -92,7 +102,7 @@
                     <!--end::Content wrapper-->
                 </div>
                 <!--end:::Main-->
-                
+
             </div>
             <!--end::Wrapper-->
         </div>

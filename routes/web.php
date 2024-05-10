@@ -41,7 +41,8 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name("login");
 
-Route::post('/login', function () {})->name("login");
+Route::post('/login', function () {
+})->name("login");
 
 Route::get('/signup', function () {
     return view('auth.signup');
@@ -57,7 +58,10 @@ Route::get('/changepass', function () {
 
 Route::get('/slides', function () {
     return view('slides');
-})->name("slides");
+})->name("slides.show");
+
+Route::post('/slides', function () {
+})->name("slides.save");
 
 Route::group(['prefix' => 'block'], function () {
     Route::get('/', function () {
@@ -69,7 +73,7 @@ Route::group(['prefix' => 'block'], function () {
     })->name("block.create");
 
     Route::get('/edit/{id}', function ($id) {
-        return view('block',['id' => $id]);
+        return view('block', ['id' => $id]);
     })->name("block.edit");
 });
 
@@ -83,11 +87,11 @@ Route::group(['prefix' => 'page'], function () {
     })->name("page.create");
 
     Route::get('/edit/{id}', function ($id) {
-        return view('page',['id' => $id]);
+        return view('page', ['id' => $id]);
     })->name("page.edit");
 
     Route::post('/delete', function ($id) {
-        return view('page',['id' => $id]);
+        return view('page', ['id' => $id]);
     })->name("page.delete");
 });
 
@@ -101,24 +105,26 @@ Route::group(['prefix' => 'users'], function () {
     })->name("user.create");
 
     Route::get('/profile/{id}', function ($id) {
-        return view('user-profile',['id' => $id]);
+        return view('user-profile', ['id' => $id]);
     })->name("user.profile");
 
     // User sessions for user login history like IP, browser, device, etc.
     Route::get('/profile/sessions/{id}', function () {
         return view('user-sessions');
     })->name("user.sessions.show");
-    
-    Route::delete('/profile/sessions/{id}', function () {})->name("user.sessions.save");
+
+    Route::delete('/profile/sessions/{id}', function () {
+    })->name("user.sessions.save");
 
     Route::get('/edit/{id}', function ($id) {
-        return view('user-detail',['id' => $id]);
+        return view('user-detail', ['id' => $id]);
     })->name("user.edit.show");
 
-    Route::post('/edit/{id}', function ($id) {})->name("user.edit.save");
+    Route::post('/edit/{id}', function ($id) {
+    })->name("user.edit.save");
 
     Route::post('/delete', function ($id) {
-        return view('user',['id' => $id]);
+        return view('user', ['id' => $id]);
     })->name("user.delete");
 });
 
@@ -127,7 +133,8 @@ Route::get('/settings', function () {
     return view('settings');
 })->name("settings.show");
 
-Route::post('/settings', function () {})->name("settings.save");
+Route::post('/settings', function () {
+})->name("settings.save");
 
 
 Route::group(['prefix' => 'products'], function () {
@@ -168,11 +175,13 @@ Route::group(['prefix' => 'products'], function () {
         return view('product-comment');
     })->name("product.comment.show");
 
-    Route::post('/category/{id}', function ($id) {})->name("product.category.save");
+    Route::post('/category/{id}', function ($id) {
+    })->name("product.category.save");
 
 
 
-    Route::delete('/delete/{id}', function () {})->name("product.delete");
+    Route::delete('/delete/{id}', function () {
+    })->name("product.delete");
 
     Route::get('/attributes', function () {
         return view('attributes');
@@ -186,10 +195,11 @@ Route::group(['prefix' => 'products'], function () {
         return view('attribute');
     })->name("attribute.show");
 
-    Route::post('/attributes/edit/{id}', function ($id) {})->name("attribute.save");
+    Route::post('/attributes/edit/{id}', function ($id) {
+    })->name("attribute.save");
 
-    Route::post('/attributes/edit/children/{id}', function ($id) {})->name("attribute.children.save");
-
+    Route::post('/attributes/edit/children/{id}', function ($id) {
+    })->name("attribute.children.save");
 });
 
 
@@ -200,3 +210,23 @@ Route::get('/reports', function () {
 Route::get('/messages', function () {
     return view('messages');
 })->name("messages.show");
+
+Route::get('/message/{id}', function ($id) {
+    return view('message');
+})->name("message.show");
+
+
+
+Route::group(['prefix' => 'checks'], function () {
+    Route::get('/list', function () {
+        return view('checks');
+    })->name("checks.list.show");
+
+    Route::get('/create', function () {
+        return view('check');
+    })->name("check.create.show");
+
+    Route::get('/check/{id}', function ($id) {
+        return view('check');
+    })->name("check.show");
+});
