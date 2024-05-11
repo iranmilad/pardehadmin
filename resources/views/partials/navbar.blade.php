@@ -239,7 +239,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="/" class="menu-link">
+		<a href="{{route('orders.show')}}" class="menu-link">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-bags-shopping"></i>
 			</span>

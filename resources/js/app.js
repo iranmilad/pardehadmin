@@ -14,7 +14,8 @@ import {
     ProductsTable,
     MessagesTable,
     ChecksTable,
-    DiscountsTable
+    DiscountsTable,
+    OrdersTable
 } from "./pages";
 // import "./pages/attribute";
 // import "./create-fast-category";
@@ -37,6 +38,7 @@ KTUtil.onDOMContentLoaded(function () {
     MessagesTable()?.init();
     ChecksTable()?.init();
     DiscountsTable()?.init();
+    OrdersTable()?.init();
 });
 
 if ($(".editor").length > 0) {

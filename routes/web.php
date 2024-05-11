@@ -245,3 +245,7 @@ Route::group(['prefix' => 'discounts'], function () {
         return view('discount');
     })->name("discount.show");
 });
+
+Route::get('/orders/', function () {
+    return view('orders');
+})->name("orders.show");
