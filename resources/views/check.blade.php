@@ -15,7 +15,9 @@
         </div>
         <div class="card-body">
             @if(Route::is('check.create.show'))
-            @livewire('search-users')
+            <div class="mb-10">
+                <x-advanced-search type="user" label="انتخاب کاربر" name="selected_user" />
+            </div>
             @else
             <div class="symbol symbol-40px me-3">
                 <a href="{{route('user.profile',['id' => 1])}}" class="d-flex align-items-center flex-row">

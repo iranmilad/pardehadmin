@@ -10,6 +10,7 @@ import ProductCommentsTable from "./product-comments";
 import ProductsTable from "./products"
 import MessagesTable from "./messages"
 import ChecksTable from "./checks"
+import DiscountsTable from "./discounts"
 
 export {
     PostCategoryTable,
@@ -23,5 +24,6 @@ export {
     ProductCommentsTable,
     ProductsTable,
     MessagesTable,
-    ChecksTable
+    ChecksTable,
+    DiscountsTable
 };

@@ -230,3 +230,18 @@ Route::group(['prefix' => 'checks'], function () {
         return view('check');
     })->name("check.show");
 });
+
+
+Route::group(['prefix' => 'discounts'], function () {
+    Route::get('/list', function () {
+        return view('discounts');
+    })->name("discounts.list.show");
+
+    Route::get('/create', function () {
+        return view('discount');
+    })->name("discount.create.show");
+
+    Route::get('/edit/{id}', function ($id) {
+        return view('discount');
+    })->name("discount.show");
+});

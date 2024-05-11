@@ -14,6 +14,7 @@ import {
     ProductsTable,
     MessagesTable,
     ChecksTable,
+    DiscountsTable
 } from "./pages";
 // import "./pages/attribute";
 // import "./create-fast-category";
@@ -35,6 +36,7 @@ KTUtil.onDOMContentLoaded(function () {
     ProductsTable()?.init();
     MessagesTable()?.init();
     ChecksTable()?.init();
+    DiscountsTable()?.init();
 });
 
 if ($(".editor").length > 0) {
@@ -200,3 +202,21 @@ $("#categoryCreateFast").on("submit", (e) => {
         intermidiateCheckbox();
     }
 });
+
+// generate coupen code
+function generateCouponCode(length) {
+    let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let code = "";
+    for (let i = 0; i <= length; i++) {
+        code += letters.charAt(Math.floor(Math.random() * letters.length));
+    }
+    return code;
+}
+
+if($("#create_coupon_code").length > 0){
+    let genLength = $("#create_coupon_code").data("length-generate");
+    $("#create_coupon_code").on("click", function(){
+        let code = generateCouponCode(genLength);
+        $("#coupon_code").val(code);
+    })
+}

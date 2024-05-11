@@ -250,7 +250,7 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
-	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('user/*') ? 'show' : ''}}">
+	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('discounts*') ? 'show' : ''}}">
 		<!--begin:Menu link-->
 		<span class="menu-link">
 			<span class="menu-icon">
@@ -265,7 +265,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{ route('users.list') }}">
+				<a class="menu-link" href="{{ route('discounts.list.show') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -277,7 +277,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{ route('user.create') }}">
+				<a class="menu-link" href="{{ route('discount.create.show') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>

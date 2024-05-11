@@ -227,3 +227,7 @@ body,
 #sendMessage :is(i, svg) {
     rotate: 180deg;
 }
+
+.select2-selection__clear{
+    right: 8px !important;
+}

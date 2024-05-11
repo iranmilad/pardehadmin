@@ -117,6 +117,32 @@ use Illuminate\Support\Facades\Vite;
     <script src="{{asset('js/widgets.bundle.js')}}"></script>
     <script src="{{asset('js/custom/widgets.js')}}"></script>
     @yield('script-before')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            $('.advanced_search').select2({
+                placeholder: "جستجو کنید",
+                language: {
+                    inputTooShort: function() {
+                        return "حداقل باید 3 حرف وارد کنید"
+                    },
+                    noResults: function() {
+                        return "نتیجه ای یافت نشد";
+                    },
+                    searching: function() {
+                        return "در حال جستجو...";
+                    }
+                },
+                ajax: {
+                    url: function(params) {
+                        return window.ajaxUrl + "?type=" + $(this).data('type') + "&q=" + params.term;
+                    },
+                    dataType: 'json',
+                    delay: 250,
+                },
+                minimumInputLength: 3
+            });
+        })
+    </script>
     @vite("resources/js/app.js")
     @yield('scripts')
     @livewireScripts
