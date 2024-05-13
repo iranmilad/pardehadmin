@@ -3,7 +3,7 @@
 @section('title', 'برچسب ها')
 
 @section("toolbar")
-<a href="{{route('attribute.create.show')}}" class="btn btn-primary">بر جدید</a>
+<a href="{{route('product.tag.create.show')}}" class="btn btn-primary">برچسب جدید</a>
 @endsection
 
 @section('content')

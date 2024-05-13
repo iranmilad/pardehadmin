@@ -1,17 +1,17 @@
 import { checkboxTableWorker } from "../globals";
 
-function PostCategoryTable() {
-    if ($("#post_categories").length === 0) return;
+function PostCommentsTable() {
+    if ($("#post_table").length === 0) return;
+
     let initTable = function () {
         let table;
-        let dt = $("#post_categories").DataTable({
+        let dt = $("#post_table").DataTable({
             info: false,
             columns: [
                 { data: "checkbox" },
-                { data: "title" },
-                { data: "slug" },
-                { data: "count" },
-                { data: "created_at" },
+                { data: "author" },
+                { data: "post" },
+                { data: "register_date" },
                 { data: "action" },
             ],
             columnDefs: [
@@ -30,14 +30,11 @@ function PostCategoryTable() {
             searching: false,
         });
 
-
         dt.on("draw", () => {
             checkboxTableWorker();
         });
-        
     };
 
-    
     return {
         init: function () {
             initTable();
@@ -46,4 +43,4 @@ function PostCategoryTable() {
     };
 }
 
-export default PostCategoryTable;
+export default PostCommentsTable;

@@ -17,25 +17,57 @@ Route::get('/', function () {
     return view('index');
 })->name("index");
 
+Route::group(['prefix' => 'posts'], function () {
+
+    Route::get('/list', function () {
+        return view('posts');
+    })->name("posts.show");
+
+    // Single for edit or create a new post
+    Route::get('/post/', function () {
+        return view('post');
+    })->name("post.show");
+
+    // table of categories
+    Route::get('/categories', function () {
+        return view('post-categories');
+    })->name("post-categories.show");
+
+    Route::get('/category/{id}', function ($id) {
+        return view('post-category');
+    })->name("post-category.show");
+
+    Route::get('/create-category', function () {
+        return view('post-category');
+    })->name("post-category.create.show");
+
+    Route::get('/tags/', function () {
+        return view('post-tags');
+    })->name("post.tags.show");
+
+    Route::get('/tags/edit/{id}', function ($id) {
+        return view('post-tag');
+    })->name("post.tag.show");
+
+    Route::get('/tags/create/', function () {
+        return view('post-tag');
+    })->name("post.tag.create.show");
+
+    Route::get('/comments/', function () {
+        return view('post-comments');
+    })->name("post.comments.show");
+
+    Route::get('/comment/{id}', function ($id) {
+        return view('post-comment');
+    })->name("post.comment.show");
+});
+
 // table of posts
-Route::get('/posts', function () {
-    return view('posts');
-})->name("posts");
 
-// Single for edit or create a new post
-Route::get('/post', function () {
-    return view('post');
-})->name("post");
 
-// table of categories
-Route::get('/post-categories', function () {
-    return view('post-categories');
-})->name("post-categories");
 
-// Single for edit or create a new category for post
-Route::get('/post-category', function () {
-    return view('post-category');
-})->name("post-category");
+
+
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -80,18 +112,18 @@ Route::group(['prefix' => 'block'], function () {
 Route::group(['prefix' => 'page'], function () {
     Route::get('/', function () {
         return view('pages');
-    })->name("page.list");
+    })->name("page.list.show");
 
     Route::get('/create', function () {
         return view('page');
     })->name("page.create");
 
     Route::get('/edit/{id}', function ($id) {
-        return view('page', ['id' => $id]);
+        return view('page');
     })->name("page.edit");
 
     Route::post('/delete', function ($id) {
-        return view('page', ['id' => $id]);
+        return view('page');
     })->name("page.delete");
 });
 
@@ -167,6 +199,10 @@ Route::group(['prefix' => 'products'], function () {
         return view('product-tag');
     })->name("product.tag.show");
 
+    Route::get('/tags/create/', function () {
+        return view('product-tag');
+    })->name("product.tag.create.show");
+
     Route::get('/comments/', function () {
         return view('product-comments');
     })->name("product.comments.show");
@@ -187,7 +223,7 @@ Route::group(['prefix' => 'products'], function () {
         return view('attributes');
     })->name("attributes.list.show");
 
-    Route::get('/attributes/create/', function ($id) {
+    Route::get('/attributes/create/', function () {
         return view('attribute');
     })->name("attribute.create.show");
 
@@ -249,3 +285,18 @@ Route::group(['prefix' => 'discounts'], function () {
 Route::get('/orders/', function () {
     return view('orders');
 })->name("orders.show");
+
+Route::get('/order/{id}', function ($id) {
+    return view('order');
+})->name("order.show");
+
+Route::post('/order/{id}', function ($id) {
+})->name("order.show");
+
+Route::get('/create-order', function () {
+    return view('order-create');
+})->name("order.create.show");
+
+Route::get('/order/print/{id}', function ($id) {
+    return view('order-print');
+})->name("order.print.show");

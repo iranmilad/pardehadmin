@@ -3,7 +3,7 @@
 @section('title', 'سفارش ها')
 
 @section("toolbar")
-<a href="{{route('attribute.create.show')}}" class="btn btn-primary">ایجاد سفارش</a>
+<a href="{{route('order.create.show')}}" class="btn btn-primary">ایجاد سفارش</a>
 @endsection
 
 @section('content')
@@ -84,20 +84,20 @@
               </div>
             </td>
             <td>
-              <a href="{{route('attribute.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">#060 فرهاد باقری</a>
+              <a href="{{route('order.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">#060 فرهاد باقری</a>
             </td>
             <td>
-              <a href="{{route('attribute.show',['id' => 1])}}">12/12/1403</a>
+              <a href="{{route('order.show',['id' => 1])}}">12/12/1403</a>
             </td>
             <td>
-              <a class="badge badge-warning" href="#">در انتظار بررسی</a>
+              <a class="badge badge-warning" href="{{route('order.show',['id' => 1])}}">در انتظار بررسی</a>
             </td>
             <td>42,000,000 تومان</td>
             <td>
-              <a class="badge badge-primary" href="#">درگاه بانکی</a>
+              <a class="badge badge-primary" href="{{route('order.show',['id' => 1])}}">درگاه بانکی</a>
             </td>
             <td class="text-end">
-              <a href="{{route('attribute.show',['id' => 1])}}" class="btn btn-light btn-sm">
+              <a href="{{route('order.show',['id' => 1])}}" class="btn btn-light btn-sm">
                 مشاهده
               </a>
             </td>

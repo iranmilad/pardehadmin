@@ -22,17 +22,16 @@
                 <button class="btn btn-primary" type="submit">اجرا</button>
             </div>
 
-            <table id="product_table_table" class="table gy-5 gs-7">
+            <table id="post_table" class="table gy-5 gs-7">
                 <thead>
                     <tr class="fs-7 fw-bold text-gray-400 border-bottom-0">
                         <th class="w-10px">
                             <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#product_table_table .form-check-input" value="1" />
+                                <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#post_table .form-check-input" value="1" />
                             </div>
                         </th>
                         <th class="cursor-pointer px-0 min-w-175px text-start">نویسنده</th>
-                        <th class="cursor-pointer px-0 min-w-175px text-start">امتیاز</th>
-                        <th class="cursor-pointer px-0 min-w-175px text-start">محصول</th>
+                        <th class="cursor-pointer px-0 min-w-175px text-start">نوشته</th>
                         <th class="cursor-pointer px-0 min-w-175px text-start">تاریخ ثبت</th>
                         <th class="min-w-100px text-end">عملیات</th>
                     </tr>
@@ -45,13 +44,10 @@
                             </div>
                         </td>
                         <td>
-                            <a href="{{route('product.comment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">فرهاد باقری</a>
+                            <a href="{{route('post.comment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">فرهاد باقری</a>
                         </td>
                         <td>
-                            <span>3.5/5</span>
-                        </td>
-                        <td>
-                            <a href="">محصول پرده</a>
+                            <a href="">نوشته شماره 1</a>
                         </td>
                         <td>
                             <span>12/12/1403</span>
@@ -96,7 +92,7 @@
 
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="{{route('product.comment.show',['id' => 1])}}" class="menu-link px-3">
+                                    <a href="{{route('post.comment.show',['id' => 1])}}" class="menu-link px-3">
                                         ویرایش
                                     </a>
                                 </div>

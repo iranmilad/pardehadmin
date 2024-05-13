@@ -1,7 +1,11 @@
 <!-- This blade is used for writing and editing a post -->
 @extends('layouts.primary')
 
-@section('title', 'ویرایش برچسب')
+@if(Route::is('product.tag.show'))
+    @section('title', 'ویرایش برچسب')
+@else
+    @section('title', 'ایجاد برچسب')
+@endif
 
 @section('content')
 
@@ -15,6 +19,7 @@
         </div>
         <div class="card-body">
             <form action="">
+                @csrf
                 <div class="row">
                     <div class="col-12 col-md">
                         <div class="mb-3">

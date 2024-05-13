@@ -3,7 +3,7 @@
 @section('title', 'نوشته ها')
 
 @section("toolbar")
-<a href="{{route('post')}}?action=add" class="btn btn-primary">نوشته جدید</a>
+<a href="{{route('post.show')}}" class="btn btn-primary">نوشته جدید</a>
 @endsection
 
 @section('content')
@@ -177,7 +177,7 @@
                             </div>
                         </td>
                         <td>
-                            <a href=" {{route('post')}}?action=edit&id=1" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">نوشته اول</a>
+                            <a href=" {{route('post.show')}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">نوشته اول</a>
                         </td>
                         <td>
                             <a href="">نویسنده</a>
@@ -202,7 +202,7 @@
                             </div>
                         </td>
                         <td>
-                            <a href="{{route('post')}}?action=edit&id=1" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">نوشته دوم</a>
+                            <a href="{{route('post.show')}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">نوشته دوم</a>
                         </td>
                         <td>
                             <a href="">نویسنده</a>

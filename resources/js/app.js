@@ -15,7 +15,8 @@ import {
     MessagesTable,
     ChecksTable,
     DiscountsTable,
-    OrdersTable
+    OrdersTable,
+    PostCommentsTable
 } from "./pages";
 // import "./pages/attribute";
 // import "./create-fast-category";
@@ -39,6 +40,7 @@ KTUtil.onDOMContentLoaded(function () {
     ChecksTable()?.init();
     DiscountsTable()?.init();
     OrdersTable()?.init();
+    PostCommentsTable()?.init();
 });
 
 if ($(".editor").length > 0) {
@@ -222,3 +224,27 @@ if($("#create_coupon_code").length > 0){
         $("#coupon_code").val(code);
     })
 }
+
+
+const exampleModal = document.getElementById('replyModal')
+if (exampleModal) {
+  exampleModal.addEventListener('show.bs.modal', event => {
+    // Button that triggered the modal
+    const button = event.relatedTarget
+    // Extract info from data-bs-* attributes
+    const recipient = button.getAttribute('data-bs-whatever')
+    // If necessary, you could initiate an Ajax request here
+    // and then do the updating in a callback.
+
+    // Update the modal's content.
+    const modalTitle = exampleModal.querySelector('.modal-title')
+    const modalBodyInput = exampleModal.querySelector('.modal-body input')
+
+    modalTitle.textContent = `پاسخ به ${recipient}`
+    modalBodyInput.value = recipient
+  })
+}
+
+$("#product_table_table tbody tr button[data-bs-toggle]").on("click" , function(){
+    $("#replyModal [name='message-id']").val($(this).data('id'));
+})

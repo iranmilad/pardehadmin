@@ -4,7 +4,7 @@
 @section('title', 'دسته ها')
 
 @section("toolbar")
-<a href="{{route('post-category')}}?action=add" class="btn btn-primary">دسته ی جدید</a>
+<a href="{{route('post-category.create.show')}}" class="btn btn-primary">دسته ی جدید</a>
 @endsection
 
 @section('content')
@@ -32,7 +32,7 @@
                 <button class="btn btn-primary" type="submit">اجرا</button>
             </div>
             
-            <table id="post_categories" class="table gy-5 gs-7">
+            <table id="post_categories" class="table gy-5 gs-7 tw-align-middle">
                 <thead>
                     <tr class="fs-7 fw-bold text-gray-400 border-bottom-0">
                         <th class="w-10px">
@@ -41,7 +41,6 @@
                             </div>
                         </th>
                         <th class="cursor-pointer px-0 min-w-175px text-start">عنوان</th>
-                        <th class="cursor-pointer px-0 min-w-175px text-start">توضیح</th>
                         <th class="cursor-pointer px-0 min-w-175px text-start">نامک</th>
                         <th class="px-0 min-w-100px text-start">تعداد</th>
                         <th class="px-0 min-w-100px text-end">تاریخ</th>
@@ -56,10 +55,7 @@
                             </div>
                         </td>
                         <td>
-                            <a href=" {{route('post-category')}}?action=edit&id=1" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">پرده های کتان</a>
-                        </td>
-                        <td>
-                            <span class="text-muted">این یک توضیح کوتاه برای دسته بندی های کتان است</span>
+                            <a href="{{route('post-category.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">پرده های کتان</a>
                         </td>
                         <td>
                             <span class="badge badge-primary">cottan-certain</span>
@@ -68,35 +64,10 @@
                             1
                         </td>
                         <td class="date_column">
-                            <a href="{{route('post-category')}}?action=edit&id=1">1400/01/01</a>
+                            <a href="{{route('post-category.show',['id' => 1])}}">1400/01/01</a>
                         </td>
                         <td class="text-end">
-                            <a href="{{route('post-category')}}?action=edit&id=1" class="btn btn-sm btn-light">ویرایش</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" data-id="2" />
-                            </div>
-                        </td>
-                        <td>
-                            <a href="{{route('post-category')}}?action=edit&id=2" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">پرده های کتان</a>
-                        </td>
-                        <td>
-                            <span class="text-muted">این یک توضیح کوتاه برای دسته بندی های کتان است</span>
-                        </td>
-                        <td>
-                            <span class="badge badge-primary">cottan-certain</span>
-                        </td>
-                        <td>
-                            2
-                        </td>
-                        <td class="date_column">
-                            <a href="{{route('post-category')}}?action=edit&id=2">1400/01/01</a>
-                        </td>
-                        <td class="text-end">
-                            <a href="{{route('post-category')}}?action=edit&id=2" class="btn btn-sm btn-light">ویرایش</a>
+                            <a href="{{route('post-category.show',['id' => 1])}}" class="btn btn-sm btn-light">ویرایش</a>
                         </td>
                     </tr>
                 </tbody>

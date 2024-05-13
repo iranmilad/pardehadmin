@@ -18,11 +18,7 @@
             <div class="card-body">
                 <div>
                     <label class="form-label ">متن دیدگاه</label>
-                    <div class="row row-editor">
-                        <div class="editor-container">
-                            <div id="editor" class="editor tw-max-h-96 tw-overflow-auto"></div>
-                        </div>
-                    </div>
+                    <textarea class="form-control form-control" rows="10" placeholder="متن دیدگاه را وارد کنید" name="" id=""></textarea>
                 </div>
             </div>
         </div>
@@ -215,8 +211,4 @@
     </div>
 </form>
 
-@endsection
-
-@section("script-before")
-<script src="{{ asset('/plugins/custom/ckeditor/ckeditor-classic.bundle.js') }}"></script>
 @endsection

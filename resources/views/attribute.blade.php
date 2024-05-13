@@ -1,7 +1,11 @@
 <!-- This blade is used for writing and editing a post -->
 @extends('layouts.primary')
 
-@section('title', 'ویرایش ویژگی')
+@if(Route::is('attribute.show'))
+    @section('title', 'ویرایش ویژگی')
+@else
+    @section('title', 'ایجاد ویژگی')
+@endif
 
 @section('content')
 
