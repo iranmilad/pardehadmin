@@ -490,6 +490,23 @@
                 </div>
                 <div class="col-md-6">
                     <div class="mb-10">
+                        <h5>پرداخت اقساطی</h5>
+                        <div class="card shadow-none border">
+                            <div class="card-body">
+                                <div>
+                                    <label class="form-label" for="">انتخاب اقساط این محصول</label>
+                                    <select class="form-select form-select-solid" data-control="select2" name="" id="" multiple>
+                                        <option value="1">پلن 1</option>
+                                        <option value="2">پلن 2</option>
+                                        <option value="3">پلن 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-10">
                         <label class="form-label d-block" for="">ویدئو</label>
                         <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
                             <!--begin::نمایش existing avatar-->

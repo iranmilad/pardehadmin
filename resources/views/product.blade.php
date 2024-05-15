@@ -48,6 +48,7 @@
                     <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">حمل و نقل</button>
                     <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-relation" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">متغیر های وابسته</button>
                     <button class="nav-link" id="v-pills-norelation-tab" data-bs-toggle="pill" data-bs-target="#v-pills-norelation" type="button" role="tab" aria-controls="v-pills-norelation" aria-selected="false">متغیر های غیر وابسته</button>
+                    <button class="nav-link" id="v-pills-installments-tab" data-bs-toggle="pill" data-bs-target="#v-pills-installments" type="button" role="tab" aria-controls="v-pills-norelation" aria-selected="false">پرداخت اقساطی</button>
                 </div>
                 <div class="tab-content mt-6 border-top pt-6" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
@@ -415,6 +416,18 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-installments" role="tabpanel" aria-labelledby="v-pills-disabled-tab" tabindex="0">
+                        <div class="row">
+                            <div class="mb-5 col-xl-7">
+                                <label for="" class="form-label">پلن های اقساطی این محصول</label>
+                                <select class="form-select form-select-solid" data-control="select2" name="" id="" multiple>
+                                    <option value="1">پلن 1</option>
+                                    <option value="2">پلن 2</option>
+                                    <option value="3">پلن 3</option>
+                                </select>
                             </div>
                         </div>
                     </div>

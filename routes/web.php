@@ -300,3 +300,31 @@ Route::get('/create-order', function () {
 Route::get('/order/print/{id}', function ($id) {
     return view('order-print');
 })->name("order.print.show");
+
+
+Route::group(['prefix' => 'installments'], function () {
+    Route::get('/list', function () {
+        return view('installments');
+    })->name("installments.list.show");
+
+    Route::get('/edit/{id}', function ($id) {
+        return view('installment');
+    })->name("installment.show");
+
+    Route::get('/create', function () {
+        return view('installment');
+    })->name("installment.create.show");
+
+    Route::get('/plans/list', function () {
+        return view('installments-plans');
+    })->name("installments.plans.list.show");
+
+    Route::get('/plans/edit/{id}', function ($id) {
+        return view('installments-plan');
+    })->name("installments.plan.show");
+
+    Route::get('/report', function () {
+        return view('installments-report');
+    })->name("installments.report.show");
+
+});

@@ -16,7 +16,9 @@ import {
     ChecksTable,
     DiscountsTable,
     OrdersTable,
-    PostCommentsTable
+    PostCommentsTable,
+    InstallmentsTable,
+    InstallmentsPlansTable
 } from "./pages";
 // import "./pages/attribute";
 // import "./create-fast-category";
@@ -41,6 +43,8 @@ KTUtil.onDOMContentLoaded(function () {
     DiscountsTable()?.init();
     OrdersTable()?.init();
     PostCommentsTable()?.init();
+    InstallmentsTable()?.init();
+    InstallmentsPlansTable()?.init();
 });
 
 if ($(".editor").length > 0) {

@@ -13,6 +13,8 @@ import ChecksTable from "./checks"
 import DiscountsTable from "./discounts"
 import OrdersTable from "./orders"
 import PostCommentsTable from "./post-comments"
+import InstallmentsTable from "./installments";
+import InstallmentsPlansTable from "./installments-plans"
 
 export {
     PostCategoryTable,
@@ -29,5 +31,7 @@ export {
     ChecksTable,
     DiscountsTable,
     OrdersTable,
-    PostCommentsTable
+    PostCommentsTable,
+    InstallmentsTable,
+    InstallmentsPlansTable
 };

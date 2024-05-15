@@ -1,0 +1,49 @@
+import { checkboxTableWorker } from "../globals";
+
+function InstallmentsTable() {
+    if ($("#installments_table").length === 0) return;
+
+    let initTable = function () {
+        let table;
+        let dt = $("#installments_table").DataTable({
+            info: false,
+            columns: [
+                { data: "checkbox" },
+                { data: "user" },
+                { data: "all_checks" },
+                { data: "paied" },
+                { data: "last_paied" },
+                { data: "next_payment" },
+                { data: "overdue" },
+                { data: "action" },
+            ],
+            columnDefs: [
+                {
+                    targets: 0,
+                    orderable: false,
+                },
+                {
+                    targets: -1,
+                    orderable: false,
+                    className: "text-end",
+                },
+            ],
+            order: [[1, "asc"]],
+            paging: false,
+            searching: false,
+        });
+
+        dt.on("draw", () => {
+            checkboxTableWorker();
+        });
+    };
+
+    return {
+        init: function () {
+            initTable();
+            checkboxTableWorker();
+        },
+    };
+}
+
+export default InstallmentsTable;
