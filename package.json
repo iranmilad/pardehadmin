@@ -3,19 +3,17 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "production": "vite build",
-        "css": "sass --no-source-map ./resources/sass/style.scss ./resources/css/style-rtl.css",
-        "rtl": "rtlcss ./resources/css/style-rtl.css ./resources/css/style-rtl.css",
-        "theme": "npm run -s css rtl",
-        "build": "npm-run-all -s theme production"
+        "build": "vite build",
+        "prod": "npm run production"
     },
     "devDependencies": {
         "axios": "^1.6.4",
         "laravel-vite-plugin": "^1.0.0",
+        "npm-run-all": "^4.1.5",
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.71.1",
         "sass-loader": "^12.6.0",
-        "vite": "^5.0.0"
+        "vite": "^5.2.10"
     },
     "dependencies": {
         "@ckeditor/ckeditor5-basic-styles": "^41.3.1",
