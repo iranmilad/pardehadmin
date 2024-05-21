@@ -3,7 +3,7 @@
 @section('title', 'نوشته ها')
 
 @section("toolbar")
-<a href="{{route('post')}}?action=add" class="btn btn-primary">نوشته جدید</a>
+<a href="{{ route('post.create') }}" class="btn btn-primary">نوشته جدید</a>
 @endsection
 
 @section('content')
@@ -43,77 +43,61 @@
                         </div>
                     </th>
                     <th class="cursor-pointer px-0 min-w-175px text-start">عنوان</th>
+
                     <th class="cursor-pointer px-0 min-w-175px text-start">نویسنده</th>
-                    <th class="cursor-pointer px-0 min-w-175px text-start">دسته ها</th>
-                    <th class="px-0 min-w-100px text-start">برچسب ها</th>
+                    <th class="cursor-pointer px-0 min-w-175px text-start">دسته‌ها</th>
+                    <th class="px-0 min-w-100px text-start">برچسب‌ها</th>
                     <th class="px-0 tw-max-w-20 text-start">نظرات</th>
+                    <th class="px-0 min-w-100px text-center">وضعیت</th>
                     <th class="px-0 min-w-100px text-end">تاریخ</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        <div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" data-id="1" />
-                        </div>
-                    </td>
-                    <td>
-                        <a href=" {{route('post')}}?action=edit&id=1" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">نوشته اول</a>
-                    </td>
-                    <td>
-                        <a href="">نویسنده</a>
-                    </td>
-                    <td>
-                        <a class="badge badge-primary" href="">دسته اول</a>
-                    </td>
-                    <td>
-                        <a class="badge badge-primary" href="">برچسب اول</a>
-                    </td>
-                    <td>
-                        <a href="#" class="badge tw-px-0"><i class="bi bi-chat-square-text-fill fs-4 me-2"></i> 10</a>
-                    </td>
-                    <td class="date_column">
-                        <a href="">1400/01/01</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" data-id="2" />
-                        </div>
-                    </td>
-                    <td>
-                        <a href="{{route('post')}}?action=edit&id=1" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">نوشته دوم</a>
-                    </td>
-                    <td>
-                        <a href="">نویسنده</a>
-                    </td>
-                    <td>
-                        <a class="badge badge-primary" href="">دسته اول</a>
-                        <a class="badge badge-primary" href="">دسته اول</a>
-                    </td>
-                    <td>
-                        <a class="badge badge-primary" href="">برچسب اول</a>
-                    </td>
-                    <td>
-                        <a href="#" class="badge tw-px-0"><i class="bi bi-chat-square-text-fill fs-4 me-2"></i> 0</a>
-                    </td>
-                    <td class="date_column">
-                        <a href="">1402/01/01</a>
-                    </td>
-                </tr>
+                @foreach ($posts as $post)
+                    <tr>
+                        <td>
+                            <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                <input class="form-check-input" type="checkbox" data-id="{{ $post->id }}" />
+                            </div>
+                        </td>
+                        <td>
+                            <a href="{{ route('post.edit', ['id' => $post->id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">{{ $post->title }}</a>
+                        </td>
+                        <td>
+                            <a href="#">{{ $post->user->first_name .' '.$post->user->last_name ?? 'نامشخص' }}</a>
+                        </td>
+                        <td>
+
+                            @foreach($post->categories as $category)
+                                <a class="badge badge-primary" href="#">{{ $category->name }}</a>
+                            @endforeach
+
+                            @if($post->categories->isEmpty())
+                                <a class="badge badge-secondary" href="#">بدون دسته بندی</a>
+                            @endif
+
+                        </td>
+                        <td>
+                            @foreach ($post->tags as $tag)
+                                <a class="badge badge-primary" href="#">{{ $tag->name }}</a>
+                            @endforeach
+                        </td>
+                        <td>
+                            <a href="#" class="badge tw-px-0"><i class="bi bi-chat-square-text-fill fs-4 me-2"></i> {{ $post->commentsCount()}}</a>
+                        </td>
+                        <td class="text-center">
+                            <a href="#" class="badge tw-px-0 "> {{ $post->published ? 'منتشر شده' : 'پیش نویس' }}</a>
+                        </td>
+                        <td class="date_column">
+                            <a href="">{{ $post->dateShamsi }}</a>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
-        <ul class="pagination">
-            <li class="page-item previous disabled"><a href="#" class="page-link"><i class="previous"></i></a></li>
-            <li class="page-item active"><a href="#" class="page-link">1</a></li>
-            <li class="page-item"><a href="#" class="page-link">2</a></li>
-            <li class="page-item "><a href="#" class="page-link">3</a></li>
-            <li class="page-item "><a href="#" class="page-link">4</a></li>
-            <li class="page-item "><a href="#" class="page-link">5</a></li>
-            <li class="page-item "><a href="#" class="page-link">6</a></li>
-            <li class="page-item next"><a href="#" class="page-link"><i class="next"></i></a></li>
-        </ul>
+        {{ $posts->links('vendor.pagination.custom-pagination') }}
+
+
     </div>
 </div>
 <!-- END:TABLE -->

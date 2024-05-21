@@ -189,17 +189,7 @@ $(document).on("DOMContentLoaded", () => {
     intermidiateCheckbox();
 });
 
-var input = document.querySelector("#post-type-tags");
 
-// Initialize Tagify script on the above inputs
-let post_types_tags = new Tagify(input, {
-    dropdown: {
-        // <- mixumum allowed rendered suggestions
-        enabled: 0, // <- show suggestions on focus
-        closeOnSelect: false, // <- do not hide the suggestions dropdown once an item has been selected
-        pattern: /^.{1,70}/,
-    },
-});
 
 function generatePassword() {
     var length = 8,

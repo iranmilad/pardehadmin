@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\PostCategory;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostCategoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,19 +21,37 @@ Route::get('/', function () {
 })->name("index");
 
 // table of posts
-Route::get('/posts', function () {
-    return view('posts');
-})->name("posts");
 
-// Single for edit or create a new post
-Route::get('/post', function () {
-    return view('post');
-})->name("post");
+Route::group(['prefix' => 'post'], function () {
 
-// table of categories
-Route::get('/post-categories', function () {
-    return view('post-categories');
-})->name("post-categories");
+    Route::get('/', [PostController::class, 'index'])->name("post.list");
+
+    Route::get('/create', [PostController::class, 'create'])->name("post.create");
+    Route::post('/store', [PostController::class, 'store'])->name("post.store");
+
+    Route::get('/edit/{id}', [PostController::class, 'edit'])->name("post.edit");
+    Route::put('/update/{id}', [PostController::class, 'update'])->name("post.update");
+
+    Route::post('/delete', [PostController::class, 'delete'])->name("post.delete");
+
+
+});
+
+Route::group(['prefix' => 'postCategories'], function () {
+
+    Route::get('/', [PostCategoriesController::class, 'index'])->name("postCategories.list");
+
+    Route::get('/create', [PostCategoriesController::class, 'create'])->name("postCategories.create");
+    Route::post('/store', [PostCategoriesController::class, 'store'])->name("postCategories.store");
+
+    Route::get('/edit/{id}', [PostCategoriesController::class, 'edit'])->name("postCategories.edit");
+    Route::put('/update/{id}', [PostCategoriesController::class, 'update'])->name("postCategories.update");
+
+    Route::post('/delete', [PostCategoriesController::class, 'delete'])->name("postCategories.delete");
+
+});
+
+
 
 // Single for edit or create a new category for post
 Route::get('/post-category', function () {
@@ -106,7 +127,7 @@ Route::group(['prefix' => 'users'], function () {
     Route::get('/profile/sessions/{id}', function () {
         return view('user-sessions');
     })->name("user.sessions.show");
-    
+
     Route::delete('/profile/sessions/{id}', function () {})->name("user.sessions.save");
 
     Route::get('/edit/{id}', function ($id) {

@@ -3,7 +3,7 @@
 @section('title', 'برگه ها')
 
 @section("toolbar")
-<a href="{{route('post')}}?action=add" class="btn btn-primary">برگه جدید</a>
+<a href="{{route('page.create')}}" class="btn btn-primary">برگه جدید</a>
 @endsection
 
 @section('content')

@@ -29,7 +29,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{ route('posts') }}">
+				<a class="menu-link" href="{{ route('post.list') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -41,7 +41,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{ route('post') }}">
+				<a class="menu-link" href="{{ route('post.create') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -53,7 +53,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{ route('post-categories') }}">
+				<a class="menu-link" href="{{ route('postCategories.list') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>

@@ -1,24 +1,27 @@
-<!-- This blade is used for writing and editing a post -->
 @extends('layouts.primary')
 
-@section('title', 'نوشته جدید')
+@section('title', isset($post) ? 'ویرایش پست' : 'ایجاد پست جدید')
 
 @section('content')
 
-<form method="post" class="row post-type-row">
+<form method="post" action="{{ isset($post) ? route('post.update', $post) : route('post.store') }}" class="row post-type-row" enctype="multipart/form-data">
     @csrf
+    @if(isset($post))
+        @method('PUT')
+    @endif
+
     <div class="col-lg-8 col-xl-10">
         <div class="card">
             <div class="card-body">
                 <div class="mb-10">
                     <label for="title" class="required form-label">عنوان</label>
-                    <input type="text" id="title" class="form-control" placeholder="عنوان را وارد کنید" />
+                    <input type="text" id="title" name="title" class="form-control" placeholder="عنوان را وارد کنید" value="{{ old('title', isset($post) ? $post->title : '') }}" />
                 </div>
                 <div class="mb-2">
                     <label class="form-label ">توضیحات</label>
                     <div class="row row-editor">
                         <div class="editor-container">
-                            <div id="editor" class="editor tw-max-h-96 tw-overflow-auto"></div>
+                            <textarea id="editor" name="content" class="editor tw-max-h-96 tw-overflow-auto">{{ old('content', isset($post) ? $post->content : '') }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -40,9 +43,9 @@
             <!--begin::کارت body-->
             <div class="card-body pt-0">
                 <!--begin::انتخاب2-->
-                <select class="form-select mb-2">
-                    <option selected value="published">فعال</option>
-                    <option value="inactive">غیرفعال</option>
+                <select class="form-select mb-2" name="published">
+                    <option value="1" {{ old('published', isset($post) ? $post->published : 0) == 1 ? 'selected' : '' }}>فعال</option>
+                    <option value="0" {{ old('published', isset($post) ? $post->published : 0) == 0 ? 'selected' : '' }}>غیرفعال</option>
                 </select>
                 <!--end::انتخاب2-->
                 <!--begin::توضیحات-->
@@ -50,70 +53,66 @@
                 <!--end::توضیحات-->
                 <!--begin::انتخاب2-->
                 <div class="form-check mt-5">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked />
+                    <input class="form-check-input" type="checkbox" value="1" name="comments_enabled" id="flexCheckChecked" {{ old('comments_enabled', isset($post) ? $post->comments_enabled : 1) == 1 ? 'checked' : '' }} />
                     <label class="form-check-label text-dark" for="flexCheckChecked">
                         فعال بودن دیدگاه ها
                     </label>
                 </div>
-
-
                 <!--end::انتخاب2-->
             </div>
             <!--end::کارت body-->
             <div class="card-footer text-end">
-                <button class="btn btn-sm btn-primary">ذخیره تغییرات</button>
+                <button type="submit" class="btn btn-sm btn-primary">ذخیره تغییرات</button>
             </div>
         </div>
         <!-- END:STATUS -->
 
+
         <!-- START:CATEGORY -->
         <div class="card card-flush py-4 mb-5">
-            <!--begin::کارت header-->
             <div class="card-header">
-                <!--begin::کارت title-->
                 <div class="card-title">
                     <h4>دسته بندی ها</h4>
                 </div>
-                <!--end::کارت title-->
             </div>
-            <!--end::کارت header-->
-            <!--begin::کارت body-->
             <div class="card-body pt-0">
-                <!--begin::Input group-->
                 <div class="tw-max-h-56 tw-overflow-auto tw-pt-1">
                     <ul class="intermediat-checkbox category-list">
-                        <li>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="tall" name="category1" />
-                                <label class="form-check-label" for="tall">
-                                    دسته ی پرده
-                                </label>
-                            </div>
-                            <ul>
-                                <li>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="tall2" name="category1['child1']" />
-                                        <label class="form-check-label" for="tall2">
-                                            پرده ی اتاق خواب
-                                        </label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="tall3" name="category1['child2']" />
-                                        <label class="form-check-label" for="tall3">
-                                            پرده ی اتاق نشیمن
-                                        </label>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
+                        @foreach($categories as $category)
+                            <li>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="{{ $category->id }}"
+                                        id="category{{ $category->id }}"
+                                        name="categories[]"
+                                        {{ in_array($category->id, old('categories', isset($post) ? $post->categories->pluck('id')->toArray() : [])) ? 'checked' : '' }}
+                                    />
+                                    <label class="form-check-label" for="category{{ $category->id }}">
+                                        {{ $category->name }}
+                                    </label>
+                                </div>
+                                @if($category->children)
+                                    <ul>
+                                        @foreach($category->children as $child)
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="{{ $child->id }}" id="category{{ $child->id }}" name="categories[]" {{ in_array($child->id, old('categories', isset($post) ? $post->categories->pluck('id')->toArray() : [])) ? 'checked' : '' }} />
+                                                    <label class="form-check-label" for="category{{ $child->id }}">
+                                                        {{ $child->name }}
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
                 <button class="nav-link" type="button" data-bs-toggle="modal" data-bs-target="#add-fast-category">افزودن دسته ی جدید</button>
-
             </div>
-            <!--end::کارت body-->
         </div>
         <!-- END:CATEGORY -->
 
@@ -130,10 +129,26 @@
             <!--end::کارت header-->
             <!--begin::کارت body-->
             <div class="card-body pt-0">
-                <!--begin::Input group-->
-                <input class="form-control form-control-solid" value="برچسب 3 , برچسب 2 , برچسب 1" id="post-type-tags" />
+                <input
+                    class="form-control form-control-solid"
+                    name="tags"
+                    value='{{ old("tags", isset($post) ? json_encode($post->tags->pluck("name")->toArray()) : "[]") }}'
+                    id="post-type-tags"
+                />
+
+                @if(old('tags'))
+                    @foreach(json_decode(old('tags'), true) as $tag)
+                        <input type="hidden" name="tags[]" value="{{ $tag }}" />
+                    @endforeach
+                @endif
+
                 <span class="text-muted fs-7">برچسب جدید را وارد کنید و Enter را بزنید</span>
             </div>
+
+
+
+
+
             <!--end::کارت body-->
         </div>
         <!-- END:TAGS -->
@@ -153,7 +168,7 @@
             <div class="card-body text-center pt-0">
                 <!--begin::Image input-->
                 <!--end::Image input placeholder-->
-                <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
+                <div class="image-input image-input-empty image-input-outline {{ isset($post) && $post->image ?  '' : 'image-input-placeholder' }} mb-3" data-kt-image-input="true" style="background-image: url({{ isset($post) && $post->image ? asset($post->image) : 'path/to/default/image.png' }});">
                     <!--begin::نمایش existing avatar-->
                     <div class="image-input-wrapper w-150px h-150px"></div>
                     <!--end::نمایش existing avatar-->
@@ -164,8 +179,8 @@
                             <span class="path2"></span>
                         </i>
                         <!--begin::Inputs-->
-                        <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
-                        <input type="hidden" name="avatar_remove" />
+                        <input type="file" name="thumbnail" accept=".png, .jpg, .jpeg" />
+                        <input type="hidden" name="thumbnail_remove" />
                         <!--end::Inputs-->
                     </label>
                     <!--end::Tags-->
@@ -201,4 +216,35 @@
 
 @section("script-before")
 <script src="{{ asset('/plugins/custom/ckeditor/ckeditor-classic.bundle.js') }}"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editor'))
+        .catch(error => {
+            console.error(error);
+        });
+
+
+var input = document.querySelector("#post-type-tags");
+
+let post_types_tags = new Tagify(input, {
+    dropdown: {
+        enabled: 0,
+        closeOnSelect: false,
+        pattern: /^.{1,70}/,
+    },
+});
+
+document.querySelector('form').addEventListener('submit', function (e) {
+    // Get the tags as array of values
+    let tags = post_types_tags.value.map(tag => tag.value);
+    // Create hidden input with the JSON string of tags
+    let hiddenInput = document.createElement('input');
+    hiddenInput.type = 'hidden';
+    hiddenInput.name = 'tags';
+    hiddenInput.value = JSON.stringify(tags);
+    this.appendChild(hiddenInput);
+});
+
+
+</script>
 @endsection
