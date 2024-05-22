@@ -62,7 +62,11 @@
             </div>
             <!--end::کارت body-->
             <div class="card-footer text-end">
-                <button type="submit" class="btn btn-sm btn-primary">ذخیره تغییرات</button>
+                <div class="d-flex align-items-center justify-content-between flex-wrap">
+                    <!-- post id -->
+                    <button type="submit" name="remove-post" value="1" class="btn btn-sm btn-danger" id="remove-button">حذف</button>
+                    <button class="btn btn-sm btn-success">ذخیره تغییرات</button>
+                </div>
             </div>
         </div>
         <!-- END:STATUS -->

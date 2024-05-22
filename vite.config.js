@@ -1,15 +1,18 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import preact from "@preact/preset-vite";
+
 
 export default defineConfig({
     plugins: [
+        preact({
+            prefreshEnabled: true,
+        }),
         laravel({
             input: [
-                'resources/css/style-rtl.css',
                 'resources/css/app.css',
-                'resources/plugins/global/plugins.bundle.css',
-                'resources/plugins/global/plugins.bundle.rtl.css',
-                'resources/js/app.js'],
+                'resources/js/app.js',
+            ],
             refresh: true,
         }),
     ],

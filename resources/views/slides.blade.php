@@ -23,8 +23,8 @@
                     <div data-repeater-list="banner_slides">
                         <div class="form-group row mt-3" data-repeater-item>
                             <div class="col-md-5">
-                                <label class="form-label">عنوان:</label>
-                                <input name="link" type="text" class="form-control mb-2 mb-md-0" placeholder="وارد کنید" />
+                                <label class="form-label">لینک:</label>
+                                <input name="link" type="text" class="form-control mb-2 mb-md-0" placeholder="لینک را وارد کنید" />
                             </div>
                             <div class="col-md-5">
                                 <label class="form-label">تصویر:</label>
@@ -63,7 +63,7 @@
                         <div class="form-group row mt-3" data-repeater-item>
                             <div class="col-md-5">
                                 <label class="form-label">لینک:</label>
-                                <input name="link" type="text" class="form-control mb-2 mb-md-0" placeholder="وارد کنید" />
+                                <input name="link" type="text" class="form-control mb-2 mb-md-0" placeholder="لینک را وارد کنید" />
                             </div>
                             <div class="col-md-5">
                                 <label class="form-label">تصویر:</label>

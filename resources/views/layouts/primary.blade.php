@@ -1,5 +1,5 @@
 @php
-    use Illuminate\Support\Facades\Vite;
+use Illuminate\Support\Facades\Vite;
 @endphp
 
 <!DOCTYPE html>
@@ -10,9 +10,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>@yield('title')</title>
-    @vite(['resources/css/style-rtl.css'])
-    @vite(['resources/plugins/global/plugins.bundle.css'])
-    @vite(['resources/plugins/global/plugins.bundle.rtl.css'])
+
+    <link rel="stylesheet" href="{{asset('css/style-rtl.css')}}">
+    <link rel="stylesheet" href="{{asset('plugins/global/plugins.bundle.css')}}">
+    <link rel="stylesheet" href="{{asset('plugins/global/plugins.bundle.rtl.css')}}">
     @vite(['resources/css/app.css'])
 </head>
 
@@ -31,7 +32,7 @@
                     <!--begin::Logo-->
                     <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
                         <!--begin::Logo image-->
-                        <a href="../../demo1/dist/index.html">
+                        <a href="{{route('index')}}">
                             <img alt="Logo" src="/images/logo.svg" class="h-100px app-sidebar-logo-default" />
                             <img alt="Logo" src="/images/logo.svg" class="h-100px app-sidebar-logo-minimize" />
                         </a>
@@ -81,7 +82,17 @@
                         <!--begin::Content-->
                         <div id="kt_app_content" class="app-content">
                             <!--begin::Content container-->
-                            <div id="kt_app_content_container" class="app-container container-xxl">
+                            <div id="kt_app_content_container" class="app-container container-fluid">
+                                @if($errors->any())
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                @endif
+
                                 @yield("content")
 
                                 @if(session('success'))
@@ -125,13 +136,41 @@
     <!--end::Modals-->
     <!--begin::Javascript-->
     <!--end::سفارشی Javascript-->
+
     <script src="{{asset('plugins/global/plugins.bundle.js')}}"></script>
     <script src="{{asset('js/scripts.bundle.js')}}"></script>
     <script src="{{asset('js/widgets.bundle.js')}}"></script>
     <script src="{{asset('js/custom/widgets.js')}}"></script>
     @yield('script-before')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            $('.advanced_search').select2({
+                placeholder: "جستجو کنید",
+                language: {
+                    inputTooShort: function() {
+                        return "حداقل باید 3 حرف وارد کنید"
+                    },
+                    noResults: function() {
+                        return "نتیجه ای یافت نشد";
+                    },
+                    searching: function() {
+                        return "در حال جستجو...";
+                    }
+                },
+                ajax: {
+                    url: function(params) {
+                        return window.ajaxUrl + "?type=" + $(this).data('type') + "&q=" + params.term;
+                    },
+                    dataType: 'json',
+                    delay: 250,
+                },
+                minimumInputLength: 3
+            });
+        })
+    </script>
     @vite("resources/js/app.js")
     @yield('scripts')
+    @livewireScripts
     <!--end::Javascript-->
 
 

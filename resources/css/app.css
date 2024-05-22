@@ -1,6 +1,8 @@
 @import "./fontiran.css";
 @import "./fontawesome/fontawesome.css";
 @import "../plugins/custom/datatables/datatables.bundle.rtl.css";
+@import "../plugins/custom/pickr/nano.min.css";
+
 @tailwind components;
 @tailwind utilities;
 
@@ -50,7 +52,7 @@ body,
     overflow: auto;
 }
 
-[data-bs-theme="light"] .card{
+[data-bs-theme="light"] .card {
     @apply tw-shadow-md tw-shadow-slate-300/20 !important;
 }
 
@@ -77,29 +79,155 @@ body,
     }
 }
 
-.select2-selection__choice__display{
+.select2-selection__choice__display {
     padding-right: 15px;
     padding-left: 0;
     margin-left: 1px !important;
 }
 
-.select2-container--bootstrap5 .select2-dropdown .select2-results__option.select2-results__option--selected{
+.select2-container--bootstrap5
+    .select2-dropdown
+    .select2-results__option.select2-results__option--selected {
     padding-right: 30px !important;
 }
 
-.intermediat-checkbox{
+.intermediat-checkbox {
     padding-right: 0;
 }
 
-.intermediat-checkbox li{
+.intermediat-checkbox li {
     margin-bottom: 7px;
     list-style: none;
 }
 
-#categoryCreateCollapse .card{
+#categoryCreateCollapse .card {
     box-shadow: none !important;
 }
 
-.tagify__tag-text{
+.tagify__tag-text {
     word-break: break-all;
+}
+
+#wide-container-changer {
+    display: none;
+}
+
+@media (min-width: 1400px) {
+    #wide-container-changer {
+        display: block;
+    }
+}
+
+#products_table.dataTable tbody td {
+    vertical-align: middle;
+}
+
+.messages-private-box {
+    @apply tw-cursor-pointer tw-p-2 tw-mt-3 first:tw-mt-0 tw-transition-all hover:tw-bg-gray-50 tw-rounded-none tw-border-none;
+}
+
+.chatbox {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: white;
+    z-index: 99;
+    border-radius: inherit;
+    padding-bottom: 16px;
+    display: none;
+}
+
+@media screen and (max-width: 992px) {
+    .chatbox {
+        height: 100%;
+        position: fixed;
+    }
+}
+
+.chatbox .header {
+    @apply tw-w-full tw-h-14 tw-shadow-sm tw-rounded-t-[inherit] tw-flex tw-items-center tw-justify-between tw-px-5;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.chatbox :is(.your, .its) {
+    @apply tw-mb-2 tw-max-w-[90%] tw-w-max tw-min-w-52 tw-h-auto
+    tw-flex tw-flex-col;
+}
+
+.chatbox :is(.your, .its) .text-chat {
+    @apply tw-bg-gray-100 tw-leading-loose tw-float-right tw-text-[13px] tw-font-semibold
+    tw-rounded-xl  tw-p-3 tw-flex tw-flex-col;
+}
+
+.chatbox .its .text-chat {
+    @apply tw-bg-white tw-border tw-border-gray-100 tw-border-solid tw-float-left;
+}
+
+.chatbox .chat-time {
+    @apply tw-text-xs tw-text-gray-500 tw-mt-1 tw-text-right;
+}
+
+.chatbox .files {
+    @apply tw-text-xs tw-text-gray-800 tw-mt-1 tw-text-right tw-flex tw-flex-row tw-items-center tw-justify-start tw-flex-wrap;
+}
+
+.chatbox .its .files {
+    justify-content: end;
+}
+
+.chatbox .files img {
+    width: 80px;
+    height: 80px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.chatbox .files a {
+    @apply tw-ml-2 tw-mb-2 first:tw-mr-0;
+}
+
+.chatbox .main {
+    height: calc(100% - 8.5rem);
+    overflow-y: auto;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.chatbox .its-box {
+    @apply tw-w-full tw-flex tw-flex-row-reverse tw-items-start tw-float-left;
+}
+
+.chatbox .its-box .profile {
+    @apply tw-bg-gray-200 tw-text-gray-400 tw-text-xl tw-size-10 tw-rounded-full tw-flex tw-items-center tw-justify-center tw-mr-2;
+}
+
+.chatbox .send-box {
+    @apply tw-w-full tw-h-[calc(5rem-10px)] tw-px-3
+     tw-bg-gray-100 tw-border tw-border-solid tw-border-gray-200 tw-flex tw-items-center tw-rounded-xl;
+}
+
+.send-box textarea {
+    @apply tw-border-none tw-w-full tw-h-auto tw-bg-transparent focus:tw-outline-none tw-resize-none;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.send-box textarea::-webkit-scrollbar {
+    display: none;
+    margin-left: 100px;
+}
+
+#sendMessage {
+    display: none;
+}
+
+#sendMessage :is(i, svg) {
+    rotate: 180deg;
+}
+
+.select2-selection__clear{
+    right: 8px !important;
 }

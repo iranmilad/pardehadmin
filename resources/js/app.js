@@ -1,189 +1,65 @@
+import $ from "jquery";
+import "jquery-validation";
 import "./pages/dashboard";
-import "./create-fast-category";
-import { PostCategoryTable, BlocksTable, PagesTable,UsersTable } from "./pages";
+import {
+    PostCategoryTable,
+    BlocksTable,
+    PagesTable,
+    UsersTable,
+    AttributesTable,
+    PostsTable,
+    ProductCategoriesTable,
+    ProductTagsTable,
+    ProductCommentsTable,
+    ProductsTable,
+    MessagesTable,
+    ChecksTable,
+    DiscountsTable,
+    OrdersTable,
+    PostCommentsTable,
+    InstallmentsTable,
+    InstallmentsPlansTable
+} from "./pages";
+// import "./pages/attribute";
+// import "./create-fast-category";
+import { intermidiateCheckbox } from "./globals";
+import { hydrate, createElement } from "preact";
+import "jquery-validation";
+import "./pages/message";
 
-function postsTable() {
-    let table;
-    let dt = $("#posts_table").DataTable({
-        info: false,
-        columns: [
-            { data: "checkbox" },
-            { data: "title" },
-            { data: "author" },
-            { data: "categories" },
-            { data: "tags" },
-            { data: "comments" },
-            { data: "created_at" },
-        ],
-        columnDefs: [
-            {
-                targets: 0,
-                orderable: false,
-            },
-        ],
-        order: [[6]],
-        paging: false,
-        searching: false,
-        retrieve: true,
-        destroy: true,
-    });
-
-    dt.draw();
-
-    dt.on("draw", () => {
-        initToggleToolbar();
-        toggleToolbars();
-    });
-
-    var initToggleToolbar = function () {
-        // Toggle selected action toolbar
-        // Select all checkboxes
-        const container = document.querySelector("#posts_table");
-        const checkboxes = container.querySelectorAll('[type="checkbox"]');
-
-        // Select elements
-        const deleteSelected = document.querySelector(
-            '[data-kt-docs-table-select="delete_selected"]'
-        );
-
-        // Toggle delete selected toolbar
-        checkboxes.forEach((c) => {
-            // Checkbox on click event
-            c.addEventListener("click", function () {
-                setTimeout(function () {
-                    toggleToolbars();
-                }, 50);
-            });
-        });
-
-        // Deleted selected rows
-    };
-
-    var toggleToolbars = function () {
-        // Define variables
-        const container = document.querySelector("#posts_table");
-        const toolbarSelected = document.querySelector(
-            '[data-kt-docs-table-toolbar="selected"]'
-        );
-        const selectedCount = document.querySelector(
-            '[data-kt-docs-table-select="selected_count"]'
-        );
-
-        // Select refreshed checkbox DOM elements
-        const allCheckboxes = container.querySelectorAll(
-            'tbody [type="checkbox"]'
-        );
-
-        // Detect checkboxes state & count
-        let checkedState = false;
-        let count = 0;
-        let checkedBoxes = [];
-
-        // Count checked boxes
-        allCheckboxes.forEach((c) => {
-            if (c.checked) {
-                checkedState = true;
-                count++;
-                $("#remove-items").val();
-                // get data-id of checked checkboxes
-                let id = c.getAttribute("data-id");
-                checkedBoxes.push(id);
-                $("#remove-items").val(checkedBoxes.join(","));
-            }
-        });
-
-        // if count is same as total checkboxes then check table thead tr checkbox
-        if (count == allCheckboxes.length) {
-            $("thead [type='checkbox']").prop("checked", true);
-        } else {
-            $("thead [type='checkbox']").prop("checked", false);
-        }
-
-        // Toggle toolbars
-        if (checkedState) {
-            selectedCount.innerHTML = count;
-            toolbarSelected.classList.remove("tw-invisible");
-        } else {
-            toolbarSelected.classList.add("tw-invisible");
-            $("#remove-items").val("");
-        }
-    };
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    // postsTable();
-    // PostCategoryTable();
-    // BlocksTable();
-    // PagesTable();
-    // UsersTable();
+KTUtil.onDOMContentLoaded(function () {
+    PostsTable()?.init();
+    PostCategoryTable()?.init();
+    BlocksTable()?.init();
+    PagesTable()?.init();
+    UsersTable()?.init();
+    AttributesTable()?.init();
+    ProductCategoriesTable()?.init();
+    ProductTagsTable()?.init();
+    ProductCommentsTable()?.init();
+    ProductsTable()?.init();
+    MessagesTable()?.init();
+    ChecksTable()?.init();
+    DiscountsTable()?.init();
+    OrdersTable()?.init();
+    PostCommentsTable()?.init();
+    InstallmentsTable()?.init();
+    InstallmentsPlansTable()?.init();
 });
 
-if ($("#editor").length > 0) {
-    ClassicEditor.create(document.querySelector("#editor"), {
-        // Editor configuration.
-    })
-        .then((editor) => {
-            window.editor = editor;
+if ($(".editor").length > 0) {
+    document.querySelectorAll(".editor").forEach((elm) => {
+        ClassicEditor.create(elm, {
+            // Editor configuration.
         })
-        .catch();
+            .then((editor) => {
+                window.editor = editor;
+            })
+            .catch();
+    });
 }
 
 // intermidiate checkbox
-export function intermidiateCheckbox() {
-    if ($(".intermediat-checkbox").length > 0) {
-        $('input[type="checkbox"]').change(function (e) {
-            var checked = $(this).prop("checked"),
-                container = $(this).closest("li"), // Use closest() to find the parent li element
-                siblings = container.siblings();
-
-            container.find('input[type="checkbox"]').prop({
-                indeterminate: false,
-                checked: checked,
-            });
-
-            function checkSiblings(el) {
-                var parent = el.parent().closest("li"), // Find the closest parent li element
-                    all = true;
-
-                el.siblings().each(function () {
-                    let returnValue = (all =
-                        $(this)
-                            .children('input[type="checkbox"]')
-                            .prop("checked") === checked);
-                    return returnValue;
-                });
-
-                if (all && checked) {
-                    parent.children('input[type="checkbox"]').prop({
-                        indeterminate: false,
-                        checked: checked,
-                    });
-
-                    checkSiblings(parent);
-                } else if (all && !checked) {
-                    parent
-                        .children('input[type="checkbox"]')
-                        .prop("checked", checked);
-                    parent
-                        .children('input[type="checkbox"]')
-                        .prop(
-                            "indeterminate",
-                            parent.find('input[type="checkbox"]:checked')
-                                .length > 0
-                        );
-                    checkSiblings(parent);
-                } else {
-                    el.parents("li").children('input[type="checkbox"]').prop({
-                        indeterminate: true,
-                        checked: false,
-                    });
-                }
-            }
-
-            checkSiblings(container);
-        });
-    }
-}
 
 $(document).on("DOMContentLoaded", () => {
     intermidiateCheckbox();
@@ -202,7 +78,6 @@ function generatePassword() {
     return retVal;
 }
 
-
 // create password .create-password-input-group
 $(".create-password-input-group-generate").on("click", function () {
     var password = generatePassword();
@@ -211,7 +86,7 @@ $(".create-password-input-group-generate").on("click", function () {
 
 $(".create-password-input-group-copy").on("click", function () {
     let copyText = $(this).parent().find("input");
-    if(copyText.val() == ""){
+    if (copyText.val() == "") {
         return;
     }
     copyText.select();
@@ -222,3 +97,148 @@ $(".create-password-input-group-copy").on("click", function () {
         $(this).removeClass("btn-success").addClass("btn-dark");
     }, 2000);
 });
+
+$(document).ready(function () {
+    let firstClick = false;
+    $("#wide-container-changer").on("click", (e) => {
+        $("#kt_app_content_container").toggleClass("container-xxl");
+        if (!$("#kt_app_content_container").hasClass("container-xxl")) {
+            $(e.target).text("حالت عادی");
+        } else {
+            $(e.target).text("حالت عریض");
+        }
+    });
+});
+
+// Add custom method to jQuery validation
+$.validator.addMethod(
+    "englishOnly",
+    function (value, element) {
+        // Regular expression to match English characters only
+        return /^[a-zA-Z0-9-_]*$/.test(value);
+    },
+    "به انگلیسی وارد کنید"
+);
+
+const validationPlaces = {
+    errorPlacement: function (error, element) {
+        error.addClass("invalid-feedback");
+        element.next(".invalid-feedback,.error").remove();
+        error.insertAfter(element);
+    },
+    errorClass: "is-invalid",
+    highlight: function (element, errorClass, validClass) {
+        $(element).addClass(errorClass).removeClass(validClass);
+    },
+    unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass(errorClass).addClass(validClass);
+    },
+};
+
+let crateFastCat = $("#categoryCreateFast").validate({
+    rules: {
+        title: {
+            required: true,
+        },
+        slug: {
+            required: true,
+            englishOnly: true,
+        },
+    },
+    messages: {
+        title: {
+            required: "لطفا عنوان را وارد کنید",
+        },
+        slug: {
+            required: "لطفا نامک را وارد کنید",
+            englishOnly: "لطفا نامک را به انگلیسی وارد کنید",
+        },
+    },
+    ...validationPlaces,
+});
+
+$("#categoryCreateFast").on("submit", (e) => {
+    e.preventDefault();
+    if (crateFastCat.valid()) {
+        let title = $("#categoryCreateFast [name='title']").val().trim();
+        let slug = $("#categoryCreateFast [name='slug']").val().trim();
+        let parent = $("#categoryCreateFast [name='parent']").val().trim();
+        if (parent === "mother") {
+            $(".category-list").append(`
+                <li>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="${slug}" name="${slug}" />
+                        <label class="form-check-label" for="${slug}">
+                            ${title}
+                        </label>
+                    </div>
+                    <ul></ul>
+                </li>
+                `);
+            $("#categoryCreateFast [name='parent']").append(
+                `<option value="${slug}">${title}</option>`
+            );
+        } else {
+            let newParent = $(`.category-list [name="${parent}"]`)
+                .parent()
+                .parent()
+                .children("ul");
+            newParent.append(`
+                <li>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="${slug}" name="${parent}[${slug}]" />
+                        <label class="form-check-label" for="${slug}">
+                            ${title}
+                        </label>
+                    </div>
+                </li>
+                `);
+        }
+
+        $("#categoryCreateFast :is([name='title'],[name='slug'])").val("");
+        $("#categoryCreateFast [name='parent']").val("mother");
+        intermidiateCheckbox();
+    }
+});
+
+// generate coupen code
+function generateCouponCode(length) {
+    let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let code = "";
+    for (let i = 0; i <= length; i++) {
+        code += letters.charAt(Math.floor(Math.random() * letters.length));
+    }
+    return code;
+}
+
+if($("#create_coupon_code").length > 0){
+    let genLength = $("#create_coupon_code").data("length-generate");
+    $("#create_coupon_code").on("click", function(){
+        let code = generateCouponCode(genLength);
+        $("#coupon_code").val(code);
+    })
+}
+
+
+const exampleModal = document.getElementById('replyModal')
+if (exampleModal) {
+  exampleModal.addEventListener('show.bs.modal', event => {
+    // Button that triggered the modal
+    const button = event.relatedTarget
+    // Extract info from data-bs-* attributes
+    const recipient = button.getAttribute('data-bs-whatever')
+    // If necessary, you could initiate an Ajax request here
+    // and then do the updating in a callback.
+
+    // Update the modal's content.
+    const modalTitle = exampleModal.querySelector('.modal-title')
+    const modalBodyInput = exampleModal.querySelector('.modal-body input')
+
+    modalTitle.textContent = `پاسخ به ${recipient}`
+    modalBodyInput.value = recipient
+  })
+}
+
+$("#product_table_table tbody tr button[data-bs-toggle]").on("click" , function(){
+    $("#replyModal [name='message-id']").val($(this).data('id'));
+})

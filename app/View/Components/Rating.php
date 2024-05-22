@@ -14,7 +14,7 @@ class Rating extends Component
     public $readOnly;
     public $rate;
     public $name;
-    public function __construct($readOnly = false,$rate = 0,$name = 'rate')
+    public function __construct($readOnly = false, $rate = 0, $name = 'rate')
     {
         $this->readOnly = $readOnly;
         $this->rate = $rate;
@@ -25,7 +25,7 @@ class Rating extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.rating',[
+        return view('components.rating', [
             'readOnly' => $this->readOnly,
             'rate' => $this->rate,
             'name' => $this->name
