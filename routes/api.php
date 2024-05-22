@@ -19,7 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Generate random numbers for testing
-function generateRandomNumbers() {
+function generateRandomNumbers()
+{
     $randomNumbers = [];
     for ($i = 0; $i < 24; $i++) {
         $randomNumbers[] = rand(0, 100);
@@ -27,13 +28,13 @@ function generateRandomNumbers() {
     return $randomNumbers;
 }
 
-Route::get('/view-stat', function(Request $request){
+Route::get('/view-stat', function (Request $request) {
 
     $data = generateRandomNumbers();
     return response()->json($data);
 });
 
-Route::get('/sell-stat', function(Request $request){
+Route::get('/sell-stat', function (Request $request) {
 
     $data = generateRandomNumbers();
     return response()->json($data);
@@ -95,3 +96,27 @@ Route::get('/search', function (Request $request) {
 
     return response()->json($data);
 })->name('api.search');
+
+
+
+Route::get('/checkproduct', function (Request $request) {
+
+    /**
+     * REQUEST
+     * products id
+     */
+    // $request = [
+    //     'products' => [1,2,3,4]
+    // ];
+
+    $response = [
+        [
+            "dataId" => 1,
+            "productName" => "نتیجه یک",
+            "top" => 33.362500508626304,
+            "left" => 83.86930669936791
+        ],
+    ];
+
+    return response()->json($response);
+});

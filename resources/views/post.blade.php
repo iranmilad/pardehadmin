@@ -219,13 +219,7 @@
 @endsection
 
 @section("script-before")
-<script src="{{ asset('/plugins/custom/ckeditor/ckeditor-classic.bundle.js') }}"></script>
-<script>
-    ClassicEditor
-        .create(document.querySelector('#editor'))
-        .catch(error => {
-            console.error(error);
-        });
+<script src="{{ asset('/js/ckeditor.js') }}"></script>
 
 
 var input = document.querySelector("#post-type-tags");
@@ -250,5 +244,4 @@ document.querySelector('form').addEventListener('submit', function (e) {
 });
 
 
-</script>
 @endsection

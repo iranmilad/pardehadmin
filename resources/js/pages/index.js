@@ -15,6 +15,8 @@ import OrdersTable from "./orders"
 import PostCommentsTable from "./post-comments"
 import InstallmentsTable from "./installments";
 import InstallmentsPlansTable from "./installments-plans"
+import WorktimesTable from "./worktimes";
+import ImageMarkersTable from "./imagemarkers"
 
 export {
     PostCategoryTable,
@@ -33,5 +35,7 @@ export {
     OrdersTable,
     PostCommentsTable,
     InstallmentsTable,
-    InstallmentsPlansTable
+    InstallmentsPlansTable,
+    WorktimesTable,
+    ImageMarkersTable
 };

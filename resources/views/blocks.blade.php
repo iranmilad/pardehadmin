@@ -3,7 +3,7 @@
 @section('title', 'بلاک ها')
 
 @section("toolbar")
-<a href="{{route('post.list')}}?action=add" class="btn btn-primary">بلاک جدید</a>
+<a href="{{route('block.create.show')}}" class="btn btn-primary">بلاک جدید</a>
 @endsection
 
 @section('content')
@@ -64,7 +64,7 @@
                         </td>
                         <td class="text-end dropdown">
                             <a href="#" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
-                                Actions
+                                عملیات
                                 <span class="svg-icon fs-5 m-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -78,7 +78,7 @@
                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-kt-menu="true">
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="#" class="menu-link px-3">
+                                    <a href="{{ route('block.edit', ['id' => 1]) }}" class="menu-link px-3">
                                         ویرایش
                                     </a>
                                 </div>
