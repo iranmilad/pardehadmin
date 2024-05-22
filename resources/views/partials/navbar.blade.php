@@ -14,7 +14,7 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
-	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('post*') ? 'show' : ''}}">
+	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('post*') || Route::is('tags*') || Request::is('postCategories*') || Request::is('comments*') ? 'show' : ''}}">
 		<!--begin:Menu link-->
 		<span class="menu-link">
 			<span class="menu-icon">
@@ -53,7 +53,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link  {{Request::is('postCategories*') ? 'show' : ''}}" href="{{ route('postCategories.list') }}">
+				<a class="menu-link  {{Request::is('postCategories*') ? 'active' : ''}}" href="{{ route('postCategories.list') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -65,7 +65,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('post.tags.show') || Route::is('post.tag.show') || Route::is('post.tag.create.show')  ? 'active' : '' }}" href="{{ route('post.tags.show') }}">
+				<a class="menu-link {{ Route::is('tags*')  ? 'active' : '' }}" href="{{ route('tags.list') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -77,7 +77,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('post.comments.show') || Route::is('post.comment.show')  ? 'active' : '' }}" href="{{route('post.comments.show')}}">
+				<a class="menu-link {{ Route::is('comments*')  ? 'active' : '' }}" href="{{route('comments.list')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>

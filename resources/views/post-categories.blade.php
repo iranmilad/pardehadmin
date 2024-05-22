@@ -4,7 +4,7 @@
 @section('title', 'دسته ها')
 
 @section("toolbar")
-<a href="{{route('post-category.create.show')}}" class="btn btn-primary">دسته ی جدید</a>
+<a href="{{route('postCategories.create')}}" class="btn btn-primary">دسته ی جدید</a>
 @endsection
 
 @section('content')

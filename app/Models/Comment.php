@@ -10,7 +10,7 @@ class Comment extends Model
     protected $perPage = 5;
 
     protected $fillable = [
-        'name', 'email', 'user_id', 'post_id', 'text'
+        'name', 'email', 'user_id', 'post_id', 'text','parent_comment_id','status'
     ];
 
     public function user()
@@ -49,4 +49,15 @@ class Comment extends Model
     {
         return $post->comments->count() / $this->perPage;
     }
+
+    public function getDateShamsiAttribute()
+    {
+        $gregorianDate = \Carbon\Carbon::parse($this->created_at);
+        $jalaliDate = \Morilog\Jalali\Jalalian::fromCarbon($gregorianDate);
+        return $jalaliDate->format('Y/m/d');
+    }
+
+
+
+
 }

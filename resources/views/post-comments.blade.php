@@ -1,6 +1,6 @@
 @extends('layouts.primary')
 
-@section('title', 'دیدگاه ها')
+@section('title', 'دیدگاه‌ها')
 
 @section('content')
 <!-- START:TABLE -->
@@ -13,44 +13,58 @@
                 <input name="s" value="{{ request()->get('s') ?? '' }}" type="text" data-kt-docs-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="جست و جو" />
             </div>
         </form>
-        <form method="post" class="" id="action_form">
-            <div class="d-flex tw-items-center tw-justify-start tw-w-full gap-4">
-                <select class="form-select form-select-solid tw-w-max" name="" id="">
+        <form method="post" action="{{ route('comments.bulk_action') }}" id="action_form">
+            @csrf
+            <div class="d-flex tw-items-center tw-justify-start tw-w-full gap-4 mb-3">
+                <select class="form-select form-select-solid tw-w-max" name="action" id="bulk_action">
                     <option>عملیات</option>
                     <option value="delete">حذف</option>
                 </select>
                 <button class="btn btn-primary" type="submit">اجرا</button>
             </div>
 
-            <table id="post_table" class="table gy-5 gs-7">
+            <table id="comments_table" class="table gy-5 gs-7">
                 <thead>
                     <tr class="fs-7 fw-bold text-gray-400 border-bottom-0">
                         <th class="w-10px">
                             <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#post_table .form-check-input" value="1" />
+                                <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#comments_table .form-check-input" value="1" />
                             </div>
                         </th>
                         <th class="cursor-pointer px-0 min-w-175px text-start">نویسنده</th>
                         <th class="cursor-pointer px-0 min-w-175px text-start">نوشته</th>
                         <th class="cursor-pointer px-0 min-w-175px text-start">تاریخ ثبت</th>
+                        <th class="cursor-pointer px-0 min-w-175px text-start">وضعیت</th> <!-- ستون جدید برای وضعیت -->
                         <th class="min-w-100px text-end">عملیات</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($comments as $comment)
                     <tr>
                         <td>
                             <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" name="checked_row" value="1" />
+                                <input class="form-check-input" type="checkbox" name="checked_rows[]" value="{{ $comment->id }}" />
                             </div>
                         </td>
                         <td>
-                            <a href="{{route('post.comment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">فرهاد باقری</a>
+                            <a href="{{ route('comments.edit', ['id' => $comment->id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">{{ $comment->name }}</a>
                         </td>
                         <td>
-                            <a href="">نوشته شماره 1</a>
+                            <a href="{{ route('post.edit', ['id' => $comment->post_id]) }}">{{ $comment->post->title }}</a>
                         </td>
                         <td>
-                            <span>12/12/1403</span>
+                            <span>{{ $comment->dateShamsi }}</span>
+                        </td>
+                        <td>
+                            @if ($comment->status == "pendding")
+                                <span class="badge bg-warning text-dark">در انتظار انتشار</span>
+                            @elseif ($comment->status == "approved")
+                                <span class="badge bg-success">منتشر شده</span>
+                            @elseif ($comment->status == "rejected")
+                                <span class="badge bg-danger">رد شده</span>
+                            @else
+                                <span class="badge bg-secondary">نامشخص</span>
+                            @endif
                         </td>
                         <td class="text-end">
                             <a href="#" class="btn btn-light btn-active-light-info btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
@@ -68,7 +82,7 @@
                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-info fw-bold fs-7 w-125px py-4" data-kt-menu="true">
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#replyModal" class="nav-link menu-link px-3" data-id="1" data-bs-whatever="فرهاد باقری">
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#replyModal" data-id="{{ $comment->id }}" data-bs-whatever="{{ $comment->name }}" class="nav-link menu-link px-3">
                                         پاسخ
                                     </button>
                                 </div>
@@ -76,23 +90,19 @@
 
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a data href="#" class="menu-link px-3">
-                                        تایید کردن
-                                    </a>
+                                    <a href="{{ route('comments.approve', $comment->id) }}" class="menu-link px-3">تایید کردن</a>
                                 </div>
                                 <!--end::Menu item-->
 
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="#" class="menu-link px-3">
-                                        رد کردن
-                                    </a>
+                                    <a href="{{ route('comments.reject', $comment->id) }}" class="menu-link px-3">رد کردن</a>
                                 </div>
                                 <!--end::Menu item-->
 
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="{{route('post.comment.show',['id' => 1])}}" class="menu-link px-3">
+                                    <a href="{{ route('comments.edit', ['id' => $comment->id]) }}" class="menu-link px-3">
                                         ویرایش
                                     </a>
                                 </div>
@@ -108,39 +118,31 @@
                             </div>
                         </td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </form>
         <!--end::Group actions-->
 
-        <ul class="pagination">
-            <li class="page-item previous disabled"><a href="#" class="page-link"><i class="previous"></i></a></li>
-            <li class="page-item active"><a href="#" class="page-link">1</a></li>
-            <li class="page-item"><a href="#" class="page-link">2</a></li>
-            <li class="page-item "><a href="#" class="page-link">3</a></li>
-            <li class="page-item "><a href="#" class="page-link">4</a></li>
-            <li class="page-item "><a href="#" class="page-link">5</a></li>
-            <li class="page-item "><a href="#" class="page-link">6</a></li>
-            <li class="page-item next"><a href="#" class="page-link"><i class="next"></i></a></li>
-        </ul>
+        {{ $comments->links('vendor.pagination.custom-pagination') }}
     </div>
 </div>
 <!-- END:TABLE -->
 
 <div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form class="modal-content">
+        <form class="modal-content" method="post" action="{{ route('comments.reply') }}">
+            @csrf
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">پاسخ به</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                @csrf
                 <div class="mb-3">
                     <label for="message-text" class="col-form-label">پیام :</label>
-                    <textarea class="form-control form-control-solid" id="message-text" rows="8"></textarea>
+                    <textarea class="form-control form-control-solid" id="message-text" rows="8" name="message"></textarea>
                 </div>
-                <input type="hidden" name="message-id">
+                <input type="hidden" name="comment_id" id="comment-id">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
@@ -152,5 +154,26 @@
 @endsection
 
 @section('script-before')
-<script src="{{asset('plugins/custom/datatables/datatables.bundle.js')}}"></script>
+<script src="{{ asset('plugins/custom/datatables/datatables.bundle.js') }}"></script>
+@endsection
+
+@section('js')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const exampleModal = document.getElementById('replyModal');
+        if (exampleModal) {
+            exampleModal.addEventListener('show.bs.modal', event => {
+                const button = event.relatedTarget;
+                const recipient = button.getAttribute('data-bs-whatever');
+                const commentId = button.getAttribute('data-id');
+
+                const modalTitle = exampleModal.querySelector('.modal-title');
+                const modalBodyInput = exampleModal.querySelector('.modal-body input[name="comment_id"]');
+
+                modalTitle.textContent = `پاسخ به ${recipient}`;
+                modalBodyInput.value = commentId;
+            });
+        }
+    });
+</script>
 @endsection

@@ -14,6 +14,7 @@ function PostsTable() {
                 { data: "categories" },
                 { data: "tags" },
                 { data: "comments" },
+                { data: "published" },
                 { data: "created_at" },
             ],
             columnDefs: [

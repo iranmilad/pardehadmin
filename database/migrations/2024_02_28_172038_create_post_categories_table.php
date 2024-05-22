@@ -16,7 +16,11 @@ class CreatePostCategoriesTable extends Migration
         Schema::create('post_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug')->unique();
+            $table->unsignedBigInteger('parent_id')->nullable(); // Add this line
             $table->timestamps();
+
+            $table->foreign('parent_id')->references('id')->on('post_categories')->onDelete('cascade'); // Add this line
         });
     }
 
@@ -27,6 +31,9 @@ class CreatePostCategoriesTable extends Migration
      */
     public function down()
     {
+        Schema::table('post_categories', function (Blueprint $table) {
+            $table->dropForeign(['parent_id']); // Add this line
+        });
         Schema::dropIfExists('post_categories');
     }
 }

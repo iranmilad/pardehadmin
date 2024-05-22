@@ -1,9 +1,9 @@
 @extends('layouts.primary')
 
-@section('title', 'برچسب ها')
+@section('title', 'برچسب‌ها')
 
 @section("toolbar")
-<a href="{{route('post.tag.create.show')}}" class="btn btn-primary">برچسب جدید</a>
+<a href="{{ route('tags.create') }}" class="btn btn-primary">برچسب جدید</a>
 @endsection
 
 @section('content')
@@ -17,10 +17,11 @@
                 <input name="s" value="{{ request()->get('s') ?? '' }}" type="text" data-kt-docs-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="جست و جو" />
             </div>
         </form>
-        <form method="post" class="" id="action_form">
-            <div class="d-flex tw-items-center tw-justify-start tw-w-full gap-4">
-                <select class="form-select form-select-solid tw-w-max" name="" id="">
-                    <option >عملیات</option>
+        <form method="post" action="{{ route('tags.bulk_action') }}" id="action_form">
+            @csrf
+            <div class="d-flex tw-items-center tw-justify-start tw-w-full gap-4 mb-3">
+                <select class="form-select form-select-solid tw-w-max" name="action" id="bulk_action">
+                    <option>عملیات</option>
                     <option value="delete">حذف</option>
                 </select>
                 <button class="btn btn-primary" type="submit">اجرا</button>
@@ -40,44 +41,35 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($tags as $tag)
                     <tr>
                         <td>
                             <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" name="checked_row" value="1" />
+                                <input class="form-check-input" type="checkbox" name="checked_rows[]" value="{{ $tag->id }}" />
                             </div>
                         </td>
                         <td>
-                            <a href="{{route('post.tag.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">جدید ترین پرده</a>
+                            <a href="{{ route('tags.edit', ['id' => $tag->id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">{{ $tag->name }}</a>
                         </td>
                         <td>
-                            <a href="{{route('post.tag.show',['id' => 1])}}">newest-curtain</a>
+                            <a href="{{ route('tags.edit', ['id' => $tag->id]) }}">{{ $tag->slug }}</a>
                         </td>
                         <td class="text-end">
-                            <a href="{{route('post.tag.show',['id' => 1])}}" class="btn btn-light btn-sm">
-                                ویرایش
-                            </a>
+                            <a href="{{ route('tags.edit', ['id' => $tag->id]) }}" class="btn btn-light btn-sm">ویرایش</a>
                         </td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </form>
         <!--end::Group actions-->
 
-        <ul class="pagination">
-            <li class="page-item previous disabled"><a href="#" class="page-link"><i class="previous"></i></a></li>
-            <li class="page-item active"><a href="#" class="page-link">1</a></li>
-            <li class="page-item"><a href="#" class="page-link">2</a></li>
-            <li class="page-item "><a href="#" class="page-link">3</a></li>
-            <li class="page-item "><a href="#" class="page-link">4</a></li>
-            <li class="page-item "><a href="#" class="page-link">5</a></li>
-            <li class="page-item "><a href="#" class="page-link">6</a></li>
-            <li class="page-item next"><a href="#" class="page-link"><i class="next"></i></a></li>
-        </ul>
+        {{ $tags->links('vendor.pagination.custom-pagination') }}
     </div>
 </div>
 <!-- END:TABLE -->
 @endsection
 
 @section('script-before')
-<script src="{{asset('plugins/custom/datatables/datatables.bundle.js')}}"></script>
+<script src="{{ asset('plugins/custom/datatables/datatables.bundle.js') }}"></script>
 @endsection

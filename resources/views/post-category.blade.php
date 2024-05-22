@@ -1,125 +1,101 @@
-<!-- This blade is used for writing and editing a post -->
 @extends('layouts.primary')
 
-@if(Route::is('post-category.show'))
-    @section('title', 'ویرایش دسته بندی')
-@else
-    @section('title', 'ایجاد دسته بندی')
-@endif
-
+@section('title', Route::is('postCategories.edit') ? 'ویرایش دسته‌بندی' : 'ایجاد دسته‌بندی')
 
 @section('content')
-
-<!-- PARENT -->
-<div class="card mb-8">
-    <div class="card">
-        <div class="card-header">
-            <div class="card-title">
+<div class="container">
+    <form action="{{ Route::is('postCategories.edit') ? route('postCategories.update', $category->id) : route('postCategories.store') }}" method="POST">
+        @csrf
+        @if(Route::is('postCategories.edit'))
+            @method('PUT')
+        @endif
+        <div class="card mb-8">
+            <div class="card-header p-3">
                 <h3>مشخصات دسته مادر</h3>
             </div>
-        </div>
-        <div class="card-body">
-            <form action="">
-                <div class="row">
-                    <div class="col-12 col-md">
-                        <div class="mb-3">
-                            <label for="title" class="form-label required">عنوان</label>
-                            <input type="text" class="form-control" id="title" placeholder="عنوان را وارد کنید">
-                        </div>
-                    </div>
-                    <div class="col-12 col-md">
-                        <div class="mb-3">
-                            <label for="title" class="form-label required">نامک</label>
-                            <input type="text" class="form-control" id="title" placeholder="نامک را وارد کنید">
-                        </div>
-                    </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="name" class="form-label">عنوان</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $category->name ?? '') }}" required>
                 </div>
-                <button class="btn btn-success" type="submit">ذخیره</button>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- PARENT -->
-
-<!-- SIZE PATTERN -->
-<div class="card mb-10">
-    <div class="card">
-        <div class="card-header">
-            <div class="card-title">
-                <h3>مشخصات دسته های فرزند</h3>
+                <div class="mb-3">
+                    <label for="slug" class="form-label">نامک</label>
+                    <input type="text" class="form-control" id="slug" name="slug" value="{{ old('slug', $category->slug ?? '') }}" required>
+                </div>
+                <button type="submit" class="btn btn-success">ذخیره</button>
             </div>
         </div>
-        <div class="card-body">
-            <!-- CHILDREN -->
-            <div class="row">
+        <div class="card">
+            <div class="card-header p-3">
+                <h3>مشخصات دسته‌های فرزند</h3>
+            </div>
+            <div class="card-body">
                 <div class="other_repeater">
-                    <!--begin::Form group-->
-                    <div class="form-group">
-                        <!-- data-repeater-list must be unique -->
-                        <!-- data-repeater-list must be unique -->
-                        <!-- data-repeater-list must be unique -->
-                        <!-- data-repeater-list must be unique -->
-                        <!-- data-repeater-list must be unique -->
-                        <div data-repeater-list="size_repeater">
-                            <div class="mt-3" data-repeater-item>
+                    <div data-repeater-list="children">
+                        @if(isset($category) && $category->children->count())
+                            @foreach($category->children as $child)
+                                <div data-repeater-item>
+                                    <div class="form-group row">
+                                        <div class="col-12 col-md">
+                                            <label for="child_name" class="form-label">عنوان</label>
+                                            <input type="text" name="children[{{ $loop->index }}][name]" class="form-control" value="{{ old("children.{$loop->index}.name", $child->name) }}" required>
+                                        </div>
+                                        <div class="col-12 col-md">
+                                            <label for="child_slug" class="form-label">نامک</label>
+                                            <input type="text" name="children[{{ $loop->index }}][slug]" class="form-control" value="{{ old("children.{$loop->index}.slug", $child->slug) }}" required>
+                                        </div>
+                                        <div class="col-12 col-md">
+
+                                            <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-10">حذف</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div data-repeater-item>
                                 <div class="form-group row">
                                     <div class="col-12 col-md">
-                                        <label class="form-label required">عنوان:</label>
-                                        <input name="option[name]" type="text" class="form-control mb-2 mb-md-0" placeholder="عنوان را وارد کنید" value="" />
+                                        <label for="child_name" class="form-label">عنوان</label>
+                                        <input type="text" name="children[0][name]" class="form-control" required>
                                     </div>
                                     <div class="col-12 col-md">
-                                        <label class="form-label required">نامک:</label>
-                                        <input name="option[slug]" type="text" class="form-control mb-2 mb-md-0" placeholder="نامک را وارد کنید" value="" />
+                                        <label for="child_slug" class="form-label">نامک</label>
+                                        <input type="text" name="children[0][slug]" class="form-control" required>
                                     </div>
                                     <div class="col-12 col-md">
-                                        <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-8">
-                                            <i class="ki-duotone ki-trash fs-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
-                                            حذف
-                                        </a>
+
+                                        <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-10">حذف</a>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
-                    <!--end::Form group-->
-
-                    <!--begin::Form group-->
-                    <div class="form-group mt-5">
-                        <a href="javascript:;" data-repeater-create class="btn btn-primary btn-sm">
-                            افزودن
-                            <i class="ki-duotone ki-plus fs-3 pe-0"></i>
-                        </a>
+                    <div class="form-group mt-4">
+                        <a href="javascript:;" data-repeater-create class="btn btn-sm btn-primary">افزودن</a>
                     </div>
-                    <!--end::Form group-->
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
-<!-- SIZE PATTERN -->
-
-
 @endsection
 
 @section('script-before')
-<script src="{{asset('plugins/custom/formrepeater/formrepeater.bundle.js')}}"></script>
-<script src="{{asset('plugins/custom/pickr/pickr.es5.min.js')}}"></script>
+<script src="{{ asset('plugins/custom/formrepeater/formrepeater.bundle.js') }}"></script>
 @endsection
 
-@section("scripts")
+@section('scripts')
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-
-        $(".other_repeater").repeater({
+    document.addEventListener('DOMContentLoaded', function() {
+        $('.other_repeater').repeater({
             initEmpty: false,
             show: function() {
                 $(this).slideDown();
             },
-
             hide: function(deleteElement) {
                 $(this).slideUp(deleteElement);
             }
         });
-    })
+    });
 </script>
 @endsection

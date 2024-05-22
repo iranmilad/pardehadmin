@@ -8,7 +8,7 @@ class PostCategory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'parent_id'];
 
     public function posts()
     {
@@ -36,6 +36,17 @@ class PostCategory extends Model
     public function getDescriptionAttribute()
     {
         return $this->attributes['name'];
+    }
+
+    // Define parent-children relationship
+    public function parent()
+    {
+        return $this->belongsTo(PostCategory::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(PostCategory::class, 'parent_id');
     }
 
 }

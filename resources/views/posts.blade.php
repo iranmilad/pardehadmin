@@ -9,7 +9,7 @@
 @section('content')
 <!-- START:TABLE -->
 <!-- this box is showed when we wants to edit posts by checkboxes but for more than  -->
-<div class="card mb-10">
+<div class="card mb-10 d-none">
     <div class="card-header">
         <div class="w-100 d-flex align-items-center justify-content-between">
             <h4>ویرایش دسته جمعی</h4>

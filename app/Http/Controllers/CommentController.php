@@ -2,59 +2,127 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
-use App\Comment;
+use App\Models\Comment;
+use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
-use App\Http\Requests\CommentRequest;
 
 class CommentController extends Controller
 {
-    /**
-     * @param CommentRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Throwable
-     */
-    public function store(CommentRequest $request)
+    public function index(Request $request)
     {
-        $comment = Auth::check()
-            ? $request->user()->comments()->create($request->all())
-            : Comment::create($request->all());
-        return response()->json([
-            'content' => view('partials.article.comment')
-                ->with('comment', $comment)
-                ->render(),
-            'message' => Lang::get('ajax.add-comment', ['name' => $request->name])
+        $comments = Comment::with('post')->orderBy('created_at', 'desc')->paginate(10);
+        return view('post-comments', compact('comments'));
+    }
+
+    public function create()
+    {
+        // Assuming that we have a specific post to attach the comment to
+        $post = Post::first();
+        return view('post-comment', compact('post'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'content' => 'required|string',
+            'status' => 'required|string|in:pending,approved,rejected',
         ]);
+
+        Comment::create([
+            'post_id' => $request->post_id,
+            'author' => auth()->user()->name,
+            'content' => $request->content,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('comments.list')->with('success', 'دیدگاه با موفقیت ایجاد شد.');
     }
 
-    /**
-     * @param Comment $comment
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function delete(Comment $comment)
+    public function edit($id)
     {
-        $this->authorize('delete', $comment);
-        try {
-            $comment->delete();
-            return response()->json(['status' => true]);
-        } catch (Exception $e) {
-            return response()->json(['status' => false]);
+        $comment = Comment::findOrFail($id);
+        return view('post-comment', compact('comment'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $comment = Comment::findOrFail($id);
+
+        $request->validate([
+            'content' => 'required|string',
+            'status' => 'required|string|in:pending,approved,rejected',
+        ]);
+
+        $comment->update([
+            'content' => $request->content,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('comments.list')->with('success', 'دیدگاه با موفقیت به‌روزرسانی شد.');
+    }
+
+    public function delete(Request $request)
+    {
+        Comment::findOrFail($request->id)->delete();
+        return redirect()->route('comments.list')->with('success', 'دیدگاه با موفقیت حذف شد.');
+    }
+
+    public function bulk_action(Request $request)
+    {
+        $action = $request->action;
+        $commentIds = $request->checked_rows;
+
+        if ($action == 'delete' && !empty($commentIds)) {
+            Comment::whereIn('id', $commentIds)->delete();
+            return redirect()->route('comments.list')->with('success', 'دیدگاه‌ها با موفقیت حذف شدند.');
         }
+
+        return redirect()->route('comments.list')->with('error', 'عملیات نامعتبر است.');
     }
 
-    /**
-     * @param Request $request
-     * @param Comment $comment
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function update(Request $request, Comment $comment)
+
+    public function reply(Request $request)
     {
-        $this->authorize('update', $comment);
-        $comment->update($request->all());
-        return response()->json(['text' => $comment->text]);
+        $request->validate([
+            'comment_id' => 'required|exists:comments,id',
+            'message' => 'required|string',
+        ]);
+
+        $parentComment = Comment::findOrFail($request->comment_id);
+
+        Comment::create([
+            'post_id' => $parentComment->post_id,
+            'user_id' => auth()->user()->id ?? 1, // یا می‌توانید از `auth()->user()->id` برای ارتباط با کاربر استفاده کنید
+            'text' => $request->message,
+            'email' => auth()->user()->email ?? "admin@gmail.com",
+            'name' => auth()->user()->name ?? 'ادمین',
+            'status' => 'approved', // وضعیت پیش‌فرض برای پاسخ
+            'parent_comment_id' => $parentComment->id,
+        ]);
+
+
+        return redirect()->route('comments.list')->with('success', 'پاسخ با موفقیت ثبت شد.');
     }
+
+
+    public function approve($id)
+    {
+        $comment = Comment::find($id);
+        if ($comment) {
+            $comment->status = 'approved';
+            $comment->save();
+        }
+        return redirect()->back()->with('success', 'دیدگاه تایید شد');
+    }
+
+    public function reject($id)
+    {
+        $comment = Comment::find($id);
+        if ($comment) {
+            $comment->status = 'rejected';
+            $comment->save();
+        }
+        return redirect()->back()->with('success', 'دیدگاه رد شد');
+    }
+
 }

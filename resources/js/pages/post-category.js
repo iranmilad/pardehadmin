@@ -9,6 +9,7 @@ function PostCategoryTable() {
             columns: [
                 { data: "checkbox" },
                 { data: "title" },
+                { data: "description" },
                 { data: "slug" },
                 { data: "count" },
                 { data: "created_at" },
@@ -34,10 +35,10 @@ function PostCategoryTable() {
         dt.on("draw", () => {
             checkboxTableWorker();
         });
-        
+
     };
 
-    
+
     return {
         init: function () {
             initTable();

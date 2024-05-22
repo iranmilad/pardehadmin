@@ -242,3 +242,5 @@ if (exampleModal) {
 $("#product_table_table tbody tr button[data-bs-toggle]").on("click" , function(){
     $("#replyModal [name='message-id']").val($(this).data('id'));
 })
+
+

@@ -9,7 +9,7 @@ class Tag extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description','type'];
+    protected $fillable = ['name', 'description','type','slug'];
 
     public function products()
     {
@@ -30,4 +30,5 @@ class Tag extends Model
     {
         return "/search/tag/".$this->name;
     }
+
 }

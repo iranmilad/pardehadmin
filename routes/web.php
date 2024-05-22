@@ -2,7 +2,9 @@
 
 use App\Models\PostCategory;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostCategoriesController;
 
 /*
@@ -52,34 +54,43 @@ Route::group(['prefix' => 'postCategories'], function () {
 });
 
 
+Route::group(['prefix' => 'tags'], function () {
 
-Route::get('/category/{id}', function ($id) {
-    return view('post-category');
-})->name("post-category.show");
+    Route::get('/', [TagController::class, 'index'])->name("tags.list");
 
-Route::get('/create-category', function () {
-    return view('post-category');
-})->name("post-category.create.show");
+    Route::get('/create', [TagController::class, 'create'])->name("tags.create");
+    Route::post('/store', [TagController::class, 'store'])->name("tags.store");
 
-Route::get('/tags', function () {
-    return view('post-tags');
-})->name("post.tags.show");
+    Route::get('/edit/{id}', [TagController::class, 'edit'])->name("tags.edit");
+    Route::put('/update/{id}', [TagController::class, 'update'])->name("tags.update");
 
-Route::get('/tags/edit/{id}', function ($id) {
-    return view('post-tag');
-})->name("post.tag.show");
+    Route::post('/delete', [TagController::class, 'delete'])->name("tags.delete");
+    Route::post('/bulk_action', [TagController::class, 'bulkAction'])->name('tags.bulk_action');
+});
 
-Route::get('/tags/create/', function () {
-    return view('post-tag');
-})->name("post.tag.create.show");
+Route::group(['prefix' => 'comments'], function () {
 
-Route::get('/comments', function () {
-    return view('post-comments');
-})->name("post.comments.show");
+    Route::get('/', [CommentController::class, 'index'])->name("comments.list");
 
-Route::get('/comment/{id}', function ($id) {
-    return view('post-comment');
-})->name("post.comment.show");
+    Route::get('/create', [CommentController::class, 'create'])->name("comments.create");
+    Route::post('/store', [CommentController::class, 'store'])->name("comments.store");
+
+    Route::get('/edit/{id}', [CommentController::class, 'edit'])->name("comments.edit");
+    Route::put('/update/{id}', [CommentController::class, 'update'])->name("comments.update");
+
+    Route::post('/delete', [CommentController::class, 'delete'])->name("comments.delete");
+
+    Route::post('/bulk_action', [CommentController::class, 'bulk_action'])->name("comments.bulk_action");
+    Route::post('/reply', [CommentController::class, 'reply'])->name("comments.reply"); // مسیر جدید برای پاسخ
+
+    Route::get('/approve/{id}', [CommentController::class, 'approve'])->name('comments.approve');
+    Route::get('/reject/{id}', [CommentController::class, 'reject'])->name('comments.reject');
+
+
+
+
+});
+
 
 
 // table of posts

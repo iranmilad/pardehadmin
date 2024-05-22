@@ -58,7 +58,7 @@ class PostController extends Controller
 
         // ایجاد اسلاگ از عنوان
         $validated['slug'] = Str::slug($validated['title']);
-        $validated['user_id'] = Auth::user()->id;
+        $validated['user_id'] = Auth::user()->id ?? 1;
         // ایجاد پست جدید
         $post = Post::create($validated);
 
