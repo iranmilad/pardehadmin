@@ -22,6 +22,7 @@
               "شنبه",
           ],
       },
+      rangeSeparator: " | ",
       months: {
           shorthand: [
               "فروردین",

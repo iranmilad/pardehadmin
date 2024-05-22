@@ -204,5 +204,5 @@
 @endsection
 
 @section("script-before")
-<script src="{{ asset('/plugins/custom/ckeditor/ckeditor-classic.bundle.js') }}"></script>
+<script src="{{ asset('/js/ckeditor.js') }}"></script>
 @endsection

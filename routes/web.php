@@ -102,7 +102,7 @@ Route::group(['prefix' => 'block'], function () {
 
     Route::get('/create', function () {
         return view('block');
-    })->name("block.create");
+    })->name("block.create.show");
 
     Route::get('/edit/{id}', function ($id) {
         return view('block', ['id' => $id]);
@@ -328,3 +328,31 @@ Route::group(['prefix' => 'installments'], function () {
     })->name("installments.report.show");
 
 });
+
+Route::get('/worktimes', function () {
+    return view('worktimes');
+})->name("worktimes.show");
+
+Route::get('/worktime/edit/{id}', function ($id) {
+    return view('worktime');
+})->name("worktime.edit.show");
+
+Route::get('/worktime/create', function () {
+    return view('worktime');
+})->name("worktime.create.show");
+
+Route::get('/menus', function () {
+    return view('menus');
+})->name("menus.show");
+
+Route::get('/menu/{id}', function ($id) {
+    return view('menu');
+})->name("menu.show");
+
+Route::get('/imagemarkers', function () {
+    return view('imagemarkers');
+})->name("imagemarkers.show");
+
+Route::get('/imagemarker/{id}', function ($id) {
+    return view('imagemarker');
+})->name("imagemarker.show");

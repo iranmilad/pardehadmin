@@ -133,6 +133,19 @@
 	</div>
 	<!--end:Menu item-->
 
+		<!--begin:Menu item-->
+		<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{route('imagemarkers.show')}}" class="menu-link {{ Route::is('imagemarkers.show')   ? 'active' : '' }}">
+			<span class="menu-icon">
+			<i class="fa-duotone fa-image"></i>
+			</span>
+			<span class="menu-title">نشانه گذاری تصویر</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+
 	<!--begin:Menu item-->
 	<div data-kt-menu-trigger="click" class="menu-item">
 		<!--begin:Menu link-->
@@ -317,6 +330,19 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{route('worktimes.show')}}" class="menu-link {{ Route::is('worktimes.show') ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-timer"></i>
+			</span>
+			<span class="menu-title">زمان کاری</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+
+	<!--begin:Menu item-->
 	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('users*') ? 'show' : ''}}">
 		<!--begin:Menu link-->
 		<span class="menu-link">
@@ -472,7 +498,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{route('reports')}}" class="menu-link">
+		<a href="{{route('reports')}}" class="menu-link {{ Route::is('reports')   ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-chart-simple"></i>
 			</span>
@@ -482,10 +508,11 @@
 	</div>
 	<!--end:Menu item-->
 
+
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="/" class="menu-link">
+		<a href="{{route('menus.show')}}" class="menu-link {{ Route::is('menus.show')  ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-layer-group"></i>
 			</span>
@@ -523,7 +550,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{ route('block.create') }}">
+				<a class="menu-link" href="{{ route('block.create.show') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
