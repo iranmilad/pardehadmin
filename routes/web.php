@@ -53,34 +53,34 @@ Route::group(['prefix' => 'postCategories'], function () {
 
 
 
-    Route::get('/category/{id}', function ($id) {
-        return view('post-category');
-    })->name("post-category.show");
+Route::get('/category/{id}', function ($id) {
+    return view('post-category');
+})->name("post-category.show");
 
-    Route::get('/create-category', function () {
-        return view('post-category');
-    })->name("post-category.create.show");
+Route::get('/create-category', function () {
+    return view('post-category');
+})->name("post-category.create.show");
 
-    Route::get('/tags/', function () {
-        return view('post-tags');
-    })->name("post.tags.show");
+Route::get('/tags', function () {
+    return view('post-tags');
+})->name("post.tags.show");
 
-    Route::get('/tags/edit/{id}', function ($id) {
-        return view('post-tag');
-    })->name("post.tag.show");
+Route::get('/tags/edit/{id}', function ($id) {
+    return view('post-tag');
+})->name("post.tag.show");
 
-    Route::get('/tags/create/', function () {
-        return view('post-tag');
-    })->name("post.tag.create.show");
+Route::get('/tags/create/', function () {
+    return view('post-tag');
+})->name("post.tag.create.show");
 
-    Route::get('/comments/', function () {
-        return view('post-comments');
-    })->name("post.comments.show");
+Route::get('/comments', function () {
+    return view('post-comments');
+})->name("post.comments.show");
 
-    Route::get('/comment/{id}', function ($id) {
-        return view('post-comment');
-    })->name("post.comment.show");
-});
+Route::get('/comment/{id}', function ($id) {
+    return view('post-comment');
+})->name("post.comment.show");
+
 
 // table of posts
 

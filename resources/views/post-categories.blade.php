@@ -49,60 +49,39 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" data-id="1" />
-                            </div>
-                        </td>
-                        <td>
-                            <a href=" {{route('post-category')}}?action=edit&id=1" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">پرده های کتان</a>
-                        </td>
-                        <td>
-                            <span class="text-muted">این یک توضیح کوتاه برای دسته بندی های کتان است</span>
-                        </td>
-                        <td>
-                            <span class="badge badge-primary" >cottan-certain</span>
-                        </td>
-                        <td>
-                            2
-                        </td>
-                        <td class="date_column">
-                            <span href="">1400/01/01</span>
-                        </td>
-                        <td class="text-end">
-                            <a href="{{route('post-category')}}?action=edit&id=1" class="btn btn-sm btn-primary">ویرایش</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" data-id="2" />
-                            </div>
-                        </td>
-                        <td>
-                            <a href="{{route('post-category')}}?action=edit&id=2" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">پرده های کتان</a>
-                        </td>
-                        <td>
-                            <span class="text-muted">این یک توضیح کوتاه برای دسته بندی های کتان است</span>
-                        </td>
-                        <td>
-                            <span class="badge badge-primary" >cottan-certain</span>
-                        </td>
-                        <td>
-                            2
-                        </td>
-                        <td class="date_column">
-                            <span href="">1400/01/01</span>
-                        </td>
-                        <td class="text-end">
-                            <a href="{{route('post-category')}}?action=edit&id=2" class="btn btn-sm btn-primary">ویرایش</a>
-                        </td>
-                    </tr>
+                    @foreach($categories as $category)
+                        <tr>
+                            <td>
+                                <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                    <input class="form-check-input" type="checkbox" data-id="{{ $category->id }}" />
+                                </div>
+                            </td>
+                            <td>
+                                <a href="{{ route('postCategories.edit', ['id' => $category->id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">{{ $category->name }}</a>
+                            </td>
+                            <td>
+                                <span class="text-muted">{{ $category->description }}</span>
+                            </td>
+                            <td>
+                                <span class="badge badge-primary">{{ $category->slug }}</span>
+                            </td>
+                            <td>
+                                {{ $category->posts_count }}
+                            </td>
+                            <td class="date_column">
+                                <span>{{ \Carbon\Carbon::parse($category->created_at)->format('Y/m/d') }}</span>
+                            </td>
+                            <td class="text-end">
+                                <a href="{{ route('postCategories.edit', ['id' => $category->id]) }}" class="btn btn-sm btn-primary">ویرایش</a>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
+
+
+            {{ $categories->links('vendor.pagination.custom-pagination') }}
         </form>
-        {{ $categories->links('vendor.pagination.custom-pagination') }}
     </div>
 </div>
 <!-- END:TABLE -->
