@@ -14,7 +14,7 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
-	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('posts*') ? 'show' : ''}}">
+	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('post*') ? 'show' : ''}}">
 		<!--begin:Menu link-->
 		<span class="menu-link">
 			<span class="menu-icon">
@@ -29,7 +29,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" {{ Route::is('post.list')  ? 'active' : '' }} href="{{ route('post.list') }}">
+				<a class="menu-link {{ Route::is('post.list')  ? 'active' : '' }}"  href="{{ route('post.list') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -41,7 +41,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('post')  ? 'active' : '' }}" href="{{ route('post') }}">
+				<a class="menu-link {{ Route::is('post.create')  ? 'active' : '' }}" href="{{ route('post.create') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -53,7 +53,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link  {{ Route::is('post-categories.show') || Route::is('post-category.show') || Route::is('post-category.create.show')  ? 'active' : '' }}" href="{{ route('post-categories') }}">
+				<a class="menu-link  {{Request::is('postCategories*') ? 'show' : ''}}" href="{{ route('postCategories.list') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>

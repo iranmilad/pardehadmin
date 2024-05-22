@@ -3,7 +3,7 @@
 @section('title', 'بلاک ها')
 
 @section("toolbar")
-<a href="{{route('post')}}?action=add" class="btn btn-primary">بلاک جدید</a>
+<a href="{{route('post.list')}}?action=add" class="btn btn-primary">بلاک جدید</a>
 @endsection
 
 @section('content')
