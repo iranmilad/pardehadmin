@@ -12,17 +12,24 @@
             </div>
         </div>
         <div class="card-body">
-            <div>
-                <label class="form-label" for="">انتخاب مکان قرارگیری منو</label>
-                <select class="form-select form-select-solid" name="" id="">
-                    <option value="1">هدر</option>
-                    <option value="2">فوتر</option>
-                </select>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label" for="">عنوان</label>
+                    <input name="title" type="text" class="form-control form-control-solid" placeholder="عنوان را وارد کنید">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="">انتخاب مکان قرارگیری منو</label>
+                    <select class="form-select form-select-solid" name="location" id="">
+                        <option value="1">هدر</option>
+                        <option value="2">فوتر</option>
+                    </select>
+                </div>
             </div>
+
         </div>
     </div>
     <div class="row mt-10">
-        <div class="col-lg-2">
+        <div class="col-lg-3 col-xl-2">
             <!--begin::Accordion-->
             <div class="accordion" id="kt_accordion_1">
                 <div class="accordion-item">
@@ -68,7 +75,7 @@
             </div>
             <!--end::Accordion-->
         </div>
-        <div class="col-lg-10">
+        <div class="col-lg-9 col-xl-10">
             <div class="card">
                 <div class="card-body">
                     <div id="menu_lists" class="primary-list">
@@ -89,6 +96,10 @@
                                             <div class="mb-5">
                                                 <label for="" class="form-label">لینک</label>
                                                 <input type="url" class="form-control" placeholder="https://example.com">
+                                            </div>
+                                            <div class="mb-5">
+                                                <label for="" class="form-label">آیکون</label>
+                                                <input type="file" class="form-control">
                                             </div>
                                             <button class="btn btn-sm btn-danger remove-accordion">حذف</button>
                                         </div>
@@ -114,6 +125,10 @@
                                                 <label for="" class="form-label">لینک</label>
                                                 <input type="url" class="form-control" placeholder="https://example.com">
                                             </div>
+                                            <div class="mb-5">
+                                                <label for="" class="form-label">آیکون</label>
+                                                <input type="file" class="form-control">
+                                            </div>
                                             <button class="btn btn-sm btn-danger remove-accordion">حذف</button>
                                         </div>
                                     </div>
@@ -137,6 +152,10 @@
                                             <div class="mb-5">
                                                 <label for="" class="form-label">لینک</label>
                                                 <input type="url" class="form-control" placeholder="https://example.com">
+                                            </div>
+                                            <div class="mb-5">
+                                                <label for="" class="form-label">آیکون</label>
+                                                <input type="file" class="form-control">
                                             </div>
                                             <button class="btn btn-sm btn-danger remove-accordion">حذف</button>
                                         </div>
