@@ -1,5 +1,15 @@
 import Sortable from "sortablejs";
 
+// generate coupen code
+function generateCouponCode(length) {
+    let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let code = "";
+    for (let i = 0; i <= length; i++) {
+        code += letters.charAt(Math.floor(Math.random() * letters.length));
+    }
+    return code;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     generateSortable();
 });
