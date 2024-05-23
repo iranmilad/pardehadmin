@@ -102,6 +102,7 @@ $("#choose_image").on("change", function (event) {
         };
 
         reader.readAsDataURL(file); // Read the file as a data URL
+        $(".image_dotter span").remove();
     } else {
         imgPreview.src = "";
         imgPreview.style.display = "none"; // Hide the image if no file is selected
