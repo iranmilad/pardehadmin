@@ -1,32 +1,43 @@
-<!-- This blade is used for writing and editing a post -->
 @extends('layouts.primary')
 
-@section('title', 'ویرایش صفحه')
-
-@if(Route::is('page.edit'))
-    @section('title', 'ویرایش برچسب')
-@else
-    @section('title', 'ایجاد برچسب')
-@endif
+@section('title', Route::is('pages.edit') ? 'ویرایش صفحه' : 'ایجاد صفحه')
 
 @section('content')
 
-<form method="post" class="row post-type-row">
+<form method="post" action="{{ Route::is('pages.edit') ? route('pages.update', $page->id) : route('pages.store') }}" class="row post-type-row">
     @csrf
+    @if(Route::is('pages.edit'))
+        @method('PUT')
+    @endif
     <div class="col-lg-8 col-xl-10">
         <div class="card">
             <div class="card-body">
                 <div class="mb-10">
                     <label for="title" class="required form-label">عنوان</label>
-                    <input type="text" id="title" class="form-control" placeholder="عنوان را وارد کنید" />
+                    <input type="text" id="title" name="title" class="form-control" placeholder="عنوان را وارد کنید" value="{{ old('title', $page->title ?? '') }}" />
                 </div>
                 <div class="mb-2">
-                    <label class="form-label ">محتوای صفحه</label>
+                    <label class="form-label">محتوای صفحه</label>
                     <div class="row row-editor">
                         <div class="editor-container">
-                            <div id="editor" class="editor tw-max-h-96 tw-overflow-auto"></div>
+                            <div id="editor" class="editor tw-max-h-96 tw-overflow-auto">
+                                {{ old('content', $page->content ?? '') }}
+                            </div>
+                            <textarea name="content" class="d-none">{{ old('content', $page->content ?? '') }}</textarea>
                         </div>
                     </div>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">خلاصه</label>
+                    <textarea name="summary" class="form-control">{{ old('summary', $page->summary ?? '') }}</textarea>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">کلمات کلیدی</label>
+                    <input type="text" name="keywords" class="form-control" value="{{ old('keywords', $page->keywords ?? '') }}" />
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">آدرس URL</label>
+                    <input type="text" name="url" class="form-control" value="{{ old('url', $page->url ?? '') }}" />
                 </div>
             </div>
         </div>
@@ -46,40 +57,54 @@
             <!--begin::کارت body-->
             <div class="card-body pt-0">
                 <!--begin::انتخاب2-->
-                <select class="form-select mb-2">
-                    <option selected value="published">فعال</option>
-                    <option value="inactive">غیرفعال</option>
+                <select name="status" class="form-select mb-2">
+                    <option value="published" {{ old('status', $page->status ?? '') == 'published' ? 'selected' : '' }}>فعال</option>
+                    <option value="inactive" {{ old('status', $page->status ?? '') == 'inactive' ? 'selected' : '' }}>غیرفعال</option>
                 </select>
                 <!--end::انتخاب2-->
                 <!--begin::توضیحات-->
                 <div class="text-muted fs-7">وضعیت نوشته را تنظیم کنید.</div>
                 <!--end::توضیحات-->
-                <!--begin::انتخاب2-->
-                <div class="form-check mt-5">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked />
-                    <label class="form-check-label text-dark" for="flexCheckChecked">
-                        فعال بودن دیدگاه ها
-                    </label>
-                </div>
-
-
-                <!--end::انتخاب2-->
             </div>
             <!--end::کارت body-->
             <div class="card-footer text-end">
                 <div class="d-flex align-items-center justify-content-between flex-wrap">
                     <!-- post id -->
-                    <button type="submit" name="remove-post" value="1" class="btn btn-sm btn-danger" id="remove-button">حذف</button>
-                    <button class="btn btn-sm btn-success">ذخیره تغییرات</button>
+                    @if(Route::is('pages.edit'))
+                        <button type="submit" name="remove-post" value="1" class="btn btn-sm btn-danger" id="remove-button">حذف</button>
+                    @endif
+                    <button type="submit" class="btn btn-sm btn-success">ذخیره تغییرات</button>
                 </div>
             </div>
         </div>
         <!-- END:STATUS -->
     </div>
 </form>
-<x-add-fast-category />
 @endsection
 
-@section("script-before")
+@section('script-before')
 <script src="{{ asset('/js/ckeditor.js') }}"></script>
+@endsection
+
+@section('script-after')
+<script>
+    // Initialize CKEditor
+    ClassicEditor
+        .create(document.querySelector('#editor'))
+        .then(editor => {
+            // Assign the editor to a variable
+            window.editor = editor;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+    // Add an event listener to the form to update the hidden input before submitting
+    document.querySelector('form').addEventListener('submit', function (e) {
+        // Get the editor data
+        const editorData = window.editor.getData();
+        // Set the hidden textarea value to the editor data
+        document.querySelector('textarea[name="content"]').value = editorData;
+    });
+</script>
 @endsection

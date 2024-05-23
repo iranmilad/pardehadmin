@@ -1,9 +1,9 @@
 @extends('layouts.primary')
 
-@section('title', 'برگه ها')
+@section('title', 'برگه‌ها')
 
-@section("toolbar")
-<a href="{{route('page.create')}}" class="btn btn-primary">برگه جدید</a>
+@section('toolbar')
+<a href="{{ route('pages.create') }}" class="btn btn-primary">برگه جدید</a>
 @endsection
 
 @section('content')
@@ -13,15 +13,14 @@
         <form class="d-flex align-items-center justify-content-end" action="" method="get">
             @csrf
             <div class="d-flex align-items-center position-relative my-1">
-                <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6"><span class="path1"></span><span class="path2"></span></i>
+                <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6"></i>
                 <input name="s" value="{{ request()->get('s') ?? '' }}" type="text" data-kt-docs-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="جست و جو" />
             </div>
         </form>
-
-        <!--end::Group actions-->
-        <form action="">
-            <div class="d-flex tw-items-center tw-justify-start tw-w-full gap-4">
-                <select class="form-select form-select-solid tw-w-max" name="" id="">
+        <form action="{{ route('pages.bulk_action') }}" method="post" id="action_form">
+            @csrf
+            <div class="d-flex tw-items-center tw-justify-start tw-w-full gap-4 mb-3">
+                <select class="form-select form-select-solid tw-w-max" name="action" id="bulk_action">
                     <option>عملیات</option>
                     <option value="delete">حذف</option>
                 </select>
@@ -43,44 +42,36 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($pages as $page)
                     <tr>
                         <td>
                             <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" data-id="1" />
+                                <input class="form-check-input" type="checkbox" name="checked_rows[]" value="{{ $page->id }}" />
                             </div>
                         </td>
                         <td>
-                            <a href="{{ route('page.edit',['id' => 1]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder">صفحه ی اصلی</a>
+                            <a href="{{ route('pages.edit', ['id' => $page->id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder">{{ $page->title }}</a>
                         </td>
                         <td>
-                            <span class="text-muted">فرهاد باقری</span>
+                            <span class="text-muted">{{ $page->user->first_name.' '.$page->user->last_name }}</span>
                         </td>
                         <td>
-                            <span class="text-primary">1400/01/01</span>
+                            <span class="text-primary">{{ $page->dateShamsi }}</span>
                         </td>
                         <td class="text-end">
-                            <a class="btn btn-sm btn-light" href="{{ route('page.edit',['id' => 1]) }}">ویرایش</a>
+                            <a class="btn btn-sm btn-light" href="{{ route('pages.edit', ['id' => $page->id]) }}">ویرایش</a>
                         </td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </form>
-        <ul class="pagination">
-            <li class="page-item previous disabled"><a href="#" class="page-link"><i class="previous"></i></a></li>
-            <li class="page-item active"><a href="#" class="page-link">1</a></li>
-            <li class="page-item"><a href="#" class="page-link">2</a></li>
-            <li class="page-item "><a href="#" class="page-link">3</a></li>
-            <li class="page-item "><a href="#" class="page-link">4</a></li>
-            <li class="page-item "><a href="#" class="page-link">5</a></li>
-            <li class="page-item "><a href="#" class="page-link">6</a></li>
-            <li class="page-item next"><a href="#" class="page-link"><i class="next"></i></a></li>
-        </ul>
+        {{ $pages->links("vendor.pagination.custom-pagination") }}
     </div>
 </div>
 <!-- END:TABLE -->
 @endsection
 
 @section('script-before')
-<script src="{{asset('plugins/custom/datatables/datatables.bundle.js')}}"></script>
-
+<script src="{{ asset('plugins/custom/datatables/datatables.bundle.js') }}"></script>
 @endsection

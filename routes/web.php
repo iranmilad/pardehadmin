@@ -1,8 +1,10 @@
 <?php
 
+use App\Models\Page;
 use App\Models\PostCategory;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostCategoriesController;
@@ -91,9 +93,23 @@ Route::group(['prefix' => 'comments'], function () {
 
 });
 
+Route::group(['prefix' => 'pages'], function () {
+
+    Route::get('/', [PageController::class, 'index'])->name("pages.list");
+
+    Route::get('/create', [PageController::class, 'create'])->name("pages.create");
+    Route::post('/store', [PageController::class, 'store'])->name("pages.store");
+
+    Route::get('/edit/{id}', [PageController::class, 'edit'])->name("pages.edit");
+    Route::put('/update/{id}', [PageController::class, 'update'])->name("pages.update");
+
+    Route::post('/delete', [PageController::class, 'delete'])->name("pages.delete");
+
+    Route::post('/bulk_action', [PageController::class, 'bulk_action'])->name("pages.bulk_action");
+
+});
 
 
-// table of posts
 
 
 
@@ -140,23 +156,7 @@ Route::group(['prefix' => 'block'], function () {
     })->name("block.edit");
 });
 
-Route::group(['prefix' => 'page'], function () {
-    Route::get('/', function () {
-        return view('pages');
-    })->name("page.list.show");
 
-    Route::get('/create', function () {
-        return view('page');
-    })->name("page.create");
-
-    Route::get('/edit/{id}', function ($id) {
-        return view('page');
-    })->name("page.edit");
-
-    Route::post('/delete', function ($id) {
-        return view('page');
-    })->name("page.delete");
-});
 
 Route::group(['prefix' => 'users'], function () {
     Route::get('/', function () {

@@ -92,7 +92,7 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
-	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('page*') ? 'show' : ''}}">
+	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('pages*') ? 'show' : ''}}">
 		<!--begin:Menu link-->
 		<span class="menu-link">
 			<span class="menu-icon">
@@ -107,7 +107,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('page.list.show') || Route::is('page.edit')  ? 'active' : '' }}" href="{{ route('page.list.show') }}">
+				<a class="menu-link {{ Route::is('pages.list')  ? 'active' : '' }}" href="{{ route('pages.list') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -119,7 +119,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('page.create')  ? 'active' : '' }}" href="{{route('page.create')}}">
+				<a class="menu-link {{ Route::is('pages.create')  ? 'active' : '' }}" href="{{route('pages.create')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>

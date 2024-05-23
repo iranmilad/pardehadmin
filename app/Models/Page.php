@@ -14,4 +14,12 @@ class Page extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getDateShamsiAttribute()
+    {
+        $gregorianDate = \Carbon\Carbon::parse($this->created_at);
+        $jalaliDate = \Morilog\Jalali\Jalalian::fromCarbon($gregorianDate);
+        return $jalaliDate->format('Y/m/d');
+    }
+
 }

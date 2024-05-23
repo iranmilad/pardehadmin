@@ -221,27 +221,29 @@
 @section("script-before")
 <script src="{{ asset('/js/ckeditor.js') }}"></script>
 
+<script>
 
-var input = document.querySelector("#post-type-tags");
+    var input = document.querySelector("#post-type-tags");
 
-let post_types_tags = new Tagify(input, {
-    dropdown: {
-        enabled: 0,
-        closeOnSelect: false,
-        pattern: /^.{1,70}/,
-    },
-});
+    let post_types_tags = new Tagify(input, {
+        dropdown: {
+            enabled: 0,
+            closeOnSelect: false,
+            pattern: /^.{1,70}/,
+        },
+    });
 
-document.querySelector('form').addEventListener('submit', function (e) {
-    // Get the tags as array of values
-    let tags = post_types_tags.value.map(tag => tag.value);
-    // Create hidden input with the JSON string of tags
-    let hiddenInput = document.createElement('input');
-    hiddenInput.type = 'hidden';
-    hiddenInput.name = 'tags';
-    hiddenInput.value = JSON.stringify(tags);
-    this.appendChild(hiddenInput);
-});
+    document.querySelector('form').addEventListener('submit', function (e) {
+        // Get the tags as array of values
+        let tags = post_types_tags.value.map(tag => tag.value);
+        // Create hidden input with the JSON string of tags
+        let hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'tags';
+        hiddenInput.value = JSON.stringify(tags);
+        this.appendChild(hiddenInput);
+    });
+</script>
 
 
 @endsection
