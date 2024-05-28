@@ -89,6 +89,13 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-12 col-xl-6">
+                                <label class="form-label required">زمان مورد نیاز انجام :</label>
+                                <div class="input-group">
+                                    <input dir="ltr" name="hour" type="number" min="1" max="24" class="form-control form-control-solid mb-2 mb-md-0" placeholder="زمان مورد نیاز را وارد کنید" />
+                                    <span class="input-group-text bg-white ms-0">ساعت</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="v-pills-relation" role="tabpanel" aria-labelledby="v-pills-disabled-tab" tabindex="0">

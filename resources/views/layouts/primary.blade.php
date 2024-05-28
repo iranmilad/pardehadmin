@@ -119,7 +119,7 @@ use Illuminate\Support\Facades\Vite;
     @yield('script-before')
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            $('.advanced_search').select2({
+            let advanced_search = window['advanced_search'] = $('.advanced_search').select2({
                 placeholder: "جستجو کنید",
                 language: {
                     inputTooShort: function() {

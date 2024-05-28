@@ -259,4 +259,22 @@ $("#product_table_table tbody tr button[data-bs-toggle]").on(
     }
 );
 
+$(".editOptionsToggleOrder").on("click", function () {
+    let parent = $(this).parent().parent();
+    // find input and select and toggle disabled
+    parent.find("input,select").prop("disabled", function (i, v) {
+        return !v;
+    });
 
+    // toggle button text based on data-clicked. if its false say save else say edit
+    if ($(this).data("clicked") === false) {
+        $(this).text("لغو").removeClass("btn-secondary").addClass("btn-danger");
+        $(this).data("clicked", true);
+    } else {
+        $(this)
+            .text("ویرایش")
+            .removeClass("btn-danger")
+            .addClass("btn-secondary");
+        $(this).data("clicked", false);
+    }
+});

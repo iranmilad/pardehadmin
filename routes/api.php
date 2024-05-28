@@ -120,3 +120,50 @@ Route::get('/checkproduct', function (Request $request) {
 
     return response()->json($response);
 });
+
+Route::get('/product-options/{id}', function ($id) {
+    // TYPE => SELECT,INPUT
+    // event for something like wrarranty use select.
+    // for select you can use multiple or not.
+    $response = [
+        [
+            'label' => 'رنگ',
+            'name' => 'color',
+            'type' => 'select',
+            'multiple' => false,
+            'options' => [
+                [
+                    'name' => 'قرمز',
+                    'value' => 'red'
+                ],
+                [
+                    'name' => 'آبی',
+                    'value' => 'blue'
+                ],
+            ]
+        ],
+        [
+            'label' => 'انتخاب گارانتی',
+            'name' => 'warranty',
+            'type' => 'select',
+            'multiple' => false,
+            'options' => [
+                [
+                    'name' => '3 سال',
+                    'value' => '3'
+                ],
+                [
+                    'name' => '5 سال',
+                    'value' => '5'
+                ],
+            ]
+        ],
+        [
+            'label' => 'تعداد',
+            'name' => 'count',
+            'type' => 'input',
+        ]
+    ];
+
+    return response()->json($response);
+});
