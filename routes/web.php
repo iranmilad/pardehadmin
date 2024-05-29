@@ -326,7 +326,6 @@ Route::group(['prefix' => 'installments'], function () {
     Route::get('/report', function () {
         return view('installments-report');
     })->name("installments.report.show");
-
 });
 
 Route::get('/worktimes', function () {
@@ -356,3 +355,7 @@ Route::get('/imagemarkers', function () {
 Route::get('/imagemarker/{id}', function ($id) {
     return view('imagemarker');
 })->name("imagemarker.show");
+
+Route::get('/checkouts', function () {
+    return view('checkouts');
+})->name("checkouts.show");

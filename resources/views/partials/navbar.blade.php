@@ -133,12 +133,12 @@
 	</div>
 	<!--end:Menu item-->
 
-		<!--begin:Menu item-->
-		<div class="menu-item">
+	<!--begin:Menu item-->
+	<div class="menu-item">
 		<!--begin:Menu link-->
 		<a href="{{route('imagemarkers.show')}}" class="menu-link {{ Route::is('imagemarkers.show')   ? 'active' : '' }}">
 			<span class="menu-icon">
-			<i class="fa-duotone fa-image"></i>
+				<i class="fa-duotone fa-image"></i>
 			</span>
 			<span class="menu-title">نشانه گذاری تصویر</span>
 		</a>
@@ -503,6 +503,19 @@
 				<i class="fa-duotone fa-chart-simple"></i>
 			</span>
 			<span class="menu-title">گزارش ها</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{route('checkouts.show')}}" class="menu-link {{ Route::is('checkouts.show')   ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-credit-card"></i>
+			</span>
+			<span class="menu-title">درگاه پرداخت</span>
 		</a>
 		<!--end:Menu link-->
 	</div>
