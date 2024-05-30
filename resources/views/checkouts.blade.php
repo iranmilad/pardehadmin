@@ -25,7 +25,7 @@
     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
         <div class="card">
             <div class="card-body">
-                <table id="order_table" class="table gy-5 gs-7 tw-align-middle">
+                <table class="table gy-5 gs-7 tw-align-middle">
                     <thead>
                         <tr class="fs-7 fw-bold text-gray-400 border-bottom-0">
                             <th class="cursor-pointer px-0 text-start">روش</th>

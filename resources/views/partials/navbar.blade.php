@@ -521,6 +521,19 @@
 	</div>
 	<!--end:Menu item-->
 
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{route('sms-settings.show')}}" class="menu-link {{ Route::is('sms-settings.show')   ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-comment-sms"></i>
+			</span>
+			<span class="menu-title">پیامک</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+
 
 	<!--begin:Menu item-->
 	<div class="menu-item">
