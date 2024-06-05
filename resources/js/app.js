@@ -21,6 +21,7 @@ import {
     InstallmentsPlansTable,
     WorktimesTable,
     ImageMarkersTable,
+    SnippetsTable,
 } from "./pages";
 // import "./pages/attribute";
 // import "./create-fast-category";
@@ -30,6 +31,7 @@ import "jquery-validation";
 import "./pages/message";
 import "./marker";
 import "./menu";
+import Sortable from "sortablejs";
 
 KTUtil.onDOMContentLoaded(function () {
     PostsTable()?.init();
@@ -51,6 +53,7 @@ KTUtil.onDOMContentLoaded(function () {
     InstallmentsPlansTable()?.init();
     WorktimesTable()?.init();
     ImageMarkersTable()?.init();
+    SnippetsTable()?.init();
 });
 
 if ($(".editor").length > 0) {
@@ -277,4 +280,36 @@ $(".editOptionsToggleOrder").on("click", function () {
             .addClass("btn-secondary");
         $(this).data("clicked", false);
     }
+});
+
+
+// Stepper lement
+var element = document.querySelector("#kt_stepper_example_clickable");
+
+// Initialize Stepper
+var stepper = new KTStepper(element);
+
+// Handle navigation click
+stepper.on("kt.stepper.click", function (stepper) {
+    stepper.goTo(stepper.getClickedStepIndex()); // go to clicked step
+});
+
+// Handle next step
+stepper.on("kt.stepper.next", function (stepper) {
+    stepper.goNext(); // go next step
+});
+
+// Handle previous step
+stepper.on("kt.stepper.previous", function (stepper) {
+    stepper.goPrevious(); // go previous step
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    let el = document.getElementById("product_tabs_sortable");
+    let sortable = Sortable.create(el, {
+        animation: 150,
+        group: "shared",
+        handle: null,
+        swapThreshold: 0.3,
+    });
 });

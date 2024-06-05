@@ -363,3 +363,21 @@ Route::get('/checkouts', function () {
 Route::get('/sms-settings', function () {
     return view('sms-settings');
 })->name("sms-settings.show");
+
+Route::group(['prefix' => 'snippets'], function () {
+    Route::get('/list', function () {
+        return view('snippets');
+    })->name("snippets.list.show");
+
+    Route::get('/create', function () {
+        return view('snippet');
+    })->name("snippet.create.show");
+
+    Route::get('/edit/{id}', function ($id) {
+        return view('snippet');
+    })->name("snippet.show");
+});
+
+Route::get('/customize', function () {
+    return view('customize');
+})->name("customize.show");

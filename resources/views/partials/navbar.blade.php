@@ -534,6 +534,19 @@
 	</div>
 	<!--end:Menu item-->
 
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{route('snippets.list.show')}}" class="menu-link {{Request::is('snippets*') ? 'active' : ''}}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-terminal"></i>
+			</span>
+			<span class="menu-title">قطعه کد ها</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+
 
 	<!--begin:Menu item-->
 	<div class="menu-item">
@@ -543,6 +556,19 @@
 				<i class="fa-duotone fa-layer-group"></i>
 			</span>
 			<span class="menu-title">منو ها</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{route('customize.show')}}" class="menu-link {{ Route::is('customize.show')  ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-swatchbook"></i>
+			</span>
+			<span class="menu-title">سفارشی سازی</span>
 		</a>
 		<!--end:Menu link-->
 	</div>
