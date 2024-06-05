@@ -466,3 +466,11 @@ Route::get('/imagemarkers', function () {
 Route::get('/imagemarker/{id}', function ($id) {
     return view('imagemarker');
 })->name("imagemarker.show");
+
+Route::get('/checkouts', function () {
+    return view('checkouts');
+})->name("checkouts.show");
+
+Route::get('/sms-settings', function () {
+    return view('sms-settings');
+})->name("sms-settings.show");

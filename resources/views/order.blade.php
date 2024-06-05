@@ -87,6 +87,7 @@
                     <th class="cursor-pointer px-0 text-start">هزینه</th>
                     <th class="cursor-pointer px-0 text-start">تعداد</th>
                     <th class="cursor-pointer px-0 text-start">مجموع</th>
+                    <th class="cursor-pointer px-0 text-start">جزئیات</th>
                     <th class="text-end">عملیات</th>
                 </tr>
             </thead>
@@ -107,10 +108,43 @@
                     <td>
                         <span>12,000,000</span>
                     </td>
+                    <td><button class="btn btn-sm btn-info" onclick="toggleDetails('details-1234')">جزئیات</button></td>
                     <td class="text-end">
                         <a href="{{route('products.create',['id' => 1])}}" class="btn btn-danger btn-sm">
                             حذف
                         </a>
+                    </td>
+                </tr>
+                <tr id="details-1234" style="display:none;">
+                    <td colspan="6">
+                        <form id="product-details-1234">
+                            <label class="form-label">رنگ: 
+                                <select disabled class="form-select">
+                                    <option value="red">قرمز</option>
+                                    <option value="green">سبز</option>
+                                    <option value="blue">آبی</option>
+                                </select>
+                            </label>
+                            <label class="form-label">جنس: 
+                                <select disabled class="form-select">
+                                    <option value="cotton">پنبه</option>
+                                    <option value="silk">ابریشم</option>
+                                    <option value="wool">پشم</option>
+                                </select>
+                            </label>
+                            <label class="form-label">سایز: 
+                                <select disabled class="form-select">
+                                    <option value="small">کوچک</option>
+                                    <option value="medium">متوسط</option>
+                                    <option value="large">بزرگ</option>
+                                </select>
+                            </label>
+                            <label class="form-label">تعداد: 
+                                <input disabled type="number" class="form-control" value="1">
+                            </label>
+                            <button type="button" class="btn btn-secondary editOptionsToggleOrder" data-clicked="false">ویرایش</button>
+                            <button class="btn btn-success" type="submit">ذخیره</button>
+                        </form>
                     </td>
                 </tr>
             </tbody>
@@ -458,6 +492,11 @@
         locale: "fa",
         enableTime: true,
         time_24hr: true
-    })
+    });
+
+    function toggleDetails(id) {
+        const element = document.getElementById(id);
+        element.style.display = (element.style.display === 'none') ? 'table-row' : 'none';
+    }
 </script>
 @endsection

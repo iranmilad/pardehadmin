@@ -297,3 +297,13 @@ body,
     border-radius: 9999px;
     @apply tw-animate-ping tw-opacity-75;
 }
+
+.cs-fieldset {
+    border-radius: 8px;
+    @apply tw-border-gray-100 !important;
+}
+
+.cs-fieldset legend{
+    font-size: 14px;
+    font-weight: 700;
+}
