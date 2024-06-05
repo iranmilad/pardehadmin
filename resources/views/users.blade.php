@@ -3,7 +3,7 @@
 @section('title', 'کاربران')
 
 @section("toolbar")
-<a href="{{route('user.create')}}" class="btn btn-primary">کاربر جدید</a>
+<a href="{{route('users.create')}}" class="btn btn-primary">کاربر جدید</a>
 @endsection
 
 @section('content')
@@ -18,76 +18,70 @@
             </div>
         </form>
 
-        <form action="" method="post">
+        <form action="{{ route('users.bulk_action') }}" method="post">
             @csrf
             <div class="d-flex tw-items-center tw-justify-start tw-w-full gap-4">
-                <select class="form-select form-select-solid tw-w-max" name="" id="">
-                    <option>عملیات</option>
+                <select class="form-select form-select-solid tw-w-max" name="action" id="bulk-action">
+                    <option value="">عملیات</option>
                     <option value="delete">حذف</option>
-                    <option value="active">فعال کردن</option>
-                    <option value="inactive">غیر فعال کردن</option>
+                    <option value="activate">فعال کردن</option>
+                    <option value="deactivate">غیر فعال کردن</option>
                 </select>
                 <button class="btn btn-primary" type="submit">اجرا</button>
             </div>
 
             <!--end::Group actions-->
-            <table id="users_table" class="table gy-5 gs-7">
+            <table class="table gy-5 gs-7">
                 <thead>
                     <tr class="fs-7 fw-bold text-gray-400 border-bottom-0">
-                        <th class="w-10px">
-                            <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#users_table .form-check-input" value="1" />
-                            </div>
-                        </th>
-                        <th class="cursor-pointer px-0 text-start">نام کاربری</th>
-                        <th class="px-0 text-start">نام</th>
-                        <th class="px-0 text-start">ایمیل</th>
-                        <th class="px-0 text-start">نقش</th>
-                        <th class="px-0 text-start">نوشته</th>
-                        <th class=" text-end">عملیات</th>
+                    <th class="w-10px">
+                        <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
+                        <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#users_table .form-check-input" value="1" />
+                        </div>
+                    </th>
+                    <th class="cursor-pointer px-0 text-start">نام </th>
+                    <th class="px-0 text-start">نام خانوادگی</th>
+                    <th class="px-0 text-start">ایمیل</th>
+                    <th class="px-0 text-start">نقش</th>
+                    <th class="px-0 text-start">نوشته</th>
+                    <th class="text-end">عملیات</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($users as $user)
                     <tr>
-                        <td>
-                            <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" data-id="1" />
-                            </div>
-                        </td>
-                        <td>
-                            <a href="{{ route('user.profile',['id' => 1]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder">
-                                admin
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{{ route('user.profile',['id' => 1]) }}" class="text-muted">فرهاد باقری</a>
-                        </td>
-                        <td>
-                            <a href="{{ route('user.profile',['id' => 1]) }}" class="text-primary">coding.farhad@gmail.com</a>
-                        </td>
-                        <td>
-                            <a href="{{ route('user.profile',['id' => 1]) }}" class="text-primary">مدیر کل</a>
-                        </td>
-                        <td>
-                            <a href="{{ route('user.profile',['id' => 1]) }}" class="text-primary">5</a>
-                        </td>
-                        <td class="text-end">
-                            <a class="btn btn-light btn-sm" href="{{ route('user.edit.show',['id' => 1]) }}">ویرایش</a>
-                        </td>
+                    <td>
+                        <div class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" data-id="{{ $user->id }}" />
+                        </div>
+                    </td>
+                    <td>
+                        <a href="{{ route('users.profile', ['id' => $user->id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder">
+                        {{ $user->first_name }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ route('users.profile', ['id' => $user->id]) }}" class="text-muted">{{ $user->last_name }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ route('users.profile', ['id' => $user->id]) }}" class="text-primary">{{ $user->email }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ route('users.profile', ['id' => $user->id]) }}" class="text-primary">{{ $user->role->title }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ route('users.profile', ['id' => $user->id]) }}" class="text-primary">{{ $user->posts->count() }}</a>
+                    </td>
+                    <td class="text-end">
+                        <a href="{{ route('users.edit', ['id' => $user->id]) }}" class="btn btn-light btn-sm">ویرایش</a>
+                    </td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
+
         </form>
-        <ul class="pagination">
-            <li class="page-item previous disabled"><a href="#" class="page-link"><i class="previous"></i></a></li>
-            <li class="page-item active"><a href="#" class="page-link">1</a></li>
-            <li class="page-item"><a href="#" class="page-link">2</a></li>
-            <li class="page-item "><a href="#" class="page-link">3</a></li>
-            <li class="page-item "><a href="#" class="page-link">4</a></li>
-            <li class="page-item "><a href="#" class="page-link">5</a></li>
-            <li class="page-item "><a href="#" class="page-link">6</a></li>
-            <li class="page-item next"><a href="#" class="page-link"><i class="next"></i></a></li>
-        </ul>
+        {{ $users->links("vendor.pagination.custom-pagination") }}
     </div>
 </div>
 <!-- END:TABLE -->

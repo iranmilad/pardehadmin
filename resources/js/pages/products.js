@@ -16,7 +16,7 @@ function ProductsTable() {
                 { data: "price" },
                 { data: "category" },
                 { data: "tags" },
-                { data: "date" },
+
                 { data: "action" },
             ],
             columnDefs: [

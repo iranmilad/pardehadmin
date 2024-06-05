@@ -16,12 +16,11 @@ return new class extends Migration
             $table->unsignedInteger('attribute_id');
             $table->foreign('attribute_id')->references('id')->on('attributes')->onDelete('cascade');
             $table->string('name');
+
             $table->text('details')->nullable();
+            $table->enum('unit_factor',['countable', 'uncountable'])->default('uncountable');
             $table->decimal('max_value', 8, 2)->nullable();
             $table->decimal('min_value', 8, 2)->nullable();
-
-            $table->enum('unit_factor',['countable', 'uncountable'])->default('uncountable');
-
             $table->string('unit_description')->nullable();
             $table->decimal('conversion_factor', 8, 2)->nullable();
             $table->string('base_unit')->nullable();

@@ -10,6 +10,11 @@ function InstallmentsPlansTable() {
             columns: [
                 { data: "checkbox" },
                 { data: "title" },
+                { data: "credit_percentage" },
+                { data: "installments_count" },
+                { data: "installment_percentage" },
+                { data: "installment_interval_months" },
+
                 { data: "action" },
             ],
             columnDefs: [

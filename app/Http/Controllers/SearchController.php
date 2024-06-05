@@ -1,35 +1,41 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class SearchController extends Controller
 {
-    /**
-     * @var Product
-     */
-    protected $product;
-
-    public function __construct(Product $product)
-    {
-        $this->product = $product;
-    }
-
-    public function index(Request $request)
-    {
-        $result = $this->product->search($request->q);
-        return $result->count() === 1
-            ? redirect()->route('product', ['product' => $result->first()->id])
-            : view('search')
-                ->with('searchQuery', $request->q)
-                ->with('products', $result);
-    }
-
     public function search(Request $request)
     {
-        $result = $this->product->searchTooltips($request->term);
-        return response()->json($result);
+        $type = $request->get('type');
+
+        if ($type === 'user') {
+            $query = $request->get('query');
+            $users = User::where('first_name', 'like', "%{$query}%")
+                         ->orWhere('last_name', 'like', "%{$query}%")
+                         ->orWhere('email', 'like', "%{$query}%")
+                         ->limit(10)
+                         ->get();
+
+            $results = $users->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    'text' => "{$user->first_name} {$user->last_name} ({$user->email})",
+                ];
+            });
+
+            $data = [
+                'search' => $query,
+                'results' => $results,
+            ];
+
+            return response()->json($data);
+        }
+
+        return response()->json([
+            'search' => $request->get('query'),
+            'results' => [],
+        ]);
     }
 }

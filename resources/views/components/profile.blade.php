@@ -6,7 +6,7 @@
             <!--begin: Pic-->
             <div class="me-7 mb-4">
                 <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-                    <img src="{{asset('/images/user1.jpg')}}" alt="image">
+                    <img src="{{ asset('/images/user1.jpg') }}" alt="image">
                     <div class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px"></div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                     <div class="d-flex flex-column">
                         <!--begin::نام-->
                         <div class="d-flex align-items-center mb-2">
-                            <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">فرهاد باقری</a>
+                            <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">{{ $user->first_name .' '. $user->last_name }} </a>
                             <a href="#">
                                 <i class="ki-duotone ki-verify fs-1 tw-text-blue-500">
                                     <span class="path1"></span>
@@ -63,7 +63,6 @@
                             </button>
                             <!--begin::Menu 3-->
                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px py-3" data-kt-menu="true">
-
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
                                     <a href="#" class="menu-link px-3 text-danger">حذف کاربر</a>
@@ -146,12 +145,12 @@
         <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold">
             <!--begin::Nav item-->
             <li class="nav-item mt-2">
-                <a class="nav-link text-active-primary ms-0 me-10 py-5 {{ Route::currentRouteName() === 'user.profile' ? 'active' : '' }}" href="{{ route('user.profile',['id' => 1]) }}">بررسی اجمالی</a>
+                <a class="nav-link text-active-primary ms-0 me-10 py-5 {{ Route::currentRouteName() === 'user.profile' ? 'active' : '' }}" href="{{ route('users.profile',['id' => 1]) }}">بررسی اجمالی</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item mt-2">
-                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{ route('user.edit.show',['id' => 1]) }}">ویرایش</a>
+                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{ route('users.edit',['id' => 1]) }}">ویرایش</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
@@ -176,7 +175,7 @@
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item mt-2">
-                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{ route('user.sessions.show',['id' => 1]) }}">نشست ها</a>
+                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{ route('users.sessions.index',['id' => 1]) }}">نشست ها</a>
             </li>
             <!--end::Nav item-->
         </ul>

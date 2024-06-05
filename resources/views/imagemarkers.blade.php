@@ -3,7 +3,7 @@
 @section('title', 'نشانه گذاری عکس')
 
 @section("toolbar")
-<a href="{{route('attribute.create.show')}}" class="btn btn-primary">نشانه گذاری جدید</a>
+<a href="{{route('products.create')}}" class="btn btn-primary">نشانه گذاری جدید</a>
 @endsection
 
 @section('content')

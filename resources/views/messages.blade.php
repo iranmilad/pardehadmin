@@ -3,7 +3,7 @@
 @section('title', 'پیام ها')
 
 @section("toolbar")
-<a href="{{route('attribute.create.show')}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new_message">پیام جدید</a>
+<a href="{{route('products.create')}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new_message">پیام جدید</a>
 @endsection
 
 @section('content')

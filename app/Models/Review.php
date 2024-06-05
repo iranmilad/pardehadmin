@@ -20,6 +20,7 @@ class Review extends Model
         'images',
         'user_id',
         'product_id',
+        'status'
     ];
     protected $casts = [
         // تعیین نوع داده‌ها
@@ -74,7 +75,7 @@ class Review extends Model
 
     public function product()
     {
-        $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class);
     }
 
     public function user()
@@ -82,5 +83,10 @@ class Review extends Model
         return $this->belongsTo(User::class);
     }
 
-
+    public function getDateShamsiAttribute()
+    {
+        $gregorianDate = \Carbon\Carbon::parse($this->due_date);
+        $jalaliDate = \Morilog\Jalali\Jalalian::fromCarbon($gregorianDate);
+        return $jalaliDate->format('Y/m/d');
+    }
 }

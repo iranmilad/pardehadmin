@@ -27,6 +27,8 @@ use Illuminate\Notifications\Notifiable;
         'address',
         'postal_code',
         'phone',
+        'national_code',
+        'avatar',
         'check_payment_active',
         'credit_payment_active',
         'credit_limit',
@@ -242,7 +244,7 @@ use Illuminate\Notifications\Notifiable;
 
                     if ($product) {
 
-                        $attributes = $cartItem->orderAttributeItems;
+                        $attributes = $cartItem->orderProperties;
                         // Extract quantity from the item using regular expressions
                         $quantity =  $cartItem->quantity;
                         $cartCount += $quantity;
@@ -463,4 +465,16 @@ use Illuminate\Notifications\Notifiable;
             return 0;
         }
     }
+
+    public function creditPlans()
+    {
+        return $this->belongsToMany(CreditPlan::class, 'credit_plan_user');
+    }
+
+    public function loginSessions()
+    {
+        return $this->hasMany(LoginSession::class);
+    }
+
+
 }

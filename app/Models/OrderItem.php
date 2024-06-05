@@ -35,8 +35,8 @@ class OrderItem extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function orderAttributeItems()
+    public function orderProperties()
     {
-        return $this->hasMany(OrderAttributeItem::class);
+        return $this->hasMany(OrderProperty::class);
     }
 }

@@ -28,7 +28,7 @@
 									<!--begin:Menu item-->
 									<div class="menu-item here show menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
 										<!--begin:Menu link-->
-										<a href="{{route('product.create.show')}}" class="menu-link">
+										<a href="{{route('products.create')}}" class="menu-link">
 											<span class="menu-title">افزودن محصول</span>
 											<span class="menu-arrow d-lg-none"></span>
 										</a>
@@ -140,7 +140,7 @@
 										<!--end::Menu separator-->
 										<!--begin::Menu item-->
 										<div class="menu-item px-5">
-											<a href="{{route('user.edit.show',['id'=> 1])}}" class="menu-link px-5">تنظیمات پروفایل</a>
+											<a href="{{route('users.edit',['id'=> 1])}}" class="menu-link px-5">تنظیمات پروفایل</a>
 										</div>
 										<!--end::Menu item-->
 

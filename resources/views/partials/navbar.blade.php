@@ -175,7 +175,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('products.list.show')  ? 'active' : '' }}" href="{{route('products.list.show')}}">
+				<a class="menu-link {{ Route::is('products.list')  ? 'active' : '' }}" href="{{route('products.list')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -187,7 +187,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('product.create.show')  ? 'active' : '' }}" href="{{route('product.create.show')}}">
+				<a class="menu-link {{ Route::is('products.create')  ? 'active' : '' }}" href="{{route('products.create')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -199,7 +199,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('product.categories.show') || Route::is('product.category.show')  ? 'active' : '' }}" href="{{route('product.categories.show')}}">
+				<a class="menu-link {{ Route::is('categories.list') || Route::is('categories.*')  ? 'active' : '' }}" href="{{route('categories.list')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -211,7 +211,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('product.tags.show') || Route::is('product.tag.show') || Route::is('product.tag.create.show')  ? 'active' : '' }}" href="{{route('product.tags.show')}}">
+				<a class="menu-link {{ Route::is('products.tags.*') ? 'active' : '' }}" href="{{route('products.tags.list')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -223,7 +223,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('attributes.list.show') || Route::is('attribute.create.show') || Route::is('attribute.show') ? 'active' : '' }}" href="{{route('attributes.list.show')}}">
+				<a class="menu-link {{ Route::is('attributes.*')  ? 'active' : '' }}" href="{{route('attributes.list')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -235,7 +235,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('product.comments.show') || Route::is('product.comment.show')  ? 'active' : '' }}" href="{{route('product.comments.show')}}">
+				<a class="menu-link {{ Route::is('products.reviews*')  ? 'active' : '' }}" href="{{route('products.reviews.list')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -370,7 +370,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('user.create') ? 'active' : '' }}" href="{{ route('user.create') }}">
+				<a class="menu-link {{ Route::is('users.create') ? 'active' : '' }}" href="{{ route('users.create') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -442,7 +442,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('installments.list.show') || Route::is('installment.show')  ? 'active' : '' }}" href="{{ route('installments.list.show') }}">
+				<a class="menu-link {{ Route::is('credit.show') || Route::is('credit.*')  ? 'active' : '' }}" href="{{ route('credit.show') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -454,7 +454,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('installment.create.show')  ? 'active' : '' }}" href="{{ route('installment.create.show') }}">
+				<a class="menu-link {{ Route::is('installments.create')  ? 'active' : '' }}" href="{{ route('installments.create') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>

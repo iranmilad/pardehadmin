@@ -2,163 +2,199 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
+use App\Models\Review;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\Attribute;
 use Illuminate\Http\Request;
-
 
 class ProductController extends Controller
 {
-    public function index($id){
-        //return "Product Number: $id";
-        if(is_numeric($id))
-            $product = Product::where("id",$id)->first();
-        else
-            $product = Product::where("title",$id)->first();
+    // نمایش لیست محصولات
+    public function index(Request $request)
+    {
+        $searchQuery = $request->input('s');
+        $products = Product::with(['categories', 'tags'])
+            ->when($searchQuery, function($query, $searchQuery) {
+                return $query->where('title', 'LIKE', "%{$searchQuery}%");
+            })
+            ->paginate(6);
 
-
-        return view('product',compact('product'));
+        return view('products', compact('products'));
     }
 
+    // نمایش فرم ایجاد محصول
+    public function create()
+    {
+        $categories = Category::all();
+        $attributes = Attribute::all();
+        $tags = Tag::all();
 
-    public function getTotalPrice(Request $request){
+        return view('product', compact('categories', 'tags','attributes'));
+    }
 
-        $params = $request->input("param");
-        $cartCount = 0; // Initialize cart count
-        $totalPrice = 0; // Initialize total price
-        $items = []; // Initialize cart items array
-        $attributeNames = [];
-        $totalDiscountPrice =0;
+    // ذخیره محصول جدید
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric',
+            'sale_price' => 'nullable|numeric',
+            'categories' => 'nullable|array',
+            'tags' => 'nullable|array',
+            'img' => 'nullable|image|max:2048',
+        ]);
 
-
-        $productId = $params["product"];
-        // Retrieve the product from the database
-        $product = Product::find($productId);
-
-        $totalAttributePrice = 0;
-        $totalAttributeSalePrice =0;
-
-
-        if ($product) {
-
-            $all_attribute = $product->attributes;
-            // Extract quantity from the item using regular expressions
-            $attribute = $all_attribute->where('name', 'تعداد')->first();
-            $quantity =  $cartItem[$attribute->id]['تعداد'] ?? 1;
-            $cartCount += $quantity;
-            // Extract attribute items for the product
-            $productAttributeItems = $all_attribute->pluck('items', 'id')->toArray();
-
-            $attr=null;
-            $attributeSeries =[];
-
-            foreach ($params as $keyItem => $vItem){
-                if (!is_array($vItem) && is_numeric($keyItem)) {
-                    if (isset($productAttributeItems[$keyItem]) && is_array($productAttributeItems[$keyItem])) {
-
-                        $attr = (object)collect($productAttributeItems[$keyItem])->where('name', $vItem)->first();
-
-
-                        if($attr){
-                            $priceAttr = $attr->sale_price ?? $attr->price ;
-                            if (!is_null($priceAttr)){
-                                $attributeNames[] = $attr->name;
-                                $totalAttributeSalePrice += $priceAttr;
-                                $totalAttributePrice += $attr->price ;
-                                $attributeSeries[$keyItem] = $vItem;
-                            }
-                        }
-
-                    }
-
-                }
-            }
-
-
-
-            // Check if the product has a sale price
-            $price = $product->sale_price ?? $product->price;
-
-            $totalPrice += ($price + $totalAttributeSalePrice ) * $quantity ;
-
-            $all_images = $product->images;
-
-            $images=[];
-
-            foreach($all_images as $image){
-                $images[] = $image->url;
-            }
-
-            $response = [
-                "name" => $product->title,
-                "images" => $images,
-                "regular_price" => number_format($product->price + $totalAttributePrice),
-                "sale_price" => number_format($product->sale_price + $totalAttributeSalePrice),
-                "discount" => $product->discountPercentage,
-                "time_delivery" => 7
-            ];
-
-
-            // Add product details to the items array
-            // $items[] = (object)[
-            //     "id" => 0,
-            //     "product_id" => $product->id,
-            //     "name" => $product->title,
-            //     "img" => $product->img,
-            //     "link" => $product->link,
-            //     "price" =>$product->price + $totalAttributePrice,
-            //     "sale_price"  => $product->sale_price + $totalAttributeSalePrice,
-            //     "discountPercentage" => $product->discountPercentage,
-            //     "quantity" => $quantity,
-            //     "attribute" => $attributeNames,
-            //     "service" => $product->service,
-            //     "attributeSeries" => $attributeSeries,
-            //     "services" =>(object) [
-            //         "sewing" => $product->services()->where('type', 'sewing')->first(),
-            //         "installer" => $product->services()->where('type', 'installer')->first(),
-            //         "design" => $product->services()->where('type', 'design')->first(),
-            //     ],
-            //     "installer" => $cartItem["installer"] ?? null,
-            //     "sewing" => $cartItem["sewing"] ?? null,
-            //     "design" => $cartItem["design"] ?? null,
-            //     "total" => ($product->sale_price ?? $product->price + $totalAttributeSalePrice ) * $quantity, // Calculate total price for each item
-            // ];
-
+        if ($request->hasFile('img')) {
+            $data['img'] = $request->file('img')->store('images/products', 'public');
         }
 
+        $product = Product::create($data);
 
+        if (isset($data['categories'])) {
+            $product->categories()->sync($data['categories']);
+        }
 
+        if (isset($data['tags'])) {
+            $product->tags()->sync($data['tags']);
+        }
 
+        return redirect()->route('products.list')->with('success', 'محصول با موفقیت ایجاد شد.');
+    }
 
+    // نمایش فرم ویرایش محصول
+    public function edit($id)
+    {
+        $product = Product::with(['categories', 'tags'])->findOrFail($id);
+        $categories = Category::all();
+        $tags = Tag::all();
+        $attributes = Attribute::all();
+        $attributeOptions = Attribute::with('items')->get()->mapWithKeys(function ($attribute) use ($product) {
+            return [
+                $attribute->id => [
+                    'name' => $attribute->name,
+                    'options' => $attribute->items->map(function ($item) use ($product) {
+                        return [
+                            'id' => $item->id,
+                            'name' => $item->name,
+                            'selected' => $product->attributes->contains($item->id)
+                        ];
+                    })->toArray()
+                ]
+            ];
+        })->toArray();
 
-        /**
-         * regular_price & sale_price & discount & time_delivery are optional.
-         * images are required. if they are not exist, use a default image.
-         */
-        // $response = [
-        //     "name" => $request->name,
-        //     "images" => [
-        //         "/images/5.jpg",
-        //         "/images/6.jpg",
-        //     ],
-        //     "regular_price" => "21,000,000",
-        //     "sale_price" => "11,000,000",
-        //     "discount" => "20%",
-        //     "time_delivery" => 2
-        // ];
+        return view('product', compact('product', 'categories', 'tags','attributes', 'attributeOptions'));
+    }
 
-        /**
-         * [ Unavailable product ]
-         */
-        // $response = [
-        //     "name" => $request->name,
-        //     "images" => [
-        //         "https://placehold.co/900?text=2",
-        //     ],
-        // ];
+    // به‌روزرسانی محصول
+    public function update(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
 
-        return response()->json($response);
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric',
+            'sale_price' => 'nullable|numeric',
+            'categories' => 'nullable|array',
+            'tags' => 'nullable|array',
+            'img' => 'nullable|image|max:2048',
+            'attributes' => 'array',
+            'attributes.*' => 'exists:attributes,id',
+        ]);
 
+        if ($request->hasFile('img')) {
+            if ($product->img) {
+                \Storage::delete('public/' . $product->img);
+            }
+            $data['img'] = $request->file('img')->store('images/products', 'public');
+        }
+
+        $product->update($data);
+
+        if (isset($data['categories'])) {
+            $product->categories()->sync($data['categories']);
+        }
+
+        if (isset($data['tags'])) {
+            $product->tags()->sync($data['tags']);
+        }
+
+        if (isset($data['attributes'])) {
+            $product->attributes()->sync($data['attributes']);
+        }
+
+        return redirect()->route('products.list')->with('success', 'محصول با موفقیت به‌روزرسانی شد.');
+    }
+
+    // حذف محصول
+    public function delete(Request $request)
+    {
+        $product = Product::findOrFail($request->input('id'));
+
+        if ($product->img) {
+            \Storage::delete('public/' . $product->img);
+        }
+
+        $product->delete();
+
+        return redirect()->route('products.list')->with('success', 'محصول با موفقیت حذف شد.');
+    }
+
+    // عملیات دسته‌ای
+    public function bulk_action(Request $request)
+    {
+        $action = $request->input('action');
+        $ids = $request->input('checked_row');
+
+        if ($action === 'delete') {
+            Product::whereIn('id', $ids)->delete();
+            return redirect()->route('products.list')->with('success', 'محصولات انتخابی با موفقیت حذف شدند.');
+        }
+
+        return redirect()->route('products.list')->with('error', 'عملیات نامعتبر است.');
+    }
+
+    // نمایش اطلاعات محصول
+    public function show($id)
+    {
+        $product = Product::with(['categories', 'tags', 'reviews.user'])->findOrFail($id);
+        return view('products.show', compact('product'));
+    }
+
+    // ذخیره نقد و بررسی محصول
+    public function storeReview(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+
+        $data = $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'required|string',
+        ]);
+
+        $data['user_id'] = auth()->id();
+        $data['product_id'] = $product->id;
+
+        Review::create($data);
+
+        return redirect()->route('product', $product->id)->with('success', 'نقد و بررسی با موفقیت ثبت شد.');
     }
 
 
+    public function updateAttributes(Request $request)
+    {
+        $product = Product::find($request->input('product_id'));
+
+        if ($product) {
+            // به‌روز رسانی ویژگی‌های محصول
+            $product->attributes()->sync($request->input('attributes', []));
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false], 404);
+    }
 }

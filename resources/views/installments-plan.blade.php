@@ -1,15 +1,18 @@
-<!-- This blade is used for writing and editing a post -->
 @extends('layouts.primary')
 
-@if(Route::is('attribute.show'))
-@section('title', 'ویرایش ویژگی')
+@if(Route::is('installments.create'))
+    @section('title', 'ایجاد پلن')
 @else
-@section('title', 'ایجاد ویژگی')
+    @section('title', 'ویرایش پلن')
 @endif
 
 @section('content')
 
-<form action="">
+<form action="{{ Route::is('installments.create') ? route('installments.store') : route('installments.update', ['id' => $creditPlan->id]) }}" method="POST">
+    @csrf
+    @if(Route::is('installments.edit'))
+        @method('PUT')
+    @endif
     <!-- PARENT -->
     <div class="card mb-8">
         <div class="card">
@@ -19,36 +22,34 @@
                 </div>
             </div>
             <div class="card-body">
-                <p class="pb-10">اقساط بر اساس مبلغ کل محصول میباشد</p>
-                <form action="">
-                    <div class="row gy-8">
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div>
-                                <label for="title" class="form-label required">عنوان</label>
-                                <input type="text" class="form-control" id="title" placeholder="عنوان را وارد کنید">
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div>
-                                <label for="title" class="form-label required">تعداد اقساط</label>
-                                <input type="text" class="form-control" id="title" placeholder="">
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <label class="form-label" for="">فاصله پرداختی</label>
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="0" aria-label="Username" aria-describedby="basic-addon1">
-                                <span class="input-group-text" id="basic-addon1">روز</span>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div>
-                                <label for="title" class="form-label required">درصد نقدی</label>
-                                <input type="text" class="form-control" id="title" placeholder="مثال : 30%">
-                            </div>
+                <p class="pb-10">اقساط بر اساس مبلغ کل محصول می‌باشد</p>
+                <div class="row gy-8">
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div>
+                            <label for="name" class="form-label required">عنوان</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="عنوان را وارد کنید" value="{{ old('name', $creditPlan->name ?? '') }}" required>
                         </div>
                     </div>
-                </form>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div>
+                            <label for="installments_count" class="form-label required">تعداد اقساط</label>
+                            <input type="number" class="form-control" id="installments_count" name="installments_count" placeholder="تعداد اقساط" value="{{ old('installments_count', $creditPlan->installments_count ?? '') }}" required>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <label class="form-label" for="installment_interval_months">فاصله پرداختی</label>
+                        <div class="input-group mb-3">
+                            <input type="number" class="form-control" id="installment_interval_months" name="installment_interval_months" placeholder="0" value="{{ old('installment_interval_months', $creditPlan->installment_interval_months ?? '') }}" required>
+                            <span class="input-group-text">روز</span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div>
+                            <label for="credit_percentage" class="form-label required">درصد نقدی</label>
+                            <input type="text" class="form-control" id="credit_percentage" name="credit_percentage" placeholder="مثال : 30%" value="{{ old('credit_percentage', $creditPlan->credit_percentage ?? '') }}" required>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -63,10 +64,16 @@
         <div class="card-body">
             <div class="row gy-8">
                 <div class="col-12 col-md-6 col-lg-4">
-                    <x-advanced-search type="user" label="مشتری مجاز" name="user" />
+                    {{ $creditPlan->allowed_users }}
+                    <x-advanced-search type="user" label="فقط مشتری مجاز" name="allowed_users[]" :multiple="true" :solid="true" :selected="$allowedUsers" />
                 </div>
+
+            </div>
+
+            <div class="row gy-8">
                 <div class="col-12 col-md-6 col-lg-4">
-                    <x-advanced-search type="user" label="مشتری به جز" name="user" />
+                    <input type="checkbox" class="mt-15" name="all_user_allow" id="all_user_allow" checked>
+                    <label for="allowed" class="form-label">همه کاربران مجاز هستند</label>
                 </div>
             </div>
         </div>
@@ -75,29 +82,25 @@
     <button class="btn btn-success mt-10">ذخیره</button>
 </form>
 
-
 @endsection
 
 @section('script-before')
-<script src="{{asset('plugins/custom/formrepeater/formrepeater.bundle.js')}}"></script>
-<script src="{{asset('plugins/custom/pickr/pickr.es5.min.js')}}"></script>
+<script src="{{ asset('plugins/custom/formrepeater/formrepeater.bundle.js') }}"></script>
+<script src="{{ asset('plugins/custom/pickr/pickr.es5.min.js') }}"></script>
 @endsection
 
-@section("scripts")
+@section('scripts')
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-
-
         $(".other_repeater").repeater({
             initEmpty: false,
             show: function() {
                 $(this).slideDown();
             },
-
             hide: function(deleteElement) {
                 $(this).slideUp(deleteElement);
             }
         });
-    })
+    });
 </script>
 @endsection

@@ -93,13 +93,13 @@
             <tbody>
                 <tr>
                     <td>
-                        <a href="{{route('attribute.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">
+                        <a href="{{route('products.create',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">
                             <img class="tw-size-16 tw-rounded-md" src="/images/1.jpg" alt="">
                             <span>پرده رنگی</span>
                         </a>
                     </td>
                     <td>
-                        <a href="{{route('attribute.show',['id' => 1])}}">12,000,000 تومان</a>
+                        <a href="{{route('products.create',['id' => 1])}}">12,000,000 تومان</a>
                     </td>
                     <td>
                         <span>1</span>
@@ -108,7 +108,7 @@
                         <span>12,000,000</span>
                     </td>
                     <td class="text-end">
-                        <a href="{{route('attribute.show',['id' => 1])}}" class="btn btn-danger btn-sm">
+                        <a href="{{route('products.create',['id' => 1])}}" class="btn btn-danger btn-sm">
                             حذف
                         </a>
                     </td>

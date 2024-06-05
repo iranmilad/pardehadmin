@@ -11,6 +11,7 @@ function ProductCategoriesTable() {
                 { data: "checkbox" },
                 { data: "title" },
                 { data: "slug" },
+                { data: "parent" },
                 { data: "children_count" },
                 { data: "action" },
             ],

@@ -35,10 +35,11 @@ class CreateUsersTable extends Migration
             $table->string('address')->nullable();
             $table->string('postal_code')->nullable();
             $table->string('phone')->nullable();
+            $table->string('national_code')->nullable();
 
             $table->boolean('check_payment_active')->default(false);
             $table->boolean('credit_payment_active')->default(false);
-
+            $table->string('avatar')->nullable();
 
             $table->unsignedBigInteger('credit_limit')->nullable();
 

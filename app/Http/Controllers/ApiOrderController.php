@@ -136,7 +136,7 @@ class ApiOrderController extends Controller
                     $attr = (object)collect($productAttributeItems[$key])->where('name', $value)->first();
                     $attribute= (object)collect($all_attribute)->where('id',$key)->first();
                     $name = $attribute->name;
-                    $orderAttributeItem = new OrderAttributeItem([
+                    $OrderProperty = new OrderProperty([
                         'order_item_id' => $randomNumber,
                         'attribute_item_id' => $key,
                         'name' => $name,
@@ -145,7 +145,7 @@ class ApiOrderController extends Controller
                         'sale_price' => $attr->sale_price ?? null,
                         'total' => ($attr->sale_price ?? $attr->price) * 1,
                     ]);
-                    $orderAttributeItem->save();
+                    $OrderProperty->save();
                     $totlaAttribute += ($attr->sale_price ?? $attr->price) * 1;
                 }
             }
@@ -983,7 +983,7 @@ class ApiOrderController extends Controller
                         $name = $productAttributeItems[$key];
                         $attribute= (object)collect($all_attribute)->where('id',$key)->first();
                         $name = $attribute->name;
-                        $orderAttributeItem = new OrderAttributeItem([
+                        $OrderProperty = new OrderProperty([
                             'order_item_id' => $item->id,
                             'attribute_item_id' => $key, // Replace with actual attribute item ID
                             'name' =>  $name,
@@ -992,7 +992,7 @@ class ApiOrderController extends Controller
                             'sale_price' => $attr->sale_price ?? null, // Replace with actual sale price
                             'total' => ($attr->sale_price ?? $attr->price) * $item->quantity,
                         ]);
-                        $orderAttributeItem->save();
+                        $OrderProperty->save();
                     }
 
                 }
@@ -1031,7 +1031,7 @@ class ApiOrderController extends Controller
 
                 if ($product) {
 
-                    $attributes = $cartItem->orderAttributeItems;
+                    $attributes = $cartItem->orderProperties;
                     // Extract quantity from the item using regular expressions
                     $quantity =  $cartItem->quantity;
                     $cartCount += $quantity;
@@ -1283,7 +1283,7 @@ class ApiOrderController extends Controller
 
             if ($product) {
 
-                $attributes = $cartItem->orderAttributeItems;
+                $attributes = $cartItem->orderProperties;
                 // Extract quantity from the item using regular expressions
                 $attribute_count = $attributes->where('name', 'تعداد')->first();
                 $quantity =  $attribute_count->value ?? 1;

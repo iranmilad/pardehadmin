@@ -36,7 +36,9 @@ class CreateProductsTable extends Migration
             $table->boolean('service')->default(false);
             $table->string('img')->default("/images/defaultProduct.png");
             $table->string('hover_img')->nullable();;
-
+            $table->enum('status', ['published', 'inactive'])->default('inactive');
+            $table->boolean('reviews_enabled')->default(true);
+            $table->string('video_path')->nullable();
             $table->timestamps();
         });
     }

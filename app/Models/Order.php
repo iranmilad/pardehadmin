@@ -162,7 +162,7 @@ class Order extends Model
                     //check review exist for this product
                     $review = $order->user->existsProductReview($product->id);
 
-                    $attributes = $cartItem->orderAttributeItems;
+                    $attributes = $cartItem->orderProperties;
                     // Extract quantity from the item using regular expressions
                     $quantity =  $cartItem->quantity;
                     $cartCount += $quantity;

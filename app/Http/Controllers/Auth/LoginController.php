@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\LoginSession;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Request;
 
 
 class LoginController extends Controller
@@ -67,6 +69,15 @@ class LoginController extends Controller
 
     }
 
+    protected function authenticated(Request $request, $user)
+    {
+        LoginSession::create([
+            'user_id' => $user->id,
+            'device' => $request->userAgent(),
+            'ip_address' => $request->ip(),
+            'login_time' => now(),
+        ]);
+    }
 
     public function logout()
     {

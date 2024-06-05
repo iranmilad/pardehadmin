@@ -3,7 +3,7 @@
 @section('title', 'اقساط')
 
 @section("toolbar")
-<a href="{{route('installment.create.show')}}" class="btn btn-primary">افزودن اقساط برای کاربر</a>
+<a href="{{route('credit.create')}}" class="btn btn-primary">افزودن اقساط برای کاربر</a>
 @endsection
 
 @section('content')
@@ -55,12 +55,12 @@
                 </div>
             </div>
 
-            <table id="installments_table" class="table gy-5 gs-7">
+            <table id="credits_table" class="table gy-5 gs-7">
                 <thead>
                     <tr class="fs-7 fw-bold text-gray-400 border-bottom-0">
                         <th class="w-10px">
                             <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#installments_table .form-check-input" value="1" />
+                                <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#credits_table .form-check-input" value="1" />
                             </div>
                         </th>
                         <th class="cursor-pointer px-0 text-start">عنوان</th>
@@ -80,25 +80,25 @@
                             </div>
                         </td>
                         <td>
-                            <a href="{{route('installment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">قسط اول سفارش #1212</a>
+                            <a href="{{route('credit.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">قسط اول سفارش #1212</a>
                         </td>
                         <td>
-                            <a href="{{route('installment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">12/12/1403</a>
+                            <a href="{{route('credit.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">12/12/1403</a>
                         </td>
                         <td>
-                            <a href="{{route('installment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">12/12/1403</a>
+                            <a href="{{route('credit.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">12/12/1403</a>
                         </td>
                         <td>
-                            <a href="{{route('installment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">09374039436</a>
+                            <a href="{{route('credit.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">09374039436</a>
                         </td>
                         <td>
-                            <a href="{{route('installment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">درگاه پرداخت</a>
+                            <a href="{{route('credit.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">درگاه پرداخت</a>
                         </td>
                         <td>
-                            <a href="{{route('installment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">24235123</a>
+                            <a href="{{route('credit.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">24235123</a>
                         </td>
                         <td class="text-end">
-                            <a href="{{route('installment.show',['id' => 1])}}" class="btn btn-light btn-sm">
+                            <a href="{{route('credit.edit',['id' => 1])}}" class="btn btn-light btn-sm">
                                 ویرایش
                             </a>
                         </td>

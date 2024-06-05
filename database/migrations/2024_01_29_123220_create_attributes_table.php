@@ -18,11 +18,12 @@ class CreateAttributesTable extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->boolean('countable');
+            $table->boolean('independent')->default(1);
 
-            $table->string('unit');
+            $table->string('unit')->nullable();
             $table->string('display_type');
             $table->string('img')->nullable();
-            $table->string('guide_link');
+            $table->string('guide_link')->nullable();
 
 
             $table->timestamps();

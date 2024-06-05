@@ -1,12 +1,11 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $fillable = ['title', 'description', 'alias', 'menu_id', 'img'];
+    protected $fillable = ['title', 'description', 'alias', 'menu_id', 'img', 'parent_id'];
 
     public function products()
     {
@@ -23,11 +22,9 @@ class Category extends Model
         return $this->belongsTo(Menu::class);
     }
 
-
-
     public function subcategories()
     {
-        return $this->hasMany(Subcategory::class);
+        return $this->hasMany(Category::class, 'parent_id');
     }
 
     public function menus()
@@ -35,15 +32,9 @@ class Category extends Model
         return $this->belongsToMany(Menu::class, 'category_menu', 'category_id', 'menu_id');
     }
 
-    // public function getImgAttribute(string $value): string
-    // {
-    //     return '/images/categories/' . $value;
-    // }
-
     public function getForMainPage()
     {
-        return $this
-            ->whereNotNull('img')
+        return $this->whereNotNull('img')
             ->with('menu')
             ->take(8)
             ->get();
@@ -51,8 +42,7 @@ class Category extends Model
 
     public function getWhereMenu(Menu $menu)
     {
-        return $this
-            ->whereMenuId($menu->id)
+        return $this->whereMenuId($menu->id)
             ->with('menu')
             ->withCount('products')
             ->get();
@@ -68,17 +58,21 @@ class Category extends Model
         return $this->products()->count();
     }
 
-
     public function calculatePageCount($perPage)
     {
         $totalCount = $this->countProducts();
         return ceil($totalCount / $perPage);
     }
 
-
     public function getLinkAttribute()
     {
-        return ("/category/".$this->alias);
-
+        return "/category/".$this->alias;
     }
+
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+
 }

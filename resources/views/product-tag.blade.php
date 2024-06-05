@@ -1,15 +1,8 @@
-<!-- This blade is used for writing and editing a post -->
 @extends('layouts.primary')
 
-@if(Route::is('product.tag.show'))
-    @section('title', 'ویرایش برچسب')
-@else
-    @section('title', 'ایجاد برچسب')
-@endif
+@section('title', isset($tag) ? 'ویرایش برچسب' : 'ایجاد برچسب')
 
 @section('content')
-
-<!-- PARENT -->
 <div class="card mb-8">
     <div class="card">
         <div class="card-header">
@@ -18,27 +11,43 @@
             </div>
         </div>
         <div class="card-body">
-            <form action="">
+            <form action="{{ isset($tag) ? route('products.tags.update', $tag->id) : route('products.tags.store') }}" method="POST">
                 @csrf
+                @if(isset($tag))
+                    @method('PUT')
+                @endif
                 <div class="row">
                     <div class="col-12 col-md">
                         <div class="mb-3">
-                            <label for="title" class="form-label required">عنوان</label>
-                            <input type="text" class="form-control" id="title" placeholder="عنوان را وارد کنید">
+                            <label for="name" class="form-label required">عنوان</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="عنوان را وارد کنید" value="{{ old('name', $tag->name ?? '') }}">
                         </div>
                     </div>
                     <div class="col-12 col-md">
                         <div class="mb-3">
-                            <label for="title" class="form-label required">نامک</label>
-                            <input type="text" class="form-control" id="title" placeholder="نامک را وارد کنید">
+                            <label for="slug" class="form-label required">نامک</label>
+                            <input type="text" class="form-control" id="slug" name="slug" placeholder="نامک را وارد کنید" value="{{ old('slug', $tag->slug ?? '') }}">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md">
+                        <div class="mb-3">
+                            <label for="type" class="form-label required">گروه برچسب</label>
+                            <input type="text" class="form-control" id="type" name="type" placeholder="گروه برچسب را وارد کنید" value="{{ old('type', $tag->type ?? '') }}">
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-success" type="submit">ذخیره</button>
+                <div class="row">
+                    <div class="col-12 col-md">
+                        <div class="mb-3">
+                            <label for="description" class="form-label">توضیحات</label>
+                            <input type="text" class="form-control" id="description" name="description" placeholder="توضیحات را وارد کنید" value="{{ old('description', $tag->description ?? '') }}">
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-success" type="submit">{{ isset($tag) ? 'ذخیره تغییرات' : 'ایجاد برچسب' }}</button>
             </form>
         </div>
     </div>
 </div>
-<!-- PARENT -->
-
-@endsection;
+@endsection

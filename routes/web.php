@@ -1,12 +1,24 @@
 <?php
 
 use App\Models\Page;
+use App\Models\Review;
 use App\Models\PostCategory;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CreditController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductTagController;
+use App\Http\Controllers\InstallmentController;
+use App\Http\Controllers\SubAttributeController;
+use App\Http\Controllers\AttributeItemController;
 use App\Http\Controllers\PostCategoriesController;
 
 /*
@@ -24,6 +36,8 @@ Route::get('/', function () {
     return view('index');
 })->name("index");
 
+
+Route::get('/search', [SearchController::class, 'search'])->name('api.search');
 // table of posts
 
 Route::group(['prefix' => 'post'], function () {
@@ -110,11 +124,200 @@ Route::group(['prefix' => 'pages'], function () {
 });
 
 
+Route::group(['prefix' => 'products/categories'], function () {
+    Route::get('/', [CategoryController::class, 'index'])->name('categories.list');
+    Route::get('/create', [CategoryController::class, 'create'])->name('categories.create');
+    Route::post('/store', [CategoryController::class, 'store'])->name('categories.store');
+    Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('categories.edit');
+    Route::put('/update/{id}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::post('/delete', [CategoryController::class, 'delete'])->name('categories.delete');
+    Route::post('/bulk_action', [CategoryController::class, 'bulk_action'])->name('categories.bulk_action');
+});
+
+Route::group(['prefix' => 'products/tags'], function () {
+
+    Route::get('/', [ProductTagController::class, 'index'])->name("products.tags.list");
+    Route::get('/create', [ProductTagController::class, 'create'])->name("products.tags.create");
+    Route::post('/store', [ProductTagController::class, 'store'])->name("products.tags.store");
+
+    Route::get('/edit/{id}', [ProductTagController::class, 'edit'])->name("products.tags.edit");
+    Route::put('/update/{id}', [ProductTagController::class, 'update'])->name("products.tags.update");
+
+    Route::post('/delete', [ProductTagController::class, 'delete'])->name("products.tags.delete");
+
+    Route::post('/bulk_action', [ProductTagController::class, 'bulk_action'])->name("products.tags.bulk_action");
+
+});
+
+Route::group(['prefix' => 'products/reviews'], function () {
+
+    Route::get('/', [ReviewController::class, 'index'])->name("products.reviews.list");
+
+    Route::get('/create', [ReviewController::class, 'create'])->name("products.reviews.create");
+    Route::post('/store', [ReviewController::class, 'store'])->name("products.reviews.store");
+
+    Route::get('/edit/{id}', [ReviewController::class, 'edit'])->name("products.reviews.edit");
+    Route::put('/update/{id}', [ReviewController::class, 'update'])->name("products.reviews.update");
+
+    Route::post('/delete', [ReviewController::class, 'delete'])->name("products.reviews.delete");
+
+    Route::post('/bulk_action', [ReviewController::class, 'bulk_action'])->name("products.reviews.bulk_action");
+
+});
 
 
 
 
+Route::group(['prefix' => 'products/attributes'], function () {
 
+    Route::get('/', [AttributeController::class, 'index'])->name("attributes.list");
+    Route::get('/create', [AttributeController::class, 'create'])->name("attributes.create");
+    Route::post('/store', [AttributeController::class, 'store'])->name("attributes.store");
+    Route::get('/edit/{id}', [AttributeController::class, 'edit'])->name("attributes.edit");
+    Route::put('/update/{id}', [AttributeController::class, 'update'])->name("attributes.update");
+    Route::post('/delete', [AttributeController::class, 'delete'])->name("attributes.delete");
+    Route::get('/attribute-options/{attributeId}', [AttributeController::class, 'getOptions']);
+});
+
+Route::group(['prefix' => 'products/attributesProperties'], function () {
+    Route::get('/create/{id}', [AttributeItemController::class, 'create'])->name("attribute.properties.create");
+    Route::post('/store', [AttributeItemController::class, 'store'])->name("attribute.properties.store");
+    Route::get('/edit/{id}', [AttributeItemController::class, 'edit'])->name("attribute.properties.edit");
+    Route::put('/update/{id}', [AttributeItemController::class, 'update'])->name("attribute.properties.update");
+    Route::post('/delete', [AttributeItemController::class, 'delete'])->name("attribute.properties.delete");
+});
+
+Route::group(['prefix' => 'products'], function () {
+
+    Route::get('/', [ProductController::class, 'index'])->name("products.list");
+    Route::get('/create', [ProductController::class, 'create'])->name("products.create");
+    Route::post('/store', [ProductController::class, 'store'])->name("products.store");
+    Route::get('/edit/{id}', [ProductController::class, 'edit'])->name("products.edit");
+    Route::put('/update/{id}', [ProductController::class, 'update'])->name("products.update");
+    Route::post('/delete', [ProductController::class, 'delete'])->name("products.delete");
+    Route::post('/bulk_action', [ProductController::class, 'bulk_action'])->name("products.bulk_action");
+    Route::post('/update-attributes', [ProductController::class, 'updateAttributes']);
+
+});
+
+Route::group(['prefix' => 'installments'], function () {
+
+    Route::get('/list', [InstallmentController::class, 'installment'])->name("installments");
+
+    Route::get('/', [InstallmentController::class, 'index'])->name("installments.list");
+
+    Route::get('/create', [InstallmentController::class, 'create'])->name("installments.create");
+    Route::post('/store', [InstallmentController::class, 'store'])->name("installments.store");
+
+    Route::get('/edit/{id}', [InstallmentController::class, 'edit'])->name("installments.edit");
+    Route::put('/update/{id}', [InstallmentController::class, 'update'])->name("installments.update");
+
+    Route::post('/delete', [InstallmentController::class, 'delete'])->name("installments.delete");
+
+    Route::post('/bulk_action', [InstallmentController::class, 'bulk_action'])->name("installments.bulk_action");
+
+    Route::get('/plans/list', [InstallmentController::class, 'list'])->name("installments.plans.list.show");
+    Route::get('/report', [InstallmentController::class, 'report'])->name("installments.report.show");
+});
+
+Route::group(['prefix' => 'credit'], function () {
+
+    Route::get('/', [CreditController::class, 'index'])->name("credit.show");
+
+    Route::get('/create', [CreditController::class, 'create'])->name("credit.create");
+    Route::post('/store', [CreditController::class, 'store'])->name("credit.store");
+
+    Route::get('/edit/{id}', [CreditController::class, 'edit'])->name("credit.edit");
+    Route::put('/update/{id}', [CreditController::class, 'update'])->name("credit.update");
+
+    Route::post('/delete', [CreditController::class, 'delete'])->name("credit.delete");
+
+    Route::post('/bulk_action', [CreditController::class, 'bulk_action'])->name("credit.bulk_action");
+
+});
+
+// Route::group(['prefix' => 'installments'], function () {
+//     Route::get('/list', function () {
+//         return view('installments');
+//     })->name("installments.list.show");
+
+//     Route::get('/edit/{id}', function ($id) {
+//         return view('installment');
+//     })->name("installment.show");
+
+//     Route::get('/create', function () {
+//         return view('installment');
+//     })->name("installment.create.show");
+
+//     Route::get('/plans/list', function () {
+//         return view('installments-plans');
+//     })->name("installments.plans.list.show");
+
+//     Route::get('/plans/edit/{id}', function ($id) {
+//         return view('installments-plan');
+//     })->name("installments.plan.show");
+
+//     Route::get('/report', function () {
+//         return view('installments-report');
+//     })->name("installments.report.show");
+
+// });
+
+
+Route::group(['prefix' => 'users'], function () {
+
+    Route::get('/', [UserController::class, 'index'])->name("users.list");
+
+    Route::get('/create', [UserController::class, 'create'])->name("users.create");
+    Route::post('/store', [UserController::class, 'store'])->name("users.store");
+
+    Route::get('/edit/{id}', [UserController::class, 'edit'])->name("users.edit");
+    Route::get('/profile/{id}', [UserController::class, 'profile'])->name("users.profile");
+
+    Route::get('/profile/sessions/{id}', [UserController::class, 'sessions'])->name("users.sessions.index");
+    Route::post('/profile/sessions/{id}', [UserController::class, 'sessions'])->name("user.sessions.save");
+
+    Route::put('/update/{id}', [UserController::class, 'update'])->name("users.update");
+
+    Route::post('/delete', [UserController::class, 'delete'])->name("users.delete");
+
+    Route::post('/bulk_action', [UserController::class, 'bulk_action'])->name("users.bulk_action");
+
+});
+
+
+// Route::group(['prefix' => 'users'], function () {
+//     Route::get('/', function () {
+//         return view('users');
+//     })->name("users.list");
+
+//     Route::get('/create', function () {
+//         return view('user-create');
+//     })->name("user.create");
+
+//     Route::get('/profile/{id}', function ($id) {
+//         return view('user-profile', ['id' => $id]);
+//     })->name("user.profile");
+
+//     // User sessions for user login history like IP, browser, device, etc.
+//     Route::get('/profile/sessions/{id}', function () {
+//         return view('user-sessions');
+//     })->name("user.sessions.show");
+
+//     Route::delete('/profile/sessions/{id}', function () {
+//     })->name("user.sessions.save");
+
+//     Route::get('/edit/{id}', function ($id) {
+//         return view('user-detail', ['id' => $id]);
+//     })->name("user.edit.show");
+
+//     Route::post('/edit/{id}', function ($id) {
+//     })->name("user.edit.save");
+
+//     Route::post('/delete', function ($id) {
+//         return view('user', ['id' => $id]);
+//     })->name("user.delete");
+// });
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -158,38 +361,7 @@ Route::group(['prefix' => 'block'], function () {
 
 
 
-Route::group(['prefix' => 'users'], function () {
-    Route::get('/', function () {
-        return view('users');
-    })->name("users.list");
 
-    Route::get('/create', function () {
-        return view('user-create');
-    })->name("user.create");
-
-    Route::get('/profile/{id}', function ($id) {
-        return view('user-profile', ['id' => $id]);
-    })->name("user.profile");
-
-    // User sessions for user login history like IP, browser, device, etc.
-    Route::get('/profile/sessions/{id}', function () {
-        return view('user-sessions');
-    })->name("user.sessions.show");
-
-    Route::delete('/profile/sessions/{id}', function () {
-    })->name("user.sessions.save");
-
-    Route::get('/edit/{id}', function ($id) {
-        return view('user-detail', ['id' => $id]);
-    })->name("user.edit.show");
-
-    Route::post('/edit/{id}', function ($id) {
-    })->name("user.edit.save");
-
-    Route::post('/delete', function ($id) {
-        return view('user', ['id' => $id]);
-    })->name("user.delete");
-});
 
 // table of posts
 Route::get('/settings', function () {
@@ -200,74 +372,6 @@ Route::post('/settings', function () {
 })->name("settings.save");
 
 
-Route::group(['prefix' => 'products'], function () {
-
-    Route::get('/list/', function () {
-        return view('products');
-    })->name("products.list.show");
-
-    Route::get('/create/', function () {
-        return view('product');
-    })->name("product.create.show");
-
-    Route::get('/edit/{id}', function ($id) {
-        return view('product');
-    })->name("product.edit.show");
-
-    Route::get('/categories/', function () {
-        return view('product-categories');
-    })->name("product.categories.show");
-
-    Route::get('/category/{id}', function ($id) {
-        return view('product-category');
-    })->name("product.category.show");
-
-    Route::get('/tags/', function () {
-        return view('product-tags');
-    })->name("product.tags.show");
-
-    Route::get('/tags/edit/{id}', function ($id) {
-        return view('product-tag');
-    })->name("product.tag.show");
-
-    Route::get('/tags/create/', function () {
-        return view('product-tag');
-    })->name("product.tag.create.show");
-
-    Route::get('/comments/', function () {
-        return view('product-comments');
-    })->name("product.comments.show");
-
-    Route::get('/comment/{id}', function ($id) {
-        return view('product-comment');
-    })->name("product.comment.show");
-
-    Route::post('/category/{id}', function ($id) {
-    })->name("product.category.save");
-
-
-
-    Route::delete('/delete/{id}', function () {
-    })->name("product.delete");
-
-    Route::get('/attributes', function () {
-        return view('attributes');
-    })->name("attributes.list.show");
-
-    Route::get('/attributes/create/', function () {
-        return view('attribute');
-    })->name("attribute.create.show");
-
-    Route::get('/attributes/edit/{id}', function ($id) {
-        return view('attribute');
-    })->name("attribute.show");
-
-    Route::post('/attributes/edit/{id}', function ($id) {
-    })->name("attribute.save");
-
-    Route::post('/attributes/edit/children/{id}', function ($id) {
-    })->name("attribute.children.save");
-});
 
 
 Route::get('/reports', function () {
@@ -333,32 +437,7 @@ Route::get('/order/print/{id}', function ($id) {
 })->name("order.print.show");
 
 
-Route::group(['prefix' => 'installments'], function () {
-    Route::get('/list', function () {
-        return view('installments');
-    })->name("installments.list.show");
 
-    Route::get('/edit/{id}', function ($id) {
-        return view('installment');
-    })->name("installment.show");
-
-    Route::get('/create', function () {
-        return view('installment');
-    })->name("installment.create.show");
-
-    Route::get('/plans/list', function () {
-        return view('installments-plans');
-    })->name("installments.plans.list.show");
-
-    Route::get('/plans/edit/{id}', function ($id) {
-        return view('installments-plan');
-    })->name("installments.plan.show");
-
-    Route::get('/report', function () {
-        return view('installments-report');
-    })->name("installments.report.show");
-
-});
 
 Route::get('/worktimes', function () {
     return view('worktimes');

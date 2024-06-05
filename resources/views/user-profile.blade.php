@@ -2,7 +2,8 @@
 
 @section('title', 'پروفایل کاربر')
 @section('content')
-<x-profile />
+
+@include('partials.profile')
 <!--begin::details نمایش-->
 <div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
     <!--begin::کارت header-->
@@ -26,7 +27,7 @@
             <!--end::Tags-->
             <!--begin::Col-->
             <div class="col-lg-8">
-                <span class="fw-bold fs-6 text-gray-800">admin</span>
+                <span class="fw-bold fs-6 text-gray-800">{{ $user->email ?? $user->mobile }}</span>
             </div>
             <!--end::Col-->
         </div>
@@ -38,7 +39,7 @@
             <!--end::Tags-->
             <!--begin::Col-->
             <div class="col-lg-8">
-                <span class="fw-bold fs-6 text-gray-800">فرهاد باقری</span>
+                <span class="fw-bold fs-6 text-gray-800">{{ $user->first_name }} {{ $user->last_name }}</span>
             </div>
             <!--end::Col-->
         </div>
@@ -50,7 +51,7 @@
             <!--end::Tags-->
             <!--begin::Col-->
             <div class="col-lg-8 fv-row">
-                <span class="fw-semibold text-gray-800 fs-6">مدیر کل</span>
+                <span class="fw-semibold text-gray-800 fs-6">{{ $user->role->title }}</span>
             </div>
             <!--end::Col-->
         </div>
@@ -62,8 +63,12 @@
             <!--end::Tags-->
             <!--begin::Col-->
             <div class="col-lg-8 d-flex align-items-center">
-                <span class="fw-bold fs-6 text-gray-800 me-2">09374039436</span>
-                <span class="badge badge-success">تایید شده</span>
+                <span class="fw-bold fs-6 text-gray-800 me-2">{{ $user->mobile }}</span>
+                @if ($user->verified)
+                    <span class="badge badge-success">تایید شده</span>
+                @else
+                    <span class="badge badge-danger">تایید نشده</span>
+                @endif
             </div>
             <!--end::Col-->
         </div>
@@ -75,7 +80,7 @@
             <!--end::Tags-->
             <!--begin::Col-->
             <div class="col-lg-8">
-                <a href="#" class="fw-semibold fs-6 text-gray-800 text-hover-primary">coding.farhad@gmail.com</a>
+                <a href="mailto:{{ $user->email }}" class="fw-semibold fs-6 text-gray-800 text-hover-primary">{{ $user->email }}</a>
             </div>
             <!--end::Col-->
         </div>
@@ -87,7 +92,7 @@
             <!--end::Tags-->
             <!--begin::Col-->
             <div class="col-lg-8">
-                <span class="fw-bold fs-6 text-gray-800">0123456789</span>
+                <span class="fw-bold fs-6 text-gray-800">{{ $user->national_code }}</span>
             </div>
             <!--end::Col-->
         </div>
@@ -99,11 +104,12 @@
             <!--end::Tags-->
             <!--begin::Col-->
             <div class="col-lg-8">
-                <span class="fw-bold fs-6 text-gray-800">فارس - شیراز</span>
+                <span class="fw-bold fs-6 text-gray-800">{{ $user->province }} - {{ $user->city }}</span>
             </div>
             <!--end::Col-->
         </div>
         <!--end::Input group-->
+
         <!--begin::Notice-->
         <div class="notice d-flex bg-light-warning rounded border-warning border border-dashed p-6 mb-2">
             <!--begin::Icon-->
@@ -113,17 +119,24 @@
                 <span class="path3"></span>
             </i>
             <!--end::Icon-->
+
             <!--begin::Wrapper-->
             <div class="d-flex flex-stack flex-grow-1">
                 <!--begin::Content-->
                 <div class="fw-semibold">
-                    <h4 class="text-gray-900 fw-bold">شماره تلفن تایید نشده است</h4>
+                    @if (!$user->verified)
+                        <h4 class="text-gray-900 fw-bold">شماره تلفن تایید نشده است</h4>
+                    @endif
                 </div>
                 <!--end::Content-->
             </div>
             <!--end::Wrapper-->
+
+
         </div>
         <!--end::Notice-->
+
+        @if(!$user->active)
         <!--begin::Notice-->
         <div class="notice d-flex bg-light-danger rounded border-danger border border-dashed p-6 mb-2">
             <!--begin::Icon-->
@@ -144,6 +157,33 @@
             <!--end::Wrapper-->
         </div>
         <!--end::Notice-->
+        @endif
+
+        @if(!$user->email_verified_at)
+        <!--begin::Notice-->
+        <div class="notice d-flex bg-light-danger rounded border-danger border border-dashed p-6 mb-2">
+            <!--begin::Icon-->
+            <i class="ki-duotone ki-information fs-2tx text-danger me-4">
+                <span class="path1"></span>
+                <span class="path2"></span>
+                <span class="path3"></span>
+            </i>
+            <!--end::Icon-->
+            <!--begin::Wrapper-->
+            <div class="d-flex flex-stack flex-grow-1">
+                <!--begin::Content-->
+                <div class="fw-semibold">
+                    <h4 class="text-gray-900 fw-bold">ایمیل تایید نشده است</h4>
+                </div>
+                <!--end::Content-->
+            </div>
+            <!--end::Wrapper-->
+        </div>
+        <!--end::Notice-->
+        @endif
+
+
+
     </div>
     <!--end::کارت body-->
 </div>
