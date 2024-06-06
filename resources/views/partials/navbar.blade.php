@@ -244,6 +244,18 @@
 				<!--end:Menu link-->
 			</div>
 			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link {{ Route::is('products.settings.show')  ? 'active' : '' }}" href="{{route('products.settings.show')}}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">پیکربندی</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
 		</div>
 		<!--end:Menu sub-->
 	</div>
@@ -542,6 +554,19 @@
 				<i class="fa-duotone fa-terminal"></i>
 			</span>
 			<span class="menu-title">قطعه کد ها</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{route('services.show')}}" class="menu-link {{ Route::is('services.show')  ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-rocket-launch"></i>
+			</span>
+			<span class="menu-title">سرویس های شخص ثالث</span>
 		</a>
 		<!--end:Menu link-->
 	</div>

@@ -236,6 +236,10 @@ Route::group(['prefix' => 'products'], function () {
 
     Route::post('/attributes/edit/children/{id}', function ($id) {
     })->name("attribute.children.save");
+
+    Route::get('/settings', function () {
+        return view('products-settings');
+    })->name("products.settings.show");
 });
 
 
@@ -381,3 +385,7 @@ Route::group(['prefix' => 'snippets'], function () {
 Route::get('/customize', function () {
     return view('customize');
 })->name("customize.show");
+
+Route::get('/services', function () {
+    return view('services');
+})->name("services.show");

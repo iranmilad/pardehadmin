@@ -314,3 +314,20 @@ document.addEventListener("DOMContentLoaded", function () {
         swapThreshold: 0.3,
     });
 });
+
+$("[data-kt-image-input-gallery-action='remove']").on("click", function () {
+    let parent = $(this).parent();
+    parent.remove();
+});
+
+if($(".global_tag").length > 0){
+    let globalTag = new Tagify($(".global_tag").get(0),{
+        whitelist: [],
+        dropdown: {
+            maxItems: 20,           // <- mixumum allowed rendered suggestions
+            enabled: 0,             // <- show suggestions on focus
+            closeOnSelect: false,   // <- do not hide the suggestions dropdown once an item has been selected
+            pattern: /^.{1,70}/,
+        },
+    });
+}

@@ -23,6 +23,13 @@
             </div>
 
             <div class="row mb-6">
+                <label class="col-lg-3 col-form-label fw-semibold fs-6">آدرس سایت</label>
+                <div class="col-lg-8 col-xl-8">
+                    <input type="url" name="title" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="آدرس سایت را وارد کنید" value="" />
+                </div>
+            </div>
+
+            <div class="row mb-6">
                 <label class="col-lg-3 col-form-label fw-semibold fs-6">عنوان سایت</label>
                 <div class="col-lg-8 col-xl-8">
                     <input type="text" name="title" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="عنوان سایت را وارد کنید" value="" />
@@ -42,6 +49,48 @@
                 <label class="col-lg-3 col-form-label fw-semibold fs-6">ایمیل مدیریت</label>
                 <div class="col-lg-8 col-xl-8">
                     <input type="text" name="title" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="ایمیل مدیریت را وارد کنید" value="" />
+                </div>
+            </div>
+
+            <div class="row mb-6">
+                <label class="col-lg-3 col-form-label fw-semibold fs-6">متا های سایت</label>
+                <div class="col-lg-8 col-xl-8">
+                    <input type="text" name="title" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 global_tag" placeholder="عنوان سایت را وارد کنید" value="" />
+                    <span class="text-muted fs-7">متا ها را وارد کنید و Enter را بزنید</span>
+                </div>
+            </div>
+
+            <div class="row mb-6">
+                <label class="col-lg-3 col-form-label fw-semibold fs-6">آدرس 1</label>
+                <div class="col-lg-8 col-xl-8">
+                    <input type="text" name="title" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="آدرس 1 را وارد کنید" value="" />
+                </div>
+            </div>
+
+            <div class="row mb-6">
+                <label class="col-lg-3 col-form-label fw-semibold fs-6">آدرس 2</label>
+                <div class="col-lg-8 col-xl-8">
+                    <input type="text" name="title" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="آدرس 2 را وارد کنید" value="" />
+                </div>
+            </div>
+
+            <div class="row mb-6">
+                <label class="col-lg-3 col-form-label fw-semibold fs-6">تلفن 1</label>
+                <div class="col-lg-8 col-xl-8">
+                    <input type="text" name="title" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="تلفن 1 را وارد کنید" value="" />
+                </div>
+            </div>
+
+            <div class="row mb-6">
+                <label class="col-lg-3 col-form-label fw-semibold fs-6">تلفن 2</label>
+                <div class="col-lg-8 col-xl-8">
+                    <input type="text" name="title" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="تلفن 2 را وارد کنید" value="" />
+                </div>
+            </div>
+            <div class="row mb-6">
+                <label class="col-lg-3 col-form-label fw-semibold fs-6">کد پستی</label>
+                <div class="col-lg-8 col-xl-8">
+                    <input type="text" name="title" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="کد پستی را وارد کنید" value="" />
                 </div>
             </div>
 
