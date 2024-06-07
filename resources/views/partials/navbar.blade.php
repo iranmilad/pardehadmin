@@ -264,11 +264,24 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{route('orders.show')}}" class="menu-link">
+		<a href="{{route('orders.show')}}" class="menu-link {{Request::is('orders*') ? 'active' : ''}}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-bags-shopping"></i>
 			</span>
 			<span class="menu-title">سفارش ها</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{route('carts.show')}}" class="menu-link {{ Route::is('carts.show') || Route::is('cart.edit.show') || Route::is('cart.create.show')  ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-shopping-cart"></i>
+			</span>
+			<span class="menu-title">سبد خرید کاربران</span>
 		</a>
 		<!--end:Menu link-->
 	</div>
@@ -290,7 +303,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{ route('discounts.list.show') }}">
+				<a class="menu-link {{ Route::is('discounts.list.show') || Route::is('discount.show') ? 'active' : '' }}" href="{{ route('discounts.list.show') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -302,7 +315,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{ route('discount.create.show') }}">
+				<a class="menu-link {{ Route::is('discount.create.show') ? 'active' : '' }}" href="{{ route('discount.create.show') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -600,7 +613,7 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
-	<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('block*') ? 'show' : ''}}">
 		<!--begin:Menu link-->
 		<span class="menu-link">
 			<span class="menu-icon">
@@ -615,7 +628,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{ route('block.list') }}">
+				<a class="menu-link {{ Route::is('block.list') || Route::is('block.edit')  ? 'active' : '' }}" href="{{ route('block.list') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -627,7 +640,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{ route('block.create.show') }}">
+				<a class="menu-link {{ Route::is('block.create.show')  ? 'active' : '' }}" href="{{ route('block.create.show') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>

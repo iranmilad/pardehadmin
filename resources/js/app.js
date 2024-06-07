@@ -22,6 +22,8 @@ import {
     WorktimesTable,
     ImageMarkersTable,
     SnippetsTable,
+    ReportsTable,
+    GlobalTable
 } from "./pages";
 // import "./pages/attribute";
 // import "./create-fast-category";
@@ -54,6 +56,8 @@ KTUtil.onDOMContentLoaded(function () {
     WorktimesTable()?.init();
     ImageMarkersTable()?.init();
     SnippetsTable()?.init();
+    ReportsTable()?.init();
+    GlobalTable()?.init();
 });
 
 if ($(".editor").length > 0) {

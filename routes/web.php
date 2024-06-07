@@ -286,24 +286,26 @@ Route::group(['prefix' => 'discounts'], function () {
     })->name("discount.show");
 });
 
-Route::get('/orders/', function () {
-    return view('orders');
-})->name("orders.show");
+Route::group(['prefix' => 'orders'], function () {
+    Route::get('/list/', function () {
+        return view('orders');
+    })->name("orders.show");
 
-Route::get('/order/{id}', function ($id) {
-    return view('order');
-})->name("order.show");
+    Route::get('/order/{id}', function ($id) {
+        return view('order');
+    })->name("order.show");
 
-Route::post('/order/{id}', function ($id) {
-})->name("order.show");
+    Route::post('/order/{id}', function ($id) {
+    })->name("order.show");
 
-Route::get('/create-order', function () {
-    return view('order-create');
-})->name("order.create.show");
+    Route::get('/create-order', function () {
+        return view('order-create');
+    })->name("order.create.show");
 
-Route::get('/order/print/{id}', function ($id) {
-    return view('order-print');
-})->name("order.print.show");
+    Route::get('/order/print/{id}', function ($id) {
+        return view('order-print');
+    })->name("order.print.show");
+});
 
 
 Route::group(['prefix' => 'installments'], function () {
@@ -389,3 +391,15 @@ Route::get('/customize', function () {
 Route::get('/services', function () {
     return view('services');
 })->name("services.show");
+
+Route::get('/carts', function () {
+    return view('carts');
+})->name("carts.show");
+
+Route::get('/cart/{id}', function ($id) {
+    return view('cart');
+})->name("cart.edit.show");
+
+Route::get('/create-cart', function () {
+    return view('cart');
+})->name("cart.create.show");
