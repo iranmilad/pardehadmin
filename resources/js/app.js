@@ -23,7 +23,7 @@ import {
     ImageMarkersTable,
     SnippetsTable,
     ReportsTable,
-    GlobalTable
+    GlobalTable,
 } from "./pages";
 // import "./pages/attribute";
 // import "./create-fast-category";
@@ -34,6 +34,9 @@ import "./pages/message";
 import "./marker";
 import "./menu";
 import Sortable from "sortablejs";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import markerIcon from "../images/marker-icon.svg";
 
 KTUtil.onDOMContentLoaded(function () {
     PostsTable()?.init();
@@ -324,14 +327,73 @@ $("[data-kt-image-input-gallery-action='remove']").on("click", function () {
     parent.remove();
 });
 
-if($(".global_tag").length > 0){
-    let globalTag = new Tagify($(".global_tag").get(0),{
+if ($(".global_tag").length > 0) {
+    let globalTag = new Tagify($(".global_tag").get(0), {
         whitelist: [],
         dropdown: {
-            maxItems: 20,           // <- mixumum allowed rendered suggestions
-            enabled: 0,             // <- show suggestions on focus
-            closeOnSelect: false,   // <- do not hide the suggestions dropdown once an item has been selected
+            maxItems: 20, // <- mixumum allowed rendered suggestions
+            enabled: 0, // <- show suggestions on focus
+            closeOnSelect: false, // <- do not hide the suggestions dropdown once an item has been selected
             pattern: /^.{1,70}/,
         },
     });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Create a map centered at a specific location
+    if (document.getElementById("map")) {
+        var mymap = L.map("map").setView(
+            [35.70222474889245, 51.338657483464765],
+            13
+        );
+
+        // Add a tile layer (OpenStreetMap tiles)
+        L.tileLayer(
+            "http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&BBOX=25.0,35.0,42.0,40.0",
+            {
+                attribution: "",
+                subdomains: ["mt0", "mt1", "mt2", "mt3"],
+            }
+        ).addTo(mymap);
+        mymap.on("click", function (e) {
+            let lat = e.latlng.lat;
+            let lng = e.latlng.lng;
+            $("#location-map").val(`${lat},${lng}`);
+            updateMarkers();
+        });
+
+        var customIcon = L.icon({
+            iconUrl: markerIcon, // Set the path to your custom icon image
+            iconSize: [32, 32], // Set the size of the icon
+            iconAnchor: [16, 32], // Set the anchor point of the icon (centered, bottom point in this case)
+            popupAnchor: [0, -32], // Set the popup anchor relative to the icon
+        });
+
+        // Create a layer group to store markers
+        var markerLayer = L.layerGroup().addTo(mymap);
+
+        function updateMarkers() {
+            // Clear existing markers
+            markerLayer.clearLayers();
+
+            // Get new location
+            let marks = $("#location-map").val();
+            marks = marks.split(",");
+            marks = marks.map((mark) => parseFloat(mark));
+
+            // Add new marker
+            L.marker(marks)
+                .addTo(markerLayer)
+                .bindPopup("آدرس")
+                .openPopup()
+                .setIcon(customIcon);
+        }
+
+        // Call updateMarkers function initially or whenever you need to update the marker
+        updateMarkers();
+
+        // Optionally, attach updateMarkers to an event listener if you want to update markers based on an event
+        // Example: if there's a dropdown for selecting locations
+        // $('#location-map').on('change', updateMarkers);
+    }
+});

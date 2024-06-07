@@ -403,3 +403,16 @@ Route::get('/cart/{id}', function ($id) {
 Route::get('/create-cart', function () {
     return view('cart');
 })->name("cart.create.show");
+
+
+Route::get('/transports', function () {
+    return view('transports');
+})->name("transports.show");
+
+Route::get('/transport/{id}', function ($id) {
+    return view('transport');
+})->name("transport.edit.show");
+
+Route::get('/create-transport', function () {
+    return view('transport');
+})->name("transport.create.show");

@@ -49,6 +49,7 @@
                     <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-relation" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">متغیر های وابسته</button>
                     <button class="nav-link" id="v-pills-norelation-tab" data-bs-toggle="pill" data-bs-target="#v-pills-norelation" type="button" role="tab" aria-controls="v-pills-norelation" aria-selected="false">متغیر های غیر وابسته</button>
                     <button class="nav-link" id="v-pills-installments-tab" data-bs-toggle="pill" data-bs-target="#v-pills-installments" type="button" role="tab" aria-controls="v-pills-norelation" aria-selected="false">پرداخت اقساطی</button>
+                    <button class="nav-link" id="v-pills-service-tab" data-bs-toggle="pill" data-bs-target="#v-pills-service" type="button" role="tab" aria-controls="v-pills-norelation" aria-selected="false">خدمت</button>
                 </div>
                 <div class="tab-content mt-6 border-top pt-6" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
@@ -452,6 +453,33 @@
                                     <option value="3">پلن 3</option>
                                 </select>
                             </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-service" role="tabpanel" aria-labelledby="v-pills-disabled-tab" tabindex="0">
+                        <div class="row">
+                            <div class="mb-5 col-md-6">
+                                <label for="" class="form-label">زمان انجام عادی :</label>
+                                <div class="input-group">
+                                    <input dir="ltr" name="hour" type="number" class="form-control form-control-solid mb-2 mb-md-0" placeholder="زمان مورد نیاز را وارد کنید" />
+                                    <span class="input-group-text bg-white ms-0">ساعت</span>
+                                </div>
+                            </div>
+                            <div class="mb-5 col-md-6">
+                                <label for="" class="form-label">هزینه خدمت عادی :</label>
+                                <input type="text" class="form-control form-control-solid" id="exampleFormControlInput1">
+                            </div>
+                            <div class="mb-5 col-md-6">
+                                <label for="" class="form-label">زمان انجام <b>اضطراری</b> :</label>
+                                <div class="input-group">
+                                    <input dir="ltr" name="hour" type="number" class="form-control form-control-solid mb-2 mb-md-0" placeholder="زمان مورد نیاز را وارد کنید" />
+                                    <span class="input-group-text bg-white ms-0">ساعت</span>
+                                </div>
+                            </div>
+                            <div class="mb-5 col-md-6">
+                                <label for="" class="form-label">هزینه خدمت <b>اضطراری</b> :</label>
+                                <input type="text" class="form-control form-control-solid" id="exampleFormControlInput1">
+                            </div>
+
                         </div>
                     </div>
                 </div>

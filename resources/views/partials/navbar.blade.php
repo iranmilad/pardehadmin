@@ -286,6 +286,18 @@
 		<!--end:Menu link-->
 	</div>
 	<!--end:Menu item-->
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{route('transports.show')}}" class="menu-link {{ Route::is('transports.show')  ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-truck-fast"></i>
+			</span>
+			<span class="menu-title">حمل و نقل</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
 	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('discounts*') ? 'show' : ''}}">
