@@ -406,6 +406,78 @@ Route::post('/settings', function () {
 })->name("settings.save");
 
 
+// Route::group(['prefix' => 'products'], function () {
+
+//     Route::get('/list/', function () {
+//         return view('products');
+//     })->name("products.list.show");
+
+//     Route::get('/create/', function () {
+//         return view('product');
+//     })->name("product.create.show");
+
+//     Route::get('/edit/{id}', function ($id) {
+//         return view('product');
+//     })->name("product.edit.show");
+
+//     Route::get('/categories/', function () {
+//         return view('product-categories');
+//     })->name("product.categories.show");
+
+//     Route::get('/category/{id}', function ($id) {
+//         return view('product-category');
+//     })->name("product.category.show");
+
+//     Route::get('/tags/', function () {
+//         return view('product-tags');
+//     })->name("product.tags.show");
+
+//     Route::get('/tags/edit/{id}', function ($id) {
+//         return view('product-tag');
+//     })->name("product.tag.show");
+
+//     Route::get('/tags/create/', function () {
+//         return view('product-tag');
+//     })->name("product.tag.create.show");
+
+//     Route::get('/comments/', function () {
+//         return view('product-comments');
+//     })->name("product.comments.show");
+
+//     Route::get('/comment/{id}', function ($id) {
+//         return view('product-comment');
+//     })->name("product.comment.show");
+
+//     Route::post('/category/{id}', function ($id) {
+//     })->name("product.category.save");
+
+
+
+//     Route::delete('/delete/{id}', function () {
+//     })->name("product.delete");
+
+//     Route::get('/attributes', function () {
+//         return view('attributes');
+//     })->name("attributes.list.show");
+
+//     Route::get('/attributes/create/', function () {
+//         return view('attribute');
+//     })->name("attribute.create.show");
+
+//     Route::get('/attributes/edit/{id}', function ($id) {
+//         return view('attribute');
+//     })->name("attribute.show");
+
+//     Route::post('/attributes/edit/{id}', function ($id) {
+//     })->name("attribute.save");
+
+//     Route::post('/attributes/edit/children/{id}', function ($id) {
+//     })->name("attribute.children.save");
+
+//     Route::get('/settings', function () {
+//         return view('products-settings');
+//     })->name("products.settings.show");
+// });
 
 
 Route::get('/reports', function () {
@@ -451,27 +523,52 @@ Route::group(['prefix' => 'discounts'], function () {
     })->name("discount.show");
 });
 
-Route::get('/orders/', function () {
-    return view('orders');
-})->name("orders.show");
+Route::group(['prefix' => 'orders'], function () {
+    Route::get('/list/', function () {
+        return view('orders');
+    })->name("orders.show");
 
-Route::get('/order/{id}', function ($id) {
-    return view('order');
-})->name("order.show");
+    Route::get('/order/{id}', function ($id) {
+        return view('order');
+    })->name("order.show");
 
-Route::post('/order/{id}', function ($id) {
-})->name("order.show");
+    Route::post('/order/{id}', function ($id) {
+    })->name("order.show");
 
-Route::get('/create-order', function () {
-    return view('order-create');
-})->name("order.create.show");
+    Route::get('/create-order', function () {
+        return view('order-create');
+    })->name("order.create.show");
 
-Route::get('/order/print/{id}', function ($id) {
-    return view('order-print');
-})->name("order.print.show");
+    Route::get('/order/print/{id}', function ($id) {
+        return view('order-print');
+    })->name("order.print.show");
+});
 
+// Route::group(['prefix' => 'installments'], function () {
+//     Route::get('/list', function () {
+//         return view('installments');
+//     })->name("installments.list.show");
 
+//     Route::get('/edit/{id}', function ($id) {
+//         return view('installment');
+//     })->name("installment.show");
 
+//     Route::get('/create', function () {
+//         return view('installment');
+//     })->name("installment.create.show");
+
+//     Route::get('/plans/list', function () {
+//         return view('installments-plans');
+//     })->name("installments.plans.list.show");
+
+//     Route::get('/plans/edit/{id}', function ($id) {
+//         return view('installments-plan');
+//     })->name("installments.plan.show");
+
+//     Route::get('/report', function () {
+//         return view('installments-report');
+//     })->name("installments.report.show");
+// });
 
 Route::get('/worktimes', function () {
     return view('worktimes');
@@ -520,3 +617,32 @@ Route::group(['prefix' => 'snippets'], function () {
 Route::get('/customize', function () {
     return view('customize');
 })->name("customize.show");
+
+Route::get('/services', function () {
+    return view('services');
+})->name("services.show");
+
+Route::get('/carts', function () {
+    return view('carts');
+})->name("carts.show");
+
+Route::get('/cart/{id}', function ($id) {
+    return view('cart');
+})->name("cart.edit.show");
+
+Route::get('/create-cart', function () {
+    return view('cart');
+})->name("cart.create.show");
+
+
+Route::get('/transports', function () {
+    return view('transports');
+})->name("transports.show");
+
+Route::get('/transport/{id}', function ($id) {
+    return view('transport');
+})->name("transport.edit.show");
+
+Route::get('/create-transport', function () {
+    return view('transport');
+})->name("transport.create.show");

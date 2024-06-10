@@ -47,6 +47,7 @@
                         <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-relation" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">متغیر های وابسته</button>
                         <button class="nav-link" id="v-pills-norelation-tab" data-bs-toggle="pill" data-bs-target="#v-pills-norelation" type="button" role="tab" aria-controls="v-pills-norelation" aria-selected="false">متغیر های مستقل</button>
                         <button class="nav-link" id="v-pills-installments-tab" data-bs-toggle="pill" data-bs-target="#v-pills-installments" type="button" role="tab" aria-controls="v-pills-norelation" aria-selected="false">پرداخت اقساطی</button>
+                        <button class="nav-link" id="v-pills-service-tab" data-bs-toggle="pill" data-bs-target="#v-pills-service" type="button" role="tab" aria-controls="v-pills-norelation" aria-selected="false">خدمت</button>
                     </div>
                     <div class="tab-content mt-6 border-top pt-6" id="v-pills-tabContent">
                         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
@@ -107,6 +108,29 @@
                                             <input type="text" class="form-control form-control-solid" id="height" name="height" value="{{ isset($product) ? $product->height : '' }}">
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-12 col-xl-6">
+                                    <label class="form-label required">زمان مورد نیاز انجام :</label>
+                                    <div class="input-group">
+                                        <input dir="ltr" name="hour" type="number" min="1" max="24" class="form-control form-control-solid mb-2 mb-md-0" placeholder="زمان مورد نیاز را وارد کنید" />
+                                        <span class="input-group-text bg-white ms-0">ساعت</span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-xl-6">
+                                    <label class="form-label">نوع حمل و نقل</label>
+                                    <select name="" id="" class="form-select form-select-solid">
+                                        <option value="">درون شهری</option>
+                                        <option value="">درون استانی</option>
+                                        <option value="">خارج از استان</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-xl-6">
+                                    <label class="form-label">واحد های اندازه گیری</label>
+                                    <select name="" id="" class="form-select form-select-solid">
+                                        <option value="">متر</option>
+                                        <option value="">سانتی متر</option>
+                                        <option value="">قواره</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -400,50 +424,56 @@
                                     @endforeach
                                 @endif
                             </div>
-
                         </div>
-                        <div class="tab-pane fade" id="v-pills-installments" role="tabpanel" aria-labelledby="v-pills-disabled-tab" tabindex="0">
-                            <div class="row">
-                                <div class="mb-5 col-xl-7">
-                                    <label for="" class="form-label">پلن های اقساطی این محصول</label>
-                                    <select class="form-select form-select-solid" data-control="select2" name="" id="" multiple>
-                                        <option value="1">پلن 1</option>
-                                        <option value="2">پلن 2</option>
-                                        <option value="3">پلن 3</option>
-                                    </select>
-                                </div>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-installments" role="tabpanel" aria-labelledby="v-pills-disabled-tab" tabindex="0">
+                        <div class="row">
+                            <div class="mb-5 col-xl-7">
+                                <label for="" class="form-label">پلن های اقساطی این محصول</label>
+                                <select class="form-select form-select-solid" data-control="select2" name="" id="" multiple>
+                                    <option value="1">پلن 1</option>
+                                    <option value="2">پلن 2</option>
+                                    <option value="3">پلن 3</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="card mt-10">
-                <div class="card-body">
-                    <label class="form-label ">شرح</label>
-                    <div class="row row-editor">
-                        <div class="editor-container">
-                            <textarea id="article[description]" name="article[description]" class="editor tw-max-h-96 tw-overflow-auto">{{ old('article[description]', isset($product) ? $product->article->description : '') }}</textarea>
+                    <div class="tab-pane fade" id="v-pills-service" role="tabpanel" aria-labelledby="v-pills-disabled-tab" tabindex="0">
+                        <div class="row">
+                            <div class="mb-5 col-md-6">
+                                <label for="" class="form-label">زمان انجام عادی :</label>
+                                <div class="input-group">
+                                    <input dir="ltr" name="hour" type="number" class="form-control form-control-solid mb-2 mb-md-0" placeholder="زمان مورد نیاز را وارد کنید" />
+                                    <span class="input-group-text bg-white ms-0">ساعت</span>
+                                </div>
+                            </div>
+                            <div class="mb-5 col-md-6">
+                                <label for="" class="form-label">هزینه خدمت عادی :</label>
+                                <input type="text" class="form-control form-control-solid" id="exampleFormControlInput1">
+                            </div>
+                            <div class="mb-5 col-md-6">
+                                <label for="" class="form-label">زمان انجام <b>اضطراری</b> :</label>
+                                <div class="input-group">
+                                    <input dir="ltr" name="hour" type="number" class="form-control form-control-solid mb-2 mb-md-0" placeholder="زمان مورد نیاز را وارد کنید" />
+                                    <span class="input-group-text bg-white ms-0">ساعت</span>
+                                </div>
+                            </div>
+                            <div class="mb-5 col-md-6">
+                                <label for="" class="form-label">هزینه خدمت <b>اضطراری</b> :</label>
+                                <input type="text" class="form-control form-control-solid" id="exampleFormControlInput1">
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card mt-10">
-                <div class="card-body">
-                    <label class="form-label ">توضیحات تکمیلی</label>
-                    <div class="row row-editor">
-                        <div class="editor-container">
-                            <textarea id="article[specification]" name="article[specification]" class="editor tw-max-h-96 tw-overflow-auto">{{ old('article[specification]', isset($product) ? $product->article->description : '') }}</textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card mt-10">
-                <div class="card-body">
-                    <label class="form-label ">راهنمای اندازه گیری</label>
-                    <div class="row row-editor">
-                        <div class="editor-container">
-                            <textarea id="article[guide]" name="article[guide]" class="editor tw-max-h-96 tw-overflow-auto">{{ old('article[guide]', isset($product) ? $product->article->guide : '') }}</textarea>
-                        </div>
+        </div>
+        <div class="card mt-10">
+            <div class="card-body">
+                <label class="form-label ">راهنمای اندازه گیری</label>
+                <div class="row row-editor">
+                    <div class="editor-container">
+                        <div class="editor tw-max-h-96 tw-overflow-auto"></div>
                     </div>
                 </div>
             </div>
@@ -538,12 +568,152 @@
             </div>
             <!-- END:TAGS -->
 
-            <!-- START: THUMBNAIL -->
-            <div class="card card-flush py-4">
-                <div class="card-header">
-                    <div class="card-title">
-                        <h4>ویدئو</h4>
+        <!-- START: THUMBNAIL -->
+        <div class="card card-flush py-4 mb-5">
+            <!--begin::کارت header-->
+            <div class="card-header">
+                <!--begin::کارت title-->
+                <div class="card-title">
+                    <h4>تصویر شاخص</h4>
+                </div>
+                <!--end::کارت title-->
+            </div>
+            <!--end::کارت header-->
+            <!--begin::کارت body-->
+            <div class="card-body text-center pt-0">
+                <!--begin::Image input-->
+                <!--end::Image input placeholder-->
+                <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
+                    <!--begin::نمایش existing avatar-->
+                    <div class="image-input-wrapper w-150px h-150px"></div>
+                    <!--end::نمایش existing avatar-->
+                    <!--begin::Tags-->
+                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
+                        <i class="ki-duotone ki-pencil fs-7">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                        <!--begin::Inputs-->
+                        <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+                        <input type="hidden" name="avatar_remove" />
+                        <!--end::Inputs-->
+                    </label>
+                    <!--end::Tags-->
+                    <!--begin::انصراف-->
+                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="انصراف">
+                        <i class="ki-duotone ki-cross fs-2">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                    </span>
+                    <!--end::انصراف-->
+                    <!--begin::حذف-->
+                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف آواتار">
+                        <i class="ki-duotone ki-cross fs-2">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                    </span>
+                    <!--end::حذف-->
+                </div>
+                <!--end::Image input-->
+                <!--begin::توضیحات-->
+                <div class="text-muted fs-7">تصویر شاخص را انتخاب کنید</div>
+                <!--end::توضیحات-->
+            </div>
+            <!--end::کارت body-->
+        </div>
+        <!-- END:THUMBNAIL -->
+
+        <!-- START: THUMBNAIL -->
+        <div class="card card-flush py-4 mb-5">
+            <!--begin::کارت header-->
+            <div class="card-header">
+                <!--begin::کارت title-->
+                <div class="card-title">
+                    <h4>گالری تصویر</h4>
+                </div>
+                <!--end::کارت title-->
+            </div>
+            <!--end::کارت header-->
+            <!--begin::کارت body-->
+            <div class="card-body text-center pt-0">
+                <div class="tw-flex tw-gap-5 tw-flex-wrap">
+                    <!--end::Image input placeholder-->
+                    <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
+                        <!--begin::نمایش existing avatar-->
+                        <div class="image-input-wrapper w-100px h-100px" style="background-image: url(/images/1.jpg)"></div>
+                        <!--end::نمایش existing avatar-->
+                        <!--begin::Tags-->
+                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
+                            <i class="ki-duotone ki-pencil fs-7">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                            <!--begin::Inputs-->
+                            <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+                            <input type="hidden" name="avatar_remove" />
+                            <!--end::Inputs-->
+                        </label>
+                        <!--end::Tags-->
+                        <!--begin::انصراف-->
+                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-gallery-action="remove" data-bs-toggle="tooltip" title="حذف">
+                            <i class="ki-duotone ki-cross fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                        <!--end::انصراف-->
                     </div>
+                    <!--end::Image input-->
+
+                    <!--end::Image input placeholder-->
+                    <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
+                        <!--begin::نمایش existing avatar-->
+                        <div class="image-input-wrapper w-100px h-100px" style="background-image: url(/images/1.jpg)"></div>
+                        <!--end::نمایش existing avatar-->
+                        <!--begin::Tags-->
+                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
+                            <i class="ki-duotone ki-pencil fs-7">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                            <!--begin::Inputs-->
+                            <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+                            <input type="hidden" name="avatar_remove" />
+                            <!--end::Inputs-->
+                        </label>
+                        <!--end::Tags-->
+                        <!--begin::انصراف-->
+                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-gallery-action="remove" data-bs-toggle="tooltip" title="حذف">
+                            <i class="ki-duotone ki-cross fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                        <!--end::انصراف-->
+                    </div>
+                    <!--end::Image input-->
+                </div>
+
+            </div>
+            <!--end::کارت body-->
+
+            <div class="card-footer">
+                <div class="d-flex align-items-center justify-content-between flex-wrap">
+                    <button class="btn btn-sm btn-light-primary">افزودن تصویر جدید</button>
+                </div>
+            </div>
+        </div>
+        <!-- END:THUMBNAIL -->
+
+        <!-- START: VIDEO THUMBNAIL -->
+        <div class="card card-flush py-4">
+            <!--begin::کارت header-->
+            <div class="card-header">
+                <!--begin::کارت title-->
+                <div class="card-title">
+                    <h4>ویدئو</h4>
                 </div>
                 <div class="card-body text-center pt-0">
                     <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
@@ -565,9 +735,10 @@
             </div>
             <!-- END:THUMBNAIL -->
         </div>
-
-    <x-add-fast-category />
-    </form>
+        <!-- END:VIDEO THUMBNAIL -->
+    </div>
+</form>
+<x-add-fast-category />
 @endsection
 
 @section("script-before")

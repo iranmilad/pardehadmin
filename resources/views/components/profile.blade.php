@@ -155,22 +155,22 @@
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item mt-2">
-                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="#">سفارش ها</a>
+                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{ route('orders.show',['id' => 1]) }}">سفارش ها</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item mt-2">
-                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="#">چک ها</a>
+                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{ route('checks.list.show',['id' => 1]) }}">چک ها</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item mt-2">
-                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="#">سررسید اقساط</a>
+                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{ route('installments.list.show',['id' => 1]) }}">سررسید اقساط</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item mt-2">
-                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="#">دیدگاه ها</a>
+                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{ route('product.comments.show',['id' => 1]) }}">دیدگاه ها</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->

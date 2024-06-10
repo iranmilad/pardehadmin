@@ -7,9 +7,9 @@
 <!--begin::Stepper-->
 <div class="stepper stepper-pills" id="kt_stepper_example_clickable">
     <!--begin::Nav-->
-    <div class="stepper-nav flex-center flex-wrap mb-10">
+    <div class="stepper-nav lg:tw-justify-center tw-overflow-auto mb-10">
 
-        <!--begin::Step 2-->
+        <!--begin::Step 1-->
         <div class="stepper-item mx-8 my-4" data-kt-stepper-element="nav" data-kt-stepper-action="step">
             <!--begin::Wrapper-->
             <div class="stepper-wrapper d-flex align-items-center">
@@ -21,7 +21,34 @@
                 <!--begin::Icon-->
 
                 <!--begin::Label-->
-                <div class="stepper-label">
+                <div class="stepper-label tw-whitespace-nowrap">
+                    <h3 class="stepper-title">
+                        تنظیمات سایت
+                    </h3>
+                </div>
+                <!--end::Label-->
+            </div>
+            <!--end::Wrapper-->
+
+            <!--begin::Line-->
+            <div class="stepper-line h-40px"></div>
+            <!--end::Line-->
+        </div>
+        <!--end::Step 1-->
+
+        <!--begin::Step 2-->
+        <div class="stepper-item mx-8 my-4" data-kt-stepper-element="nav" data-kt-stepper-action="step">
+            <!--begin::Wrapper-->
+            <div class="stepper-wrapper d-flex align-items-center">
+                <!--begin::Icon-->
+                <div class="stepper-icon w-40px h-40px">
+                    <i class="stepper-check fas fa-check"></i>
+                    <span class="stepper-number">2</span>
+                </div>
+                <!--begin::Icon-->
+
+                <!--begin::Label-->
+                <div class="stepper-label tw-whitespace-nowrap">
                     <h3 class="stepper-title">
                         تنظیمات نمایشی
                     </h3>
@@ -43,12 +70,12 @@
                 <!--begin::Icon-->
                 <div class="stepper-icon w-40px h-40px">
                     <i class="stepper-check fas fa-check"></i>
-                    <span class="stepper-number">2</span>
+                    <span class="stepper-number">3</span>
                 </div>
                 <!--begin::Icon-->
 
                 <!--begin::Label-->
-                <div class="stepper-label">
+                <div class="stepper-label tw-whitespace-nowrap ">
                     <h3 class="stepper-title">
                         باکس محصولات
                     </h3>
@@ -70,12 +97,12 @@
                 <!--begin::Icon-->
                 <div class="stepper-icon w-40px h-40px">
                     <i class="stepper-check fas fa-check"></i>
-                    <span class="stepper-number">3</span>
+                    <span class="stepper-number">4</span>
                 </div>
                 <!--begin::Icon-->
 
                 <!--begin::Label-->
-                <div class="stepper-label">
+                <div class="stepper-label tw-whitespace-nowrap">
                     <h3 class="stepper-title">
                         صفحه ی محصول
                     </h3>
@@ -94,12 +121,12 @@
                 <!--begin::Icon-->
                 <div class="stepper-icon w-40px h-40px">
                     <i class="stepper-check fas fa-check"></i>
-                    <span class="stepper-number">6</span>
+                    <span class="stepper-number">5</span>
                 </div>
                 <!--begin::Icon-->
 
                 <!--begin::Label-->
-                <div class="stepper-label">
+                <div class="stepper-label tw-whitespace-nowrap">
                     <h3 class="stepper-title">
                         هدر و فوتر
                     </h3>
@@ -118,14 +145,38 @@
                 <!--begin::Icon-->
                 <div class="stepper-icon w-40px h-40px">
                     <i class="stepper-check fas fa-check"></i>
-                    <span class="stepper-number">5</span>
+                    <span class="stepper-number">6</span>
                 </div>
                 <!--begin::Icon-->
 
                 <!--begin::Label-->
-                <div class="stepper-label">
+                <div class="stepper-label tw-whitespace-nowrap">
                     <h3 class="stepper-title">
                         صفحات احراز هویت
+                    </h3>
+
+                </div>
+                <!--end::Label-->
+            </div>
+            <!--end::Wrapper-->
+        </div>
+        <!--end::Step 6-->
+
+        <!--begin::Step 6-->
+        <div class="stepper-item mx-8 my-4" data-kt-stepper-element="nav" data-kt-stepper-action="step">
+            <!--begin::Wrapper-->
+            <div class="stepper-wrapper d-flex align-items-center">
+                <!--begin::Icon-->
+                <div class="stepper-icon w-40px h-40px">
+                    <i class="stepper-check fas fa-check"></i>
+                    <span class="stepper-number">7</span>
+                </div>
+                <!--begin::Icon-->
+
+                <!--begin::Label-->
+                <div class="stepper-label tw-whitespace-nowrap">
+                    <h3 class="stepper-title">
+                        مرحله انتخاب کننده ویدئو
                     </h3>
 
                 </div>
@@ -138,7 +189,7 @@
     <!--end::Nav-->
 
     <!--begin::Form-->
-    <form method="post" class="form w-lg-500px mx-auto" novalidate="novalidate" id="kt_stepper_example_basic_form">
+    <form method="post" class="form md:tw-max-w-[70%] mx-auto" novalidate="novalidate" id="kt_stepper_example_basic_form">
         @csrf
         <!--begin::Group-->
         <div class="card mb-5">
@@ -146,8 +197,30 @@
                 <div class="mb-5">
                     <!--begin::Step 1-->
                     <div class="flex-column current" data-kt-stepper-element="content">
+                        <div class="mb-10">
+                            <label for="" class="form-label">نام سایت</label>
+                            <input type="text" class="form-control" name="site[name]" />
+                        </div>
+                        <div class="mb-10">
+                            <label for="" class="form-label">آدرس سایت</label>
+                            <input type="text" class="form-control" name="site[url]" />
+                        </div>
+                        <div class="mb-10">
+                            <label for="" class="form-label">توضیحات سایت</label>
+                            <textarea name="site[description]" class="form-control"></textarea>
+                        </div>
+                        <div class="mb-10">
+                            <label for="" class="form-label">لوگو</label>
+                            <input name="site[logo]" class="form-control" type="file">
+                        </div>
+                    </div>
+                    <div class="flex-column" data-kt-stepper-element="content">
+                        <div class="mb-10">
+                            <label for="" class="form-label">رنگ اصلی</label>
+                            <div class="color-picker"></div>
+                        </div>
                         <!--begin::Input group-->
-                        <div class="fv-row mb-10">
+                        <div class="fv-row mb-5">
                             <!--begin::Label-->
                             <label class="form-label">فونت نمایشی</label>
                             <!--end::Label-->
@@ -155,7 +228,7 @@
                         <!--end::Input group-->
                         <div class="row g-5" data-kt-buttons="true" data-kt-buttons-target=".form-check-image, .form-check-input">
                             <!-- start::Col -->
-                            <div class="col-6">
+                            <div class="col-6 col-md-3">
                                 <label class="form-check-image active">
                                     <div class="form-check-wrapper">
                                         <img src="/images/iransans.png" />
@@ -171,7 +244,7 @@
                             </div>
                             <!--end::Col-->
                             <!-- start::Col -->
-                            <div class="col-6">
+                            <div class="col-6 col-md-3">
                                 <label class="form-check-image">
                                     <div class="form-check-wrapper">
                                         <img src="/images/iranyekan.png" />
@@ -180,14 +253,14 @@
                                     <div class="form-check form-check-custom form-check-solid">
                                         <input class="form-check-input" type="radio" value="1" name="theme[fontfamily]" />
                                         <div class="form-check-label">
-                                            ایران سنس
+                                            ایران یکان
                                         </div>
                                     </div>
                                 </label>
                             </div>
                             <!--end::Col-->
                             <!-- start::Col -->
-                            <div class="col-6">
+                            <div class="col-6 col-md-3">
                                 <label class="form-check-image ">
                                     <div class="form-check-wrapper">
                                         <img src="/images/dana.png" />
@@ -196,14 +269,14 @@
                                     <div class="form-check form-check-custom form-check-solid">
                                         <input class="form-check-input" type="radio" value="1" name="theme[fontfamily]" />
                                         <div class="form-check-label">
-                                            ایران سنس
+                                            دانا
                                         </div>
                                     </div>
                                 </label>
                             </div>
                             <!--end::Col-->
                             <!-- start::Col -->
-                            <div class="col-6">
+                            <div class="col-6 col-md-3">
                                 <label class="form-check-image">
                                     <div class="form-check-wrapper">
                                         <img src="/images/vazir.png" />
@@ -212,7 +285,7 @@
                                     <div class="form-check form-check-custom form-check-solid">
                                         <input class="form-check-input" type="radio" value="1" name="theme[fontfamily]" />
                                         <div class="form-check-label">
-                                            ایران سنس
+                                            وزیر
                                         </div>
                                     </div>
                                 </label>
@@ -325,7 +398,7 @@
                             <label for="" class="form-label">حالت هدر</label>
                             <div class="row g-5" data-kt-buttons="true" data-kt-buttons-target=".form-check-image, .form-check-input">
                                 <!-- start::Col -->
-                                <div class="col-6">
+                                <div class="col-6 col-md-3">
                                     <label class="form-check-image active">
                                         <div class="form-check-wrapper">
                                             <img src="/images/header1.png" />
@@ -341,7 +414,7 @@
                                 </div>
                                 <!--end::Col-->
                                 <!-- start::Col -->
-                                <div class="col-6">
+                                <div class="col-6 col-md-3">
                                     <label class="form-check-image">
                                         <div class="form-check-wrapper">
                                             <img src="/images/header2.png" />
@@ -361,115 +434,123 @@
                     </div>
 
                     <div class="flex-column" data-kt-stepper-element="content">
-                        <div class="mb-10">
-                            <label for="" class="form-label d-block">بنر ورود</label>
-                            <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
-                                <!--begin::نمایش existing avatar-->
-                                <div class="image-input-wrapper w-150px h-150px"></div>
-                                <!--end::نمایش existing avatar-->
-                                <!--begin::Tags-->
-                                <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
-                                    <i class="ki-duotone ki-pencil fs-7">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                    </i>
-                                    <!--begin::Inputs-->
-                                    <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
-                                    <input type="hidden" name="avatar_remove" />
-                                    <!--end::Inputs-->
-                                </label>
-                                <!--end::Tags-->
-                                <!--begin::انصراف-->
-                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="انصراف">
-                                    <i class="ki-duotone ki-cross fs-2">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                    </i>
-                                </span>
-                                <!--end::انصراف-->
-                                <!--begin::حذف-->
-                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف آواتار">
-                                    <i class="ki-duotone ki-cross fs-2">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                    </i>
-                                </span>
-                                <!--end::حذف-->
+                        <div class="row g-4">
+                            <div class="col-6 col-md-3">
+                                <label for="" class="form-label d-block">بنر ورود</label>
+                                <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
+                                    <!--begin::نمایش existing avatar-->
+                                    <div class="image-input-wrapper w-150px h-150px"></div>
+                                    <!--end::نمایش existing avatar-->
+                                    <!--begin::Tags-->
+                                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
+                                        <i class="ki-duotone ki-pencil fs-7">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
+                                        <!--begin::Inputs-->
+                                        <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+                                        <input type="hidden" name="avatar_remove" />
+                                        <!--end::Inputs-->
+                                    </label>
+                                    <!--end::Tags-->
+                                    <!--begin::انصراف-->
+                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="انصراف">
+                                        <i class="ki-duotone ki-cross fs-2">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
+                                    </span>
+                                    <!--end::انصراف-->
+                                    <!--begin::حذف-->
+                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف آواتار">
+                                        <i class="ki-duotone ki-cross fs-2">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
+                                    </span>
+                                    <!--end::حذف-->
+                                </div>
+                            </div>
+
+                            <div class="col-6 col-md-3">
+                                <label for="" class="form-label d-block">بنر ثبت نام</label>
+                                <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
+                                    <!--begin::نمایش existing avatar-->
+                                    <div class="image-input-wrapper w-150px h-150px"></div>
+                                    <!--end::نمایش existing avatar-->
+                                    <!--begin::Tags-->
+                                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
+                                        <i class="ki-duotone ki-pencil fs-7">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
+                                        <!--begin::Inputs-->
+                                        <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+                                        <input type="hidden" name="avatar_remove" />
+                                        <!--end::Inputs-->
+                                    </label>
+                                    <!--end::Tags-->
+                                    <!--begin::انصراف-->
+                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="انصراف">
+                                        <i class="ki-duotone ki-cross fs-2">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
+                                    </span>
+                                    <!--end::انصراف-->
+                                    <!--begin::حذف-->
+                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف آواتار">
+                                        <i class="ki-duotone ki-cross fs-2">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
+                                    </span>
+                                    <!--end::حذف-->
+                                </div>
+                            </div>
+
+                            <div class="col-6 col-md-3">
+                                <label for="" class="form-label d-block">بنر فراموشی رمز عبور</label>
+                                <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
+                                    <!--begin::نمایش existing avatar-->
+                                    <div class="image-input-wrapper w-150px h-150px"></div>
+                                    <!--end::نمایش existing avatar-->
+                                    <!--begin::Tags-->
+                                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
+                                        <i class="ki-duotone ki-pencil fs-7">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
+                                        <!--begin::Inputs-->
+                                        <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+                                        <input type="hidden" name="avatar_remove" />
+                                        <!--end::Inputs-->
+                                    </label>
+                                    <!--end::Tags-->
+                                    <!--begin::انصراف-->
+                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="انصراف">
+                                        <i class="ki-duotone ki-cross fs-2">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
+                                    </span>
+                                    <!--end::انصراف-->
+                                    <!--begin::حذف-->
+                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف آواتار">
+                                        <i class="ki-duotone ki-cross fs-2">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
+                                    </span>
+                                    <!--end::حذف-->
+                                </div>
                             </div>
                         </div>
-
-                        <div class="mb-10">
-                            <label for="" class="form-label d-block">بنر ثبت نام</label>
-                            <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
-                                <!--begin::نمایش existing avatar-->
-                                <div class="image-input-wrapper w-150px h-150px"></div>
-                                <!--end::نمایش existing avatar-->
-                                <!--begin::Tags-->
-                                <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
-                                    <i class="ki-duotone ki-pencil fs-7">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                    </i>
-                                    <!--begin::Inputs-->
-                                    <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
-                                    <input type="hidden" name="avatar_remove" />
-                                    <!--end::Inputs-->
-                                </label>
-                                <!--end::Tags-->
-                                <!--begin::انصراف-->
-                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="انصراف">
-                                    <i class="ki-duotone ki-cross fs-2">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                    </i>
-                                </span>
-                                <!--end::انصراف-->
-                                <!--begin::حذف-->
-                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف آواتار">
-                                    <i class="ki-duotone ki-cross fs-2">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                    </i>
-                                </span>
-                                <!--end::حذف-->
-                            </div>
-                        </div>
-
-                        <div class="mb-10">
-                            <label for="" class="form-label d-block">بنر فراموشی رمز عبور</label>
-                            <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
-                                <!--begin::نمایش existing avatar-->
-                                <div class="image-input-wrapper w-150px h-150px"></div>
-                                <!--end::نمایش existing avatar-->
-                                <!--begin::Tags-->
-                                <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
-                                    <i class="ki-duotone ki-pencil fs-7">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                    </i>
-                                    <!--begin::Inputs-->
-                                    <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
-                                    <input type="hidden" name="avatar_remove" />
-                                    <!--end::Inputs-->
-                                </label>
-                                <!--end::Tags-->
-                                <!--begin::انصراف-->
-                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="انصراف">
-                                    <i class="ki-duotone ki-cross fs-2">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                    </i>
-                                </span>
-                                <!--end::انصراف-->
-                                <!--begin::حذف-->
-                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف آواتار">
-                                    <i class="ki-duotone ki-cross fs-2">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                    </i>
-                                </span>
-                                <!--end::حذف-->
-                            </div>
+                    </div>
+                    <div class="flex-column" data-kt-stepper-element="content">
+                        <div>
+                            <label for="" class="form-label">انتخاب ویدئو</label>
+                            <input type="file" name="video" class="form-control" />
                         </div>
                     </div>
                 </div>
@@ -519,9 +600,10 @@
     const pickerConfig = {
         el: '.color-picker',
         theme: 'nano', // or 'monolith', or 'nano'
+        default: '#AB0000',
 
         swatches: [
-            'rgba(244, 67, 54, 1)',
+            'rgba(171, 0, 0, 1)',
             'rgba(233, 30, 99, 1)',
             'rgba(156, 39, 176,1)',
             'rgba(103, 58, 183,1)',
@@ -540,7 +622,7 @@
         components: {
 
             // Main components
-            preview: true,
+            preview: false,
             opacity: false,
             hue: false,
 

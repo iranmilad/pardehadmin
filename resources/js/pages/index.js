@@ -18,6 +18,8 @@ import InstallmentsPlansTable from "./installments-plans"
 import WorktimesTable from "./worktimes";
 import ImageMarkersTable from "./imagemarkers"
 import SnippetsTable from "./snippets";
+import ReportsTable from "./reports";
+import GlobalTable from "./globalTable";
 
 export {
     PostCategoryTable,
@@ -39,5 +41,7 @@ export {
     InstallmentsPlansTable,
     WorktimesTable,
     ImageMarkersTable,
-    SnippetsTable
+    SnippetsTable,
+    ReportsTable,
+    GlobalTable
 };
