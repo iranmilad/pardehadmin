@@ -197,4 +197,11 @@ class ProductController extends Controller
 
         return response()->json(['success' => false], 404);
     }
+
+
+    public function settings(){
+        return view('products-settings');
+    }
+
+
 }

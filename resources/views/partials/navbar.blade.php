@@ -247,7 +247,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('products.settings.show')  ? 'active' : '' }}" href="{{route('products.settings.show')}}">
+				<a class="menu-link {{ Route::is('products.settings')  ? 'active' : '' }}" href="{{route('products.settings')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>

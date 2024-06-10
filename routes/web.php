@@ -199,7 +199,7 @@ Route::group(['prefix' => 'products'], function () {
     Route::post('/delete', [ProductController::class, 'delete'])->name("products.delete");
     Route::post('/bulk_action', [ProductController::class, 'bulk_action'])->name("products.bulk_action");
     Route::post('/update-attributes', [ProductController::class, 'updateAttributes']);
-
+    Route::get('/settings', [ProductController::class, 'settings'])->name("products.settings");
 });
 
 Route::group(['prefix' => 'installments'], function () {
