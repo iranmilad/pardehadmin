@@ -551,7 +551,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{route('menus.show')}}" class="menu-link {{ Route::is('menus.show')  ? 'active' : '' }}">
+		<a href="{{route('menus.list')}}" class="menu-link {{ Route::is('menus.list')  ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-layer-group"></i>
 			</span>
@@ -590,7 +590,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{ route('block.list') }}">
+				<a class="menu-link" href="{{ route('blocks.list') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -602,7 +602,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="{{ route('block.create.show') }}">
+				<a class="menu-link" href="{{ route('blocks.create') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>

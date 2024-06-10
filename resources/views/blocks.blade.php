@@ -2,15 +2,15 @@
 
 @section('title', 'بلاک ها')
 
-@section("toolbar")
-<a href="{{route('block.create.show')}}" class="btn btn-primary">بلاک جدید</a>
+@section('toolbar')
+<a href="{{ route('blocks.create') }}" class="btn btn-primary">بلاک جدید</a>
 @endsection
 
 @section('content')
 <!-- START:TABLE -->
 <div class="card">
     <div class="card-body">
-        <form class="d-flex align-items-center justify-content-end" action="" method="get">
+        <form class="d-flex align-items-center justify-content-end" action="{{ route('blocks.list') }}" method="get">
             @csrf
             <div class="d-flex align-items-center position-relative my-1">
                 <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6"><span class="path1"></span><span class="path2"></span></i>
@@ -19,9 +19,10 @@
         </form>
 
         <!--end::Group actions-->
-        <form action="" method="post">
+        <form action="{{ route('blocks.bulk_action') }}" method="post">
+            @csrf
             <div class="d-flex tw-items-center tw-justify-start tw-w-full gap-4">
-                <select class="form-select form-select-solid tw-w-max" name="" id="">
+                <select class="form-select form-select-solid tw-w-max" name="bulk_action" id="">
                     <option>عملیات</option>
                     <option value="delete">حذف</option>
                 </select>
@@ -36,7 +37,7 @@
                                 <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#blocks_table .form-check-input" value="1" />
                             </div>
                         </th>
-                        <th class="cursor-pointer px-0 min-w-100px text-start">عنوان</th>
+                        <th class="cursor-pointer px-0 min-w-100px text-start">ویجت پایه</th>
                         <th class="px-0 tw-max-w-20 text-start">نوع</th>
                         <th class="px-0 tw-max-w-20 text-start">کد کوتاه</th>
                         <th class="px-0 tw-max-w-20 text-start">تاریخ</th>
@@ -44,23 +45,24 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($blocks as $block)
                     <tr>
                         <td>
                             <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" data-id="1" />
+                                <input class="form-check-input" type="checkbox" name="ids[]" value="{{ $block->id }}" />
                             </div>
                         </td>
                         <td>
-                            <a href="{{ route('block.edit', ['id' => 1]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">بلاک دسته بندی</a>
+                            <a href="{{ route('blocks.edit', ['id' => $block->id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">{{ $block->widget->name }}</a>
                         </td>
                         <td>
-                            <span class="text-muted">دسته بندی</span>
+                            <span class="text-muted">{{ $block->type }}</span>
                         </td>
                         <td>
-                            <span class="badge badge-light fs-6 tw-select-all">[block type="category" id="1"]</span>
+                            <span class="badge badge-light fs-6 tw-select-all">[block type="{{ $block->type }}" id="{{ $block->id }}"]</span>
                         </td>
                         <td>
-                            <span class="text-primary">1400/01/01</span>
+                            <span class="text-primary">{{ $block->created_at->format('Y/m/d') }}</span>
                         </td>
                         <td class="text-end dropdown">
                             <a href="#" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
@@ -78,7 +80,7 @@
                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-kt-menu="true">
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="{{ route('block.edit', ['id' => 1]) }}" class="menu-link px-3">
+                                    <a href="{{ route('blocks.edit', ['id' => $block->id]) }}" class="menu-link px-3">
                                         ویرایش
                                     </a>
                                 </div>
@@ -86,7 +88,7 @@
 
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="#" class="menu-link px-3" data-kt-docs-table-filter="delete_row">
+                                    <a href="{{ route('blocks.delete', ['id' => $block->id]) }}" class="menu-link px-3" data-kt-docs-table-filter="delete_row">
                                         حذف
                                     </a>
                                 </div>
@@ -94,25 +96,16 @@
                             </div>
                         </td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </form>
-        <ul class="pagination">
-            <li class="page-item previous disabled"><a href="#" class="page-link"><i class="previous"></i></a></li>
-            <li class="page-item active"><a href="#" class="page-link">1</a></li>
-            <li class="page-item"><a href="#" class="page-link">2</a></li>
-            <li class="page-item "><a href="#" class="page-link">3</a></li>
-            <li class="page-item "><a href="#" class="page-link">4</a></li>
-            <li class="page-item "><a href="#" class="page-link">5</a></li>
-            <li class="page-item "><a href="#" class="page-link">6</a></li>
-            <li class="page-item next"><a href="#" class="page-link"><i class="next"></i></a></li>
-        </ul>
+        {{ $blocks->links("vendor.pagination.custom-pagination") }}
     </div>
 </div>
 <!-- END:TABLE -->
 @endsection
 
 @section('script-before')
-<script src="{{asset('plugins/custom/datatables/datatables.bundle.js')}}"></script>
-
+<script src="{{ asset('plugins/custom/datatables/datatables.bundle.js') }}"></script>
 @endsection

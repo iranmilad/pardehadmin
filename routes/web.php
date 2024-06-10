@@ -5,8 +5,11 @@ use App\Models\Review;
 use App\Models\PostCategory;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\BlockController;
 use App\Http\Controllers\CreditController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
@@ -14,7 +17,6 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AttributeController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductTagController;
 use App\Http\Controllers\InstallmentController;
 use App\Http\Controllers\SubAttributeController;
@@ -319,6 +321,38 @@ Route::group(['prefix' => 'users'], function () {
 //     })->name("user.delete");
 // });
 
+Route::group(['prefix' => 'menus'], function () {
+
+    Route::get('/', [MenuController::class, 'index'])->name("menus.list");
+
+    Route::get('/create', [MenuController::class, 'create'])->name("menus.create");
+    Route::post('/store', [MenuController::class, 'store'])->name("menus.store");
+
+    Route::get('/edit/{id}', [MenuController::class, 'edit'])->name("menus.edit");
+    Route::put('/update/{id}', [MenuController::class, 'update'])->name("menus.update");
+
+    Route::post('/delete', [MenuController::class, 'delete'])->name("menus.delete");
+
+    Route::post('/bulk_action', [MenuController::class, 'bulk_action'])->name("menus.bulk_action");
+
+});
+
+Route::group(['prefix' => 'blocks'], function () {
+
+    Route::get('/', [BlockController::class, 'index'])->name("blocks.list");
+
+    Route::get('/create', [BlockController::class, 'create'])->name("blocks.create");
+    Route::post('/store', [BlockController::class, 'store'])->name("blocks.store");
+
+    Route::get('/edit/{id}', [BlockController::class, 'edit'])->name("blocks.edit");
+    Route::put('/update/{id}', [BlockController::class, 'update'])->name("blocks.update");
+
+    Route::get('/delete/{id}', [BlockController::class, 'delete'])->name("blocks.delete");
+
+    Route::post('/bulk_action', [BlockController::class, 'bulk_action'])->name("blocks.bulk_action");
+
+});
+
 Route::get('/login', function () {
     return view('auth.login');
 })->name("login");
@@ -345,19 +379,19 @@ Route::get('/slides', function () {
 Route::post('/slides', function () {
 })->name("slides.save");
 
-Route::group(['prefix' => 'block'], function () {
-    Route::get('/', function () {
-        return view('blocks');
-    })->name("block.list");
+// Route::group(['prefix' => 'block'], function () {
+//     Route::get('/', function () {
+//         return view('blocks');
+//     })->name("block.list");
 
-    Route::get('/create', function () {
-        return view('block');
-    })->name("block.create.show");
+//     Route::get('/create', function () {
+//         return view('block');
+//     })->name("block.create.show");
 
-    Route::get('/edit/{id}', function ($id) {
-        return view('block', ['id' => $id]);
-    })->name("block.edit");
-});
+//     Route::get('/edit/{id}', function ($id) {
+//         return view('block', ['id' => $id]);
+//     })->name("block.edit");
+// });
 
 
 
@@ -451,13 +485,7 @@ Route::get('/worktime/create', function () {
     return view('worktime');
 })->name("worktime.create.show");
 
-Route::get('/menus', function () {
-    return view('menus');
-})->name("menus.show");
 
-Route::get('/menu/{id}', function ($id) {
-    return view('menu');
-})->name("menu.show");
 
 Route::get('/imagemarkers', function () {
     return view('imagemarkers');
