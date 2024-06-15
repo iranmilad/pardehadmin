@@ -222,7 +222,7 @@ function resortFieldsNames(elm, parentPath = "") {
         let url = $(item).children(".accordion").find("input.link");
         let file = $(item).children(".accordion").find("input.icon");
         let slug = $(item).children(".accordion").find("input.slug");
-        let show_title = $(item).children(".accordion").find("input.show_title");
+        let show_title = $(item).children(".accordion").find("select.show_title");
 
         title.attr("name", `menu${currentPath}[title]`);
         url.attr("name", `menu${currentPath}[url]`);
