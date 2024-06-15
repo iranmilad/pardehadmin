@@ -119,15 +119,26 @@ function addAccordionItem(subId, title, link) {
                         <div class="accordion-body">
                             <div class="mb-5">
                                 <label for="" class="form-label">عنوان</label>
-                                <input type="text" class="form-control" value="${title}">
+                                <input type="text" class="form-control title" value="${title}">
                             </div>
                             <div class="mb-5">
                                 <label for="" class="form-label">لینک</label>
-                                <input type="url" class="form-control" value="${link}" placeholder="https://example.com">
+                                <input type="url" class="form-control link" value="${link}" placeholder="https://example.com">
+                            </div>
+                            <div class="mb-5">
+                                <label for="" class="form-label">نام مستعار</label>
+                                <input type="text" class="form-control slug" placeholder="">
                             </div>
                             <div class="mb-5">
                                 <label for="" class="form-label">آیکون</label>
-                                <input type="file" class="form-control">
+                                <input type="file" class="form-control icon">
+                            </div>
+                            <div class="mb-5">
+                                <label for="" class="form-label">نمایش عنوان</label>
+                                <select name="" id="" class="form-select show_title">
+                                    <option value="1">بله</option>
+                                    <option value="2">خیر</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -207,13 +218,18 @@ function resortFieldsNames(elm, parentPath = "") {
     childrens.each((index, item) => {
         let currentPath = parentPath ? `${parentPath}[${index}]` : `[${index}]`;
 
-        let title = $(item).children(".accordion").find("input[type='text']");
-        let url = $(item).children(".accordion").find("input[type='url']");
-        let file = $(item).children(".accordion").find("input[type='file']");
+        let title = $(item).children(".accordion").find("input.title");
+        let url = $(item).children(".accordion").find("input.link");
+        let file = $(item).children(".accordion").find("input.icon");
+        let slug = $(item).children(".accordion").find("input.slug");
+        let show_title = $(item).children(".accordion").find("input.show_title");
 
         title.attr("name", `menu${currentPath}[title]`);
         url.attr("name", `menu${currentPath}[url]`);
         file.attr("name", `menu${currentPath}[icon]`);
+        slug.attr("name", `menu${currentPath}[slug]`);
+        show_title.attr("name", `menu${currentPath}[show_title]`);
+        
 
         if ($(item).children(".nested-list").length > 0) {
             resortFieldsNames(
