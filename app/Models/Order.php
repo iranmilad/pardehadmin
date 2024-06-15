@@ -356,5 +356,45 @@ class Order extends Model
             return 0;
         }
     }
+    public function getTotalChecksCount()
+    {
+        return $this->checks()->count();
+    }
+    public function getPaidChecksCount()
+    {
+        return $this->checks()->where('payment_status', 'paid')->count();
+    }
+    public function getLastCheckPaymentDate()
+    {
+        // برگرداندن آخرین تاریخ پرداخت چک، اگر چکی با وضعیت پرداخت "paid" وجود داشته باشد
+        $lastPaymentDate = $this->checks()
+            ->where('payment_status', 'paid')
+            ->latest('due_date')
+            ->value('due_date');
+
+        // اگر تاریخ پرداخت وجود داشته باشد، آن را به تاریخ شمسی تبدیل کرده و برمی‌گردانیم
+        if ($lastPaymentDate) {
+            return $this->gregorianToJalalian($lastPaymentDate);
+        }
+
+        // اگر هیچ چکی با وضعیت "paid" وجود نداشته باشد، null برمی‌گردانیم
+        return null;
+    }
+    public function getnextDueDate()
+    {
+        // برگرداندن اولین تاریخ پرداخت چک، اگر چکی با وضعیت پرداخت "unpaid" وجود داشته باشد
+        $firstPaymentDate = $this->checks()
+            ->where('payment_status', 'unpaid')
+            ->first('due_date')
+            ->value('due_date');
+
+        // اگر تاریخ پرداخت وجود داشته باشد، آن را به تاریخ شمسی تبدیل کرده و برمی‌گردانیم
+        if ($firstPaymentDate) {
+            return $this->gregorianToJalalian($firstPaymentDate);
+        }
+
+        // اگر هیچ چکی با وضعیت "unpaid" وجود نداشته باشد، null برمی‌گردانیم
+        return null;
+    }
 
 }

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Menu;
+use App\Models\Category;
+use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
@@ -39,15 +40,19 @@ class MenuController extends Controller
     {
         $menu = Menu::findOrFail($id);
         $parentMenus = Menu::whereNull('menu_id')->get();
+        $categories = Category::all();
+
         $childMenus = $menu->childMenus;
-        return view('menu', compact('menu', 'parentMenus', 'childMenus'));
+        return view('menu', compact('menu', 'parentMenus', 'childMenus','categories'));
     }
 
     public function update(Request $request, $id)
     {
-        //dd($id);
+        dd($request);
+        // پیدا کردن منو با استفاده از آیدی
         $menu = Menu::findOrFail($id);
 
+        // اعتبارسنجی داده‌های دریافتی
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'link' => 'nullable|string|max:255',
@@ -55,9 +60,7 @@ class MenuController extends Controller
             'alias' => 'required|string|max:50|unique:menus,alias,' . $menu->id,
             'show_title' => 'required|boolean',
             'menu_id' => 'nullable|exists:menus,id',
-
         ]);
-
 
         // به‌روزرسانی اطلاعات اصلی منو
         $menu->update([
@@ -69,19 +72,20 @@ class MenuController extends Controller
             'show_title' => $validatedData['show_title'],
         ]);
 
-        // Update child menus order
+        // حذف منوهای فرزند موجود
+        $menu->childMenus()->delete();
 
+        // افزودن منوهای فرزند جدید
         if ($request->has('child_menus')) {
             foreach ($request->child_menus as $childMenuData) {
-                $childMenu = Menu::findOrFail($childMenuData['id']);
 
-                $childMenu->update([
+                $menu->childMenus()->create([
                     'title' => $childMenuData['title'],
                     'link' => $childMenuData['link'],
                     'alias' => $childMenuData['alias'],
                     'icon' => $childMenuData['icon'],
                     'show_title' => $childMenuData['show_title'],
-                    'menu_id' =>  $validatedData['menu_id'],
+                    'menu_id' => $menu->id,
                 ]);
             }
         }

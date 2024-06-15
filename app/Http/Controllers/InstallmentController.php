@@ -25,7 +25,8 @@ class InstallmentController extends Controller
      */
     public function create()
     {
-        return view('installments-plan');
+        $creditPlan = CreditPlan::paginate(10);
+        return view('installments-plan', compact('creditPlan'));
     }
 
     public function store(Request $request)

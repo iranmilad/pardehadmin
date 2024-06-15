@@ -11,6 +11,9 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
+                'resources/css/style-rtl.css',
+                'resources/plugins/global/plugins.bundle.rtl.css',
+
                 'resources/js/app.js',
             ],
             refresh: true,

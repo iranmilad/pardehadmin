@@ -3,7 +3,7 @@
 @section('title', 'اقساط')
 
 @section("toolbar")
-<a href="{{route('credit.create')}}" class="btn btn-primary">افزودن اقساط برای کاربر</a>
+<a href="{{route('credits.create')}}" class="btn btn-primary">افزودن اقساط برای کاربر</a>
 @endsection
 
 @section('content')
@@ -21,8 +21,8 @@
         <form method="post" class="" id="action_form">
             <div class="d-flex tw-items-center tw-justify-between tw-w-full gap-4 mb-5">
                 <div class="d-flex align-items-center gap-5">
-                    <select class="form-select form-select-solid tw-w-max" name="" id="">
-                        <option>عملیات</option>
+                    <select class="form-select form-select-solid tw-w-max" name="action" id="action_select">
+                        <option value="">عملیات</option>
                         <option value="delete">حذف</option>
                     </select>
                     <button class="btn btn-primary" type="submit">اجرا</button>
@@ -33,22 +33,23 @@
             <div id="filter_collapse" class="collapse">
                 <div class="d-flex align-items-end flex-wrap w-100 gap-10">
                     <div>
-                        <label class="form-label" for="">تاریخ سررسید</label>
+                        <label class="form-label" for="filter_date">تاریخ سررسید</label>
                         <input type="text" name="date" placeholder="انتخاب تاریخ" class="form-control form-control-solid" id="filter_date">
                     </div>
                     <div>
-                        <label class="form-label" for="">نوع پرداخت</label>
-                        <select name="" id="" class="form-select form-select-solid">
-                            <option value="1" selected>همه</option>
-                            <option value="2">درگاه پرداخت</option>
-                            <option value="3">حضوری</option>
+                        <label class="form-label" for="payment_type">نوع پرداخت</label>
+                        <select name="payment_type" id="payment_type" class="form-select form-select-solid">
+                            <option value="all" selected>همه</option>
+                            <option value="gateway">درگاه پرداخت</option>
+                            <option value="in_person">حضوری</option>
                         </select>
                     </div>
                     <div>
-                        <label class="form-label" for="">پرداخت شده</label>
-                        <select name="" id="" class="form-select form-select-solid">
-                            <option value="1" selected>بله</option>
-                            <option value="2">خیر</option>
+                        <label class="form-label" for="is_paid">پرداخت شده</label>
+                        <select name="is_paid" id="is_paid" class="form-select form-select-solid">
+                            <option value="all" selected>همه</option>
+                            <option value="yes">بله</option>
+                            <option value="no">خیر</option>
                         </select>
                     </div>
                     <button class="btn btn-primary" type="submit">اجرا</button>
@@ -73,51 +74,44 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($credits as $credit)
                     <tr>
                         <td>
                             <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" name="checked_row" value="1" />
+                                <input class="form-check-input" type="checkbox" name="checked_row[]" value="{{ $credit->id }}" />
                             </div>
                         </td>
                         <td>
-                            <a href="{{route('credit.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">قسط اول سفارش #1212</a>
+                            <a href="{{route('credits.edit',['id' => $credit->id])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">{{ $credit->order->customer_name .' شماره قسط '.$credit->id  }}</a>
                         </td>
                         <td>
-                            <a href="{{route('credit.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">12/12/1403</a>
+                            <a href="{{route('credits.edit',['id' => $credit->id])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">{{ $credit->getDueDateShamsiAttribute() }}</a>
                         </td>
                         <td>
-                            <a href="{{route('credit.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">12/12/1403</a>
+                            <a href="{{route('credits.edit',['id' => $credit->id])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">{{ $credit->payment_date ? \Morilog\Jalali\Jalalian::fromCarbon(\Carbon\Carbon::parse($credit->payment_date))->format('Y/m/d') : '---' }}</a>
                         </td>
                         <td>
-                            <a href="{{route('credit.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">09374039436</a>
+                            <a href="{{route('credits.edit',['id' => $credit->id])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">{{ $credit->user->mobile }}</a>
                         </td>
                         <td>
-                            <a href="{{route('credit.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">درگاه پرداخت</a>
+                            <a href="{{route('credits.edit',['id' => $credit->id])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">{{ $credit->payment->status ?? 'عدم پرداخت' }}</a>
                         </td>
                         <td>
-                            <a href="{{route('credit.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">24235123</a>
+                            <a href="{{route('credits.edit',['id' => $credit->id])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">{{ $credit->payment->reference_id ?? ''}}</a>
                         </td>
                         <td class="text-end">
-                            <a href="{{route('credit.edit',['id' => 1])}}" class="btn btn-light btn-sm">
+                            <a href="{{route('credits.edit',['id' => $credit->id])}}" class="btn btn-light btn-sm">
                                 ویرایش
                             </a>
                         </td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </form>
         <!--end::Group actions-->
 
-        <ul class="pagination">
-            <li class="page-item previous disabled"><a href="#" class="page-link"><i class="previous"></i></a></li>
-            <li class="page-item active"><a href="#" class="page-link">1</a></li>
-            <li class="page-item"><a href="#" class="page-link">2</a></li>
-            <li class="page-item "><a href="#" class="page-link">3</a></li>
-            <li class="page-item "><a href="#" class="page-link">4</a></li>
-            <li class="page-item "><a href="#" class="page-link">5</a></li>
-            <li class="page-item "><a href="#" class="page-link">6</a></li>
-            <li class="page-item next"><a href="#" class="page-link"><i class="next"></i></a></li>
-        </ul>
+        {{ $credits->links() }}
     </div>
 </div>
 <!-- END:TABLE -->
@@ -140,7 +134,6 @@
         dateFormat: "Y-m-d",
         locale: "fa",
         mode: "range"
-    })
+    });
 </script>
-
 @endsection

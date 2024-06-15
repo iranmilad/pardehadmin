@@ -18,7 +18,7 @@ class CreatePaymentsTable extends Migration
 			$table->bigInteger("amount");
 			$table->enum('status', ['pending', 'completed', 'canceled'])->default('pending');
 			$table->tinyInteger("type")->comment('1:subscribe')->default(1);
-            $table->enum('payment_method', ['cash','check', 'credit'])->default('cash');
+            $table->enum('payment_method', ['cash','check', 'credit','bank'])->default('cash');
 			$table->softDeletes();
 			$table->bigInteger("deleted_by")->nullable();
 

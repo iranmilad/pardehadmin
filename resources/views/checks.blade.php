@@ -1,26 +1,30 @@
 @extends('layouts.primary')
 
-@section('title', 'چک ها')
+@section('title', 'چک‌ها')
 
 @section("toolbar")
-<a href="{{route('check.create.show')}}" class="btn btn-primary">افزودن چک برای کاربر</a>
+<a href="{{ route('checks.create') }}" class="btn btn-primary">افزودن چک برای کاربر</a>
 @endsection
 
 @section('content')
 <!-- START:TABLE -->
 <div class="card">
     <div class="card-body">
-        <form class="d-flex align-items-center justify-content-end" action="" method="get">
+        <form class="d-flex align-items-center justify-content-end" action="{{ route('checks.list') }}" method="get">
             @csrf
             <div class="d-flex align-items-center position-relative my-1">
-                <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6"><span class="path1"></span><span class="path2"></span></i>
+                <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                </i>
                 <input name="s" value="{{ request()->get('s') ?? '' }}" type="text" data-kt-docs-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="جست و جو" />
             </div>
         </form>
-        <form method="post" class="" id="action_form">
+        <form method="post" action="{{ route('checks.bulk_action') }}" id="action_form">
+            @csrf
             <div class="d-flex tw-items-center tw-justify-start tw-w-full gap-4">
-                <select class="form-select form-select-solid tw-w-max" name="" id="">
-                    <option >عملیات</option>
+                <select class="form-select form-select-solid tw-w-max" name="action" id="bulk_action">
+                    <option value="">عملیات</option>
                     <option value="delete">حذف</option>
                 </select>
                 <button class="btn btn-primary" type="submit">اجرا</button>
@@ -35,51 +39,48 @@
                             </div>
                         </th>
                         <th class="cursor-pointer px-0 min-w-175px text-start">کاربر</th>
-                        <th class="cursor-pointer px-0 min-w-175px text-start">کل چک ها</th>
+                        <th class="cursor-pointer px-0 min-w-175px text-start">کل چک‌ها</th>
                         <th class="cursor-pointer px-0 min-w-175px text-start">تعداد پرداختی</th>
                         <th class="cursor-pointer px-0 min-w-175px text-start">آخرین تاریخ پرداخت</th>
                         <th class="min-w-100px text-end">عملیات</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" name="checked_row" value="1" />
-                            </div>
-                        </td>
-                        <td>
-                            <a href="{{route('check.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">admin</a>
-                        </td>
-                        <td>
-                            <a href="{{route('check.show',['id' => 1])}}">12</a>
-                        </td>
-                        <td>
-                            <a href="{{route('check.show',['id' => 1])}}" class="badge badge-primary">5/12</a>
-                        </td>
-                        <td>
-                            <a href="{{route('check.show',['id' => 1])}}">1400/12/12</a>
-                        </td>
-                        <td class="text-end">
-                            <a href="{{route('check.show',['id' => 1])}}" class="btn btn-light btn-sm">
-                                ویرایش
-                            </a>
-                        </td>
-                    </tr>
+                    @foreach($orders as $order)
+
+                            <tr>
+                                <td>
+                                    <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                        <input class="form-check-input" type="checkbox" name="checked_rows[]" value="{{ $order->id }}" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="{{ route('checks.edit', ['id' => $order->id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">{{ $order->user->fullName .'  کد سفارش'.$order->id}}</a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('checks.edit', ['id' => $order->id]) }}">{{ $order->getTotalChecksCount() }}</a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('checks.edit', ['id' => $order->id]) }}" class="badge badge-primary">{{ $order->getPaidChecksCount() }}</a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('checks.edit', ['id' => $order->id]) }}">{{ $order->getLastCheckPaymentDate() ?? "بدون پرداخت" }}</a>
+                                </td>
+                                <td class="text-end">
+                                    <a href="{{ route('checks.edit', ['id' => $order->id]) }}" class="btn btn-light btn-sm">
+                                        ویرایش
+                                    </a>
+                                </td>
+                            </tr>
+
+                    @endforeach
                 </tbody>
             </table>
         </form>
-        <!--end::Group actions-->
 
+        <!-- Pagination -->
         <ul class="pagination">
-            <li class="page-item previous disabled"><a href="#" class="page-link"><i class="previous"></i></a></li>
-            <li class="page-item active"><a href="#" class="page-link">1</a></li>
-            <li class="page-item"><a href="#" class="page-link">2</a></li>
-            <li class="page-item "><a href="#" class="page-link">3</a></li>
-            <li class="page-item "><a href="#" class="page-link">4</a></li>
-            <li class="page-item "><a href="#" class="page-link">5</a></li>
-            <li class="page-item "><a href="#" class="page-link">6</a></li>
-            <li class="page-item next"><a href="#" class="page-link"><i class="next"></i></a></li>
+            {{ $orders->links("vendor.pagination.custom-pagination") }}
         </ul>
     </div>
 </div>
@@ -87,5 +88,5 @@
 @endsection
 
 @section('script-before')
-<script src="{{asset('plugins/custom/datatables/datatables.bundle.js')}}"></script>
+<script src="{{ asset('plugins/custom/datatables/datatables.bundle.js') }}"></script>
 @endsection

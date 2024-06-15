@@ -3,31 +3,33 @@
 namespace App\Http\Controllers\Auth\Mail;
 
 use App\Models\User;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
 
 
 class LoginController extends Controller
 {
-
-
     protected $redirectTo = '/';
 
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
     }
-    public function  index(){
 
+    public function index()
+    {
         return view('auth.login');
     }
-    public function login()
-    {
-        $email = request("email");
 
-        $user = User::where('email', $email)->first(['id', 'password', 'active']);
+    public function login(Request $request)
+    {
+        $email = $request->input("email");
+
+        $user = User::where('email', $email)->first(['id', 'password', 'active', 'role_id']);
 
         if (!$user) {
             return redirect()->route('login')->withErrors("کاربری با این ایمیل ثبت نام نشده است.");
@@ -37,16 +39,20 @@ class LoginController extends Controller
             return redirect()->route('login')->withErrors("حساب کاربری شما غیر فعال شده است.");
         }
 
-        if (!Hash::check(request('password'), $user->password)) {
+        if (!Hash::check($request->input('password'), $user->password)) {
             return redirect()->route('login')->withErrors("اطلاعات ورود اشتباه می باشد.");
         }
 
-        // Save password in a cookie if the 'remember' checkbox is checked
-        if (request()->has('remember')) {
-            $this->savePasswordInCookie($user->id, request('password'));
+        if (!$user->isAdmin()) {
+            return redirect()->route('login')->withErrors("شما اجازه ورود به این سیستم را ندارید.");
         }
 
-        $token = auth()->login($user);
+        // Save password in a cookie if the 'remember' checkbox is checked
+        if ($request->has('remember')) {
+            $this->savePasswordInCookie($user->id, $request->input('password'));
+        }
+
+        $token = Auth::login($user);
 
         if ($token) {
             // Authentication successful, redirect to the intended page or home
@@ -63,19 +69,17 @@ class LoginController extends Controller
         $cookieName = 'remember_password';
         $cookieValue = encrypt(['user_id' => $userId, 'password' => $password]);
 
-        Cookie::queue($cookieName, $cookieValue, 30 * 24 * 60);
-
+        Cookie::queue($cookieName, $cookieValue, 30 * 24 * 60); // 30 days
     }
-
 
     public function logout()
     {
-        // // Remove remember password cookie if exists
-        // if (Cookie::has('remember_password')) {
-        //     Cookie::forget('remember_password');
-        // }
+        // Remove remember password cookie if exists
+        if (Cookie::has('remember_password')) {
+            Cookie::forget('remember_password');
+        }
 
-        auth()->logout();
+        Auth::logout();
 
         return redirect('/'); // Redirect to home or any desired page after logout
     }

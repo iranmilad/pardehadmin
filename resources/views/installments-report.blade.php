@@ -45,25 +45,25 @@
                                 </div>
                             </td>
                             <td>
-                                <a href="{{route('installment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">قسط اول سفارش #1212</a>
+                                <a href="{{route('installments.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">قسط اول سفارش #1212</a>
                             </td>
                             <td>
-                                <a href="{{route('installment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">12/12/1403</a>
+                                <a href="{{route('installments.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">12/12/1403</a>
                             </td>
                             <td>
-                                <a href="{{route('installment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">12/12/1403</a>
+                                <a href="{{route('installments.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">12/12/1403</a>
                             </td>
                             <td>
-                                <a href="{{route('installment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">09374039436</a>
+                                <a href="{{route('installments.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">09374039436</a>
                             </td>
                             <td>
-                                <a href="{{route('installment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">درگاه پرداخت</a>
+                                <a href="{{route('installments.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">درگاه پرداخت</a>
                             </td>
                             <td>
-                                <a href="{{route('installment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">24235123</a>
+                                <a href="{{route('installments.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">24235123</a>
                             </td>
                             <td class="text-end">
-                                <a href="{{route('installment.show',['id' => 1])}}" class="btn btn-light btn-sm">
+                                <a href="{{route('installments.edit',['id' => 1])}}" class="btn btn-light btn-sm">
                                     ویرایش
                                 </a>
                             </td>
@@ -111,25 +111,25 @@
                                 </div>
                             </td>
                             <td>
-                                <a href="{{route('installment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">قسط اول سفارش #1212</a>
+                                <a href="{{route('installments.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">قسط اول سفارش #1212</a>
                             </td>
                             <td>
-                                <a href="{{route('installment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">12/12/1403</a>
+                                <a href="{{route('installments.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">12/12/1403</a>
                             </td>
                             <td>
-                                <a href="{{route('installment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">12/12/1403</a>
+                                <a href="{{route('installments.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">12/12/1403</a>
                             </td>
                             <td>
-                                <a href="{{route('installment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">09374039436</a>
+                                <a href="{{route('installments.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">09374039436</a>
                             </td>
                             <td>
-                                <a href="{{route('installment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">درگاه پرداخت</a>
+                                <a href="{{route('installments.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">درگاه پرداخت</a>
                             </td>
                             <td>
-                                <a href="{{route('installment.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">24235123</a>
+                                <a href="{{route('installments.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">24235123</a>
                             </td>
                             <td class="text-end">
-                                <a href="{{route('installment.show',['id' => 1])}}" class="btn btn-light btn-sm">
+                                <a href="{{route('installments.edit',['id' => 1])}}" class="btn btn-light btn-sm">
                                     ویرایش
                                 </a>
                             </td>

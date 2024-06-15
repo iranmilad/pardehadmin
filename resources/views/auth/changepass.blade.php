@@ -3,23 +3,22 @@
 @section('title', 'رمز عبور جدید')
 
 @section('content')
-<form class="w-md-350px mx-auto" method="post" action="{{ route('changepass') }}">
+<form class="w-md-350px mx-auto" method="post" action="{{ route('password.email.update') }}">
     @csrf
     <div class="fv-row text-start">
         <div class="row gap-5">
-
+            @if(session('success'))
             <div class="alert alert-success">
-                <div class="alert-text">
-                    رمز عبور شما با موفقیت تغییر یافت.
-                </div>
+                {{ session('success') }}
             </div>
+            @endif
 
             <!--end::Input=-->
             <div class="fv-row mb-3 mt-3">
-                <input autocomplete="off" type="password" name="newpass" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 {{ $errors->has('newpass') ? 'is-invalid' : '' }}" placeholder="رمز عبور جدید">
+                <input autocomplete="off" type="password" name="password" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 {{ $errors->has('password') ? 'is-invalid' : '' }}" placeholder="رمز عبور جدید">
                 <div class="fv-plugins-message-container invalid-feedback">
-                    @if($errors->has("newpass"))
-                    {{$errors->first("newpass")}}
+                    @if($errors->has("password"))
+                    {{$errors->first("password")}}
                     @endif
                 </div>
             </div>
@@ -27,10 +26,10 @@
 
             <!--end::Input=-->
             <div class="fv-row mb-3">
-                <input autocomplete="off" type="password" name="confirmpass" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 {{ $errors->has('confirmpass') ? 'is-invalid' : '' }}" placeholder="تکرار رمز عبور">
+                <input autocomplete="off" type="password" name="password_confirmation" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 {{ $errors->has('password_confirmation') ? 'is-invalid' : '' }}" placeholder="تکرار رمز عبور">
                 <div class="fv-plugins-message-container invalid-feedback">
-                    @if($errors->has("confirmpass"))
-                    {{$errors->first("confirmpass")}}
+                    @if($errors->has("password_confirmation"))
+                    {{$errors->first("password_confirmation")}}
                     @endif
                 </div>
             </div>
@@ -41,65 +40,7 @@
                     <span class="indicator-label">ثبت</span>
                 </button>
             </div>
-
-            <div class="text-center">
-                <a href="#" class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-30px h-30px w-md-40px h-md-40px" data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom">
-                    <i class="ki-duotone ki-night-day theme-light-show fs-2 fs-lg-1">
-                        <span class="path1"></span>
-                        <span class="path2"></span>
-                        <span class="path3"></span>
-                        <span class="path4"></span>
-                        <span class="path5"></span>
-                        <span class="path6"></span>
-                        <span class="path7"></span>
-                        <span class="path8"></span>
-                        <span class="path9"></span>
-                        <span class="path10"></span>
-                    </i>
-                    <i class="ki-duotone ki-moon theme-dark-show fs-2 fs-lg-1">
-                        <span class="path1"></span>
-                        <span class="path2"></span>
-                    </i>
-                </a>
-                <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-title-gray-700 menu-icon-gray-500 menu-active-bg menu-state-color fw-semibold py-4 fs-base w-150px" data-kt-menu="true" data-kt-element="theme-mode-menu">
-                    <!--begin::Menu item-->
-                    <div class="menu-item px-3 my-0">
-                        <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="light">
-                            <span class="menu-icon" data-kt-element="icon">
-                                <i class="ki-duotone ki-night-day fs-2">
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                    <span class="path3"></span>
-                                    <span class="path4"></span>
-                                    <span class="path5"></span>
-                                    <span class="path6"></span>
-                                    <span class="path7"></span>
-                                    <span class="path8"></span>
-                                    <span class="path9"></span>
-                                    <span class="path10"></span>
-                                </i>
-                            </span>
-                            <span class="menu-title">روشن</span>
-                        </a>
-                    </div>
-                    <!--end::Menu item-->
-                    <!--begin::Menu item-->
-                    <div class="menu-item px-3 my-0">
-                        <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="dark">
-                            <span class="menu-icon" data-kt-element="icon">
-                                <i class="ki-duotone ki-moon fs-2">
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                </i>
-                            </span>
-                            <span class="menu-title">تیره</span>
-                        </a>
-                    </div>
-                    <!--end::Menu item-->
-                </div>
-            </div>
-
-
         </div>
+    </div>
 </form>
 @endsection

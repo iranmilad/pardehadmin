@@ -1,31 +1,29 @@
 @extends('layouts.primary')
 
-@if(Route::is('transport.edit.show'))
-@section('title', 'ویرایش منطقه حمل و نقل')
-@else
-@section('title', 'ایجاد منطقه حمل و نقل')
-@endif
+@section('title', isset($transport) ? 'ویرایش منطقه حمل و نقل' : 'ایجاد منطقه حمل و نقل')
 
 @section('content')
-<form action="" method="post">
+<form action="{{ isset($transport) ? route('transports.update', $transport->id) : route('transports.store') }}" method="post">
     @csrf
+    @if(isset($transport))
+        @method('PUT')
+    @endif
     <div class="card mb-10">
         <div class="card-body">
             <div>
-                <label for="" class="form-label">عنوان منطقه</label>
-                <input type="text" class="form-control form-control-solid" name="title" placeholder="عنوان منطقه را وارد کنید" />
+                <label for="title" class="form-label">عنوان منطقه</label>
+                <input type="text" class="form-control form-control-solid" name="title" placeholder="عنوان منطقه را وارد کنید" value="{{ old('title', $transport->title ?? '') }}" />
             </div>
         </div>
     </div>
     <div class="card mb-10">
         <div class="card-body">
             <div>
-                <label for="" class="form-label">ناحیه ها</label>
-                <select data-control="select2" data-placeholder="ناحیه را انتخاب کنید" class="form-select form-select-solid" name="regions[]" id="" multiple>
-                    <option value="1">تهران</option>
-                    <option value="2">فارس</option>
-                    <option value="3">اصفهان</option>
-                    <option value="4">خراسان</option>
+                <label for="regions" class="form-label">ناحیه ها</label>
+                <select data-control="select2" data-placeholder="ناحیه را انتخاب کنید" class="form-select form-select-solid" name="regions[]" id="regions" multiple>
+                    @foreach($provinces as $province)
+                        <option value="{{ $province }}" {{ isset($transport) && in_array($province, $transport->regions) ? 'selected' : '' }}>{{ $province }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
@@ -34,7 +32,7 @@
         <div class="card-header">
             <h4 class="card-title">هزینه ها</h4>
         </div>
-        <div class="card-body tw-space-y-5" x-data="{ selectedCost: '' }">
+        <div class="card-body tw-space-y-5" x-data="{ selectedCost: '{{ old('cost', $transport->cost_type ?? '') }}' }">
             <div class="form-check form-check-custom form-check-solid">
                 <input class="form-check-input" type="radio" value="free" id="flexRadioDefault1" name="cost" x-model="selectedCost" />
                 <label class="form-check-label" for="flexRadioDefault1">
@@ -55,15 +53,17 @@
             </div>
             <div x-show="selectedCost === 'fixed'">
                 <div class="mb-5 col-md-6">
-                    <label for="" class="form-label">هزینه :</label>
+                    <label for="price" class="form-label">هزینه :</label>
                     <div class="input-group">
-                        <input dir="ltr" name="price" type="text" class="form-control form-control-solid mb-2 mb-md-0" placeholder="هزینه را وارد کنید" />
+                        <input dir="ltr" name="price" type="text" class="form-control form-control-solid mb-2 mb-md-0" placeholder="هزینه را وارد کنید" value="{{ old('price', $transport->price ?? '') }}" />
                         <span class="input-group-text bg-white ms-0">تومان</span>
                     </div>
                 </div>
             </div>
         </div>
-
+    </div>
+    <div class="card text-end col-3 mt-3">
+        <button type="submit" class="btn btn-primary btn-sm">{{ isset($transport) ? 'بروزرسانی' : 'ایجاد' }}</button>
     </div>
 </form>
 @endsection

@@ -64,8 +64,12 @@
         <div class="card-body">
             <div class="row gy-8">
                 <div class="col-12 col-md-6 col-lg-4">
-                    {{ $creditPlan->allowed_users }}
-                    <x-advanced-search type="user" label="فقط مشتری مجاز" name="allowed_users[]" :multiple="true" :solid="true" :selected="$allowedUsers" />
+                    @if(Route::is('installments.edit'))
+                        <x-advanced-search type="user" label="فقط مشتری مجاز" name="allowed_users[]" :multiple="true" :solid="true" :selected="$allowedUsers" />
+                    @else
+                        <x-advanced-search type="user" label="فقط مشتری مجاز" name="allowed_users[]" :multiple="true" :solid="true" />
+                    @endif
+
                 </div>
 
             </div>

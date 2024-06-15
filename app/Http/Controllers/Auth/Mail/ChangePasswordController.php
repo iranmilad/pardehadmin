@@ -2,28 +2,39 @@
 
 namespace App\Http\Controllers\Auth\Mail;
 
+use App\Models\User;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ChangePasswordRequest;
-use Hash;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Request;
 
-class ChangePasswordController extends Controller
+class ResetPasswordController extends Controller
 {
+    protected $redirectTo = '/login';
+
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('guest');
     }
 
-    public function index()
+    public function showResetForm()
     {
-        return view('auth.passwords.change');
+        return view('auth.reset');
     }
 
-    public function update(ChangePasswordRequest $request)
+    public function reset(Request $request)
     {
-        $request->user()->fill([
-            'password' => Hash::make($request->password)
-        ])->save();
-        return back();
+        $request->validate([
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        // با استفاده از توکن، کاربر مربوطه را پیدا می‌کنیم
+        $user = User::where('email', $request->email)->first();
+
+        // رمز عبور کاربر را به‌روزرسانی می‌کنیم
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        // پس از تغییر رمز عبور، کاربر را به مسیر لاگین هدایت می‌کنیم
+        return redirect()->route('login')->with('success', 'رمز عبور شما با موفقیت تغییر یافت.');
     }
 }

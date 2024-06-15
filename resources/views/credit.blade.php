@@ -1,7 +1,6 @@
-<!-- This blade is used for writing and editing a post -->
 @extends('layouts.primary')
 
-@if(Route::is('installment.show'))
+@if(Route::is('credits.show'))
 @section('title', 'ویرایش قسط')
 @else
 @section('title', 'ایجاد قسط')
@@ -9,7 +8,12 @@
 
 @section('content')
 
-<form action="">
+<form action="{{ Route::is('credits.edit') ? route('credits.update', $credit->id) : route('credits.store') }}" method="POST">
+    @csrf
+    @if(Route::is('credits.edit'))
+        @method('PUT')
+    @endif
+
     <!-- PARENT -->
     <div class="card mb-8">
         <div class="card">
@@ -19,51 +23,47 @@
                 </div>
             </div>
             <div class="card-body">
-                <form action="">
-                    <div class="row gy-8">
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div>
-                                <label for="title" class="form-label required">عنوان</label>
-                                <input type="text" class="form-control" id="title" placeholder="عنوان را وارد کنید">
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <x-advanced-search type="order" label="سفارش" name="order" />
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <x-advanced-search type="user" label="کاربر" name="user" />
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <label class="form-label required" for="">تاریخ سر رسید</label>
-                            <input type="text" class="form-control date_picker">
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <label class="form-label" for="">تاریخ پرداخت</label>
-                            <input type="text" class="form-control date_picker">
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div>
-                                <label for="title" class="form-label required">نوع پرداخت</label>
-                                <select class="form-select" name="" id="">
-                                    <option value="1">درگاه پرداخت</option>
-                                    <option value="2">حضوری</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <label class="form-label" for="">کد پیگیری</label>
-                            <input type="text" class="form-control">
+                <div class="row gy-8">
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div>
+                            <label for="ammount" class="form-label required">مبلغ</label>
+                            <input type="text" class="form-control" id="amount" name="amount" value="{{ old('amount', $credit->amount ?? '') }}" placeholder="مبلغ قسط را وارد کنید">
                         </div>
                     </div>
-                </form>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <x-advanced-search type="order" label="سفارش" :multiple="false" name="order" :selected="$selectedOrder"/>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <label class="form-label required" for="due_date">تاریخ سر رسید</label>
+                        <input type="text" class="form-control date_picker" id="due_date" name="due_date" value="{{ old('due_date', $credit->dueDateShamsi ?? '') }}">
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <label class="form-label" for="updated_at">تاریخ پرداخت</label>
+                        <input type="text" class="form-control date_picker" id="updated_at" name="updated_at" value="{{ old('updated_at', $credit->payment->payedDateShamsi ?? '') }}">
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div>
+                            <label for="payment_method" class="form-label required">نوع پرداخت</label>
+                            <select class="form-select" name="payment_method" id="payment_method">
+                                <option value="bank" {{ old('payment_method', $credit->payment->payment_method ?? '') == "bank" ? 'selected' : '' }}>درگاه پرداخت</option>
+                                <option value="cash" {{ old('payment_method', $credit->payment->payment_method ?? '') == "cash" ? 'selected' : '' }}>نقدی</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <label class="form-label" for="tracking_code">کد پیگیری</label>
+                        <input type="text" class="form-control" id="ref_id" name="ref_id" value="{{ old('tracking_code', $credit->payment->ref_id ?? '') }}">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <!-- PARENT -->
 
-    <button class="btn btn-success mt-10">ذخیره</button>
+    <button class="btn btn-success mt-10">{{ Route::is('credits.show') ? 'ویرایش' : 'ذخیره' }}</button>
 </form>
-
 
 @endsection
 
@@ -82,6 +82,6 @@
         altFormat: "Y-m-d",
         dateFormat: "Y-m-d",
         locale: "fa",
-    })
+    });
 </script>
 @endsection

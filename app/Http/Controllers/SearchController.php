@@ -1,8 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Order;
+use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
@@ -32,7 +33,29 @@ class SearchController extends Controller
 
             return response()->json($data);
         }
+        elseif ($type === 'order') {
+            $query = $request->get('query');
+            $orders = Order::where('customer_name', 'like', "%{$query}%")
+                         ->orWhere('customer_email', 'like', "%{$query}%")
+                         ->orWhere('customer_phone_number', 'like', "%{$query}%")
+                         ->orWhere('id', 'like', "%{$query}%")
+                         ->limit(10)
+                         ->get();
 
+            $results = $orders->map(function ($order) {
+                return [
+                    'id' => $order->id,
+                    'text' => "کد سفارش {$order->id} مشتری {$order->customer_name} ({$order->customer_phone_number})",
+                ];
+            });
+
+            $data = [
+                'search' => $query,
+                'results' => $results,
+            ];
+
+            return response()->json($data);
+        }
         return response()->json([
             'search' => $request->get('query'),
             'results' => [],

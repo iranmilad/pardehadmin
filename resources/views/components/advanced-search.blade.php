@@ -2,10 +2,8 @@
     <label class="form-label" for="{{ $type }}_search">{{$label}}</label>
     <select <?= $multiple === true ? 'multiple': '' ?>  class="form-select <?=  $solid === true ? 'form-select-solid': '' ?> advanced_search {{$classes}}" data-type="{{$type}}" name="{{$name}}">
         {{ $slot }}
-        @foreach($selected as $user)
-            <option value="{{ $user["id"] }}"  selected>
-                {{ $user["text"] }}
-            </option>
+        @foreach($selected as $select)
+            <option value="{{ $select["id"] }}"  selected>{{ $select["text"] }} </option>
         @endforeach
     </select>
 </div>

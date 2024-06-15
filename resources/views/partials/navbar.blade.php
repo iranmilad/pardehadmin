@@ -289,7 +289,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{route('transports.show')}}" class="menu-link {{ Route::is('transports.show')  ? 'active' : '' }}">
+		<a href="{{route('transports.list')}}" class="menu-link {{ Route::is('transports.*')  ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-truck-fast"></i>
 			</span>
@@ -356,7 +356,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{route('messages.show')}}" class="menu-link {{ Route::is('messages.show') || Route::is('message.show') ? 'active' : '' }}">
+		<a href="{{route('sessions.list')}}" class="menu-link {{ Route::is('sessions.show') || Route::is('message.show') ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-messages"></i>
 			</span>
@@ -437,7 +437,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('checks.list.show') || Route::is('check.show')  ? 'active' : '' }}" href="{{ route('checks.list.show') }}">
+				<a class="menu-link {{ Route::is('checks.list') || Route::is('checks.show')  ? 'active' : '' }}" href="{{ route('checks.list') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -449,7 +449,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('check.create.show')  ? 'active' : '' }}" href="{{ route('check.create.show') }}">
+				<a class="menu-link {{ Route::is('checks.create')  ? 'active' : '' }}" href="{{ route('checks.create') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -479,7 +479,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('credit.show') || Route::is('credit.*')  ? 'active' : '' }}" href="{{ route('credit.show') }}">
+				<a class="menu-link {{ Route::is('credits.show') || Route::is('credits.*')  ? 'active' : '' }}" href="{{ route('credits.show') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>

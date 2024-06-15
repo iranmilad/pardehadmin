@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Auth\Mail;
 
 use App\Models\User;
@@ -18,7 +17,6 @@ class AuthController extends Controller
         return view('auth.registration');
     }
 
-
     public function showMobileVerificationForm()
     {
         return view('auth.registration');
@@ -26,126 +24,97 @@ class AuthController extends Controller
 
     public function submit(Request $request)
     {
-        // Add your validation logic here
+        // Validate the request data
         $this->validate($request, [
-
+            'fullname' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'phone' => 'required|string|min:10|max:15|unique:users,mobile',
         ]);
 
-        // Generate gu_id using the createVerificationCode method
-        //$gu_id = $this->createVerificationCode($request->input('mobile'))->gu_id;
-
-        // Add your registration logic here (e.g., store user data)
-        User::query()->create([
-
-            "email"=>$request->input('mobile'),
-            "password"=>Hash::make($request->input('password')),
+        // Create new user with hashed password
+        User::create([
+            'name' => $request->input('fullname'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+            'mobile' => $request->input('phone'),
         ]);
 
-        // Redirect to the verification form
-        return redirect()->route('login')->with('success','ثبت نام شما با موفقیت انجام شد');
+        // Redirect to the login page with success message
+        return redirect()->route('login')->with('success', 'ثبت نام شما با موفقیت انجام شد');
     }
 
-    public function showVerificationForm($id,$mobile)
+    public function showVerificationForm($id, $mobile)
     {
-        return view('auth.verify')->with(['id' => $id,'mobile'=>$mobile]);
+        return view('auth.verify')->with(['id' => $id, 'mobile' => $mobile]);
     }
 
     public function verifyCode(Request $request)
     {
-
         try {
-
             $this->verifySmsCode($request);
             // Verification successful, you can customize the redirect route
             return redirect()->route('login');
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             // Verification failed, handle the error and redirect back
-
             return back()->withErrors($e->getMessage());
         }
     }
 
-	public function edit(Request $request){
+    public function edit(Request $request)
+    {
+        $user = auth()->user();
+        $user->update($request->only(['first_name', 'last_name']));
+        return $this->responseJson("اطلاعات شما با موفقیت ویرایش شد.", null, 201);
+    }
 
-		$user=auth()->user();
-
-		$user->update($request->only(['first_name','last_name']));
-
-		return $this->responseJson("اطلاعات شما با موفقیت ویرایش شد.",null,201);
-	}
-
-    public function changePassword(Request $request){
-
-		$user=auth()->user();
-
-		if(!Hash::check($request->input('current_password'),$user->password)){
-            return  $this->responseJson("رمز عبور فعلی اشتباه می باشد.",null,401,"error");
-         }
-
-		$user->password=Hash::make($request->input('password'));
-		$user->save();
-
-		return $this->responseJson("رمز عبور شما با موفقیت تغییر یافت.",null,201);
-	}
+    public function changePassword(Request $request)
+    {
+        $user = auth()->user();
+        if (!Hash::check($request->input('current_password'), $user->password)) {
+            return $this->responseJson("رمز عبور فعلی اشتباه می باشد.", null, 401, "error");
+        }
+        $user->password = Hash::make($request->input('password'));
+        $user->save();
+        return $this->responseJson("رمز عبور شما با موفقیت تغییر یافت.", null, 201);
+    }
 
     public function resendVerifyCode(Request $request)
     {
-
-        $mobile=$request->input('mobile');
-        // Generate gu_id using the createVerificationCode method
+        $mobile = $request->input('mobile');
         $gu_id = $this->createVerificationCode($mobile)->gu_id;
-        $this->showVerificationForm($gu_id,$mobile);
-        // Output the JSON data to the browser
-        echo json_encode([
+        return response()->json([
             "success" => true,
-            "message" => "new code sended",
+            "message" => "کد جدید ارسال شد",
             "gu_id" => $gu_id
         ]);
     }
 
-
-
-
     public function MobileVerificationSubmit(Request $request)
     {
-
         $mobile = $request->input('mobile');
-        // find user with this mobile number exist or not
-        if (!User::whereMobile($mobile)->exists()) {
-            log::error('کاربری با این شماره یافت نشد');
-            // go to route name  witherror mobile orpass error message
-            return back()->withErrors(['mobile'=>'کاربری با این شماره یافت نشد']);
-
+        if (!User::where('mobile', $mobile)->exists()) {
+            Log::error('کاربری با این شماره یافت نشد');
+            return back()->withErrors(['mobile' => 'کاربری با این شماره یافت نشد']);
         }
-        $oneTimePassword = $this->oneTimePassword($request->input('mobile'));
+        $oneTimePassword = $this->oneTimePassword($mobile);
         $id = $oneTimePassword->gu_id;
-
-        // Redirect to the verification form
-        return redirect(route('remember.code.form',['id' => $id,'mobile'=>$mobile]));
+        return redirect()->route('remember.code.form', ['id' => $id, 'mobile' => $mobile]);
     }
-
 
     public function rememberCodeValidate(Request $request)
     {
         try {
-
             $this->verifySmsCode($request);
-            // Verification successful, you can customize the redirect route
             return redirect()->route('dashboard.changepass');
-        }
-        catch (\Exception $e) {
-            // Verification failed, handle the error and redirect back
+        } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return back()->withErrors(["code"=>$e->getMessage()]);
+            return back()->withErrors(["code" => $e->getMessage()]);
         }
     }
 
-
-    public function ShowRememberCodeForm($id,$mobile)
+    public function ShowRememberCodeForm($id, $mobile)
     {
-        return view('auth.rememberVerify')->with(['id' => $id,'mobile'=>$mobile]);
+        return view('auth.rememberVerify')->with(['id' => $id, 'mobile' => $mobile]);
     }
 }

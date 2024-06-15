@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Message;
 use App\Models\Session;
+use App\Models\MemberList;
 use Illuminate\Http\Request;
+use App\Models\UserMemberList;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,6 +17,42 @@ class SessionController extends Controller
         $this->middleware('web');
     }
 
+    public function index(Request $request)
+    {
+        $user = Auth::user();
+        $query = Session::query();
+        $memberLists = MemberList::all();
+        if ($request->has('s')) {
+            $query->where('title', 'like', '%' . $request->get('s') . '%');
+        }
+
+        // افزودن فیلترهای بخش، اولویت و تاریخ
+        if ($request->has('section')) {
+            $query->whereHas('memberList', function($q) use ($request) {
+                $q->whereIn('section_id', $request->get('section'));
+            });
+        }
+
+        if ($request->has('priority')) {
+            $query->whereIn('priority', $request->get('priority'));
+        }
+
+        if ($request->has('date')) {
+            $query->whereDate('created_at', $request->get('date'));
+        }
+
+        $sessions = $query->paginate(10);
+
+        return view('sessions', compact('sessions','user','memberLists'));
+    }
+
+	public function edit($id)
+	{
+        $user = Auth::user();
+        $session = Session::where('id', $id)->first();
+		return view('session', compact('session','user'));
+	}
+
     public function store(Request $request)
     {
         // ایجاد جلسه
@@ -22,7 +60,7 @@ class SessionController extends Controller
         $session->title = $request->title;
         $session->priority = $request->priority;
         $session->member_list_id = $request->department;
-        $session->user_id = Auth::id(); // ذخیره شناسه کاربر کنونی
+        $session->user_id = Auth::id() ?? 1; // ذخیره شناسه کاربر کنونی
         $session->save();
 
         // ثبت پیام
@@ -31,10 +69,34 @@ class SessionController extends Controller
         $message->message = $request->message;
         $message->image = $request->file ?? null; // اینجا فایل را بررسی و ذخیره کنید
         $message->session_id = $session->id; // انتساب جلسه به پیام
-        $message->sender_id = Auth::id(); // ذخیره شناسه کاربر کنونی
+        $message->sender_id = Auth::id() ?? 1; // ذخیره شناسه کاربر کنونی
+
+
+        // بررسی recipient_id و تنظیم آن در صورت عدم وجود
+        if (!$request->has('recipient_id')) {
+            // یافتن member list مرتبط با جلسه
+            $memberList = $session->memberList;
+
+            // یافتن اعضای مرتبط با member list
+            $members = UserMemberList::where('member_list_id', $memberList->id)->get();
+
+            // انتخاب تصادفی یکی از اعضا به عنوان recipient
+            if ($members->count() > 0) {
+                $randomMember = $members->random();
+                $message->recipient_id = $randomMember->user_id;
+            } else {
+                // خطا در صورت نبودن اعضا
+                return redirect()->route('sessions.list')->withErrors(['error' => 'هیچ کاربری در این بخش یافت نشد.']);
+            }
+        } else {
+            $message->recipient_id = $request->recipient_id;
+        }
+
+
+
         $message->save();
 
-        return redirect()->back()->with('success', 'پیام با موفقیت ارسال شد.');
+        return redirect()->route('sessions.list')->with('success', 'پیام با موفقیت ارسال شد.');
     }
 
 
@@ -87,6 +149,28 @@ class SessionController extends Controller
         $message->image = $request->file ?? null; // اینجا فایل را بررسی و ذخیره کنید
         $message->session_id = $session->id; // انتساب جلسه به پیام
         $message->sender_id = $user->id; // ذخیره شناسه کاربر کنونی
+
+
+        if (!$session->user->id) {
+            // یافتن member list مرتبط با جلسه
+            $memberList = $session->memberList;
+
+            // یافتن اعضای مرتبط با member list
+            $members = UserMemberList::where('member_list_id', $memberList->id)->get();
+
+            // انتخاب تصادفی یکی از اعضا به عنوان recipient
+            if ($members->count() > 0) {
+                $randomMember = $members->random();
+                $message->recipient_id = $randomMember->user_id;
+            } else {
+                // خطا در صورت نبودن اعضا
+                return redirect()->route('sessions.list')->withErrors(['error' => 'هیچ کاربری در این بخش یافت نشد.']);
+            }
+        } else {
+            $message->recipient_id = $session->user->id;
+        }
+
+
         $message->save();
         return redirect()->back()->with('success', 'پیام با موفقیت ارسال شد.');
     }

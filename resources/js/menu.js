@@ -117,17 +117,13 @@ function addAccordionItem(subId, title, link) {
                     </h2>
                     <div id="${subId}" class="accordion-collapse collapse" data-bs-parent="#${uniqueId}">
                         <div class="accordion-body">
-                            <div class="mb-5">
+                            <div class="col-md-6">
                                 <label for="" class="form-label">عنوان</label>
                                 <input type="text" class="form-control" value="${title}">
                             </div>
-                            <div class="mb-5">
+                            <div class="col-md-6">
                                 <label for="" class="form-label">لینک</label>
-                                <input type="url" class="form-control" value="${link}" placeholder="https://example.com">
-                            </div>
-                            <div class="mb-5">
-                                <label for="" class="form-label">آیکون</label>
-                                <input type="file" class="form-control">
+                                <input type="link" class="form-control" value="${link}" placeholder="https://example.com">
                             </div>
                         </div>
                     </div>
@@ -199,8 +195,8 @@ $(".other_items_menu").on("click", function (e) {
 
 /**
  * @desc - resort the fields names
- * @param { } elm 
- * @param {*} parentPath 
+ * @param { } elm
+ * @param {*} parentPath
  */
 function resortFieldsNames(elm, parentPath = "") {
     let childrens = $(elm);
@@ -208,11 +204,11 @@ function resortFieldsNames(elm, parentPath = "") {
         let currentPath = parentPath ? `${parentPath}[${index}]` : `[${index}]`;
 
         let title = $(item).children(".accordion").find("input[type='text']");
-        let url = $(item).children(".accordion").find("input[type='url']");
+        let link = $(item).children(".accordion").find("input[type='link']");
         let file = $(item).children(".accordion").find("input[type='file']");
 
         title.attr("name", `menu${currentPath}[title]`);
-        url.attr("name", `menu${currentPath}[url]`);
+        link.attr("name", `menu${currentPath}[link]`);
         file.attr("name", `menu${currentPath}[icon]`);
 
         if ($(item).children(".nested-list").length > 0) {

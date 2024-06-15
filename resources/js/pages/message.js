@@ -23,9 +23,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function fetchMessages(id, action) {
+        let token = $('#send-box [name="_token"]').val();
         $.ajax({
             url: `/api/messages/${id}`,
             method: "GET",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             beforeSend: function () {
                 if (action !== "interval") {
                     block.block();
@@ -48,13 +52,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 clearInterval(timestampInterval);
                 timestampInterval = setInterval(() => {
-                    let token = $('#send-box [name="_token"]').val();
+
 
                     $.ajax({
-                        url: `/api/messages/${id}/timestamp`,
+                        url: `/api/messages/${id}`,
                         method: "GET",
                         headers: {
-                            "X-CSRF-TOKEN": token,
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         success: (response) => {
                             if (+response.timestamp !== +timestamp) {
@@ -84,4 +88,16 @@ document.addEventListener("DOMContentLoaded", function () {
             $("#sendMessage").css("display", "none");
         }
     });
+
+
+    let url = new URL(window.location.href);
+    if (url.pathname === "/sessions/notifications") {
+        let id = url.searchParams.get("id");
+        if (id) {
+            fetchMessages(id);
+            $("#send-box #message_id").val(id);
+        }
+    }
+
+
 });

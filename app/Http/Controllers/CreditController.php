@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Credit;
 use App\Models\CreditPlan;
 use Illuminate\Http\Request;
+use Morilog\Jalali\Jalalian;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -83,36 +84,43 @@ class CreditController extends Controller
         // Get any necessary data for the edit form (e.g., users, credit plans)
         $users = User::all();
         $creditPlans = CreditPlan::all();
+        $selectedOrder=[["id"=>$credit->order->id,"text"=>$credit->order->user->fullName." سفارش شماره ".$credit->order->id]];
 
-        return view('credit', compact('credit', 'users', 'creditPlans'));
+        return view('credit', compact('credit', 'users', 'creditPlans','selectedOrder'));
     }
 
     public function update(Request $request, $id)
     {
+        // اعتبارسنجی ورودی‌ها
+        $request->validate([
+            'amount' => 'required|numeric',
+            'order' => 'required|integer',
+            'due_date' => 'required|date',
+            'updated_at' => 'nullable|date',
+            'payment_method' => 'required|string',
+            'ref_id' => 'nullable|string|max:255',
+        ]);
+
         // Find the credit by ID
         $credit = Credit::findOrFail($id);
 
-        // Validate request data
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
-            'due_date' => 'required|date',
-            'amount' => 'required|numeric',
-            'user_id' => 'required|integer|exists:users,id',
-            'credit_plan_id' => 'nullable|integer|exists:credit_plans,id',
+        // به‌روزرسانی اطلاعات قسط
+        $credit->update([
+            'amount' => $request->input('amount'),
+            'order_id' => $request->input('order'),
+            'due_date' => Jalalian::fromFormat('Y-m-d', $request->input('due_date'))->toCarbon(),
         ]);
+        if($request->input('ref_id')!=null)
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
+            // به‌روزرسانی اطلاعات پرداخت مرتبط با قسط
+            $credit->payment()->update([
+                'updated_at' => Jalalian::fromFormat('Y-m-d', $request->input('updated_at'))->toCarbon(),
+                'payment_method' => $request->input('payment_method'),
+                'ref_id' => $request->input('ref_id'),
+            ]);
 
-        // Update the credit model instance
-        $credit->fill($request->all());
-        $credit->save();
-
-        // Flash a success message (optional)
-        session()->flash('success', 'Credit updated successfully!');
-
-        return redirect()->route('credit.edit', $credit->id); // Redirect back to edit page after update
+        // بازگشت به صفحه لیست قسط‌ها با پیغام موفقیت
+        return redirect()->route('credits.show')->with('success', 'قسط با موفقیت ویرایش شد');
     }
 
     public function destroy($id)

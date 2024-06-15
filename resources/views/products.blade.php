@@ -600,7 +600,9 @@
                             </div>
                         </td>
                         <td class="text-start">
-                            <img src="{{ asset($product->img) }}" class="img-fluid" alt="{{ $product->title }}" style="max-width: 100px;">
+                            <a href="{{ route('products.edit', $product->id) }}">
+                                <img  src="{{ asset($product->img) }}" class="img-fluid" alt="{{ $product->title }}" style="max-width: 100px;">
+                            </a>
                         </td>
                         <td class="text-start">{{ $product->title }}</td>
                         <td class="text-start">{{ $product->id }}</td>
