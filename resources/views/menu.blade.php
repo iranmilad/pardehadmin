@@ -74,72 +74,119 @@
                                         </div>
                                     @endforeach
                                 </div>
+                                <button class="btn btn-sm btn-primary other_items_menu">افزودن</button>
                             </div>
-                            <button type="button" class="btn btn-sm btn-primary other_items_menu">افزودن</button>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="kt_accordion_1_header_11">
+                            <button class="accordion-button fs-6 fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#kt_accordion_1_body_2" aria-expanded="true" aria-controls="kt_accordion_1_body_1">
+                                آدرس سفارشی
+                            </button>
+                        </h2>
+                        <div id="kt_accordion_1_body_2" class="accordion-collapse collapse show" aria-labelledby="kt_accordion_1_header_2" data-bs-parent="#kt_accordion_1">
+                            <div class="accordion-body">
+                                <div class="mb-5">
+                                    <label for="" class="form-label">عنوان</label>
+                                    <input type="text" class="form-control custom-link-title">
+                                </div>
+                                <div class="mb-5">
+                                    <label for="" class="form-label">لینک</label>
+                                    <input type="text" class="form-control custom-link-link" placeholder="https://example.com">
+                                </div>
+                                <button class="btn btn-sm btn-primary custom-link-gen" type="button">افزودن</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="kt_accordion_1_header_11">
-                        <button class="accordion-button fs-6 fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#kt_accordion_1_body_2" aria-expanded="true" aria-controls="kt_accordion_1_body_1">
-                            آدرس سفارشی
-                        </button>
-                    </h2>
-                    <div id="kt_accordion_1_body_2" class="accordion-collapse collapse show" aria-labelledby="kt_accordion_1_header_2" data-bs-parent="#kt_accordion_1">
-                        <div class="accordion-body">
-                            <div class="mb-5">
-                                <label for="" class="form-label">عنوان</label>
-                                <input type="text" class="form-control custom-link-title">
-                            </div>
-                            <div class="mb-5">
-                                <label for="" class="form-label">لینک</label>
-                                <input type="text" class="form-control custom-link-link" placeholder="https://example.com">
-                            </div>
-                            <button class="btn btn-sm btn-primary custom-link-gen" type="button">افزودن</button>
-                        </div>
-                    </div>
-                </div>
+
             </div>
             <!--end::Accordion-->
-        </div>
-        <div class="col-lg-9 col-xl-10">
-            <div class="card">
-                <div class="card-body">
-                    <div id="menu_lists" class="primary-list">
-                        <div>
-                            <div class="accordion" id="accordionExample">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                            آیتم شماره 1
-                                        </button>
-                                    </h2>
-                                    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
-                                            <div class="mb-5">
-                                                <label for="" class="form-label">عنوان</label>
-                                                <input type="text" class="form-control title">
+
+            <div class="col-lg-9 col-xl-10">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="menu_lists" class="primary-list">
+                            <div>
+                                <div class="accordion" id="accordionExample">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                آیتم شماره 1
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <div class="mb-5">
+                                                    <label for="" class="form-label">عنوان</label>
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                                <div class="mb-5">
+                                                    <label for="" class="form-label">لینک</label>
+                                                    <input type="url" class="form-control" placeholder="https://example.com">
+                                                </div>
+                                                <div class="mb-5">
+                                                    <label for="" class="form-label">آیکون</label>
+                                                    <input type="file" class="form-control">
+                                                </div>
+                                                <button class="btn btn-sm btn-danger remove-accordion">حذف</button>
                                             </div>
-                                            <div class="mb-5">
-                                                <label for="" class="form-label">لینک</label>
-                                                <input type="url" class="form-control link" placeholder="https://example.com">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="accordion" id="accordionExample2">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne2" aria-expanded="false" aria-controls="collapseOne2">
+                                                آیتم شماره 2
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne2" class="accordion-collapse collapse" data-bs-parent="#accordionExample2">
+                                            <div class="accordion-body">
+                                                <div class="mb-5">
+                                                    <label for="" class="form-label">عنوان</label>
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                                <div class="mb-5">
+                                                    <label for="" class="form-label">لینک</label>
+                                                    <input type="url" class="form-control" placeholder="https://example.com">
+                                                </div>
+                                                <div class="mb-5">
+                                                    <label for="" class="form-label">آیکون</label>
+                                                    <input type="file" class="form-control">
+                                                </div>
+                                                <button class="btn btn-sm btn-danger remove-accordion">حذف</button>
                                             </div>
-                                            <div class="mb-5">
-                                                <label for="" class="form-label">نام مستعار</label>
-                                                <input type="text" class="form-control slug" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="accordion" id="accordionExample3">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne3" aria-expanded="false" aria-controls="collapseOne3">
+                                                آیتم شماره 3
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne3" class="accordion-collapse collapse" data-bs-parent="#accordionExample3">
+                                            <div class="accordion-body">
+                                                <div class="mb-5">
+                                                    <label for="" class="form-label">عنوان</label>
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                                <div class="mb-5">
+                                                    <label for="" class="form-label">لینک</label>
+                                                    <input type="url" class="form-control" placeholder="https://example.com">
+                                                </div>
+                                                <div class="mb-5">
+                                                    <label for="" class="form-label">آیکون</label>
+                                                    <input type="file" class="form-control">
+                                                </div>
+                                                <button class="btn btn-sm btn-danger remove-accordion">حذف</button>
                                             </div>
-                                            <div class="mb-5">
-                                                <label for="" class="form-label">آیکون</label>
-                                                <input type="file" class="form-control icon">
-                                            </div>
-                                            <div class="mb-5">
-                                                <label for="" class="form-label">نمایش عنوان</label>
-                                                <select name="" id="" class="form-select show_title">
-                                                    <option value="1">بله</option>
-                                                    <option value="2">خیر</option>
-                                                </select>
-                                            </div>
-                                            <button class="btn btn-sm btn-danger remove-accordion">حذف</button>
                                         </div>
                                     </div>
                                 </div>
@@ -148,7 +195,9 @@
                     </div>
                 </div>
             </div>
+
         </div>
+
     @endif
     <button class="btn btn-success mt-10" type="submit">ذخیره</button>
 </form>
