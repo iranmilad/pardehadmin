@@ -51,7 +51,7 @@
     </div>
 
 
-    @if(isset($childMenus) && $childMenus->count() > 0)
+
         <div class="row mt-10">
             <div class="col-lg-3 col-xl-2">
                 <!--begin::Accordion-->
@@ -67,14 +67,14 @@
                                 <div class="tw-min-h-40 tw-max-h-72 tw-overflow-y-auto tw-py-1">
                                     @foreach($categories as $category)
                                         <div class="form-check mb-2">
-                                            <input class="form-check-input" type="checkbox" value="{{$category->id}}" id="flexCheckDefault{{$category->id}}" data-link="{{$category->link}}" data-title="{{$category->title}}" />
+                                            <input class="form-check-input" type="checkbox" value="{{$category->id}}" id="flexCheckDefault{{$category->id}}" data-link="{{$category->link}}" data-title="{{$category->title}}" data-alias="{{$category->alias}}" />
                                             <label class="form-check-label" for="flexCheckDefault{{$category->id}}">
                                                 {{$category->title}}
                                             </label>
                                         </div>
                                     @endforeach
                                 </div>
-                                <button class="btn btn-sm btn-primary other_items_menu">افزودن</button>
+                                <button type="button" class="btn btn-sm btn-primary other_items_menu">افزودن</button>
                             </div>
                         </div>
                     </div>
@@ -102,103 +102,63 @@
 
             </div>
             <!--end::Accordion-->
+            @if(isset($childMenus) && $childMenus->count() > 0)
+                <div class="col-lg-9 col-xl-10">
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="menu_lists" class="primary-list">
+                                @foreach ($childMenus as $menu)
+                                    <div>
+                                        <div class="accordion" id="accordionExample{{1000+$menu->id}}">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{1000+$menu->id}}" aria-expanded="false" aria-controls="collapseOne{{1000+$menu->id}}">
+                                                        {{$menu->title}}
+                                                    </button>
+                                                </h2>
+                                                <div id="collapseOne{{1000+$menu->id}}" class="accordion-collapse collapse" data-bs-parent="#accordionExample{{1000+$menu->id}}">
+                                                    <div class="accordion-body">
+                                                        <div class="mb-5">
+                                                            <label for="" class="form-label">عنوان</label>
+                                                            <input name="menu[{{1000+$menu->id}}][title]" type="text" class="form-control" value="{{$menu->title}}">
+                                                        </div>
+                                                        <div class="mb-5">
+                                                            <label for="" class="form-label">لینک</label>
+                                                            <input name="menu[{{1000+$menu->id}}][link]" type="link" class="form-control" placeholder="https://example.com"  value="{{$menu->link}}">
+                                                        </div>
+                                                        <div class="mb-5">
+                                                            <label for="" class="form-label">نام مستعار</label>
+                                                            <input name="menu[{{1000+$menu->id}}][alias]" type="text" class="form-control" placeholder="" value="{{$menu->alias}}">
+                                                        </div>
+                                                        <div class="mb-5">
+                                                            <label for="" class="form-label">آیکون</label>
+                                                            <input name="menu[{{1000+$menu->id}}][icon]" type="text" class="form-control"  value="{{$menu->icon}}">
 
-            <div class="col-lg-9 col-xl-10">
-                <div class="card">
-                    <div class="card-body">
-                        <div id="menu_lists" class="primary-list">
-                            <div>
-                                <div class="accordion" id="accordionExample">
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                                آیتم شماره 1
-                                            </button>
-                                        </h2>
-                                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
-                                                <div class="mb-5">
-                                                    <label for="" class="form-label">عنوان</label>
-                                                    <input type="text" class="form-control">
+                                                        </div>
+                                                        <div class="mb-5">
+                                                            <label for="" class="form-label">نمایش عنوان</label>
+                                                            <select name="menu[{{1000+$menu->id}}][show_title]" id="" class="form-select">
+                                                                <option value="1" {{ $menu->show_title==true ? 'selected' : ''}}>بله</option>
+                                                                <option value="0" {{ $menu->show_title==false ? 'selected' : ''}}>خیر</option>
+                                                            </select>
+                                                        </div>
+                                                        <button class="btn btn-sm btn-danger remove-accordion">حذف</button>
+                                                    </div>
                                                 </div>
-                                                <div class="mb-5">
-                                                    <label for="" class="form-label">لینک</label>
-                                                    <input type="url" class="form-control" placeholder="https://example.com">
-                                                </div>
-                                                <div class="mb-5">
-                                                    <label for="" class="form-label">آیکون</label>
-                                                    <input type="file" class="form-control">
-                                                </div>
-                                                <button class="btn btn-sm btn-danger remove-accordion">حذف</button>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="accordion" id="accordionExample2">
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne2" aria-expanded="false" aria-controls="collapseOne2">
-                                                آیتم شماره 2
-                                            </button>
-                                        </h2>
-                                        <div id="collapseOne2" class="accordion-collapse collapse" data-bs-parent="#accordionExample2">
-                                            <div class="accordion-body">
-                                                <div class="mb-5">
-                                                    <label for="" class="form-label">عنوان</label>
-                                                    <input type="text" class="form-control">
-                                                </div>
-                                                <div class="mb-5">
-                                                    <label for="" class="form-label">لینک</label>
-                                                    <input type="url" class="form-control" placeholder="https://example.com">
-                                                </div>
-                                                <div class="mb-5">
-                                                    <label for="" class="form-label">آیکون</label>
-                                                    <input type="file" class="form-control">
-                                                </div>
-                                                <button class="btn btn-sm btn-danger remove-accordion">حذف</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="accordion" id="accordionExample3">
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne3" aria-expanded="false" aria-controls="collapseOne3">
-                                                آیتم شماره 3
-                                            </button>
-                                        </h2>
-                                        <div id="collapseOne3" class="accordion-collapse collapse" data-bs-parent="#accordionExample3">
-                                            <div class="accordion-body">
-                                                <div class="mb-5">
-                                                    <label for="" class="form-label">عنوان</label>
-                                                    <input type="text" class="form-control">
-                                                </div>
-                                                <div class="mb-5">
-                                                    <label for="" class="form-label">لینک</label>
-                                                    <input type="url" class="form-control" placeholder="https://example.com">
-                                                </div>
-                                                <div class="mb-5">
-                                                    <label for="" class="form-label">آیکون</label>
-                                                    <input type="file" class="form-control">
-                                                </div>
-                                                <button class="btn btn-sm btn-danger remove-accordion">حذف</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
+                                @endforeach
+
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
+            @endif
         </div>
 
-    @endif
+
     <button class="btn btn-success mt-10" type="submit">ذخیره</button>
 </form>
 @endsection

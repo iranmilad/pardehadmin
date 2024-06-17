@@ -104,7 +104,7 @@ $(".custom-link-gen").on("click", function () {
     $(this).parent().find(".custom-link-link").val("");
 });
 
-function addAccordionItem(subId, title, link) {
+function addAccordionItem(subId, title, link,alias) {
     const uniqueId = `accordion-${Date.now()}`;
     const accordionHtml = `
         <div>
@@ -119,25 +119,25 @@ function addAccordionItem(subId, title, link) {
                         <div class="accordion-body">
                             <div class="mb-5">
                                 <label for="" class="form-label">عنوان</label>
-                                <input type="text" class="form-control title" value="${title}">
+                                <input name="menu[${subId}][title]" type="text" class="form-control" value="${title}">
                             </div>
                             <div class="mb-5">
                                 <label for="" class="form-label">لینک</label>
-                                <input type="url" class="form-control link" value="${link}" placeholder="https://example.com">
+                                <input name="menu[${subId}][link] type="link" class="form-control" value="${link}" placeholder="https://example.com">
                             </div>
                             <div class="mb-5">
                                 <label for="" class="form-label">نام مستعار</label>
-                                <input type="text" class="form-control slug" placeholder="">
+                                <input name="menu[${subId}][alias] type="text" class="form-control" placeholder="" value="${alias}_${Math.floor(Math.random() * 500)}">
                             </div>
                             <div class="mb-5">
                                 <label for="" class="form-label">آیکون</label>
-                                <input type="file" class="form-control icon">
+                                <input name="menu[${subId}][icon]  type="file" class="form-control">
                             </div>
                             <div class="mb-5">
                                 <label for="" class="form-label">نمایش عنوان</label>
-                                <select name="" id="" class="form-select show_title">
+                                <select name="menu[${subId}][show_title] id="" class="form-select">
                                     <option value="1">بله</option>
-                                    <option value="2">خیر</option>
+                                    <option value="0" selected>خیر</option>
                                 </select>
                             </div>
                         </div>
@@ -201,8 +201,9 @@ $(".other_items_menu").on("click", function (e) {
         checkboxes.each((index, item) => {
             let title = $(item).data("title");
             let link = $(item).data("link");
+            let alias = $(item).data("alias");
             let sub = generateCouponCode(12);
-            addAccordionItem(sub, title, link);
+            addAccordionItem(sub, title, link,alias);
             $(item).prop("checked", false);
         });
     }

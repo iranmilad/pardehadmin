@@ -48,7 +48,7 @@ class MenuController extends Controller
 
     public function update(Request $request, $id)
     {
-        dd($request);
+        //dd($request);
         // پیدا کردن منو با استفاده از آیدی
         $menu = Menu::findOrFail($id);
 
@@ -76,8 +76,8 @@ class MenuController extends Controller
         $menu->childMenus()->delete();
 
         // افزودن منوهای فرزند جدید
-        if ($request->has('child_menus')) {
-            foreach ($request->child_menus as $childMenuData) {
+        if ($request->has('menu')) {
+            foreach ($request->menu as $childMenuData) {
 
                 $menu->childMenus()->create([
                     'title' => $childMenuData['title'],
@@ -90,7 +90,7 @@ class MenuController extends Controller
             }
         }
 
-        return redirect()->route('menu.list')->with('success', 'Menu updated successfully.');
+        return redirect()->route('menus.list')->with('success', 'Menu updated successfully.');
     }
 
     public function delete(Request $request)

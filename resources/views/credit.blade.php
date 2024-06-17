@@ -31,7 +31,11 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-6 col-lg-4">
+                        @if(Route::is('credits.edit'))
                         <x-advanced-search type="order" label="سفارش" :multiple="false" name="order" :selected="$selectedOrder"/>
+                        @else
+                        <x-advanced-search type="order" label="سفارش" :multiple="false" name="order"/>
+                        @endif
                     </div>
 
                     <div class="col-12 col-md-6 col-lg-4">
