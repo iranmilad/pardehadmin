@@ -5,20 +5,79 @@
 @section('content')
 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
     <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="pills-webservice-tab" data-bs-toggle="pill" data-bs-target="#pills-webservice" type="button" role="tab" aria-controls="pills-webservice" aria-selected="true">وبسرویس</button>
+        <button class="nav-link active" id="pills-manager-sms-tab" data-bs-toggle="pill" data-bs-target="#pills-manager-sms" type="button" role="tab" aria-controls="pills-manager-sms" aria-selected="false">وضعیت ها</button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="pills-manager-sms-tab" data-bs-toggle="pill" data-bs-target="#pills-manager-sms" type="button" role="tab" aria-controls="pills-manager-sms" aria-selected="false">پیامک مدیر کل</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link" id="pills-customer-sms-tab" data-bs-toggle="pill" data-bs-target="#pills-customer-sms" type="button" role="tab" aria-controls="pills-customer-sms" aria-selected="false">پیامک مشتری</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link" id="pills-tailor-sms-tab" data-bs-toggle="pill" data-bs-target="#pills-tailor-sms" type="button" role="tab" aria-controls="pills-tailor-sms" aria-selected="false">پیامک خیاط</button>
+        <button class="nav-link" id="pills-webservice-tab" data-bs-toggle="pill" data-bs-target="#pills-webservice" type="button" role="tab" aria-controls="pills-webservice" aria-selected="true">وبسرویس</button>
     </li>
 </ul>
 <div class="tab-content" id="pills-tabContent">
-    <div class="tab-pane fade show active" id="pills-webservice" role="tabpanel" aria-labelledby="pills-webservice-tab">
+    <div class="tab-pane fade show active" id="pills-manager-sms" role="tabpanel" aria-labelledby="pills-manager-sms-tab">
+        <div class="card">
+            <div class="card-body">
+                <form class="d-flex align-items-center justify-content-end" action="" method="get">
+                    @csrf
+                    <div class="d-flex align-items-center position-relative my-1">
+                        <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6"><span class="path1"></span><span class="path2"></span></i>
+                        <input name="s" value="{{ request()->get('s') ?? '' }}" type="text" data-kt-docs-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="جست و جو" />
+                    </div>
+                </form>
+                <form method="post" class="" id="action_form">
+                    <div class="d-flex tw-items-center tw-justify-start tw-w-full gap-4">
+                        <select class="form-select form-select-solid tw-w-max" name="" id="">
+                            <option>عملیات</option>
+                            <option value="delete">حذف</option>
+                        </select>
+                        <button class="btn btn-primary" type="submit">اجرا</button>
+                    </div>
+
+                    <table id="global_table" class="table gy-5 gs-7">
+                        <thead>
+                            <tr class="fs-7 fw-bold text-gray-400 border-bottom-0">
+                                <th class="w-10px">
+                                    <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
+                                        <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#global_table .form-check-input" value="1" />
+                                    </div>
+                                </th>
+                                <th class="cursor-pointer px-0 min-w-175px text-start">وضعیت سفارش</th>
+                                <th class="min-w-100px text-end">عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                        <input class="form-check-input" type="checkbox" name="checked_row" value="1" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="{{route('sms-text.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">در انتظار پرداخت</a>
+                                </td>
+                                <td class="text-end">
+                                    <a href="{{route('sms-text.show',['id' => 1])}}" class="btn btn-light btn-sm">
+                                        ویرایش
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+                <!--end::Group actions-->
+
+                <ul class="pagination">
+                    <li class="page-item previous disabled"><a href="#" class="page-link"><i class="previous"></i></a></li>
+                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+                    <li class="page-item "><a href="#" class="page-link">3</a></li>
+                    <li class="page-item "><a href="#" class="page-link">4</a></li>
+                    <li class="page-item "><a href="#" class="page-link">5</a></li>
+                    <li class="page-item "><a href="#" class="page-link">6</a></li>
+                    <li class="page-item next"><a href="#" class="page-link"><i class="next"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade " id="pills-webservice" role="tabpanel" aria-labelledby="pills-webservice-tab">
         <div class="card">
             <div class="card-body">
                 <form action="" method="post">
@@ -59,283 +118,9 @@
             </div>
         </div>
     </div>
-    <div class="tab-pane fade" id="pills-manager-sms" role="tabpanel" aria-labelledby="pills-manager-sms-tab">
-        <div class="card">
-            <div class="card-body">
-                <form action="" method="post">
-                    <div class="form-group row mb-5">
-                        <label for="" class="col-2 form-label">ارسال پیامک به مدیران کل</label>
-                        <div class="col-10">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="">
-                                <label class="form-check-label">
-                                    با فعالسازی این گزینه، در هنگام ثبت و یا تغییر سفارش، برای مدیران کل سایت پیامک ارسال می گردد.
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group mb-10">
-                        <label for="" class="form-label">شماره موبایل های مدیران کل</label>
-                        <div>
-                            <div>
-                                <input dir="ltr" type="text" class="form-control">
-                                <div class="form-text">
-                                    شماره ها را با کاما (,) جدا نمایید.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group mb-5">
-                        <label for="" class=" form-label">وضعیت های دریافت پیامک</label>
-                        <div>
-                            <div>
-                                <select data-control="select2" multiple name="" id="" class="form-select">
-                                    <option selected value="">در انتظار پرداخت (بلافاصله بعد از ثبت سفارش)</option>
-                                    <option value="">در انتظار پرداخت (بعد از تغییر وضعیت سفارش)</option>
-                                    <option value="">در حال انجام</option>
-                                    <option value="">در انتظار بررسی</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <h4 class="my-8">متن پیامک مدیر کل</h4>
-                    <div class="row mb-5">
-                        <div class="col-2">
-                            <span>شورت کد های قابل استفاده</span>
-                        </div>
-                        <div class="col-10">
-                            <button type="button" class="btn" data-bs-toggle="collapse" data-bs-target="#shortcodes">برای مشاهده شورتکدهای قابل استفاده در متن پیامک ها کلیک کنید.</button>
-                            <div class="collapse" id="shortcodes">
-                                <div class="mb-6">
-                                    <b><i>جزئیات سفارش</i></b>
-                                    <div class="d-flex align-items-center flex-wrap gap-10 mt-3">
-                                        <div>
-                                            <code>{mobile}</code>=
-                                            <span>شماره موبایل مشتری</span>
-                                        </div>
-                                        <div>
-                                            <code>{email}</code>=
-                                            <span>ایمیل مشتری</span>
-                                        </div>
-                                        <div>
-                                            <code>{status}</code>=
-                                            <span>وضعیت سفارش</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-6">
-                                    <b><i>جزییات حمل و نقل :</i></b>
-                                    <div class="d-flex align-items-center flex-wrap gap-10 mt-3">
-                                        <div>
-                                            <code>{sh_first_name}</code>=
-                                            <span>نام مشتری</span>
-                                        </div>
-                                        <div>
-                                            <code>{sh_last_name}</code>=
-                                            <span>نام خانوادگی مشتری</span>
-                                        </div>
-                                        <div>
-                                            <code>{sh_country}</code>=
-                                            <span>کشور</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row mb-5">
-                        <label for="" class="col-2 form-label">وضعیت در انتظار پرداخت (بلافاصله بعد از ثبت سفارش)</label>
-                        <div class="col-10">
-                            <div>
-                                <textarea name="" id="" class="form-control" rows="5">سلام مدیر سفارش {order_id} ثبت شده است و هم اکنون در وضعیت در انتظار پرداخت می باشد. آیتم های سفارش : {all_items} . مبلغ سفارش : {price}
-                                </textarea>
-                                <div class="form-text">
-                                    میتوانید از شورت کد های معرفی شده در بالای این بخش استفاده نمایید.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="tab-pane fade" id="pills-customer-sms" role="tabpanel" aria-labelledby="pills-customer-sms-tab">
-        <div class="card">
-            <div class="card-body">
-                <form action="" method="post">
-                    <div class="form-group row mb-5">
-                        <label for="" class="col-2 form-label">ارسال پیامک به مشتریان کل</label>
-                        <div class="col-10">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="">
-                                <label class="form-check-label">
-                                    با فعالسازی این گزینه، در هنگام ثبت و یا تغییر سفارش، برای مشتریان کل سایت پیامک ارسال می گردد.
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group mb-5">
-                        <label for="" class=" form-label">وضعیت های دریافت پیامک</label>
-                        <div>
-                            <div>
-                                <select data-control="select2" multiple name="" id="" class="form-select">
-                                    <option selected value="">در انتظار پرداخت (بلافاصله بعد از ثبت سفارش)</option>
-                                    <option value="">در انتظار پرداخت (بعد از تغییر وضعیت سفارش)</option>
-                                    <option value="">در حال انجام</option>
-                                    <option value="">در انتظار بررسی</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <h4 class="my-8">متن پیامک مدیر کل</h4>
-                    <div class="row mb-5">
-                        <div class="col-2">
-                            <span>شورت کد های قابل استفاده</span>
-                        </div>
-                        <div class="col-10">
-                            <button type="button" class="btn" data-bs-toggle="collapse" data-bs-target="#shortcodes">برای مشاهده شورتکدهای قابل استفاده در متن پیامک ها کلیک کنید.</button>
-                            <div class="collapse" id="shortcodes">
-                                <div class="mb-6">
-                                    <b><i>جزئیات سفارش</i></b>
-                                    <div class="d-flex align-items-center flex-wrap gap-10 mt-3">
-                                        <div>
-                                            <code>{mobile}</code>=
-                                            <span>شماره موبایل مشتری</span>
-                                        </div>
-                                        <div>
-                                            <code>{email}</code>=
-                                            <span>ایمیل مشتری</span>
-                                        </div>
-                                        <div>
-                                            <code>{status}</code>=
-                                            <span>وضعیت سفارش</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-6">
-                                    <b><i>جزییات حمل و نقل :</i></b>
-                                    <div class="d-flex align-items-center flex-wrap gap-10 mt-3">
-                                        <div>
-                                            <code>{sh_first_name}</code>=
-                                            <span>نام مشتری</span>
-                                        </div>
-                                        <div>
-                                            <code>{sh_last_name}</code>=
-                                            <span>نام خانوادگی مشتری</span>
-                                        </div>
-                                        <div>
-                                            <code>{sh_country}</code>=
-                                            <span>کشور</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row mb-5">
-                        <label for="" class="col-2 form-label">وضعیت در انتظار پرداخت (بلافاصله بعد از ثبت سفارش)</label>
-                        <div class="col-10">
-                            <div>
-                                <textarea name="" id="" class="form-control" rows="5">سلام مدیر سفارش {order_id} ثبت شده است و هم اکنون در وضعیت در انتظار پرداخت می باشد. آیتم های سفارش : {all_items} . مبلغ سفارش : {price}
-                                </textarea>
-                                <div class="form-text">
-                                    میتوانید از شورت کد های معرفی شده در بالای این بخش استفاده نمایید.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="tab-pane fade" id="pills-tailor-sms" role="tabpanel" aria-labelledby="pills-tailor-sms-tab">
-        <div class="card">
-            <div class="card-body">
-                <form action="" method="post">
-                    <div class="form-group row mb-5">
-                        <label for="" class="col-2 form-label">ارسال پیامک به خیاط ها</label>
-                        <div class="col-10">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="">
-                                <label class="form-check-label">
-                                    با فعالسازی این گزینه، در هنگام ثبت و یا تغییر سفارش، برای خیاط های کل سایت پیامک ارسال می گردد.
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group mb-5">
-                        <label for="" class=" form-label">وضعیت های دریافت پیامک</label>
-                        <div>
-                            <div>
-                                <select data-control="select2" multiple name="" id="" class="form-select">
-                                    <option selected value="">در انتظار پرداخت (بلافاصله بعد از ثبت سفارش)</option>
-                                    <option value="">در انتظار پرداخت (بعد از تغییر وضعیت سفارش)</option>
-                                    <option value="">در حال انجام</option>
-                                    <option value="">در انتظار بررسی</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <h4 class="my-8">متن پیامک مدیر کل</h4>
-                    <div class="row mb-5">
-                        <div class="col-2">
-                            <span>شورت کد های قابل استفاده</span>
-                        </div>
-                        <div class="col-10">
-                            <button type="button" class="btn" data-bs-toggle="collapse" data-bs-target="#shortcodes">برای مشاهده شورتکدهای قابل استفاده در متن پیامک ها کلیک کنید.</button>
-                            <div class="collapse" id="shortcodes">
-                                <div class="mb-6">
-                                    <b><i>جزئیات سفارش</i></b>
-                                    <div class="d-flex align-items-center flex-wrap gap-10 mt-3">
-                                        <div>
-                                            <code>{mobile}</code>=
-                                            <span>شماره موبایل مشتری</span>
-                                        </div>
-                                        <div>
-                                            <code>{email}</code>=
-                                            <span>ایمیل مشتری</span>
-                                        </div>
-                                        <div>
-                                            <code>{status}</code>=
-                                            <span>وضعیت سفارش</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-6">
-                                    <b><i>جزییات حمل و نقل :</i></b>
-                                    <div class="d-flex align-items-center flex-wrap gap-10 mt-3">
-                                        <div>
-                                            <code>{sh_first_name}</code>=
-                                            <span>نام مشتری</span>
-                                        </div>
-                                        <div>
-                                            <code>{sh_last_name}</code>=
-                                            <span>نام خانوادگی مشتری</span>
-                                        </div>
-                                        <div>
-                                            <code>{sh_country}</code>=
-                                            <span>کشور</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row mb-5">
-                        <label for="" class="col-2 form-label">وضعیت در انتظار پرداخت (بلافاصله بعد از ثبت سفارش)</label>
-                        <div class="col-10">
-                            <div>
-                                <textarea name="" id="" class="form-control" rows="5">سلام مدیر سفارش {order_id} ثبت شده است و هم اکنون در وضعیت در انتظار پرداخت می باشد. آیتم های سفارش : {all_items} . مبلغ سفارش : {price}
-                                </textarea>
-                                <div class="form-text">
-                                    میتوانید از شورت کد های معرفی شده در بالای این بخش استفاده نمایید.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 </div>
+@endsection
+
+@section('script-before')
+<script src="{{asset('plugins/custom/datatables/datatables.bundle.js')}}"></script>
 @endsection
