@@ -466,31 +466,89 @@ Route::get('/slides', function () {
 Route::post('/slides', function () {
 })->name("slides.save");
 
-// Route::group(['prefix' => 'block'], function () {
-//     Route::get('/', function () {
-//         return view('blocks');
-//     })->name("block.list");
+Route::get('/slide/{id}', function ($id) {
+    return view('slide');
+})->name("slide.edit.show");
 
-//     Route::get('/create', function () {
-//         return view('block');
-//     })->name("block.create.show");
+Route::get('/create-slide', function () {
+    return view('slide');
+})->name("slide.create.show");
 
-//     Route::get('/edit/{id}', function ($id) {
-//         return view('block', ['id' => $id]);
-//     })->name("block.edit");
-// });
+Route::group(['prefix' => 'block'], function () {
+    Route::get('/', function () {
+        return view('blocks');
+    })->name("block.list");
 
+    Route::get('/create', function () {
+        return view('block');
+    })->name("block.create.show");
 
+    Route::get('/edit/{id}', function ($id) {
+        return view('block', ['id' => $id]);
+    })->name("block.edit");
+});
 
+Route::group(['prefix' => 'page'], function () {
+    Route::get('/', function () {
+        return view('pages');
+    })->name("page.list.show");
 
+    Route::get('/create', function () {
+        return view('page');
+    })->name("page.create");
 
+    Route::get('/edit/{id}', function ($id) {
+        return view('page');
+    })->name("page.edit");
+
+    Route::post('/delete', function ($id) {
+        return view('page');
+    })->name("page.delete");
+});
+
+Route::group(['prefix' => 'users'], function () {
+    Route::get('/', function () {
+        return view('users');
+    })->name("users.list");
+
+    Route::get('/create', function () {
+        return view('user-create');
+    })->name("user.create");
+
+    Route::get('/profile/{id}', function ($id) {
+        return view('user-profile', ['id' => $id]);
+    })->name("user.profile");
+
+    // User sessions for user login history like IP, browser, device, etc.
+    Route::get('/profile/sessions/{id}', function () {
+        return view('user-sessions');
+    })->name("user.sessions.show");
+
+    Route::delete('/profile/sessions/{id}', function () {
+    })->name("user.sessions.save");
+
+    Route::get('/edit/{id}', function ($id) {
+        return view('user-detail', ['id' => $id]);
+    })->name("user.edit.show");
+
+    Route::post('/edit/{id}', function ($id) {
+    })->name("user.edit.save");
+
+    Route::post('/delete', function ($id) {
+        return view('user', ['id' => $id]);
+    })->name("user.delete");
+});
+
+Route::group(['prefix' => 'settings'], function () {
+    Route::get('/general', function () {
+        return view('settings');
+    })->name("settings.show");
+
+    Route::post('/settings', function () {
+    })->name("settings.save");
+});
 // table of posts
-Route::get('/settings', function () {
-    return view('settings');
-})->name("settings.show");
 
-Route::post('/settings', function () {
-})->name("settings.save");
 
 
 // Route::group(['prefix' => 'products'], function () {
@@ -671,9 +729,21 @@ Route::get('/checkouts', function () {
     return view('checkouts');
 })->name("checkouts.show");
 
+Route::get('/checkout/{id}', function ($id) {
+    return view('checkout');
+})->name("checkout.show");
+
+Route::get('/checkout-create', function () {
+    return view('checkout-create');
+})->name("checkout-create.show");
+
 Route::get('/sms-settings', function () {
     return view('sms-settings');
 })->name("sms-settings.show");
+
+Route::get('/sms-text/{id}', function ($id) {
+    return view('sms-text');
+})->name("sms-text.show");
 
 Route::group(['prefix' => 'snippets'], function () {
     Route::get('/list', function () {
@@ -693,9 +763,12 @@ Route::get('/customize', function () {
     return view('customize');
 })->name("customize.show");
 
-Route::get('/services', function () {
-    return view('services');
-})->name("services.show");
+Route::group(['prefix' => 'services'], function () {
+    Route::get('/service1', function () {
+        return view('services');
+    })->name("services.show");
+});
+
 
 Route::get('/carts', function () {
     return view('carts');

@@ -561,7 +561,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{route('sms-settings.show')}}" class="menu-link {{ Route::is('sms-settings.show')   ? 'active' : '' }}">
+		<a href="{{route('sms-settings.show')}}" class="menu-link {{ Route::is('sms-settings.show') || Route::is('sms-text.show')   ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-comment-sms"></i>
 			</span>
@@ -585,15 +585,32 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
-	<div class="menu-item">
+	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('services*') ? 'show' : ''}}">
 		<!--begin:Menu link-->
-		<a href="{{route('services.show')}}" class="menu-link {{ Route::is('services.show')  ? 'active' : '' }}">
+		<span class="menu-link">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-rocket-launch"></i>
 			</span>
 			<span class="menu-title">سرویس های شخص ثالث</span>
-		</a>
+			<span class="menu-arrow"></span>
+		</span>
 		<!--end:Menu link-->
+		<!--begin:Menu sub-->
+		<div class="menu-sub menu-sub-accordion">
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link {{ Route::is('services.show') ? 'active' : '' }}" href="{{route('services.show')}}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">سرویس 1</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+		</div>
+		<!--end:Menu sub-->
 	</div>
 	<!--end:Menu item-->
 
@@ -667,16 +684,34 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
-	<div class="menu-item">
+	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('settings*') ? 'show' : ''}}">
 		<!--begin:Menu link-->
-		<a href="{{route('settings.show')}}" class="menu-link {{ Route::is('settings.show') ? 'active' : '' }}">
+		<span class="menu-link">
 			<span class="menu-icon">
-				<i class="fa-duotone fa-gear"></i>
+				<i class="fa-duotone fa-memo"></i>
 			</span>
 			<span class="menu-title">تنظیمات</span>
-		</a>
+			<span class="menu-arrow"></span>
+		</span>
 		<!--end:Menu link-->
+		<!--begin:Menu sub-->
+		<div class="menu-sub menu-sub-accordion">
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link {{ Route::is('settings.show') ? 'active' : '' }}" href="{{route('settings.show')}}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">عمومی</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+		</div>
+		<!--end:Menu sub-->
 	</div>
 	<!--end:Menu item-->
+
 </div>
 <!--end::Menu-->

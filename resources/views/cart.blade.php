@@ -1,9 +1,9 @@
 @extends('layouts.primary')
 
 @if(Route::is('cart.create.show'))
-    @section('title', 'ایجاد سبد خرید')
+@section('title', 'ایجاد سبد خرید')
 @else
-    @section('title', 'ویرایش سبد خرید')
+@section('title', 'ویرایش سبد خرید')
 @endif
 
 @section('content')
@@ -69,7 +69,52 @@
         </div>
     </div>
     <!-- PRODUCTS PATTERN -->
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">خلاصه سبد</h4>
+        </div>
+        <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between flex-column-reverse flex-md-row">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-5 mb-5">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#coupon">افزودن کد تخفیف</button>
+                </div>
+                <ul class="tw-space-y-3">
+                    <li class="fs-6"><span class="fw-bold">کد تخفیف اعمال شده : </span>12OFF</li>
+                    <li class="fs-6"><span class="fw-bold">تخفیف اعمال شده : </span>20%</li>
+                    <li class="fs-6"><span class="fw-bold">مجموع سفارش: </span>12,000,000</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </form>
+
+<!-- START: COUPON -->
+<div class="modal fade" id="coupon" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post" class="modal-content">
+            @csrf
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">کد تخفیف</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div>
+                            <label for="" class="form-label">کد تخفیف</label>
+                            <input class="form-control form-control-solid" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                <button type="submit" class="btn btn-primary">اعمال کد تخفیف</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- END: COUPON -->
 @endsection
 
 @section("script-before")
