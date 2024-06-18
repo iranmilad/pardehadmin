@@ -474,70 +474,70 @@ Route::get('/create-slide', function () {
     return view('slide');
 })->name("slide.create.show");
 
-Route::group(['prefix' => 'block'], function () {
-    Route::get('/', function () {
-        return view('blocks');
-    })->name("block.list");
+// Route::group(['prefix' => 'block'], function () {
+//     Route::get('/', function () {
+//         return view('blocks');
+//     })->name("block.list");
 
-    Route::get('/create', function () {
-        return view('block');
-    })->name("block.create.show");
+//     Route::get('/create', function () {
+//         return view('block');
+//     })->name("block.create.show");
 
-    Route::get('/edit/{id}', function ($id) {
-        return view('block', ['id' => $id]);
-    })->name("block.edit");
-});
+//     Route::get('/edit/{id}', function ($id) {
+//         return view('block', ['id' => $id]);
+//     })->name("block.edit");
+// });
 
-Route::group(['prefix' => 'page'], function () {
-    Route::get('/', function () {
-        return view('pages');
-    })->name("page.list.show");
+// Route::group(['prefix' => 'page'], function () {
+//     Route::get('/', function () {
+//         return view('pages');
+//     })->name("page.list.show");
 
-    Route::get('/create', function () {
-        return view('page');
-    })->name("page.create");
+//     Route::get('/create', function () {
+//         return view('page');
+//     })->name("page.create");
 
-    Route::get('/edit/{id}', function ($id) {
-        return view('page');
-    })->name("page.edit");
+//     Route::get('/edit/{id}', function ($id) {
+//         return view('page');
+//     })->name("page.edit");
 
-    Route::post('/delete', function ($id) {
-        return view('page');
-    })->name("page.delete");
-});
+//     Route::post('/delete', function ($id) {
+//         return view('page');
+//     })->name("page.delete");
+// });
 
-Route::group(['prefix' => 'users'], function () {
-    Route::get('/', function () {
-        return view('users');
-    })->name("users.list");
+// Route::group(['prefix' => 'users'], function () {
+//     Route::get('/', function () {
+//         return view('users');
+//     })->name("users.list");
 
-    Route::get('/create', function () {
-        return view('user-create');
-    })->name("user.create");
+//     Route::get('/create', function () {
+//         return view('user-create');
+//     })->name("user.create");
 
-    Route::get('/profile/{id}', function ($id) {
-        return view('user-profile', ['id' => $id]);
-    })->name("user.profile");
+//     Route::get('/profile/{id}', function ($id) {
+//         return view('user-profile', ['id' => $id]);
+//     })->name("user.profile");
 
-    // User sessions for user login history like IP, browser, device, etc.
-    Route::get('/profile/sessions/{id}', function () {
-        return view('user-sessions');
-    })->name("user.sessions.show");
+//     // User sessions for user login history like IP, browser, device, etc.
+//     Route::get('/profile/sessions/{id}', function () {
+//         return view('user-sessions');
+//     })->name("user.sessions.show");
 
-    Route::delete('/profile/sessions/{id}', function () {
-    })->name("user.sessions.save");
+//     Route::delete('/profile/sessions/{id}', function () {
+//     })->name("user.sessions.save");
 
-    Route::get('/edit/{id}', function ($id) {
-        return view('user-detail', ['id' => $id]);
-    })->name("user.edit.show");
+//     Route::get('/edit/{id}', function ($id) {
+//         return view('user-detail', ['id' => $id]);
+//     })->name("user.edit.show");
 
-    Route::post('/edit/{id}', function ($id) {
-    })->name("user.edit.save");
+//     Route::post('/edit/{id}', function ($id) {
+//     })->name("user.edit.save");
 
-    Route::post('/delete', function ($id) {
-        return view('user', ['id' => $id]);
-    })->name("user.delete");
-});
+//     Route::post('/delete', function ($id) {
+//         return view('user', ['id' => $id]);
+//     })->name("user.delete");
+// });
 
 Route::group(['prefix' => 'settings'], function () {
     Route::get('/general', function () {
