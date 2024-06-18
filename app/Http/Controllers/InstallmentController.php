@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Credit;
+use Carbon\Carbon;
 use App\Models\CreditPlan;
 use Illuminate\Http\Request;
 
@@ -127,7 +129,21 @@ class InstallmentController extends Controller
 
 
     public function report(){
+        // امروز
+        $today = Carbon::today();
+        $todayInstallments = Credit::whereDate('due_date', $today)->paginate(10);
 
-        return view('installments-report');
+        // هفته جاری
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+        $nextWeekInstallments = Credit::whereBetween('due_date', [$startOfWeek, $endOfWeek])->paginate(10);
+
+        // اقساط عقب افتاده
+        $datedueInstallments = Credit::whereDate('due_date', '<', $today)->where('payment_status','unpaid')->paginate(10);
+
+        return view('installments-report', compact('todayInstallments', 'nextWeekInstallments', 'datedueInstallments'));
+
     }
+
+
 }

@@ -315,7 +315,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('discounts.list.show') || Route::is('discount.show') ? 'active' : '' }}" href="{{ route('discounts.list.show') }}">
+				<a class="menu-link {{ Route::is('discounts.list') || Route::is('discount.edit') ? 'active' : '' }}" href="{{ route('discounts.list') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -327,7 +327,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('discount.create.show') ? 'active' : '' }}" href="{{ route('discount.create.show') }}">
+				<a class="menu-link {{ Route::is('discounts.create') ? 'active' : '' }}" href="{{ route('discounts.create') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>

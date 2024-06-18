@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
@@ -56,6 +58,52 @@ class SearchController extends Controller
 
             return response()->json($data);
         }
+        elseif ($type === 'product') {
+            $query = $request->get('query');
+            $products = Product::where('title', 'like', "%{$query}%")
+                         ->orWhere('description', 'like', "%{$query}%")
+                         ->orWhere('id', 'like', "%{$query}%")
+                         ->limit(10)
+                         ->get();
+
+            $results = $products->map(function ($product) {
+                return [
+                    'id' => $product->id,
+                    'text' => "کد  {$product->id} محصول {$product->title}",
+                ];
+            });
+
+            $data = [
+                'search' => $query,
+                'results' => $results,
+            ];
+
+            return response()->json($data);
+        }
+        elseif ($type === 'category') {
+            $query = $request->get('query');
+            $categorys = Category::where('title', 'like', "%{$query}%")
+                         ->orWhere('alias', 'like', "%{$query}%")
+                         ->orWhere('id', 'like', "%{$query}%")
+                         ->limit(10)
+                         ->get();
+
+            $results = $categorys->map(function ($category) {
+                return [
+                    'id' => $category->id,
+                    'text' => "{$category->title}",
+                ];
+            });
+
+            $data = [
+                'search' => $query,
+                'results' => $results,
+            ];
+
+            return response()->json($data);
+        }
+
+
         return response()->json([
             'search' => $request->get('query'),
             'results' => [],

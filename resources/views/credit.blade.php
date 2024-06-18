@@ -1,6 +1,6 @@
 @extends('layouts.primary')
 
-@if(Route::is('credits.show'))
+@if(Route::is('credits.edit'))
 @section('title', 'ویرایش قسط')
 @else
 @section('title', 'ایجاد قسط')

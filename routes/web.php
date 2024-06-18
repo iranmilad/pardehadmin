@@ -17,6 +17,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\TransportController;
 use App\Http\Controllers\ProductTagController;
@@ -412,6 +413,23 @@ Route::middleware(['auth'])->group(function () {
     });
 
 
+Route::group(['prefix' => 'discounts'], function () {
+
+    Route::get('/', [DiscountController::class, 'index'])->name("discounts.list");
+
+    Route::get('/create', [DiscountController::class, 'create'])->name("discounts.create");
+    Route::post('/store', [DiscountController::class, 'store'])->name("discounts.store");
+
+    Route::get('/edit/{id}', [DiscountController::class, 'edit'])->name("discounts.edit");
+    Route::put('/update/{id}', [DiscountController::class, 'update'])->name("discounts.update");
+
+    Route::post('/delete', [DiscountController::class, 'delete'])->name("discounts.delete");
+
+    Route::post('/bulk_action', [DiscountController::class, 'bulk_action'])->name("discounts.bulk_action");
+
+});
+
+
 
 });
 
@@ -566,19 +584,19 @@ Route::get('/reports', function () {
 
 
 
-Route::group(['prefix' => 'discounts'], function () {
-    Route::get('/list', function () {
-        return view('discounts');
-    })->name("discounts.list.show");
+// Route::group(['prefix' => 'discounts'], function () {
+//     Route::get('/list', function () {
+//         return view('discounts');
+//     })->name("discounts.list.show");
 
-    Route::get('/create', function () {
-        return view('discount');
-    })->name("discount.create.show");
+//     Route::get('/create', function () {
+//         return view('discount');
+//     })->name("discount.create.show");
 
-    Route::get('/edit/{id}', function ($id) {
-        return view('discount');
-    })->name("discount.show");
-});
+//     Route::get('/edit/{id}', function ($id) {
+//         return view('discount');
+//     })->name("discount.show");
+// });
 
 Route::group(['prefix' => 'orders'], function () {
     Route::get('/list/', function () {

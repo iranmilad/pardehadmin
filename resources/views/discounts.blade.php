@@ -3,23 +3,24 @@
 @section('title', 'تخفیف ها')
 
 @section("toolbar")
-<a href="{{route('discount.create.show')}}" class="btn btn-primary">تخفیف جدید</a>
+<a href="{{ route('discounts.create') }}" class="btn btn-primary">تخفیف جدید</a>
 @endsection
 
 @section('content')
 <!-- START:TABLE -->
 <div class="card">
     <div class="card-body">
-        <form class="d-flex align-items-center justify-content-end" action="" method="get">
+        <form class="d-flex align-items-center justify-content-end" action="{{ route('discounts.list') }}" method="get">
             @csrf
             <div class="d-flex align-items-center position-relative my-1">
                 <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6"><span class="path1"></span><span class="path2"></span></i>
                 <input name="s" value="{{ request()->get('s') ?? '' }}" type="text" data-kt-docs-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="جست و جو" />
             </div>
         </form>
-        <form method="post" class="" id="action_form">
-            <div class="d-flex tw-items-center tw-justify-start tw-w-full gap-4">
-                <select class="form-select form-select-solid tw-w-max" name="" id="">
+        <form method="post" action="{{ route('discounts.bulk_action') }}" id="action_form">
+            @csrf
+            <div class="d-flex align-items-center justify-content-start w-100 gap-4">
+                <select class="form-select form-select-solid w-max" name="bulk_action" id="bulk_action">
                     <option>عملیات</option>
                     <option value="delete">حذف</option>
                 </select>
@@ -44,81 +45,45 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($discounts as $discount)
                     <tr>
                         <td>
                             <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" name="checked_row" value="1" />
+                                <input class="form-check-input" type="checkbox" name="checked_row[]" value="{{ $discount->id }}" />
                             </div>
                         </td>
                         <td>
-                            <a href="{{route('discount.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">first_buy</a>
+                            <a href="{{ route('discounts.edit', ['id' => $discount->id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">{{ $discount->code }}</a>
                         </td>
                         <td>
-                            <a href="{{route('discount.show',['id' => 1])}}">تخفیف ثابت سبد خرید</a>
+                            <a href="{{ route('discounts.edit', ['id' => $discount->id]) }}">{{ $discount->discount_type }}</a>
                         </td>
                         <td>
-                            <a href="{{route('discount.show',['id' => 1])}}">100,000</a>
+                            <a href="{{ route('discounts.edit', ['id' => $discount->id]) }}">{{ $discount->discount_amount }}</a>
                         </td>
                         <td>
-                            <a class="badge badge-success" href="{{route('discount.show',['id' => 1])}}">همه</a>
+                            <a class="badge badge-success" href="{{ route('discounts.edit', ['id' => $discount->id]) }}">همه</a>
                         </td>
                         <td>
-                            ∞ / 12
+                            {{ $discount->usage_count }} / {{ $discount->usage_limit ?? '∞' }}
                         </td>
                         <td>
-                            <a href="{{route('discount.show',['id' => 1])}}">بدون انقضا</a>
+                            <a href="{{ route('discounts.edit', ['id' => $discount->id]) }}">{{ $discount->discount_expire_end_shamsi ?? 'بدون انقضا' }}</a>
                         </td>
                         <td class="text-end">
-                            <a href="{{route('discount.show',['id' => 1])}}" class="btn btn-sm btn-light">
+                            <a href="{{ route('discounts.edit', ['id' => $discount->id]) }}" class="btn btn-sm btn-light">
                                 ویرایش
                             </a>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" name="checked_row" value="1" />
-                            </div>
-                        </td>
-                        <td>
-                            <a href="{{route('discount.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">50off</a>
-                        </td>
-                        <td>
-                            <a href="{{route('discount.show',['id' => 1])}}">تخفیف ثابت سبد خرید</a>
-                        </td>
-                        <td>
-                            <a href="{{route('discount.show',['id' => 1])}}">50%</a>
-                        </td>
-                        <td>
-                            <a class="badge badge-primary" href="{{route('discount.show',['id' => 1])}}">12</a>
-                            <a class="badge badge-primary" href="{{route('discount.show',['id' => 1])}}">14</a>
-                        </td>
-                        <td>
-                            1/1
-                        </td>
-                        <td>
-                            <a href="{{route('discount.show',['id' => 1])}}">12/12/1403</a>
-                        </td>
-                        <td class="text-end">
-                            <a href="{{route('discount.show',['id' => 1])}}" class="btn btn-sm btn-light">
-                                ویرایش
-                            </a>
-                        </td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </form>
-        <!--end::Group actions-->
 
+        <!--end::Group actions-->
         <ul class="pagination">
-            <li class="page-item previous disabled"><a href="#" class="page-link"><i class="previous"></i></a></li>
-            <li class="page-item active"><a href="#" class="page-link">1</a></li>
-            <li class="page-item"><a href="#" class="page-link">2</a></li>
-            <li class="page-item "><a href="#" class="page-link">3</a></li>
-            <li class="page-item "><a href="#" class="page-link">4</a></li>
-            <li class="page-item "><a href="#" class="page-link">5</a></li>
-            <li class="page-item "><a href="#" class="page-link">6</a></li>
-            <li class="page-item next"><a href="#" class="page-link"><i class="next"></i></a></li>
+            {{ $discounts->links("vendor.pagination.custom-pagination") }}
         </ul>
     </div>
 </div>
@@ -126,5 +91,5 @@
 @endsection
 
 @section('script-before')
-<script src="{{asset('plugins/custom/datatables/datatables.bundle.js')}}"></script>
+<script src="{{ asset('plugins/custom/datatables/datatables.bundle.js') }}"></script>
 @endsection

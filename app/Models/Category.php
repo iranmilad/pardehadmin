@@ -74,5 +74,9 @@ class Category extends Model
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
-
+    // رابطه‌ی بسیار به بسیار با تخفیف‌ها
+    public function discountCodes()
+    {
+        return $this->belongsToMany(DiscountCode::class, 'discount_category', 'category_id', 'discount_code_id');
+    }
 }

@@ -290,5 +290,9 @@ class Product extends Model
         return $this->attributeCombinations()->with('attributeProperties.attribute', 'attributeProperties.property')->get();
     }
 
-
+    // رابطه‌ی بسیار به بسیار با تخفیف‌ها
+    public function discountCodes()
+    {
+        return $this->belongsToMany(DiscountCode::class, 'discount_product', 'product_id', 'discount_code_id');
+    }
 }

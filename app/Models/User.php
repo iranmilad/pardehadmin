@@ -476,5 +476,9 @@ use Illuminate\Notifications\Notifiable;
         return $this->hasMany(LoginSession::class);
     }
 
-
+    // رابطه‌ی بسیار به بسیار با تخفیف‌ها
+    public function discountCodes()
+    {
+        return $this->belongsToMany(DiscountCode::class, 'discount_user', 'user_id', 'discount_code_id');
+    }
 }
