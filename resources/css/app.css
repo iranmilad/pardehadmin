@@ -378,3 +378,45 @@ a.token {
 .language-php .variable {
     color: CadetBlue;
 }
+
+.third-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(2, 1fr); /* Two equal rows */
+    gap: 10px;
+    height: 500px;
+    padding: 10px;
+}
+
+.third-grid div:nth-child(1) {
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 2; /* Span two rows */
+}
+
+.third-grid div:nth-child(2),
+.third-grid div:nth-child(3) {
+    grid-column: 2 / span 1;
+    grid-row: auto; /* Automatically place in next available row */
+}
+
+.swapSortable div {
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: grab;
+    border-radius: 8px;
+}
+.highlight {
+    animation: borderAnimation 1s infinite;
+    @apply tw-border-brand-500 tw-shadow-sm !important;
+    box-shadow: 0 0 10px rgba(231, 76, 60, 0.7) !important;
+}
+
+
+.first-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 10px;
+    height: 200px;
+    padding: 10px;
+}
