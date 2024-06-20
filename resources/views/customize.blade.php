@@ -185,6 +185,30 @@
             <!--end::Wrapper-->
         </div>
         <!--end::Step 6-->
+
+        <!--begin::Step 6-->
+        <div class="stepper-item mx-8 my-4" data-kt-stepper-element="nav" data-kt-stepper-action="step">
+            <!--begin::Wrapper-->
+            <div class="stepper-wrapper d-flex align-items-center">
+                <!--begin::Icon-->
+                <div class="stepper-icon w-40px h-40px">
+                    <i class="stepper-check fas fa-check"></i>
+                    <span class="stepper-number">8</span>
+                </div>
+                <!--begin::Icon-->
+
+                <!--begin::Label-->
+                <div class="stepper-label tw-whitespace-nowrap">
+                    <h3 class="stepper-title">
+                        انتخاب ساختار
+                    </h3>
+
+                </div>
+                <!--end::Label-->
+            </div>
+            <!--end::Wrapper-->
+        </div>
+        <!--end::Step 6-->
     </div>
     <!--end::Nav-->
 
@@ -551,6 +575,219 @@
                         <div>
                             <label for="" class="form-label">انتخاب ویدئو</label>
                             <input type="file" name="video" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="flex-column" data-kt-stepper-element="content">
+                        <div class="mb-10">
+                            <label for="" class="form-label">حالت ساختار</label>
+                            <div class="row g-5" data-kt-buttons="true" data-kt-buttons-target=".form-check-image, .form-check-input">
+                                <!-- start::Col -->
+                                <div class="col-6 col-md-3">
+                                    <label class="form-check-image active">
+                                        <div class="form-check-wrapper">
+                                            <img class="tw-size-36" src="/images/Frame.svg" />
+                                        </div>
+
+                                        <div class="form-check form-check-custom form-check-solid">
+                                            <input class="form-check-input" type="radio" checked value="1" name="theme[fontfamily]" />
+                                            <div class="form-check-label">
+                                                حالت اول
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <!--end::Col-->
+                                <!-- start::Col -->
+                                <div class="col-6 col-md-3">
+                                    <label class="form-check-image">
+                                        <div class="form-check-wrapper">
+                                            <img class="tw-size-36" src="/images/Frame-1.svg" />
+                                        </div>
+
+                                        <div class="form-check form-check-custom form-check-solid">
+                                            <input class="form-check-input" type="radio" value="1" name="theme[fontfamily]" />
+                                            <div class="form-check-label">
+                                                حالت دوم
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <!--end::Col-->
+                                <!-- start::Col -->
+                                <div class="col-6 col-md-3">
+                                    <label class="form-check-image">
+                                        <div class="form-check-wrapper">
+                                            <img class="tw-size-36" src="/images/Frame-2.svg" />
+                                        </div>
+
+                                        <div class="form-check form-check-custom form-check-solid">
+                                            <input class="form-check-input" type="radio" value="2" name="theme[fontfamily]" />
+                                            <div class="form-check-label">
+                                                حالت سوم
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <!--end::Col-->
+                                <!-- start::Col -->
+                                <div class="col-6 col-md-3">
+                                    <label class="form-check-image">
+                                        <div class="form-check-wrapper">
+                                            <img class="tw-size-36" src="/images/Frame-3.svg" />
+                                        </div>
+
+                                        <div class="form-check form-check-custom form-check-solid">
+                                            <input class="form-check-input" type="radio" value="2" name="theme[fontfamily]" />
+                                            <div class="form-check-label">
+                                                حالت چهارم
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <!--end::Col-->
+                                <!-- start::Col -->
+                                <div class="col-6 col-md-3">
+                                    <label class="form-check-image">
+                                        <div class="form-check-wrapper">
+                                            <img class="tw-size-36" src="/images/Frame-4.svg" />
+                                        </div>
+
+                                        <div class="form-check form-check-custom form-check-solid">
+                                            <input class="form-check-input" type="radio" value="2" name="theme[fontfamily]" />
+                                            <div class="form-check-label">
+                                                حالت پنجم
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <!--end::Col-->
+                                <!-- start::Col -->
+                                <div class="col-6 col-md-3">
+                                    <label class="form-check-image">
+                                        <div class="form-check-wrapper">
+                                            <img class="tw-size-36" src="/images/Frame-5.svg" />
+                                        </div>
+
+                                        <div class="form-check form-check-custom form-check-solid">
+                                            <input class="form-check-input" type="radio" value="2" name="theme[fontfamily]" />
+                                            <div class="form-check-label">
+                                                حالت ششم
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <!--end::Col-->
+                                <!-- start::Col -->
+                                <div class="col-6 col-md-3">
+                                    <label class="form-check-image">
+                                        <div class="form-check-wrapper">
+                                            <img class="tw-size-36" src="/images/Frame-6.svg" />
+                                        </div>
+
+                                        <div class="form-check form-check-custom form-check-solid">
+                                            <input class="form-check-input" type="radio" value="2" name="theme[fontfamily]" />
+                                            <div class="form-check-label">
+                                                حالت هفتم
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <!--end::Col-->
+                                <!-- start::Col -->
+                                <div class="col-6 col-md-3">
+                                    <label class="form-check-image">
+                                        <div class="form-check-wrapper">
+                                            <img class="tw-size-36" src="/images/Frame-7.svg" />
+                                        </div>
+
+                                        <div class="form-check form-check-custom form-check-solid">
+                                            <input class="form-check-input" type="radio" value="2" name="theme[fontfamily]" />
+                                            <div class="form-check-label">
+                                                حالت هشتم
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <!--end::Col-->
+                                <!-- start::Col -->
+                                <div class="col-6 col-md-3">
+                                    <label class="form-check-image">
+                                        <div class="form-check-wrapper">
+                                            <img class="tw-size-36" src="/images/Frame-8.svg" />
+                                        </div>
+
+                                        <div class="form-check form-check-custom form-check-solid">
+                                            <input class="form-check-input" type="radio" value="2" name="theme[fontfamily]" />
+                                            <div class="form-check-label">
+                                                حالت نهم
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <!--end::Col-->
+                                <!-- start::Col -->
+                                <div class="col-6 col-md-3">
+                                    <label class="form-check-image">
+                                        <div class="form-check-wrapper">
+                                            <img class="tw-size-36" src="/images/Frame-9.svg" />
+                                        </div>
+
+                                        <div class="form-check form-check-custom form-check-solid">
+                                            <input class="form-check-input" type="radio" value="2" name="theme[fontfamily]" />
+                                            <div class="form-check-label">
+                                                حالت دهم
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <!--end::Col-->
+                                <!-- start::Col -->
+                                <div class="col-6 col-md-3">
+                                    <label class="form-check-image">
+                                        <div class="form-check-wrapper">
+                                            <img class="tw-size-36" src="/images/Frame-10.svg" />
+                                        </div>
+
+                                        <div class="form-check form-check-custom form-check-solid">
+                                            <input class="form-check-input" type="radio" value="2" name="theme[fontfamily]" />
+                                            <div class="form-check-label">
+                                                حالت یازدهم
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                        </div>
+                        <div>
+                            <div class="swapSortable third-grid">
+                                <div>
+                                    1
+                                    <input type="hidden" value="1" />
+                                </div>
+                                <div>
+                                    2
+                                    <input type="hidden" value="2" />
+                                </div>
+                                <div>
+                                    3
+                                    <input type="hidden" value="3" />
+                                </div>
+                            </div>
+                            <div class="swapSortable first-grid">
+                                <div>
+                                    1
+                                    <input type="hidden" value="1" />
+                                </div>
+                                <div>
+                                    2
+                                    <input type="hidden" value="2" />
+                                </div>
+                                <div>
+                                    3
+                                    <input type="hidden" value="3" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

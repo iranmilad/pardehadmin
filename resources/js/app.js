@@ -33,7 +33,7 @@ import "jquery-validation";
 import "./pages/message";
 import "./marker";
 import "./menu";
-import Sortable from "sortablejs";
+import Sortable,{Swap} from "sortablejs";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import markerIcon from "../images/marker-icon.svg";
@@ -396,4 +396,16 @@ document.addEventListener("DOMContentLoaded", function () {
         // Example: if there's a dropdown for selecting locations
         // $('#location-map').on('change', updateMarkers);
     }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    let elm = document.querySelectorAll(".swapSortable");
+    Sortable.mount(new Swap());
+    elm.forEach((item) => {
+        new Sortable(item, {
+            swap: true, // Enable swap plugin
+            swapClass: "highlight", // The class applied to the hovered swap item
+            animation: 150,
+        });
+    });
 });
