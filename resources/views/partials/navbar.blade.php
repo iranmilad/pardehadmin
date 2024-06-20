@@ -277,7 +277,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{route('carts.show')}}" class="menu-link {{ Route::is('carts.show') || Route::is('cart.edit.show') || Route::is('cart.create.show')  ? 'active' : '' }}">
+		<a href="{{route('carts.list')}}" class="menu-link {{ Route::is('carts.list') || Route::is('carts.edit') || Route::is('carts.create')  ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-shopping-cart"></i>
 			</span>
@@ -548,7 +548,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{route('checkouts.show')}}" class="menu-link {{ Route::is('checkouts.show')   ? 'active' : '' }}">
+		<a href="{{route('gateways.list')}}" class="menu-link {{ Route::is('gateways.list')   ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-credit-card"></i>
 			</span>

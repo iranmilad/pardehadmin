@@ -3,7 +3,7 @@
 @section('title', 'سبد خرید کاربران')
 
 @section("toolbar")
-<a href="{{route('cart.create.show')}}" class="btn btn-primary">ایجاد سبد خرید کاربر</a>
+<a href="{{route('carts.create')}}" class="btn btn-primary">ایجاد سبد خرید کاربر</a>
 @endsection
 
 @section('content')
@@ -41,20 +41,21 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($orders as $order)
                     <tr>
                         <td>
                             <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" name="checked_row" value="1" />
+                                <input class="form-check-input" type="checkbox" name="checked_rows[]" value="{{ $order->id }}" />
                             </div>
                         </td>
                         <td>
-                            <a href="{{route('cart.edit.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">admin</a>
+                            <a href="{{route('carts.edit',['id' => $order->id ])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">{{ $order->user->fullName}} </a>
                         </td>
                         <td>
-                            <a href="{{route('cart.edit.show',['id' => 1])}}">09374039436</a>
+                            <a href="{{route('carts.edit',['id' => $order->id ])}}">{{ $order->user->mobile}}</a>
                         </td>
                         <td>
-                            <span class="badge badge-light fs-6 tw-select-all">1</span>
+                            <span class="badge badge-light fs-6 tw-select-all">{{ $order->basket()->cart->count }}</span>
                         </td>
                         <td class="text-end">
                             <a href="#" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
@@ -72,7 +73,7 @@
                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-kt-menu="true">
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="{{ route('cart.edit.show', ['id' => 1]) }}" class="menu-link px-3">
+                                    <a href="{{ route('carts.edit', ['id' => $order->id ]) }}" class="menu-link px-3">
                                         ویرایش
                                     </a>
                                 </div>
@@ -80,32 +81,31 @@
 
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="#" class="menu-link px-3" data-kt-docs-table-filter="delete_row">
-                                        حذف سبد 
+                                    <a href="{{ route('carts.delete', ['id' => $order->id ]) }}" class="menu-link px-3" data-kt-docs-table-filter="delete_row">
+                                        حذف سبد
                                     </a>
                                 </div>
                                 <!--end::Menu item-->
                             </div>
                         </td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </form>
         <!--end::Group actions-->
 
+        <!-- Pagination -->
         <ul class="pagination">
-            <li class="page-item previous disabled"><a href="#" class="page-link"><i class="previous"></i></a></li>
-            <li class="page-item active"><a href="#" class="page-link">1</a></li>
-            <li class="page-item"><a href="#" class="page-link">2</a></li>
-            <li class="page-item "><a href="#" class="page-link">3</a></li>
-            <li class="page-item "><a href="#" class="page-link">4</a></li>
-            <li class="page-item "><a href="#" class="page-link">5</a></li>
-            <li class="page-item "><a href="#" class="page-link">6</a></li>
-            <li class="page-item next"><a href="#" class="page-link"><i class="next"></i></a></li>
+            {{ $orders->links("vendor.pagination.custom-pagination") }}
         </ul>
     </div>
 </div>
 <!-- END:TABLE -->
+@endsection
+
+@section('script-before')
+<script src="{{asset('plugins/custom/datatables/datatables.bundle.js')}}"></script>
 @endsection
 
 @section('script-before')

@@ -2,52 +2,76 @@
 
 namespace App\Http\Controllers;
 
-use App\Product;
 use Illuminate\Http\Request;
-use App\Components\Cart\Cart;
-use Illuminate\Support\Facades\Lang;
-use App\Exceptions\QuantityOverstated;
+use App\Models\Order; // جایگزینی با مدل مناسب برای سبد خرید در صورت لزوم
 
 class CartController extends Controller
 {
-    /**
-     * @var Cart
-     */
-    protected $cart;
-
-    public function __construct(Cart $cart)
+    public function index(Request $request)
     {
-        $this->cart = $cart;
+        // جستجو بر اساس نام کاربر یا شماره تلفن
+        $query = Order::query();
+
+        if ($request->filled('s')) {
+            $search = $request->input('s');
+            $query->whereHas('user', function ($q) use ($search) {
+                $q->where('full_name', 'like', "%$search%")
+                    ->orWhere('mobile', 'like', "%$search%");
+            })->where('status','basket');
+        }
+
+        $orders = $query->paginate(10); // تعداد سفارشات در هر صفحه
+
+        return view('carts', compact('orders'));
     }
 
-    public function index()
+    public function create()
     {
+        // نمایش فرم ایجاد سبد خرید کاربر
         return view('cart');
     }
 
-    public function incrementOrDecrementItem(Request $request)
+    public function edit($id)
     {
-        $product = Product::find($request->product);
-        try {
-            $this->cart->add($product, $request->quantity);
-        } catch (QuantityOverstated $e) {
-            return response()->json(['message' => Lang::get('cart.quantity_overstated')], 422);
-        }
-        $productInCart = $this->cart->get($product);
-        return response()->json([
-            'totalQuantity' => $this->cart->totalQuantity(),
-            'totalPrice' => $this->cart->totalPrice()->format(),
-            'item' => $productInCart,
-            'amount' => $productInCart ? $productInCart->getAmount()->format() : 0
-        ]);
+        // نمایش فرم ویرایش سبد خرید با شناسه $id
+        // اینجا باید کدی نوشته شود که سبد خرید مربوطه را بارگیری کند و به ویو مناسب منتقل کند
+        $order = Order::findOrFail($id);
+        //dd($order->basket());
+        return view('cart', compact('order'));
     }
 
-    public function remove(Request $request)
+    public function update(Request $request, $id)
     {
-        $this->cart->remove(Product::find($request->product));
-        return response()->json([
-            'totalQuantity' => $this->cart->totalQuantity(),
-            'totalPrice' => $this->cart->totalPrice()->format()
-        ]);
+        $order = Order::findOrFail($id);
+        $this->saveOrder($order, $request);
+        return redirect()->route('cart.index')->with('success', 'سبد خرید با موفقیت ویرایش شد.');
+    }
+
+    private function saveOrder(Order $order, Request $request)
+    {
+        $order->user_id = $request->input('user');
+        $order->discount_code = $request->input('discount_code', null);
+        $order->discount_percentage = $request->input('discount_percentage', 0);
+        $order->total_price = $request->input('total_price', 0);
+        $order->save();
+
+        $order->orderItems()->delete();
+        foreach ($request->input('products_repeater') as $productInput) {
+            $order->orderItems()->create([
+                'product_id' => $productInput['option']['product'],
+                'quantity' => $productInput['quantity'] ?? 1,
+            ]);
+        }
+    }
+    public function delete(Request $request)
+    {
+        // حذف سبد خریدهای انتخاب شده
+        $selectedOrders = $request->input('checked_row', []);
+
+        if (!empty($selectedOrders)) {
+            Order::whereIn('id', $selectedOrders)->delete();
+        }
+
+        return redirect()->back()->with('success', 'سبد خریدهای انتخاب شده با موفقیت حذف شدند.');
     }
 }

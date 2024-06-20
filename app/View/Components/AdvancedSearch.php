@@ -13,6 +13,7 @@ class AdvancedSearch extends Component
     public $solid;
     public $classes;
     public $selected;
+    public $disabled;
 
     /**
      * Create a new component instance.
@@ -22,7 +23,7 @@ class AdvancedSearch extends Component
      * @param  string  $name
      * @return void
      */
-    public function __construct($type, $label, $name, $multiple = false, $solid = false, $classes = "",$selected=[])
+    public function __construct($type, $label, $name, $multiple = false, $solid = false,$disabled=false, $classes = "",$selected=[])
     {
         $this->type = $type;
         $this->label = $label;
@@ -31,6 +32,7 @@ class AdvancedSearch extends Component
         $this->solid = $solid;
         $this->classes = $classes;
         $this->selected= $selected;
+        $this->disabled=$disabled;
     }
 
     /**
@@ -48,6 +50,7 @@ class AdvancedSearch extends Component
             'solid' => $this->solid,
             'classes' => $this->classes,
             'selected' => $this->selected, // ارسال مقدار selected به view
+            'disabled'=>$this->disabled
         ]);
     }
 }

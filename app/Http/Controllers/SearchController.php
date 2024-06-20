@@ -59,6 +59,7 @@ class SearchController extends Controller
             return response()->json($data);
         }
         elseif ($type === 'product') {
+            $property=[];
             $query = $request->get('query');
             $products = Product::where('title', 'like', "%{$query}%")
                          ->orWhere('description', 'like', "%{$query}%")
@@ -67,11 +68,13 @@ class SearchController extends Controller
                          ->get();
 
             $results = $products->map(function ($product) {
+
                 return [
                     'id' => $product->id,
                     'text' => "کد  {$product->id} محصول {$product->title}",
                 ];
             });
+
 
             $data = [
                 'search' => $query,

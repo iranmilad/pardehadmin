@@ -5,6 +5,7 @@ use App\Models\Review;
 use App\Models\PostCategory;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\CreditController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\GatewayController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DiscountController;
@@ -429,7 +431,39 @@ Route::group(['prefix' => 'discounts'], function () {
 
 });
 
+Route::group(['prefix' => 'gateways'], function () {
 
+    Route::get('/', [GatewayController::class, 'index'])->name("gateways.list");
+
+    Route::get('/create', [GatewayController::class, 'create'])->name("gateways.create");
+    Route::post('/store', [GatewayController::class, 'store'])->name("gateways.store");
+
+    Route::get('/edit/{id}', [GatewayController::class, 'edit'])->name("gateways.edit");
+    Route::put('/update/{id}', [GatewayController::class, 'update'])->name("gateways.update");
+    Route::get('/gateways/{id}/activate', [GatewayController::class, 'activate'])->name('gateways.activate');
+
+    Route::get('/delete/{id}', [GatewayController::class, 'delete'])->name("gateways.delete");
+
+    Route::post('/bulk_action', [GatewayController::class, 'bulk_action'])->name("gateways.bulk_action");
+
+});
+
+
+Route::group(['prefix' => 'carts'], function () {
+
+    Route::get('/', [CartController::class, 'index'])->name("carts.list");
+
+    Route::get('/create', [CartController::class, 'create'])->name("carts.create");
+    Route::post('/store', [CartController::class, 'store'])->name("carts.store");
+
+    Route::get('/edit/{id}', [CartController::class, 'edit'])->name("carts.edit");
+    Route::put('/update/{id}', [CartController::class, 'update'])->name("carts.update");
+
+    Route::post('/delete/{id}', [CartController::class, 'delete'])->name("carts.delete");
+
+    Route::post('/bulk_action', [CartController::class, 'bulk_action'])->name("carts.bulk_action");
+
+});
 
 });
 
@@ -725,17 +759,17 @@ Route::get('/imagemarker/{id}', function ($id) {
     return view('imagemarker');
 })->name("imagemarker.show");
 
-Route::get('/checkouts', function () {
-    return view('checkouts');
-})->name("checkouts.show");
+// Route::get('/gateways', function () {
+//     return view('gateways');
+// })->name("gateways.show");
 
-Route::get('/checkout/{id}', function ($id) {
-    return view('checkout');
-})->name("checkout.show");
+// Route::get('/checkout/{id}', function ($id) {
+//     return view('checkout');
+// })->name("checkout.show");
 
-Route::get('/checkout-create', function () {
-    return view('checkout-create');
-})->name("checkout-create.show");
+// Route::get('/checkout-create', function () {
+//     return view('checkout-create');
+// })->name("checkout-create.show");
 
 Route::get('/sms-settings', function () {
     return view('sms-settings');
@@ -770,17 +804,17 @@ Route::group(['prefix' => 'services'], function () {
 });
 
 
-Route::get('/carts', function () {
-    return view('carts');
-})->name("carts.show");
+// Route::get('/carts', function () {
+//     return view('carts');
+// })->name("carts.show");
 
-Route::get('/cart/{id}', function ($id) {
-    return view('cart');
-})->name("cart.edit.show");
+// Route::get('/cart/{id}', function ($id) {
+//     return view('cart');
+// })->name("cart.edit.show");
 
-Route::get('/create-cart', function () {
-    return view('cart');
-})->name("cart.create.show");
+// Route::get('/create-cart', function () {
+//     return view('cart');
+// })->name("cart.create.show");
 
 
 // Route::get('/transports', function () {

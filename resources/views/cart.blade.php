@@ -1,20 +1,30 @@
 @extends('layouts.primary')
 
-@if(Route::is('cart.create.show'))
+@if(Route::is('carts.create'))
 @section('title', 'ایجاد سبد خرید')
 @else
 @section('title', 'ویرایش سبد خرید')
 @endif
 
 @section('content')
-<form action="" method="post">
+<form action="{{ Route::is('carts.create') ? route('carts.store') : route('carts.update', ['id' => $order->id]) }}" method="post">
+    @csrf
+    @if(!Route::is('carts.create'))
+        @method('PUT')
+    @endif
     <div class="card mb-10">
         <div class="card-header">
             <h4 class="card-title">جزئیات سبد</h4>
         </div>
         <div class="card-body">
             <div class="mb-5">
-                <x-advanced-search type="user" label="مشتری" name="user" solid />
+                @php
+                    $user= [[
+                        'id' => $order->user->id,
+                        'text' => "{$order->user->fullName} ({$order->user->email})",
+                    ]];
+                @endphp
+                <x-advanced-search type="user" label="مشتری" name="user" solid :selected="$user" disabled/>
             </div>
         </div>
     </div>
@@ -32,25 +42,66 @@
                     <div class="other_repeater">
                         <!--begin::Form group-->
                         <div class="form-group">
-                            <!-- data-repeater-list must be unique -->
-                            <!-- data-repeater-list must be unique -->
-                            <!-- data-repeater-list must be unique -->
-                            <!-- data-repeater-list must be unique -->
-                            <!-- data-repeater-list must be unique -->
                             <div data-repeater-list="products_repeater">
-                                <div class="mt-3 tw-border-0 tw-border-b-2 tw-border-dashed tw-border-b-gray-200 pb-5" data-repeater-item>
-                                    <div class="form-group row">
-                                        <div class="col-12 col-md-9">
-                                            <x-advanced-search type="product" label="محصول" name="option[product]" solid classes="order_create_product" />
-                                        </div>
-                                        <div class="col-12 col-md-3">
-                                            <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-8">
-                                                <i class="ki-duotone ki-trash fs-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
-                                                حذف
-                                            </a>
+                                @if(isset($order))
+                                    @foreach($order->orderItems as $item)
+                                    <div class="mt-3 tw-border-0 tw-border-b-2 tw-border-dashed tw-border-b-gray-200 pb-5" data-repeater-item>
+                                        <div class="form-group row">
+                                            <div class="col-12 col-md-9">
+                                                @php
+                                                    $product= [[
+                                                        'id' => $item->product->id,
+                                                        'text' => "{$item->product->title}",
+                                                    ]];
+                                                    $property=[];
+                                                    $combinations = $item->product->getCombinations();
+                                                    foreach($combinations as $combination){
+                                                        // dd($combinations );
+                                                        foreach($combination->attributeProperties as $attributeProperty){
+                                                            //dd($attributeProperty->attribute->name);
+                                                            $property[$attributeProperty->attribute->name][] = $attributeProperty->property->value;
+                                                        }
+                                                    }
+
+                                                @endphp
+                                                <x-advanced-search type="product" label="محصول" name="param[product][{{$item->product->id}}]" solid classes="order_create_product" :selected="$product" />
+
+                                                @foreach ($property as $attribute=>$props)
+                                                    <div class="col-3 mt-1">
+                                                        <label for="">{{$attribute}}</label>
+                                                        <select name="param[attribute][{{ $attribute }}]" id="attribute" class="form-select">
+                                                            @foreach($props as $select)
+                                                                <option value="{{$select}}">{{$select}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                @endforeach
+
+                                            </div>
+                                            <div class="col-12 col-md-3">
+                                                <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-8">
+                                                    <i class="ki-duotone ki-trash fs-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                                                    حذف
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                    @endforeach
+                                @else
+                                    <div class="mt-3 tw-border-0 tw-border-b-2 tw-border-dashed tw-border-b-gray-200 pb-5" data-repeater-item>
+                                        <div class="form-group row">
+                                            <div class="col-12 col-md-9">
+                                                <x-advanced-search type="product" label="محصول" name="option[product][]" solid classes="order_create_product" />
+                                            </div>
+                                            <div class="col-12 col-md-3">
+                                                <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-8">
+                                                    <i class="ki-duotone ki-trash fs-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                                                    حذف
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         <!--end::Form group-->
@@ -79,13 +130,14 @@
                     <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#coupon">افزودن کد تخفیف</button>
                 </div>
                 <ul class="tw-space-y-3">
-                    <li class="fs-6"><span class="fw-bold">کد تخفیف اعمال شده : </span>12OFF</li>
-                    <li class="fs-6"><span class="fw-bold">تخفیف اعمال شده : </span>20%</li>
-                    <li class="fs-6"><span class="fw-bold">مجموع سفارش: </span>12,000,000</li>
+                    <li class="fs-6"><span class="fw-bold">هزینه سفارش : </span>{{ isset($order) ? $order->basket()->cart->total : '' }} تومان</li>
+                    <li class="fs-6"><span class="fw-bold">هزینه ارسال : </span>{{ isset($order) ? $order->basket()->cart->deliveryCost  : '' }} تومان</li>
+                    <li class="fs-6"><span class="fw-bold">قابل پرداخت: </span>{{ isset($order) ? $order->basket()->cart->totalPayed : '' }} تومان</li>
                 </ul>
             </div>
         </div>
     </div>
+    <button type="submit" class="btn btn-primary">ذخیره</button>
 </form>
 
 <!-- START: COUPON -->
@@ -101,8 +153,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div>
-                            <label for="" class="form-label">کد تخفیف</label>
-                            <input class="form-control form-control-solid" type="text">
+                            <label for="discount_code" class="form-label">کد تخفیف</label>
+                            <input class="form-control form-control-solid" type="text" name="discount_code" id="discount_code">
                         </div>
                     </div>
                 </div>

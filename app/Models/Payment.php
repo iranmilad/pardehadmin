@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  class Payment extends Model
 {
 	use SoftDeletes;
-	protected $fillable=["id","gu_id","user_id","reference_id","ref_id","amount","state","type"];
+	protected $fillable=["id","gu_id","user_id","reference_id","ref_id","amount","state","type", "gateway_id"];
 
 	public function user()
 	{
@@ -21,7 +21,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 		return $this->belongsTo(Order::class);
 	}
 
-
+    public function gateway()
+    {
+        return $this->belongsTo(Gateway::class);
+    }
     /**
      * Convert payed date from Gregorian to Jalali (Shamsi).
      *

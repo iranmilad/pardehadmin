@@ -127,8 +127,19 @@ class Order extends Model
         return $jalaliDate->format('Y/m/d');
     }
 
-
-
+    /**
+     * Generate detailed information about the shopping basket of the order.
+     *
+     * This function calculates various details related to the order's shopping basket,
+     * including total price, item quantities, attributes, discounts, payment methods,
+     * delivery costs, available credit plans, and timelines for payments.
+     *
+     * @return object Detailed information about the shopping basket:
+     *                - cart: Detailed summary of the order including total price, payment details,
+     *                        delivery type,items count, available credit plans, and more.
+     *                - items: List of items in the shopping cart with details such as product ID,
+     *                         name, price, quantity, attributes, and services associated.
+     */
     public function basket(){
         $status =[];
         $cartCount = 0; // Initialize cart count
