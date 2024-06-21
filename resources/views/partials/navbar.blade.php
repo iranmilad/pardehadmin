@@ -264,7 +264,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{route('orders.show')}}" class="menu-link {{Request::is('orders*') ? 'active' : ''}}">
+		<a href="{{route('orders.list')}}" class="menu-link {{Request::is('orders*') ? 'active' : ''}}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-bags-shopping"></i>
 			</span>

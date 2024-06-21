@@ -1,12 +1,12 @@
 <!-- This blade is used for writing and editing a post -->
 @extends('layouts.primary')
 
-@section('title', 'سفارش #060')
+@section('title', 'سفارش #'.$order->id)
 
 @section("toolbar")
 <div>
     <a href="#" class="btn btn-success">خروجی csv</a>
-    <a href="{{route('order.print.show',['id' => 1])}}" class="btn btn-info" target="_blank">پرینت</a>
+    <a href="{{route('orders.print',['id' =>  $order->id])}}" class="btn btn-info" target="_blank">پرینت</a>
 </div>
 @endsection
 
@@ -22,19 +22,23 @@
         <div class="row">
             <div class="col-lg">
                 <div class="mb-5">
-                    <label class="form-label" for="">تاریخ و زمان ایجاد</label>
-                    <input class="form-control form-control-solid" type="text" id="date_time">
+                    <label class="form-label" for="date_time">تاریخ و زمان ایجاد</label>
+                    <input class="form-control form-control-solid" type="text" id="date_time" value="{{ $order->created_at }}" readonly>
                 </div>
                 <div class="mb-5">
-                    <label class="form-label" for="">وضعیت</label>
-                    <select multiple class="form-select form-select-solid" data-placeholder="انتخاب وضعیت" data-control="select2" name="" id="">
-                        <option value="1">در انتظار بررسی</option>
-                        <option value="2">درحال بررسی</option>
-                        <option value="3">انجام شده</option>
+                    <label class="form-label" for="status">وضعیت</label>
+                    <select class="form-select form-select-solid" data-placeholder="انتخاب وضعیت" data-control="select2" name="status" id="status" readonly>
+                        <option value="basket" {{ $order->status == 'basket' ? 'selected' : '' }}>سبد خرید</option>
+                        <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>در انتظار بررسی</option>
+                        <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>درحال بررسی</option>
+                        <option value="complete" {{ $order->status == 'complete' ? 'selected' : '' }}>انجام شده</option>
+                        <option value="cancel" {{ $order->status == 'cancel' ? 'selected' : '' }}>لغو شده</option>
+                        <option value="reject" {{ $order->status == 'reject' ? 'selected' : '' }}>رد شده</option>
                     </select>
                 </div>
                 <div class="mb-5">
-                    <x-advanced-search type="user" label="مشتری" name="user" solid />
+                    <label class="form-label" for="customer">مشتری</label>
+                    <input class="form-control form-control-solid" type="text" id="customer" value="{{ $order->customer_name }}" readonly>
                 </div>
             </div>
             <div class="col-lg">
@@ -43,14 +47,14 @@
                     <button data-bs-toggle="modal" data-bs-target="#edit_billing" class="btn btn-sm btn-light"><i class="fa-duotone fa-pen"></i>ویرایش</button>
                 </div>
                 <ul class="tw-list-none tw-space-y-3">
-                    <li><span class="fw-bold">نام و نام خانوادگی : </span>فرهاد باقری</li>
-                    <li><span class="fw-bold">تلفن : </span>09374039436</li>
-                    <li><span class="fw-bold">ایمیل : </span>coding.farhad@gmail.com</li>
-                    <li><span class="fw-bold">کشور : </span>ایران</li>
-                    <li><span class="fw-bold">استان : </span>فارس</li>
-                    <li><span class="fw-bold">شهر : </span>شیراز</li>
-                    <li><span class="fw-bold">آدرس : </span>فارس - شیراز - خیابان ارم - کوچه 8 - پلاک 123</li>
-                    <li><span class="fw-bold">یادداشت : </span>این یک یادداشت تستی است</li>
+                    <li><span class="fw-bold">نام و نام خانوادگی : </span>{{ $order->user->fullName }}</li>
+                    <li><span class="fw-bold">تلفن : </span>{{ $order->user->mobile }}</li>
+                    <li><span class="fw-bold">ایمیل : </span>{{ $order->user->email }}</li>
+                    <li><span class="fw-bold">کشور : </span>{{ $order->user->country }}</li>
+                    <li><span class="fw-bold">استان : </span>{{ $order->user->province }}</li>
+                    <li><span class="fw-bold">شهر : </span>{{ $order->user->city }}</li>
+                    <li><span class="fw-bold">آدرس : </span>{{ $order->user->address }}</li>
+                    <li><span class="fw-bold">کد پستی : </span>{{ $order->user->postal_code }}</li>
                 </ul>
             </div>
             <div class="col-lg">
@@ -59,14 +63,15 @@
                     <button data-bs-toggle="modal" data-bs-target="#edit_shipping" class="btn btn-sm btn-light"><i class="fa-duotone fa-pen"></i>ویرایش</button>
                 </div>
                 <ul class="tw-list-none tw-space-y-3">
-                    <li><span class="fw-bold">نام و نام خانوادگی : </span>فرهاد باقری</li>
-                    <li><span class="fw-bold">تلفن : </span>09374039436</li>
-                    <li><span class="fw-bold">ایمیل : </span>coding.farhad@gmail.com</li>
-                    <li><span class="fw-bold">کشور : </span>ایران</li>
-                    <li><span class="fw-bold">استان : </span>فارس</li>
-                    <li><span class="fw-bold">شهر : </span>شیراز</li>
-                    <li><span class="fw-bold">آدرس : </span>فارس - شیراز - خیابان ارم - کوچه 8 - پلاک 123</li>
-                    <li><span class="fw-bold">یادداشت : </span>این یک یادداشت تستی است</li>
+                    <li><span class="fw-bold">نام و نام خانوادگی : </span>{{ $order->customer_name }}</li>
+                    <li><span class="fw-bold">تلفن : </span>{{ $order->shipping_phone }}</li>
+                    <li><span class="fw-bold">ایمیل : </span>{{ $order->customer_email }}</li>
+                    <li><span class="fw-bold">کشور : </span>{{ $order->shipping_country }}</li>
+                    <li><span class="fw-bold">استان : </span>{{ $order->shipping_province }}</li>
+                    <li><span class="fw-bold">شهر : </span>{{ $order->shipping_city }}</li>
+                    <li><span class="fw-bold">آدرس : </span>{{ $order->shipping_address }}</li>
+                    <li><span class="fw-bold">کد پستی : </span>{{ $order->shipping_postal_code }}</li>
+                    <li><span class="fw-bold">یادداشت : </span>{{ $order->shipping_note }}</li>
                 </ul>
             </div>
         </div>
@@ -92,64 +97,71 @@
                 </tr>
             </thead>
             <tbody>
+            @forelse ($order->orderItems as $item)
                 <tr>
                     <td>
-                        <a href="{{route('products.create',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">
-                            <img class="tw-size-16 tw-rounded-md" src="/images/1.jpg" alt="">
-                            <span>پرده رنگی</span>
+                        <a href="{{ route('products.edit', ['id' => $item->product_id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">
+                            <img class="tw-size-16 tw-rounded-md" src="{{ $item->product->img }}" alt="">
+                            <span>{{ $item->name }}</span>
                         </a>
                     </td>
                     <td>
-                        <a href="{{route('products.create',['id' => 1])}}">12,000,000 تومان</a>
+                        <a href="{{ route('products.edit', ['id' => $item->product_id]) }}">{{ $item->sale_price>0 ? $item->sale_price:$item->price }} تومان</a>
                     </td>
                     <td>
-                        <span>1</span>
+                        <span>{{ $item->quantity }}</span>
                     </td>
                     <td>
-                        <span>12,000,000</span>
+                        <span>{{ number_format($item->total) }} تومان</span>
                     </td>
-                    <td><button class="btn btn-sm btn-info" onclick="toggleDetails('details-1234')">جزئیات</button></td>
+                    <td>
+                        <button class="btn btn-sm btn-info" onclick="toggleDetails('details-{{ $item->id }}')">جزئیات</button>
+                    </td>
                     <td class="text-end">
-                        <a href="{{route('products.create',['id' => 1])}}" class="btn btn-danger btn-sm">
+                        <a href="{{ route('products.edit', ['id' => $item->product_id]) }}" class="btn btn-danger btn-sm">
                             حذف
                         </a>
                     </td>
                 </tr>
-                <tr id="details-1234" style="display:none;">
+                <tr id="details-{{ $item->id }}" style="display:none;">
                     <td colspan="6">
-                        <form id="product-details-1234">
-                            <label class="form-label">رنگ: 
-                                <select disabled class="form-select">
-                                    <option value="red">قرمز</option>
-                                    <option value="green">سبز</option>
-                                    <option value="blue">آبی</option>
-                                </select>
-                            </label>
-                            <label class="form-label">جنس: 
-                                <select disabled class="form-select">
-                                    <option value="cotton">پنبه</option>
-                                    <option value="silk">ابریشم</option>
-                                    <option value="wool">پشم</option>
-                                </select>
-                            </label>
-                            <label class="form-label">سایز: 
-                                <select disabled class="form-select">
-                                    <option value="small">کوچک</option>
-                                    <option value="medium">متوسط</option>
-                                    <option value="large">بزرگ</option>
-                                </select>
-                            </label>
-                            <label class="form-label">تعداد: 
-                                <input disabled type="number" class="form-control" value="1">
+                        <form id="product-details-{{ $item->id }}">
+                            <input type="hide" name="product_id" value="{{ $item->product_id }}">
+                            @php
+                                $property=[];
+                                $combinations = $item->product->getCombinations();
+                                foreach($combinations as $combination){
+                                    foreach($combination->attributeProperties as $attributeProperty){
+                                        $property[$attributeProperty->attribute->id][$attributeProperty->attribute->name][] = $attributeProperty->property->value;
+                                    }
+                                }
+                            @endphp
+                            @foreach ($property as $id => $attributes)
+                                @foreach ($attributes as $attribute => $props)
+                                    <label class="form-label">{{ $attribute }}:
+                                        <select disabled class="form-select" name="param[attribute][{{ $attribute }}]">
+                                            @foreach($props as $select)
+                                                <option value="{{ $select }}">{{ $select }}</option>
+                                            @endforeach
+                                        </select>
+                                    </label>
+                                @endforeach
+                            @endforeach
+                            <label class="form-label">تعداد:
+                                <input disabled type="number" class="form-control" name="quantity" value="{{ $item->quantity }}">
                             </label>
                             <button type="button" class="btn btn-secondary editOptionsToggleOrder" data-clicked="false">ویرایش</button>
                             <button class="btn btn-success" type="submit">ذخیره</button>
                         </form>
                     </td>
                 </tr>
+            @empty
+                <tr><td>هیچ محصولی یافت نشد</td></tr>
+            @endforelse
             </tbody>
         </table>
     </div>
+
     <div class="card-footer">
         <div class="d-flex align-items-center justify-content-between flex-column-reverse flex-md-row">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-5 mb-5">
@@ -158,9 +170,9 @@
                 <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#refund">برگشت</button>
             </div>
             <ul class="tw-space-y-3">
-                <li class="fs-6"><span class="fw-bold">کد تخفیف اعمال شده : </span>12OFF</li>
-                <li class="fs-6"><span class="fw-bold">تخفیف اعمال شده : </span>20%</li>
-                <li class="fs-6"><span class="fw-bold">مجموع سفارش: </span>12,000,000</li>
+                <li class="fs-6"><span class="fw-bold">هزینه سفارش : </span>{{ isset($order) ? $order->basket()->cart->total : '' }} تومان</li>
+                <li class="fs-6"><span class="fw-bold">هزینه ارسال : </span>{{ isset($order) ? $order->basket()->cart->deliveryCost  : '' }} تومان</li>
+                <li class="fs-6"><span class="fw-bold">قابل پرداخت: </span>{{ isset($order) ? $order->basket()->cart->totalPayed : '' }} تومان</li>
             </ul>
         </div>
         <div class="collapse" id="add_product_collapse">
@@ -186,18 +198,21 @@
                 </div>
             </div>
             <div class="card-body">
-                <form class="row gap-5">
+                <form class="row gap-5" method="POST" action="{{ route('orders.updateShippingNote', $order->id) }}">
+                    @csrf
+                    @method('PUT')
                     <div class="col-12">
-                        <label class="form-label fs-6" for="">یادداشت</label>
-                        <textarea class="form-control form-control-solid" placeholder="یادداشت" rows="10"></textarea>
+                        <label class="form-label fs-6" for="shipping_admin_note">یادداشت</label>
+                        <textarea class="form-control form-control-solid" placeholder="یادداشت" rows="10" name="shipping_admin_note">{{ $order->shipping_admin_note }}</textarea>
                     </div>
                     <div class="col-12">
-                        <button class="btn btn-success btn-sm">ذخیره</button>
+                        <button class="btn btn-success btn-sm" type="submit">ذخیره</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
     <div class="col-lg-6">
         <div class="card mb-10">
             <div class="card-header">
@@ -298,10 +313,13 @@
 <!-- END: COUPON -->
 
 
+
 <!-- START: BILLING -->
 <div class="modal fade" id="edit_billing" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <form class="modal-content">
+        <form class="modal-content" method="POST" action="{{ route('orders.updateBilling', $order->id) }}">
+            @csrf
+            @method('PUT')
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">ویرایش صورت حساب</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -310,75 +328,63 @@
                 <div class="row g-4">
                     <div class="col-12 col-lg-6">
                         <div>
-                            <label for="" class="form-label">نام</label>
-                            <input class="form-control form-control-solid" type="text">
+                            <label for="first_name" class="form-label">نام</label>
+                            <input class="form-control form-control-solid" type="text" id="first_name" name="first_name" value="{{ $order->user->first_name }}">
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div>
-                            <label for="" class="form-label">نام خانوادگی</label>
-                            <input class="form-control form-control-solid" type="text">
+                            <label for="last_name" class="form-label">نام خانوادگی</label>
+                            <input class="form-control form-control-solid" type="text" id="last_name" name="last_name" value="{{ $order->user->last_name }}">
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div>
-                            <label for="" class="form-label">شماره تلفن</label>
-                            <input class="form-control form-control-solid" type="text">
+                            <label for="mobile" class="form-label">شماره تلفن</label>
+                            <input class="form-control form-control-solid" type="text" id="mobile" name="mobile" value="{{ $order->user->mobile }}">
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div>
-                            <label for="" class="form-label">آدرس ایمیل</label>
-                            <input class="form-control form-control-solid" type="text">
+                            <label for="email" class="form-label">آدرس ایمیل</label>
+                            <input class="form-control form-control-solid" type="text" id="email" name="email" value="{{ $order->user->email }}">
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div>
-                            <label for="" class="form-label">کد ملی</label>
-                            <input class="form-control form-control-solid" type="text">
+                            <label for="country" class="form-label">کشور</label>
+                            <input class="form-control form-control-solid" type="text" id="country" name="country" value="{{ $order->user->country }}">
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div>
-                            <label for="" class="form-label">کشور</label>
-                            <input class="form-control form-control-solid" type="text">
+                            <label for="province" class="form-label">استان</label>
+                            <input class="form-control form-control-solid" type="text" id="province" name="province" value="{{ $order->user->province }}">
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div>
-                            <label for="" class="form-label">استان</label>
-                            <input class="form-control form-control-solid" type="text">
+                            <label for="city" class="form-label">شهر</label>
+                            <input class="form-control form-control-solid" type="text" id="city" name="city" value="{{ $order->user->city }}">
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div>
-                            <label for="" class="form-label">شهر</label>
-                            <input class="form-control form-control-solid" type="text">
+                            <label for="address" class="form-label">آدرس</label>
+                            <input class="form-control form-control-solid" type="text" id="address" name="address" value="{{ $order->user->address }}">
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div>
-                            <label for="" class="form-label">آدرس</label>
-                            <input class="form-control form-control-solid" type="text">
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6">
-                        <div>
-                            <label for="" class="form-label">کد پستی 10 رقمی ( انگلیسی وارد کنید )</label>
-                            <input class="form-control form-control-solid" type="text">
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div>
-                            <label for="" class="form-label">یادداشت سفارش</label>
-                            <textarea class="form-control form-control-solid"></textarea>
+                            <label for="postal_code" class="form-label">کد پستی 10 رقمی ( انگلیسی وارد کنید )</label>
+                            <input class="form-control form-control-solid" type="text" id="postal_code" name="postal_code" value="{{ $order->user->postal_code }}">
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-                <button type="button" class="btn btn-primary">اعمال</button>
+                <button type="submit" class="btn btn-primary">اعمال</button>
             </div>
         </form>
     </div>
@@ -386,10 +392,12 @@
 <!-- END: BILLING -->
 
 
-<!-- START: BILLING -->
+<!-- START: SHIPPING -->
 <div class="modal fade" id="edit_shipping" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <form class="modal-content">
+        <form class="modal-content" method="POST" action="{{ route('orders.updateShipping', $order->id) }}">
+            @csrf
+            @method('PUT')
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">ویرایش حمل و نقل</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -398,80 +406,69 @@
                 <div class="row g-4">
                     <div class="col-12 col-lg-6">
                         <div>
-                            <label for="" class="form-label">نام</label>
-                            <input class="form-control form-control-solid" type="text">
+                            <label for="customer_name" class="form-label">نام و نام خانوادگی</label>
+                            <input class="form-control form-control-solid" type="text" id="customer_name" name="customer_name" value="{{ $order->customer_name }}">
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div>
-                            <label for="" class="form-label">نام خانوادگی</label>
-                            <input class="form-control form-control-solid" type="text">
+                            <label for="shipping_phone" class="form-label">شماره تلفن</label>
+                            <input class="form-control form-control-solid" type="text" id="shipping_phone" name="shipping_phone" value="{{ $order->shipping_phone }}">
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div>
-                            <label for="" class="form-label">شماره تلفن</label>
-                            <input class="form-control form-control-solid" type="text">
+                            <label for="customer_email" class="form-label">آدرس ایمیل</label>
+                            <input class="form-control form-control-solid" type="text" id="customer_email" name="customer_email" value="{{ $order->customer_email }}">
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div>
-                            <label for="" class="form-label">آدرس ایمیل</label>
-                            <input class="form-control form-control-solid" type="text">
+                            <label for="shipping_country" class="form-label">کشور</label>
+                            <input class="form-control form-control-solid" type="text" id="shipping_country" name="shipping_country" value="{{ $order->shipping_country }}">
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div>
-                            <label for="" class="form-label">کد ملی</label>
-                            <input class="form-control form-control-solid" type="text">
+                            <label for="shipping_province" class="form-label">استان</label>
+                            <input class="form-control form-control-solid" type="text" id="shipping_province" name="shipping_province" value="{{ $order->shipping_province }}">
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div>
-                            <label for="" class="form-label">کشور</label>
-                            <input class="form-control form-control-solid" type="text">
+                            <label for="shipping_city" class="form-label">شهر</label>
+                            <input class="form-control form-control-solid" type="text" id="shipping_city" name="shipping_city" value="{{ $order->shipping_city }}">
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div>
-                            <label for="" class="form-label">استان</label>
-                            <input class="form-control form-control-solid" type="text">
+                            <label for="shipping_address" class="form-label">آدرس</label>
+                            <input class="form-control form-control-solid" type="text" id="shipping_address" name="shipping_address" value="{{ $order->shipping_address }}">
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div>
-                            <label for="" class="form-label">شهر</label>
-                            <input class="form-control form-control-solid" type="text">
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6">
-                        <div>
-                            <label for="" class="form-label">آدرس</label>
-                            <input class="form-control form-control-solid" type="text">
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6">
-                        <div>
-                            <label for="" class="form-label">کد پستی 10 رقمی ( انگلیسی وارد کنید )</label>
-                            <input class="form-control form-control-solid" type="text">
+                            <label for="shipping_postal_code" class="form-label">کد پستی سفارش</label>
+                            <input class="form-control form-control-solid" type="text" id="shipping_postal_code" name="shipping_postal_code" value="{{ $order->shipping_postal_code }}">
                         </div>
                     </div>
                     <div class="col-12">
                         <div>
-                            <label for="" class="form-label">یادداشت سفارش</label>
-                            <textarea class="form-control form-control-solid"></textarea>
+                            <label for="shipping_note" class="form-label">یادداشت سفارش</label>
+                            <textarea class="form-control form-control-solid" id="shipping_note" name="shipping_note">{{ $order->shipping_note }}</textarea>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-                <button type="button" class="btn btn-primary">اعمال</button>
+                <button type="submit" class="btn btn-primary">اعمال</button>
             </div>
         </form>
     </div>
 </div>
-<!-- END: BILLING -->
+<!-- END: SHIPPING -->
+
 
 @endsection
 

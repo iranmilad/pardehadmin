@@ -29,6 +29,8 @@ class Order extends Model
         'shipping_address',
         'shipping_postal_code',
         'shipping_phone',
+        'shipping_note',
+        'shipping_admin_note',
         // اضافه کردن فیلد کد تخفیف
         'discount_code_id',
         'deliveryType',

@@ -12,6 +12,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlockController;
 use App\Http\Controllers\CheckController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CreditController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
@@ -465,6 +466,26 @@ Route::group(['prefix' => 'carts'], function () {
 
 });
 
+Route::group(['prefix' => 'orders'], function () {
+
+    Route::get('/', [OrderController::class, 'index'])->name("orders.list");
+
+    Route::get('/create', [OrderController::class, 'create'])->name("orders.create");
+    Route::post('/store', [OrderController::class, 'store'])->name("orders.store");
+
+    Route::get('/edit/{id}', [OrderController::class, 'edit'])->name("orders.edit");
+    Route::put('/update/{id}', [OrderController::class, 'update'])->name("orders.update");
+
+    Route::post('/delete', [OrderController::class, 'delete'])->name("orders.delete");
+
+    Route::post('/bulk_action', [OrderController::class, 'bulk_action'])->name("orders.bulk_action");
+    Route::get('/print/{id}', [OrderController::class, 'print'])->name("orders.print");
+
+    Route::put('/{order}/update-billing', [OrderController::class, 'updateBilling'])->name('orders.updateBilling');
+    Route::put('/{order}/update-shipping', [OrderController::class, 'updateShipping'])->name('orders.updateShipping');
+    Route::put('/{order}/update-shipping-note', [OrderController::class, 'updateShippingNote'])->name('orders.updateShippingNote');
+});
+
 });
 
 Route::get('login', [LoginController::class, 'index'])->name('login');
@@ -690,26 +711,26 @@ Route::get('/reports', function () {
 //     })->name("discount.show");
 // });
 
-Route::group(['prefix' => 'orders'], function () {
-    Route::get('/list/', function () {
-        return view('orders');
-    })->name("orders.show");
+// Route::group(['prefix' => 'orders'], function () {
+//     Route::get('/list/', function () {
+//         return view('orders');
+//     })->name("orders.show");
 
-    Route::get('/order/{id}', function ($id) {
-        return view('order');
-    })->name("order.show");
+//     Route::get('/order/{id}', function ($id) {
+//         return view('order');
+//     })->name("order.show");
 
-    Route::post('/order/{id}', function ($id) {
-    })->name("order.show");
+//     Route::post('/order/{id}', function ($id) {
+//     })->name("order.show");
 
-    Route::get('/create-order', function () {
-        return view('order-create');
-    })->name("order.create.show");
+//     Route::get('/create-order', function () {
+//         return view('order-create');
+//     })->name("order.create.show");
 
-    Route::get('/order/print/{id}', function ($id) {
-        return view('order-print');
-    })->name("order.print.show");
-});
+//     Route::get('/order/print/{id}', function ($id) {
+//         return view('order-print');
+//     })->name("order.print.show");
+// });
 
 // Route::group(['prefix' => 'installments'], function () {
 //     Route::get('/list', function () {

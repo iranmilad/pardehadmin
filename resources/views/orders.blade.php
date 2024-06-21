@@ -1,9 +1,9 @@
 @extends('layouts.primary')
 
-@section('title', 'سفارش ها')
+@section('title', 'سفارش‌ها')
 
 @section("toolbar")
-<a href="{{route('order.create.show')}}" class="btn btn-primary">ایجاد سفارش</a>
+<a href="{{route('orders.create')}}" class="btn btn-primary">ایجاد سفارش</a>
 @endsection
 
 @section('content')
@@ -17,14 +17,15 @@
         <input name="s" value="{{ request()->get('s') ?? '' }}" type="text" data-kt-docs-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="جست و جو" />
       </div>
       <div>
-        <button type="submit" name="export_csv" class="btn btn-success">خروجی csv</button>
+        <button type="submit" name="export_csv" class="btn btn-success d-none">خروجی csv</button>
       </div>
     </form>
-    <form method="post" class="" id="action_form">
+    <form method="post" class="" id="action_form" action="{{ route('orders.bulk_action') }}">
+      @csrf
       <div class="d-flex tw-items-center tw-justify-between tw-w-full gap-4 mb-5">
         <div class="d-flex align-items-center gap-5">
-          <select class="form-select form-select-solid tw-w-max" name="" id="">
-            <option>عملیات</option>
+          <select class="form-select form-select-solid tw-w-max" name="action" id="bulk_action">
+            <option value="">عملیات</option>
             <option value="delete">حذف</option>
           </select>
           <button class="btn btn-primary" type="submit">اجرا</button>
@@ -37,23 +38,23 @@
       <div id="filter_collapse" class="collapse">
         <div class="d-flex align-items-end flex-wrap w-100 gap-10">
           <div>
-            <label class="form-label" for="">بازه زمانی</label>
-            <input class="form-control form-control-solid" id="filter_date" type="text" placeholder="انتخاب کنید">
+            <label class="form-label" for="filter_date">بازه زمانی</label>
+            <input class="form-control form-control-solid" id="filter_date" name="date_range" type="text" placeholder="انتخاب کنید">
           </div>
           <div>
-            <label class="form-label" for="">وضعیت</label>
-            <select multiple class="form-select form-select-solid" data-placeholder="انتخاب وضعیت" data-control="select2" name="" id="">
-              <option value="1">در انتظار بررسی</option>
-              <option value="2">درحال بررسی</option>
-              <option value="3">انجام شده</option>
+            <label class="form-label" for="filter_status">وضعیت</label>
+            <select multiple class="form-select form-select-solid" data-placeholder="انتخاب وضعیت" data-control="select2" name="status[]" id="filter_status">
+              <option value="pending">در انتظار بررسی</option>
+              <option value="in_review">درحال بررسی</option>
+              <option value="completed">انجام شده</option>
             </select>
           </div>
           <div>
-            <label class="form-label" for="">نوع پرداختی</label>
-            <select multiple class="form-select form-select-solid" data-placeholder="انتخاب نوع پرداختی" data-control="select2" name="" id="">
-              <option value="1">کارت به کارت</option>
-              <option value="2">درگاه بانکی</option>
-              <option value="3">چک</option>
+            <label class="form-label" for="filter_payment">نوع پرداختی</label>
+            <select multiple class="form-select form-select-solid" data-placeholder="انتخاب نوع پرداختی" data-control="select2" name="payment_type[]" id="filter_payment">
+              <option value="card">کارت به کارت</option>
+              <option value="gateway">درگاه بانکی</option>
+              <option value="check">چک</option>
             </select>
           </div>
           <button type="submit" name="filter" class="btn btn-primary tw-h-max">اجرا</button>
@@ -77,45 +78,40 @@
           </tr>
         </thead>
         <tbody>
+          @foreach($orders as $order)
           <tr>
             <td>
               <div class="form-check form-check-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" name="checked_row" value="1" />
+                <input class="form-check-input" type="checkbox" name="selected_orders[]" value="{{ $order->id }}" />
               </div>
             </td>
             <td>
-              <a href="{{route('order.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">#060 فرهاد باقری</a>
+              <a href="{{route('orders.edit', ['id' => $order->id])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">#{{ $order->id }} {{ $order->customer_name }}</a>
             </td>
             <td>
-              <a href="{{route('order.show',['id' => 1])}}">12/12/1403</a>
+              <a href="{{route('orders.edit', ['id' => $order->id])}}">{{ $order->getCreatedAtShamsiAttribute() }}</a>
             </td>
             <td>
-              <a class="badge badge-warning" href="{{route('order.show',['id' => 1])}}">در انتظار بررسی</a>
+              <a class="badge badge-warning" href="{{route('orders.edit', ['id' => $order->id])}}">{{ $order->status }}</a>
             </td>
-            <td>42,000,000 تومان</td>
+            <td>{{ number_format($order->total) }} تومان</td>
             <td>
-              <a class="badge badge-primary" href="{{route('order.show',['id' => 1])}}">درگاه بانکی</a>
+              <a class="badge badge-primary" href="{{route('orders.edit', ['id' => $order->id])}}">{{ $order->payment_method }}</a>
             </td>
             <td class="text-end">
-              <a href="{{route('order.show',['id' => 1])}}" class="btn btn-light btn-sm">
+              <a href="{{route('orders.edit', ['id' => $order->id])}}" class="btn btn-light btn-sm">
                 مشاهده
               </a>
             </td>
           </tr>
+          @endforeach
         </tbody>
       </table>
     </form>
     <!--end::Group actions-->
 
     <ul class="pagination">
-      <li class="page-item previous disabled"><a href="#" class="page-link"><i class="previous"></i></a></li>
-      <li class="page-item active"><a href="#" class="page-link">1</a></li>
-      <li class="page-item"><a href="#" class="page-link">2</a></li>
-      <li class="page-item "><a href="#" class="page-link">3</a></li>
-      <li class="page-item "><a href="#" class="page-link">4</a></li>
-      <li class="page-item "><a href="#" class="page-link">5</a></li>
-      <li class="page-item "><a href="#" class="page-link">6</a></li>
-      <li class="page-item next"><a href="#" class="page-link"><i class="next"></i></a></li>
+      {{ $orders->links() }}
     </ul>
   </div>
 </div>
@@ -124,20 +120,22 @@
 
 @section('script-before')
 <script src="{{asset('plugins/custom/datatables/datatables.bundle.js')}}"></script>
-<script src="{{asset('plugins/flatpicker_fa.js')}}"></script>
-<script src="{{asset('plugins/jdate.min.js')}}"></script>
-@endsection
-
-@section("scripts")
+<script src="{{asset('plugins/custom/select2/select2.full.min.js')}}"></script>
 <script>
-  window.Date = window.JDate;
-  flatpickr = $("#filter_date").flatpickr({
-    disableMobile: "true",
-    altInput: true,
-    altFormat: "Y-m-d",
-    dateFormat: "Y-m-d",
-    locale: "fa",
-    mode: "range"
-  })
+  $(document).ready(function() {
+    $('#filter_date').daterangepicker({
+      locale: {
+        format: 'YYYY/MM/DD'
+      }
+    });
+
+    $('#filter_status').select2({
+      placeholder: 'انتخاب وضعیت'
+    });
+
+    $('#filter_payment').select2({
+      placeholder: 'انتخاب نوع پرداختی'
+    });
+  });
 </script>
 @endsection

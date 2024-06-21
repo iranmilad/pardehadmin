@@ -35,6 +35,10 @@ class CreateOrdersTable extends Migration
             $table->string('shipping_address')->nullable();
             $table->string('shipping_postal_code')->nullable();
             $table->string('shipping_phone')->nullable();
+            $table->string('shipping_note')->nullable();
+            $table->string('shipping_admin_note')->nullable();
+
+
             $table->enum('status', ['basket', 'pending', 'processing','complete','cancel','reject'])->defalut('basket');
             $table->enum('deliveryType', ['home_delivery', 'store_delivery','normal','express','bike'])->defalut('store_delivery');
             $table->enum('paymentMethod', ['cash', 'credit','check'])->defalut('cash');
