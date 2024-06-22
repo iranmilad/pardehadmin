@@ -142,71 +142,56 @@ class Order extends Model
      *                - items: List of items in the shopping cart with details such as product ID,
      *                         name, price, quantity, attributes, and services associated.
      */
-    public function basket(){
-        $status =[];
+    public function basket()
+    {
+        $status = [];
         $cartCount = 0; // Initialize cart count
         $totalPrice = 0; // Initialize total price
         $availableCreditPlan = 0;
         $items = []; // Initialize cart items array
-        $attributeNames = [];
-        $options = [];
-        $totalDiscountPrice =0;
-        $summedAmounts=[];
+        $totalDiscountPrice = 0;
+        $summedAmounts = [];
         $order = $this;
 
-
-        if($order){
-
+        if ($order) {
             $cartItems = $order->orderItems;
 
-
-            foreach ($cartItems as  $cartItem) {
-
+            foreach ($cartItems as $cartItem) {
                 $totalAttributePrice = 0;
-                $totalAttributeSalePrice =0;
+                $totalAttributeSalePrice = 0;
 
-                // Assuming the product ID is provided as 'product'
                 $product = $cartItem->product;
-                // order item status
-                $status[]= $cartItem->status;
-
+                $status[] = $cartItem->status;
 
                 if ($product) {
-                    //check review exist for this product
                     $review = $order->user->existsProductReview($product->id);
-
-                    $attributes = $cartItem->orderProperties;
-                    // Extract quantity from the item using regular expressions
-                    $quantity =  $cartItem->quantity;
+                    $attributeCombinations = $cartItem->combinations; // دریافت ترکیبات ویژگی‌ها از متد combinations
+                    $quantity = $cartItem->quantity;
                     $cartCount += $quantity;
 
-                    // Extract attribute items for the product
+                    $attributeNames = [];
+                    $options = [];
 
-                    foreach($attributes as $attributeItem){
-
-                        $priceAttr = $attributeItem->sale_price ?? $attributeItem->price ;
-                        if (!is_null($priceAttr)){
-                            $attributeNames[] = $attributeItem->name;
-                            $totalAttributeSalePrice += $priceAttr;
-                            $totalAttributePrice += $attributeItem->price ;
-                            $options[] = [$attributeItem->name =>$attributeItem->value];
+                    foreach ($attributeCombinations as $attributeCombination) {
+                        foreach ($attributeCombination->attributeProperties as $attributeProperty) {
+                            $priceAttr = $attributeProperty->sale_price ?? $attributeProperty->price;
+                            if (!is_null($priceAttr)) {
+                                $attributeNames[] = $attributeProperty->attribute->name;
+                                $totalAttributeSalePrice += $priceAttr;
+                                $totalAttributePrice += $attributeProperty->price;
+                                $options[] = [$attributeProperty->attribute->name => $attributeProperty->property->value];
+                            }
                         }
-
-
                     }
 
-                    // Check if the product has a sale price
                     $price = $product->sale_price ?? $product->price;
-
-                    $totalProductPrice= ($price + $totalAttributeSalePrice ) * $quantity;
+                    $totalProductPrice = ($price + $totalAttributeSalePrice) * $quantity;
                     $totalPrice += $totalProductPrice;
 
-
-                    $credit=$product->creditInstallmentTimeline($totalProductPrice);
+                    $credit = $product->creditInstallmentTimeline($totalProductPrice);
                     $productTimeline = $credit->timeline;
 
                     foreach ($productTimeline as $key => $value) {
-                        // اگر مقدار مشابه وجود داشته باشد، به آن اضافه شود، در غیر این صورت ایجاد شود
                         if (isset($summedAmounts[$key])) {
                             $summedAmounts[$key] += $value->amount;
                         } else {
@@ -215,15 +200,15 @@ class Order extends Model
                     }
 
                     $availableCreditPlan += $credit->totalCredit;
-                    // Add product details to the items array
+
                     $items[] = (object)[
-                        "id" => $cartItem->id,        //order id
+                        "id" => $cartItem->id,
                         "product_id" => $product->id,
                         "name" => $product->title,
                         "img" => $product->img,
                         "link" => $product->link,
                         "price" => $product->price + $totalAttributePrice,
-                        "sale_price"  => $product->sale_price + $totalAttributeSalePrice,
+                        "sale_price" => $product->sale_price + $totalAttributeSalePrice,
                         "discountPercentage" => $product->discountPercentage,
                         "review" => $review,
                         "status" => $cartItem->status,
@@ -232,7 +217,7 @@ class Order extends Model
                         "attribute" => $attributeNames,
                         "credit" => $credit,
                         "service" => $product->service,
-                        "services" =>(object) [
+                        "services" => (object)[
                             "sewing" => $product->services()->where('type', 'sewing')->first(),
                             "installer" => $product->services()->where('type', 'installer')->first(),
                             "design" => $product->services()->where('type', 'design')->first(),
@@ -240,67 +225,59 @@ class Order extends Model
                         "installer" => $cartItem->installer ?? null,
                         "sewing" => $cartItem->sewing ?? null,
                         "design" => $cartItem->design ?? null,
-                        "total" => ($product->sale_price ?? $product->price + $totalAttributeSalePrice ) * $quantity  , // Calculate total price for each item
+                        "total" => ($product->sale_price ?? $product->price + $totalAttributeSalePrice) * $quantity,
                     ];
                 }
-
             }
 
-
-            // ایجاد timeline کلی با مقادیر جمع شده
-
-            $totalTimeline=$this->calculateDueDates($summedAmounts);
-
-            $availableCreditPlan=($order->paymentMethod=='credit') ? $availableCreditPlan :0;
-            $availableCheck = ($order->paymentMethod=='check') ? $order->getTotalUnpaidChecksAmount() :0;
-
+            $totalTimeline = $this->calculateDueDates($summedAmounts);
+            $availableCreditPlan = ($order->paymentMethod == 'credit') ? $availableCreditPlan : 0;
+            $availableCheck = ($order->paymentMethod == 'check') ? $order->getTotalUnpaidChecksAmount() : 0;
             $deliveryCost = $this->deliveryCost($order);
 
-            $orders =(object) [
-                "cart" =>(object) [
+            $orders = (object)[
+                "cart" => (object)[
                     "id" => $order->id,
                     "count" => $cartCount,
                     "status" => $status,
-                    "orderStatus" => $order->status ,
-                    "total" => number_format($totalPrice), // Format the total price
-                    'deliveryType' => $order->deliveryType ,
+                    "orderStatus" => $order->status,
+                    "total" => number_format($totalPrice),
+                    'deliveryType' => $order->deliveryType,
                     'paymentMethod' => $order->paymentMethod,
                     'deliveryCost' => $deliveryCost,
                     'availableCreditPlan' => number_format($availableCreditPlan),
-                    "availableCheck"  => number_format($availableCheck),
-                    'totalTimeline'  => $totalTimeline,
+                    "availableCheck" => number_format($availableCheck),
+                    'totalTimeline' => $totalTimeline,
                     'totalCheckTimeline' => $order->checks,
-                    'createdAtDate' => $this->gregorianToJalalian($order->created_at_date), // order date
-                    "totalPayed" => number_format($totalPrice + $totalDiscountPrice + $deliveryCost - $availableCreditPlan -$availableCheck ),
+                    'createdAtDate' => $this->gregorianToJalalian($order->created_at_date),
+                    "totalPayed" => number_format($totalPrice + $totalDiscountPrice + $deliveryCost - $availableCreditPlan - $availableCheck),
                 ],
-                "items" => $items, // Add items to the response
+                "items" => $items,
             ];
-        }
-        else{
-            $orders =(object) [
-                "cart" =>(object) [
+        } else {
+            $orders = (object)[
+                "cart" => (object)[
                     "count" => $cartCount,
                     "status" => [],
-                    "orderStatus" => $order->status ,
-                    "total" => 0, // Format the total price
-                    'deliveryType' => 'cash' ,
+                    "orderStatus" => $order->status,
+                    "total" => 0,
+                    'deliveryType' => 'cash',
                     'paymentMethod' => 'cash',
                     'deliveryCost' => 0,
                     'availableCreditPlan' => 0,
-                    "availableCheck"  => 0,
-                    'totalTimeline'  => [],
+                    "availableCheck" => 0,
+                    'totalTimeline' => [],
                     'totalCheckTimeline' => [],
                     'createdAtDate' => '',
                     "totalPayed" => 0,
                 ],
-                "items" => [], // Add items to the response
+                "items" => [],
             ];
         }
 
-
-
         return $orders;
     }
+
 
 
     public function percentOfFinishedItem()

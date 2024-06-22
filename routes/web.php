@@ -484,6 +484,10 @@ Route::group(['prefix' => 'orders'], function () {
     Route::put('/{order}/update-billing', [OrderController::class, 'updateBilling'])->name('orders.updateBilling');
     Route::put('/{order}/update-shipping', [OrderController::class, 'updateShipping'])->name('orders.updateShipping');
     Route::put('/{order}/update-shipping-note', [OrderController::class, 'updateShippingNote'])->name('orders.updateShippingNote');
+
+
+    Route::post('/product-details/{id}/update', [OrderController::class, 'updateProductDetails'])->name('updateProductDetails');
+
 });
 
 });

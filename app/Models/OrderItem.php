@@ -34,9 +34,37 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Product::class);
     }
-
-    public function orderProperties()
+    public function combinations()
     {
-        return $this->hasMany(OrderProperty::class);
+        return $this->belongsToMany(ProductAttributeCombination::class, 'order_item_combinations', 'order_item_id', 'combination_id');
+    }
+
+    public function getCombinationAttributesProperties()
+    {
+        $combinations = $this->combinations()->with('attributeProperties.property', 'attributeProperties.attribute')->get();
+
+        $result = [];
+
+        foreach ($combinations as $combination) {
+            foreach ($combination->attributeProperties as $property) {
+                $result[] = [
+                    'combination_id' => $combination->id,
+                    'attribute_id' => $property->attribute->id,
+                    'attribute_name' => $property->attribute->name,
+                    'property_id' => $property->property->id,
+                    'property_value' => $property->property->value,
+                    'independent' => $combination->independent,
+                    'holo_code' => $combination->holo_code,
+                    'price' => $combination->price,
+                    'sale_price' => $combination->sale_price,
+                    'wholesale_price' => $combination->wholesale_price,
+                    'stock_quantity' => $combination->stock_quantity,
+                    'description' => $combination->description,
+                    'img' => $combination->img
+                ];
+            }
+        }
+
+        return collect($result);
     }
 }

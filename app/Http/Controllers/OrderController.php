@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use App\Models\ProductAttributeProperty;
+use App\Models\ProductAttributeCombination;
 
 class OrderController extends Controller
 {
@@ -202,5 +205,66 @@ class OrderController extends Controller
         ]);
 
         return redirect()->route('orders.edit', $order->id)->with('success', 'یادداشت حمل و نقل با موفقیت به‌روزرسانی شد.');
+    }
+
+    public function updateProductDetails(Request $request, $id)
+    {
+        // اعتبارسنجی ورودی‌ها
+        $request->validate([
+            'product_id' => 'required|integer|exists:products,id',
+            'quantity' => 'required|integer|min:1',
+            'param.attribute' => 'required|array'
+        ]);
+
+        $orderItem = OrderItem::findOrFail($id);
+        $product_id = $request->input('product_id');
+        $newQuantity = $request->input('quantity');
+        $attributes = $request->input('param.attribute');
+
+        // پیدا کردن ترکیب ویژگی‌ها
+        $combinationQuery = ProductAttributeCombination::where('product_id', $product_id);
+
+        foreach ($attributes as $attributeId => $propertyId) {
+            $combinationQuery->whereHas('attributeProperties', function ($query) use ($attributeId, $propertyId) {
+                $query->where('attribute_id', $attributeId)
+                      ->where('property_id', $propertyId);
+            });
+        }
+
+        $combination = $combinationQuery->first();
+
+        if (!$combination) {
+            return back()->withErrors(['message' => 'ترکیب ویژگی مورد نظر یافت نشد.']);
+        }
+
+        $oldQuantity = $orderItem->quantity;
+        $quantityDifference = $newQuantity - $oldQuantity;
+
+        // بررسی موجودی بر اساس تغییرات تعداد
+        if ($quantityDifference > 0) {
+            if ($combination->stock_quantity < $quantityDifference) {
+                return back()->withErrors(['message' => "مقدار موجودی ترکیب ویژگی فعلی تنها {$combination->stock_quantity} است."]);
+            }
+        }
+
+        // به روز رسانی آیتم سفارش با ترکیب ویژگی جدید
+        $orderItem->combinations()->sync([$combination->id]);
+        $orderItem->quantity = $newQuantity;
+
+        // به روز رسانی قیمت‌ها
+        $orderItem->price = $combination->price;
+        $orderItem->sale_price = $combination->sale_price;
+        $orderItem->total = $combination->sale_price * $newQuantity;
+        $orderItem->save();
+
+        // به روز رسانی موجودی ترکیب ویژگی
+        if ($quantityDifference > 0) {
+            $combination->stock_quantity -= $quantityDifference;
+        } else {
+            $combination->stock_quantity += abs($quantityDifference);
+        }
+        $combination->save();
+
+        return back()->with('success', 'ویژگی‌های محصول با موفقیت به‌روزرسانی شد.');
     }
 }

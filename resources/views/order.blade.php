@@ -125,34 +125,47 @@
                 </tr>
                 <tr id="details-{{ $item->id }}" style="display:none;">
                     <td colspan="6">
-                        <form id="product-details-{{ $item->id }}">
-                            <input type="hide" name="product_id" value="{{ $item->product_id }}">
+                        <form id="product-details-{{ $item->id }}" action="{{ route('updateProductDetails', ['id' => $item->id]) }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $item->product_id }}">
+
                             @php
-                                $property=[];
-                                $combinations = $item->product->getCombinations();
-                                foreach($combinations as $combination){
-                                    foreach($combination->attributeProperties as $attributeProperty){
-                                        $property[$attributeProperty->attribute->id][$attributeProperty->attribute->name][] = $attributeProperty->property->value;
-                                    }
+                                $property = [];
+                                $selectedProperties = [];
+
+                                // دریافت ترکیبات ویژگی‌های آیتم سفارش با استفاده از متد getCombinationAttributesProperties
+                                $combinations = $item->getCombinationAttributesProperties();
+
+                                foreach($combinations as $combination) {
+                                    $property[$combination['attribute_id']][$combination['attribute_name']][] = $combination['property_id'];
+                                    // ذخیره ویژگی‌های انتخاب شده
+                                    $selectedProperties[$combination['attribute_id']] = ["property_value"=>$combination['property_value'],"property_id"=>$combination['property_id']];
                                 }
                             @endphp
+
                             @foreach ($property as $id => $attributes)
                                 @foreach ($attributes as $attribute => $props)
                                     <label class="form-label">{{ $attribute }}:
-                                        <select disabled class="form-select" name="param[attribute][{{ $attribute }}]">
+                                        <select class="form-select" name="param[attribute][{{ $id }}]">
                                             @foreach($props as $select)
-                                                <option value="{{ $select }}">{{ $select }}</option>
+                                                <option value="{{ $selectedProperties[$id]["property_id"] }}" {{ $selectedProperties[$id]["property_id"] == $select ? 'selected' : '' }}>{{ $selectedProperties[$id]["property_value"] }}</option>
                                             @endforeach
                                         </select>
                                     </label>
                                 @endforeach
                             @endforeach
+
                             <label class="form-label">تعداد:
-                                <input disabled type="number" class="form-control" name="quantity" value="{{ $item->quantity }}">
+                                <input type="number" class="form-control" name="quantity" value="{{ $item->quantity }}">
                             </label>
+
                             <button type="button" class="btn btn-secondary editOptionsToggleOrder" data-clicked="false">ویرایش</button>
                             <button class="btn btn-success" type="submit">ذخیره</button>
                         </form>
+
+
+
+
                     </td>
                 </tr>
             @empty
