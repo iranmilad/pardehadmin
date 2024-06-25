@@ -14,6 +14,7 @@
 
 <div class="tw-relative tw-h-[calc(100vh-200px)] w-100">
     <x-chat />
+    <x-uploadFileModal />
 </div>
 
 

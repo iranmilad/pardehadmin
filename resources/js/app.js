@@ -37,6 +37,8 @@ import Sortable,{Swap} from "sortablejs";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import markerIcon from "../images/marker-icon.svg";
+import "./messages-dashboard";
+import "./file-uploader"
 
 KTUtil.onDOMContentLoaded(function () {
     PostsTable()?.init();
