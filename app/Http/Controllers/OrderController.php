@@ -221,17 +221,8 @@ class OrderController extends Controller
         $newQuantity = $request->input('quantity');
         $attributes = $request->input('param.attribute');
 
-        // پیدا کردن ترکیب ویژگی‌ها
-        $combinationQuery = ProductAttributeCombination::where('product_id', $product_id);
-
-        foreach ($attributes as $attributeId => $propertyId) {
-            $combinationQuery->whereHas('attributeProperties', function ($query) use ($attributeId, $propertyId) {
-                $query->where('attribute_id', $attributeId)
-                      ->where('property_id', $propertyId);
-            });
-        }
-
-        $combination = $combinationQuery->first();
+        // پیدا کردن ترکیب ویژگی‌ها با استفاده از متد findCombinationByAttributes
+        $combination = $orderItem->findCombinationByAttributes($attributes);
 
         if (!$combination) {
             return back()->withErrors(['message' => 'ترکیب ویژگی مورد نظر یافت نشد.']);

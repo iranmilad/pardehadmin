@@ -32,6 +32,9 @@ class Product extends Model
         'length', // اضافه کردن فیلد طول
         'width',  // اضافه کردن فیلد عرض
         'height',  // اضافه کردن فیلد ارتفاع
+        'measurement_unit',
+        'transport_type',
+        'cost_calculation_class',
         'status',
         'reviews_enabled',
     ];

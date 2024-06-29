@@ -60,10 +60,21 @@ class AttributeController extends Controller
 
     public function delete(Request $request)
     {
-        $attribute = Attribute::findOrFail($request->id);
-        $attribute->delete();
-        return redirect()->route('attributes.index')->with('success', 'ویژگی با موفقیت حذف شد.');
+        $request->validate([
+            'checked_row' => 'required|array',
+            'checked_row.*' => 'integer|exists:attributes,id',
+        ]);
+
+        if ($request->input('action') == 'delete') {
+            $attributeIds = $request->input('checked_row');
+            Attribute::whereIn('id', $attributeIds)->delete();
+
+            return redirect()->route('attributes.list')->with('success', 'ویژگی‌ها با موفقیت حذف شدند.');
+        }
+
+        return redirect()->route('attributes.list')->with('error', 'عملیات معتبر نمی‌باشد.');
     }
+
 
     public function getOptions($attributeId)
     {

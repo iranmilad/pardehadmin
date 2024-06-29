@@ -60,6 +60,51 @@
                     </div>
                 </div>
             </div>
+            <div class="form-check form-check-custom form-check-solid">
+                <input class="form-check-input" type="radio" value="percentage" id="flexRadioDefault4" name="cost" x-model="selectedCost" />
+                <label class="form-check-label" for="flexRadioDefault4">
+                    درصد ارزش سبد
+                </label>
+            </div>
+            <div x-show="selectedCost === 'percentage'">
+                <div class="mb-5 col-md-6">
+                    <label for="percentage_of_cart_value" class="form-label">درصد :</label>
+                    <div class="input-group">
+                        <input dir="ltr" name="percentage_of_cart_value" type="text" class="form-control form-control-solid mb-2 mb-md-0" placeholder="درصد ارزش سبد را وارد کنید" value="{{ old('percentage_of_cart_value', $transport->percentage_of_cart_value ?? '') }}" />
+                        <span class="input-group-text bg-white ms-0">%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-check form-check-custom form-check-solid">
+                <input class="form-check-input" type="radio" value="weight" id="flexRadioDefault5" name="cost" x-model="selectedCost" />
+                <label class="form-check-label" for="flexRadioDefault5">
+                    هزینه بر اساس وزن
+                </label>
+            </div>
+            <div x-show="selectedCost === 'weight'">
+                <div class="mb-5 col-md-6">
+                    <label for="weight_based_cost" class="form-label">هزینه بر اساس وزن :</label>
+                    <div class="input-group">
+                        <input dir="ltr" name="weight_based_cost" type="text" class="form-control form-control-solid mb-2 mb-md-0" placeholder="هزینه به ازای هر کیلوگرم" value="{{ old('weight_based_cost', $transport->weight_based_cost ?? '') }}" />
+                        <span class="input-group-text bg-white ms-0">تومان/کیلوگرم</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-check form-check-custom form-check-solid">
+                <input class="form-check-input" type="radio" value="dimension" id="flexRadioDefault6" name="cost" x-model="selectedCost" />
+                <label class="form-check-label" for="flexRadioDefault6">
+                    هزینه بر اساس ابعاد
+                </label>
+            </div>
+            <div x-show="selectedCost === 'dimension'">
+                <div class="mb-5 col-md-6">
+                    <label for="dimension_based_cost" class="form-label">هزینه بر اساس ابعاد :</label>
+                    <div class="input-group">
+                        <input dir="ltr" name="dimension_based_cost" type="text" class="form-control form-control-solid mb-2 mb-md-0" placeholder="هزینه به ازای هر واحد حجم" value="{{ old('dimension_based_cost', $transport->dimension_based_cost ?? '') }}" />
+                        <span class="input-group-text bg-white ms-0">تومان/واحد حجم</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="card text-end col-3 mt-3">

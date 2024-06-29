@@ -38,6 +38,8 @@
                         <th class="cursor-pointer px-0 text-start">نام منطقه</th>
                         <th class="cursor-pointer px-0 text-start">ناحیه ها</th>
                         <th class="cursor-pointer px-0 text-start">روش حمل و نقل</th>
+                        
+                        <th class="cursor-pointer px-0 text-start">جزئیات هزینه</th>
                         <th class="text-end">عملیات</th>
                     </tr>
                 </thead>
@@ -59,6 +61,27 @@
                         </td>
                         <td>
                             <a class="text-primary" href="{{ route('transports.edit', ['id' => $transport->id]) }}">{{ $transport->cost_type }}</a>
+                        </td>
+
+                        <td>
+                            <a href="{{ route('transports.edit', ['id' => $transport->id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">
+                                @switch($transport->cost_type)
+                                    @case('fixed')
+                                        هزینه ثابت: {{ $transport->price }}
+                                        @break
+                                    @case('percentage')
+                                        درصد ارزش سبد: {{ $transport->percentage_of_cart_value }}%
+                                        @break
+                                    @case('weight')
+                                        هزینه بر اساس وزن: {{ $transport->weight_based_cost }} تومان به ازای هر کیلوگرم
+                                        @break
+                                    @case('dimension')
+                                        هزینه بر اساس ابعاد: {{ $transport->dimension_based_cost }} تومان به ازای هر واحد حجم
+                                        @break
+                                    @default
+                                        نامشخص
+                                @endswitch
+                            </a>
                         </td>
                         <td class="text-end">
                             <a href="{{ route('transports.edit', ['id' => $transport->id]) }}" class="btn btn-light btn-sm">

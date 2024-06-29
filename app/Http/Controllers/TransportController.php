@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-
 use Illuminate\Http\Request;
 use App\Models\TransportRegion;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 
 class TransportController extends Controller
 {
-
     private function getProvinces()
     {
         $json = File::get(public_path('/js/iran_cities_with_coordinates.json'));
@@ -31,12 +30,10 @@ class TransportController extends Controller
                 $query->where('title', 'LIKE', "%{$search}%")
                       ->orWhere('regions', 'LIKE', "%{$search}%");
             })
-            ->paginate(10); // اصلاح شده به paginate
-
+            ->paginate(10);
 
         return view('transports', compact('transports'));
     }
-
 
     public function create()
     {
@@ -56,19 +53,25 @@ class TransportController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'regions' => 'required|array',
-            'cost' => 'required|string|in:free,local,fixed',
+            'cost' => 'required|string|in:free,local,fixed,percentage,weight,dimension',
             'price' => 'nullable|numeric',
+            'percentage_of_cart_value' => 'nullable|numeric',
+            'weight_based_cost' => 'nullable|numeric',
+            'dimension_based_cost' => 'nullable|numeric',
         ]);
 
         $data['cost_type'] = $data['cost'];
         unset($data['cost']);
 
+        // Check if user has the role 'Transporter'
+        if (Auth::user()->hasRole('Transporter')) {
+            $data['user_id'] = Auth::id();
+        }
+
         TransportRegion::create($data);
 
         return redirect()->route('transports.list')->with('success', 'منطقه حمل و نقل با موفقیت ایجاد شد.');
     }
-
-
 
     public function update(Request $request, $id)
     {
@@ -77,12 +80,22 @@ class TransportController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'regions' => 'required|array',
-            'cost' => 'required|string|in:free,local,fixed',
+            'cost' => 'required|string|in:free,local,fixed,percentage,weight,dimension',
             'price' => 'nullable|numeric',
+            'percentage_of_cart_value' => 'nullable|numeric',
+            'weight_based_cost' => 'nullable|numeric',
+            'dimension_based_cost' => 'nullable|numeric',
         ]);
 
         $data['cost_type'] = $data['cost'];
         unset($data['cost']);
+
+        // Check if user has the role 'Transporter'
+        if (Auth::user()->hasRole('Transporter')) {
+            $data['user_id'] = Auth::id();
+        } else {
+            $data['user_id'] = null;
+        }
 
         $transport->update($data);
 

@@ -9,7 +9,6 @@ class OrderItem extends Model
 {
     use HasFactory;
 
-
     protected $fillable = [
         'id',
         'order_id',
@@ -34,6 +33,7 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
     public function combinations()
     {
         return $this->belongsToMany(ProductAttributeCombination::class, 'order_item_combinations', 'order_item_id', 'combination_id');
@@ -66,5 +66,27 @@ class OrderItem extends Model
         }
 
         return collect($result);
+    }
+
+    public function findCombinationByAttributes($attributes)
+    {
+        $combinations = ProductAttributeCombination::where('product_id', $this->product_id)->get();
+
+        foreach ($combinations as $combination) {
+            $match = true;
+
+            foreach ($attributes as $attributeId => $propertyId) {
+                if (!$combination->attributeProperties()->where('attribute_id', $attributeId)->where('property_id', $propertyId)->exists()) {
+                    $match = false;
+                    break;
+                }
+            }
+
+            if ($match) {
+                return $combination;
+            }
+        }
+
+        return null;
     }
 }

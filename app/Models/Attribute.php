@@ -38,7 +38,7 @@ class Attribute extends Model
 
     public function countItems()
     {
-        return $this->items()->count();
+        return $this->properties()->count();
     }
 
 

@@ -481,4 +481,13 @@ use Illuminate\Notifications\Notifiable;
     {
         return $this->belongsToMany(DiscountCode::class, 'discount_user', 'user_id', 'discount_code_id');
     }
+
+    // تعریف رابطه با مدل TransportRegion
+    public function transportRegions()
+    {
+        return $this->hasMany(TransportRegion::class);
+    }
+
+
+
 }

@@ -17,11 +17,11 @@
 <div class="card">
     <div class="card-body">
         <!--start::Group actions-->
-        <form method="post" class="" id="action_form" action="{{ route('attributes.delete') }}">
+        <form method="POST" id="action_form" action="{{ route('attributes.delete') }}">
             @csrf
             <div class="d-flex tw-items-center tw-justify-start tw-w-full gap-4">
-                <select class="form-select form-select-solid tw-w-max" name="" id="">
-                    <option>عملیات</option>
+                <select class="form-select form-select-solid tw-w-max" name="action" id="action">
+                    <option disabled selected>عملیات</option>
                     <option value="delete">حذف</option>
                 </select>
                 <button class="btn btn-primary" type="submit">اجرا</button>
