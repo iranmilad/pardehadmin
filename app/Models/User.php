@@ -488,6 +488,9 @@ use Illuminate\Notifications\Notifiable;
         return $this->hasMany(TransportRegion::class);
     }
 
-
+    public function activeServices()
+    {
+        return $this->hasMany(ServiceDetail::class);
+    }
 
 }

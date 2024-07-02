@@ -14,9 +14,9 @@ class CreditPlan extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class, 'credit_plan_products', 'credit_plan_id', 'product_id');
     }
-
+    
     public function users()
     {
         return $this->belongsToMany(User::class, 'credit_plan_user');

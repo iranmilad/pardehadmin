@@ -213,6 +213,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/bulk_action', [ProductController::class, 'bulk_action'])->name("products.bulk_action");
         Route::post('/update-attributes', [ProductController::class, 'updateAttributes']);
         Route::get('/settings', [ProductController::class, 'settings'])->name("products.settings");
+        Route::get('/{id}/delete-all-images', [ProductController::class, 'deleteAllImages'])->name('products.delete.images');
+        Route::get('/products/{id}/delete-thumbnail', [ProductController::class, 'deleteThumbnail'])->name('products.delete.thumbnail');
     });
 
     Route::group(['prefix' => 'installments'], function () {

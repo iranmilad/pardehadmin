@@ -8,7 +8,7 @@
 
 @section('content')
 <!-- this box is showed when we wants to edit products by checkboxes but for more than  -->
-<div class="card mb-10">
+<div class="card mb-10 d-none">
     <div class="card-header">
         <div class="w-100 d-flex align-items-center justify-content-between">
             <h4>ویرایش دسته جمعی</h4>
@@ -604,7 +604,7 @@
                                 <img  src="{{ asset($product->img) }}" class="img-fluid" alt="{{ $product->title }}" style="max-width: 100px;">
                             </a>
                         </td>
-                        <td class="text-start">{{ $product->title }}</td>
+                        <td class="text-start"> <a href="{{ route('products.edit', $product->id) }}">{{ $product->title }}</a> </td>
                         <td class="text-start">{{ $product->id }}</td>
                         <td class="text-start">{{ $product->inventoryMessage() }}</td>
                         <td class="text-start">{{ number_format($product->price) }} تومان</td>

@@ -24,5 +24,11 @@ class Service extends Model
     {
         return $this->belongsTo(Category::class);
     }
+    
+    // رابطه جدید برای اتصال به جزئیات سرویس
+    public function serviceDetails()
+    {
+        return $this->hasMany(ServiceDetail::class);
+    }
 
 }

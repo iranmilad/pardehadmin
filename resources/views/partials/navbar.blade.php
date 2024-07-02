@@ -245,7 +245,7 @@
 			</div>
 			<!--end:Menu item-->
 			<!--begin:Menu item-->
-			<div class="menu-item">
+			<div class="menu-item d-none">
 				<!--begin:Menu link-->
 				<a class="menu-link {{ Route::is('products.settings')  ? 'active' : '' }}" href="{{route('products.settings')}}">
 					<span class="menu-bullet">

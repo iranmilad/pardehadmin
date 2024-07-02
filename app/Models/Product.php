@@ -246,9 +246,9 @@ class Product extends Model
 
     public function creditPlans()
     {
-        return $this->belongsToMany(CreditPlan::class);
+        return $this->belongsToMany(CreditPlan::class, 'credit_plan_products', 'product_id', 'credit_plan_id');
     }
-
+    
     public function creditInstallmentTimeline($totalAmount)
     {
         $creditPlanProduct = $this->creditPlanProduct()->first();
