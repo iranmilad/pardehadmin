@@ -22,8 +22,8 @@ function getIdForMessagesOrComments() {
         return { message: id };
     }
 
-    else {
-        let orderId = window["orderId"];
+    if (url.pathname === "/dashboard/order") {
+        let orderId = url.searchParams.get("id");
         let id = window["productId"];
         return { order: orderId, productId: id };
     }
@@ -43,18 +43,10 @@ if (document.getElementById("upload-file-modal")) {
         allowMultipleUploadBatches: false,
         // tranlsation
         locale: Persian,
-
     });
-
-
-
-
 
     uppy.use(XHRUpload, {
         endpoint: "/api/file/upload",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
         fieldName: "file",
         formData: true,
     });
@@ -101,10 +93,6 @@ if (document.getElementById("upload-file-modal")) {
         fileInput.value = fileArray.join(",");
     }
 
-
-
-
-
     uppy.on("upload-success", (file, response) => {
         const fileId = response.body.id; // Adjust this based on your server response
 
@@ -135,9 +123,6 @@ if (document.getElementById("upload-file-modal")) {
         }
     });
 
-
-
-
     // Set event for removing a file
     uppy.on("file-removed", (file, reason) => {
         // Send request to server to remove the file
@@ -146,9 +131,6 @@ if (document.getElementById("upload-file-modal")) {
             method: "DELETE",
             data: {
                 id: file.id,
-            },
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function (response) {
                 if (UploadType === "new") {
@@ -161,7 +143,6 @@ if (document.getElementById("upload-file-modal")) {
             },
         });
     });
-
 
     // if uppy is empty, show a message
     uppy.on("file-removed", () => {
@@ -190,9 +171,6 @@ if (document.getElementById("upload-file-modal")) {
     });
 
     $("#exist-message-file").on("click", function () {
-    })
-
-    $('#exist-message-file').on('click', function () {
         UploadType = "exist";
         let modal = new bootstrap.Modal(
             document.getElementById("upload-file-modal")
