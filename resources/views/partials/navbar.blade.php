@@ -275,7 +275,7 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
-	<div class="menu-item">
+	<div class="menu-item d-none">
 		<!--begin:Menu link-->
 		<a href="{{route('carts.list')}}" class="menu-link {{ Route::is('carts.list') || Route::is('carts.edit') || Route::is('carts.create')  ? 'active' : '' }}">
 			<span class="menu-icon">

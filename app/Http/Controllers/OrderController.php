@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use App\Models\ProductAttributeProperty;
@@ -258,4 +259,37 @@ class OrderController extends Controller
 
         return back()->with('success', 'ویژگی‌های محصول با موفقیت به‌روزرسانی شد.');
     }
+
+    public function addProduct(Request $request, $orderId)
+    {
+        // Validate the request data
+        $validated = $request->validate([
+            'product_id' => 'required|integer|exists:products,id',
+            'quantity' => 'required|integer|min:1',
+        ]);
+    
+        // Find the order
+        $order = Order::findOrFail($orderId);
+    
+        // Find the product
+        $product = Product::findOrFail($validated['product_id']);
+    
+        // Create a new order item
+        $orderItem = new OrderItem([
+            'id' => rand(1000000,9999999),
+            'product_id' => $product->id,
+            'quantity' => $validated['quantity'],
+            'price' => $product->price,
+            'sale_price' => $product->sale_price,
+            'total' => $product->sale_price * $validated['quantity'],
+        ]);
+    
+        // Associate the order item with the order
+        $order->orderItems()->save($orderItem);
+    
+        return redirect()->route('orders.edit', $orderId)->with('success', 'محصول با موفقیت به سفارش اضافه شد.');
+    }
+    
+
+
 }

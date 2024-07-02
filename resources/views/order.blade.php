@@ -142,18 +142,33 @@
                                     $selectedProperties[$combination['attribute_id']] = ["property_value"=>$combination['property_value'],"property_id"=>$combination['property_id']];
                                 }
                             @endphp
-
-                            @foreach ($property as $id => $attributes)
-                                @foreach ($attributes as $attribute => $props)
-                                    <label class="form-label">{{ $attribute }}:
-                                        <select class="form-select" name="param[attribute][{{ $id }}]">
-                                            @foreach($props as $select)
-                                                <option value="{{ $selectedProperties[$id]["property_id"] }}" {{ $selectedProperties[$id]["property_id"] == $select ? 'selected' : '' }}>{{ $selectedProperties[$id]["property_value"] }}</option>
-                                            @endforeach
-                                        </select>
-                                    </label>
+                            @if ($property)
+                                @foreach ($property as $id => $attributes)
+                                    @foreach ($attributes as $attribute => $props)
+                                        <label class="form-label">{{ $attribute }}:
+                                            <select class="form-select" name="param[attribute][{{ $id }}]">
+                                                @foreach($props as $select)
+                                                    <option value="{{ $selectedProperties[$id]["property_id"] }}" {{ $selectedProperties[$id]["property_id"] == $select ? 'selected' : '' }}>{{ $selectedProperties[$id]["property_value"] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </label>
+                                    @endforeach
                                 @endforeach
-                            @endforeach
+                            @else
+     
+                                @foreach ($item->product->attributes as $attribute)
+                                
+                                    @if ($attribute->independent != 1)  
+                                        <label class="form-label">{{ $attribute->name }}:
+                                            <select class="form-select" name="param[attribute][{{ $attribute->id }}]">
+                                                @foreach($attribute->properties as $property)
+                                                    <option value="{{ $property->id }}">{{ $property->value }}</option>
+                                                @endforeach
+                                            </select>
+                                        </label>
+                                    @endif
+                                @endforeach                                
+                            @endif
 
                             <label class="form-label">تعداد:
                                 <input type="number" class="form-control" name="quantity" value="{{ $item->quantity }}">
@@ -179,7 +194,7 @@
         <div class="d-flex align-items-center justify-content-between flex-column-reverse flex-md-row">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-5 mb-5">
                 <button class="btn btn-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#add_product_collapse">افزودن محصول</button>
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#coupon">افزودن کد تخفیف</button>
+                <button class="btn btn-primary btn-sm d-none" data-bs-toggle="modal" data-bs-target="#coupon">افزودن کد تخفیف</button>
                 <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#refund">برگشت</button>
             </div>
             <ul class="tw-space-y-3">
@@ -190,13 +205,25 @@
         </div>
         <div class="collapse" id="add_product_collapse">
             <div class="row align-items-end gap-5">
-                <div class="col-md-6 col-lg-4">
-                    <x-advanced-search type="product" label="محصول" name="new_products" solid />
-                </div>
-                <div class="col-md-6 col-lg">
-                    <button class="btn btn-sm btn-success" type="submit">افزودن</button>
-                    <button class="btn btn-sm btn-danger" data-bs-toggle="collapse" data-bs-target="#add_product_collapse">لغو</button>
-                </div>
+                <form action="{{ route('orders.addProduct', ['order' => $order->id]) }}" method="POST">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-6 col-lg-4">
+                            <x-advanced-search type="product" label="محصول" name="product_id" solid />
+                        </div>
+                        <div class="col-md-6 col-lg-2">
+                            <label class="form-label" for="quantity">تعداد:</label>
+                            <input type="number" class="form-control" name="quantity" required min="1">
+                            
+                        </div>
+
+                    </div>
+                    <div class="col-md-6 col-lg mt-2">
+                        <button class="btn btn-sm btn-success" type="submit">افزودن</button>
+                        <button class="btn btn-sm btn-danger" data-bs-toggle="collapse" data-bs-target="#add_product_collapse">لغو</button>
+                    </div>
+                </form>
+                
             </div>
         </div>
     </div>
