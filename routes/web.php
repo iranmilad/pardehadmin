@@ -2,6 +2,7 @@
 
 use App\Models\Page;
 use App\Models\Review;
+use App\Models\Slider;
 use App\Models\PostCategory;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CreditController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SliderController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GatewayController;
 use App\Http\Controllers\ProductController;
@@ -493,6 +495,26 @@ Route::group(['prefix' => 'orders'], function () {
 
 });
 
+Route::group(['prefix' => 'sliders'], function () {
+
+    Route::get('/', [SliderController::class, 'index'])->name("sliders.list");
+
+    Route::get('/create', [SliderController::class, 'create'])->name("sliders.create");
+    Route::post('/store', [SliderController::class, 'store'])->name("sliders.store");
+
+    Route::get('/edit/{id}', [SliderController::class, 'edit'])->name("sliders.edit");
+    Route::put('/update/{id}', [SliderController::class, 'update'])->name("sliders.update");
+
+    Route::post('/delete', [SliderController::class, 'delete'])->name("sliders.delete");
+
+    Route::post('/bulk_action', [SliderController::class, 'bulk_action'])->name("sliders.bulk_action");
+
+    Route::get('/add/{id}', [SliderController::class, 'slideView'])->name("sliders.view");
+
+    Route::put('/add/{id}', [SliderController::class, 'addImage'])->name("sliders.add");
+    Route::get('/{image_id}/delete', [SliderController::class, 'deleteImage'])->name('sliders.deleteImage');
+}); 
+
 });
 
 Route::get('login', [LoginController::class, 'index'])->name('login');
@@ -521,20 +543,20 @@ Route::get('/changepass', function () {
     return view('auth.changepass');
 })->name("changepass");
 
-Route::get('/slides', function () {
-    return view('slides');
-})->name("slides.show");
+// Route::get('/slides', function () {
+//     return view('slides');
+// })->name("slides.show");
 
-Route::post('/slides', function () {
-})->name("slides.save");
+// Route::post('/slides', function () {
+// })->name("slides.save");
 
-Route::get('/slide/{id}', function ($id) {
-    return view('slide');
-})->name("slide.edit.show");
+// Route::get('/slide/{id}', function ($id) {
+//     return view('slide');
+// })->name("slide.edit.show");
 
-Route::get('/create-slide', function () {
-    return view('slide');
-})->name("slide.create.show");
+// Route::get('/create-slide', function () {
+//     return view('slide');
+// })->name("slide.create.show");
 
 // Route::group(['prefix' => 'block'], function () {
 //     Route::get('/', function () {

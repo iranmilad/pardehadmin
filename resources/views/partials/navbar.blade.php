@@ -344,7 +344,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{ route('slides.show') }}" class="menu-link {{ Route::is('slides.show') ? 'active' : '' }}">
+		<a href="{{ route('sliders.list') }}" class="menu-link {{ Route::is('slidees.list') ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-rectangle-history"></i>
 			</span>
