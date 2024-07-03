@@ -47,6 +47,9 @@ if (document.getElementById("upload-file-modal")) {
 
     uppy.use(XHRUpload, {
         endpoint: "/api/file/upload",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         fieldName: "file",
         formData: true,
     });
@@ -131,6 +134,9 @@ if (document.getElementById("upload-file-modal")) {
             method: "DELETE",
             data: {
                 id: file.id,
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function (response) {
                 if (UploadType === "new") {

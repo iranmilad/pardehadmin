@@ -24,12 +24,12 @@
                     <label class="form-label">زیرنویس:</label>
                     <input name="captions[]" type="text" class="form-control mb-2 mb-md-0" placeholder="زیرنویس را وارد کنید"
                         value="{{ old('captions[]', $sliderImage->caption ?? '') }}" />
-                </div>  
+                </div>
                 <div class="col-md-5">
                     <label class="form-label">دکمه:</label>
                     <input name="alts[]" type="text" class="form-control mb-2 mb-md-0" placeholder="دکمه را وارد کنید"
                         value="{{ old('alts[]', $sliderImage->alt ?? '') }}" />
-                </div>                                  
+                </div>
                 <div class="col-md-5">
                     <label class="form-label">لینک:</label>
                     <input name="links[]" type="text" class="form-control mb-2 mb-md-0" placeholder="لینک را وارد کنید"
@@ -41,7 +41,7 @@
                     <input name="files[]" type="file" class="form-control mb-2 mb-md-0" />
                     @if(isset($sliderImage->image))
                     <div class="mt-2">
-                        <img src="{{ $sliderImage->image }}" alt="تصویر فعلی"
+                        <img src="{{ asset($sliderImage->image) }}" alt="تصویر فعلی"
                             style="max-width: 100px; max-height: 100px;">
                     </div>
                     @endif
@@ -80,11 +80,11 @@
                 <div class="col-md-5">
                     <label class="form-label">زیرنویس:</label>
                     <input name="captions[]" type="text" class="form-control mb-2 mb-md-0" placeholder="زیرنویس را وارد کنید" />
-                </div>  
+                </div>
                 <div class="col-md-5">
                     <label class="form-label">دکمه:</label>
                     <input name="alts[]" type="text" class="form-control mb-2 mb-md-0" placeholder="دکمه را وارد کنید" />
-                </div>                                  
+                </div>
                 <div class="col-md-5">
                     <label class="form-label">لینک:</label>
                     <input name="links[]" type="text" class="form-control mb-2 mb-md-0" placeholder="لینک را وارد کنید" />

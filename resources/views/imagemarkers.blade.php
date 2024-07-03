@@ -3,7 +3,7 @@
 @section('title', 'نشانه گذاری عکس')
 
 @section("toolbar")
-<a href="{{route('products.create')}}" class="btn btn-primary">نشانه گذاری جدید</a>
+<a href="{{route('imagemarkers.create')}}" class="btn btn-primary">نشانه گذاری جدید</a>
 @endsection
 
 @section('content')
@@ -47,7 +47,7 @@
                             </div>
                         </td>
                         <td>
-                            <a href="{{route('imagemarker.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">
+                            <a href="{{route('imagemarker.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">
                                 <img src="/images/imagemarker.jpg" class="tw-h-20 tw-rounded-md" />
                             </a>
                         </td>
@@ -55,7 +55,7 @@
                             <span class="badge badge-light fs-6 tw-select-all">[marker id="1"]</span>
                         </td>
                         <td class="text-end">
-                            <a href="{{route('imagemarker.show',['id' => 1])}}" class="btn btn-light btn-sm">
+                            <a href="{{route('imagemarker.edit',['id' => 1])}}" class="btn btn-light btn-sm">
                                 ویرایش
                             </a>
                         </td>

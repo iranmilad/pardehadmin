@@ -3,7 +3,7 @@
 @section('title', 'قطعه کد ها')
 
 @section("toolbar")
-<a href="{{route('attributes.create')}}" class="btn btn-primary">قطعه کد جدید</a>
+<a href="{{route('snippet.create.show')}}" class="btn btn-primary">قطعه کد جدید</a>
 @endsection
 
 @section('content')

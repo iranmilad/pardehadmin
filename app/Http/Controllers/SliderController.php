@@ -63,9 +63,9 @@ class SliderController extends Controller
             'links.*' => 'nullable|url|max:255',
             'files.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
+
         $slider = Slider::findOrFail($id);
-    
+
         // به‌روزرسانی تصاویر موجود
         foreach ($slider->images as $key => $sliderImage) {
             if (isset($validatedData['titles'][$key])) {
@@ -90,11 +90,11 @@ class SliderController extends Controller
                 $file->storeAs('public/images/sliders', $fileName); // ذخیره فایل در مسیر مورد نظر، مانند storage/app/uploads
                 $file->move(public_path($address), $fileName);
                 $imgPath =  $address.'/'.$fileName ;
-                $sliderImage->image = '/'.$imgPath;
+                $sliderImage->image = $imgPath;
             }
             $sliderImage->save();
         }
-    
+
         // افزودن تصاویر جدید به انتهای لیست تصاویر
         // if ($request->hasFile('files')) {
         //     foreach ($request->file('files') as $file) {
@@ -106,10 +106,10 @@ class SliderController extends Controller
         //         $slider->images()->create(['image' => "/".$imgPath]);
         //     }
         // }
-    
+
         return redirect()->route('sliders.list')->with('success', 'اسلایدر با موفقیت به‌روزرسانی شد.');
     }
-    
+
     public function addImage(Request $request, $id)
     {
         // اعتبارسنجی داده‌های ورودی
@@ -119,9 +119,9 @@ class SliderController extends Controller
             'alts.*' => 'nullable',
             'files.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
+
         $slider = Slider::findOrFail($id);
-    
+
         // افزودن تصاویر جدید
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $key => $file) {
@@ -129,8 +129,8 @@ class SliderController extends Controller
                 $fileName = $file->getClientOriginalName();
                 $file->storeAs('public/images/sliders', $fileName); // ذخیره فایل در مسیر مورد نظر، مانند storage/app/uploads
                 $file->move(public_path($address), $fileName);
-                $imgPath =  "/".$address.'/'.$fileName ;
-                
+                $imgPath =  $address.'/'.$fileName ;
+
                 $slider->images()->create([
                     'title' => $validatedData['titles'][$key],
                     'caption' => $validatedData['captions'][$key] ?? null,
@@ -140,16 +140,16 @@ class SliderController extends Controller
                 ]);
             }
         }
-    
+
         return redirect()->route('sliders.list')->with('success', 'تصاویر جدید با موفقیت به اسلایدر اضافه شدند.');
     }
-    
+
     public function slideView($id)
     {
         $slider = Slider::findOrFail($id);
         return view('sliderCreate',compact("slider"));
     }
-    
+
     public function storeNewImage(Request $request, $id)
     {
         $validatedData = $request->validate([

@@ -44,4 +44,9 @@ class Post extends Model
         $jalaliDate = \Morilog\Jalali\Jalalian::fromCarbon($gregorianDate);
         return $jalaliDate->format('Y/m/d');
     }
+
+    public function getLinkAttribute()
+    {
+        return "/blog/".$this->slug;
+    }
 }

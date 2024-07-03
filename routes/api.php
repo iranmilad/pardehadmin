@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Admin\SessionController;
 
 /*
@@ -138,4 +139,9 @@ Route::get('/product-options/{id}', function ($id) {
     ];
 
     return response()->json($response);
+});
+Route::group(['middleware' => ['web']], function () {
+
+    Route::post('/file/upload', [FileController::class,'upload'])->name('api.dashboard.upload');
+    Route::delete('/file/remove', [FileController::class,'remove'])->name('api.dashboard.remove');
 });

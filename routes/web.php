@@ -21,11 +21,14 @@ use App\Http\Controllers\SliderController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GatewayController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\CodePieceController;
 use App\Http\Controllers\TransportController;
 use App\Http\Controllers\ProductTagController;
+use App\Http\Controllers\HoloSettingController;
 use App\Http\Controllers\InstallmentController;
 use App\Http\Controllers\SubAttributeController;
 use App\Http\Controllers\Admin\SessionController;
@@ -513,7 +516,61 @@ Route::group(['prefix' => 'sliders'], function () {
 
     Route::put('/add/{id}', [SliderController::class, 'addImage'])->name("sliders.add");
     Route::get('/{image_id}/delete', [SliderController::class, 'deleteImage'])->name('sliders.deleteImage');
-}); 
+});
+
+Route::group(['prefix' => 'settings'], function () {
+
+    //Route::get('/', [SettingController::class, 'index'])->name("settings.list");
+
+    Route::get('/create', [SettingController::class, 'create'])->name("settings.create");
+    Route::post('/store', [SettingController::class, 'store'])->name("settings.store");
+
+    Route::get('/{group}', [SettingController::class, 'edit'])->name("settings.edit");
+    Route::post('/update/{group}', [SettingController::class, 'update'])->name("settings.update");
+
+    Route::post('/delete', [SettingController::class, 'delete'])->name("settings.delete");
+
+    Route::post('/bulk_action', [SettingController::class, 'bulk_action'])->name("settings.bulk_action");
+
+});
+
+Route::group(['prefix' => 'services'], function () {
+
+    //Route::get('/', [SettingController::class, 'index'])->name("services.list");
+
+    Route::get('/create', [SettingController::class, 'create'])->name("services.create");
+    Route::post('/store', [SettingController::class, 'store'])->name("services.store");
+    Route::get('/holo', [HoloSettingController::class, 'edit'])->name('settings.holo.edit');
+    Route::post('/holo', [HoloSettingController::class, 'update'])->name('settings.holo.update');
+    Route::get('/{group}', [SettingController::class, 'edit'])->name("services.edit");
+    //Route::post('/update/{group}', [SettingController::class, 'update'])->name("services.update");
+
+    Route::post('/delete', [SettingController::class, 'delete'])->name("services.delete");
+
+    Route::post('/bulk_action', [SettingController::class, 'bulk_action'])->name("services.bulk_action");
+
+});
+
+
+
+Route::group(['prefix' => 'code-piceces'], function () {
+
+    Route::get('/', [CodePieceController::class, 'index'])->name("code-piceces.list");
+
+    Route::get('/create', [CodePieceController::class, 'create'])->name("code-piceces.create");
+    Route::post('/store', [CodePieceController::class, 'store'])->name("code-piceces.store");
+
+    Route::get('/edit/{id}', [CodePieceController::class, 'edit'])->name("code-piceces.edit");
+    Route::put('/update/{id}', [CodePieceController::class, 'update'])->name("code-piceces.update");
+
+    Route::post('/delete', [CodePieceController::class, 'delete'])->name("code-piceces.delete");
+
+    Route::post('/bulk_action', [CodePieceController::class, 'bulk_action'])->name("code-piceces.bulk_action");
+
+});
+
+
+
 
 });
 
@@ -623,14 +680,14 @@ Route::get('/changepass', function () {
 //     })->name("user.delete");
 // });
 
-Route::group(['prefix' => 'settings'], function () {
-    Route::get('/general', function () {
-        return view('settings');
-    })->name("settings.show");
+// Route::group(['prefix' => 'settings'], function () {
+//     Route::get('/general', function () {
+//         return view('settings');
+//     })->name("settings.show");
 
-    Route::post('/settings', function () {
-    })->name("settings.save");
-});
+//     Route::post('/settings', function () {
+//     })->name("settings.save");
+// });
 // table of posts
 
 
@@ -805,9 +862,13 @@ Route::get('/imagemarkers', function () {
     return view('imagemarkers');
 })->name("imagemarkers.show");
 
+Route::get('/imagemarkers-create', function () {
+    return view('imagemarker');
+})->name("imagemarkers.create");
+
 Route::get('/imagemarker/{id}', function ($id) {
     return view('imagemarker');
-})->name("imagemarker.show");
+})->name("imagemarker.edit");
 
 // Route::get('/gateways', function () {
 //     return view('gateways');
@@ -829,6 +890,11 @@ Route::get('/sms-text/{id}', function ($id) {
     return view('sms-text');
 })->name("sms-text.show");
 
+Route::get('/sms-text-create', function () {
+    return view('sms-text-create');
+})->name("sms-text.create");
+
+
 Route::group(['prefix' => 'snippets'], function () {
     Route::get('/list', function () {
         return view('snippets');
@@ -847,11 +913,11 @@ Route::get('/customize', function () {
     return view('customize');
 })->name("customize.show");
 
-Route::group(['prefix' => 'services'], function () {
-    Route::get('/service1', function () {
-        return view('services');
-    })->name("services.show");
-});
+// Route::group(['prefix' => 'services'], function () {
+//     Route::get('/service1', function () {
+//         return view('services');
+//     })->name("services.show");
+// });
 
 
 // Route::get('/carts', function () {

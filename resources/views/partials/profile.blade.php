@@ -147,37 +147,37 @@
         <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold">
             <!--begin::Nav item-->
             <li class="nav-item mt-2">
-                <a class="nav-link text-active-primary ms-0 me-10 py-5 {{ Route::currentRouteName() === 'user.profile' ? 'active' : '' }}" href="{{ route('users.profile',['id' => 1]) }}">بررسی اجمالی</a>
+                <a class="nav-link text-active-primary ms-0 me-10 py-5 {{ Route::currentRouteName() === 'user.profile' ? 'active' : '' }}" href="{{ route('users.profile',['id' => $user->id]) }}">بررسی اجمالی</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item mt-2">
-                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{ route('users.edit',['id' => 1]) }}">ویرایش</a>
+                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{ route('users.edit',['id' => $user->id]) }}">ویرایش</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item mt-2">
-                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="#">سفارش ها</a>
+                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{ route('orders.list') }}?s={{$user->fullName}}">سفارش ها</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item mt-2">
-                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="#">چک ها</a>
+                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{ route('checks.list') }}?s={{$user->fullName}}">چک ها</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item mt-2">
-                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="#">سررسید اقساط</a>
+                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{ route('credits.show') }}?s={{$user->fullName}}">سررسید اقساط</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item mt-2">
-                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="#">دیدگاه ها</a>
+                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{ route('products.reviews.list') }}?s={{$user->fullName}}">دیدگاه ها</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item mt-2">
-                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{ route('users.sessions.index',['id' => 1]) }}">نشست ها</a>
+                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{ route('users.sessions.index',['id' => $user->id]) }}">نشست ها</a>
             </li>
             <!--end::Nav item-->
         </ul>

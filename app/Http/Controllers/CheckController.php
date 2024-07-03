@@ -24,8 +24,11 @@ class CheckController extends Controller
             $search = $request->get('s');
             $query->where('id', 'LIKE', "%{$search}%")
                   ->orWhereHas('user', function($q) use ($search) {
-                      $q->where('name', 'LIKE', "%{$search}%");
-                  });
+                      $q->where('first_name', 'LIKE', "%{$search}%");
+                  })
+                  ->orWhereHas('user', function($q) use ($search) {
+                    $q->where('last_name', 'LIKE', "%{$search}%");
+                });
         }
         // افزودن شرط برای paymentMethod برابر با check
 

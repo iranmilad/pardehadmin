@@ -34,7 +34,7 @@
                             <div class="d-flex justify-content-start flex-column">
                                 <span class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6">{{ $order->user->name }}</span>
                                 <span class="text-primary"><a href="{{ route('users.profile', ['id' => $order->user->id]) }}" >مشاهده کاربر</a></span>
-                                <span class="text-primary"><a href="{{ route('order.show', ['id' => $order->id]) }}" >مشاهده سفارش</a></span>
+                                <span class="text-primary"><a href="{{ route('orders.edit', ['id' => $order->id]) }}" >مشاهده سفارش</a></span>
                             </div>
 
                             <input type="hidden" name="order_id" value="{{ $order->id }}">

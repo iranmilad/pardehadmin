@@ -2,6 +2,11 @@
 
 @section('title', 'پیامک')
 
+@section("toolbar")
+<a href="{{ route('sms-text.create') }}" class="btn btn-primary">افزودن پیامک </a>
+@endsection
+
+
 @section('content')
 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
     <li class="nav-item" role="presentation">

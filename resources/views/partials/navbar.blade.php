@@ -147,7 +147,7 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
-	<div data-kt-menu-trigger="click" class="menu-item">
+	<div data-kt-menu-trigger="click" class="menu-item d-none">
 		<!--begin:Menu link-->
 		<a href="/slides" class="menu-link">
 			<span class="menu-icon">
@@ -574,7 +574,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{route('snippets.list.show')}}" class="menu-link {{Request::is('snippets*') ? 'active' : ''}}">
+		<a href="{{route('code-piceces.list')}}" class="menu-link {{Request::is('code-piceces.*') ? 'active' : ''}}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-terminal"></i>
 			</span>
@@ -600,11 +600,11 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('services.show') ? 'active' : '' }}" href="{{route('services.show')}}">
+				<a class="menu-link {{ Route::is('services.edit') ? 'active' : '' }}" href="{{route('services.edit','holo')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
-					<span class="menu-title">سرویس 1</span>
+					<span class="menu-title">سرویس هلو</span>
 				</a>
 				<!--end:Menu link-->
 			</div>
@@ -629,7 +629,7 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
-	<div class="menu-item">
+	<div class="menu-item d-none">
 		<!--begin:Menu link-->
 		<a href="{{route('customize.show')}}" class="menu-link {{ Route::is('customize.show')  ? 'active' : '' }}">
 			<span class="menu-icon">
@@ -699,7 +699,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('settings.show') ? 'active' : '' }}" href="{{route('settings.show')}}">
+				<a class="menu-link {{ Route::is('settings.show') ? 'active' : '' }}" href="{{route('settings.edit','general')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>

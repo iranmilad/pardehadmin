@@ -7,9 +7,21 @@ use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $reviews = Review::orderBy('created_at', 'desc')->paginate(10);
+        $query = Review::query();
+
+        if ($request->has('s')) {
+            $search = $request->get('s');
+            $query->where('id', 'LIKE', "%{$search}%")
+                  ->orWhereHas('user', function($q) use ($search) {
+                      $q->where('first_name', 'LIKE', "%{$search}%");
+                  })
+                  ->orWhereHas('user', function($q) use ($search) {
+                    $q->where('last_name', 'LIKE', "%{$search}%");
+                });
+        }
+        $reviews = $query->orderBy('created_at', 'desc')->paginate(10);
         return view('product-reviews', compact('reviews'));
     }
 

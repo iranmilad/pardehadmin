@@ -15,10 +15,17 @@ class CreditController extends Controller
     public function index(Request $request)
     {
         // Fetch credits with filters (optional)
-        $credits = Credit::query();
+        $query = Credit::query();
 
         if ($request->has('s')) {
-            $credits->where('title', 'like', "%{$request->get('s')}%");
+            $search = $request->get('s');
+            $query->where('id', 'LIKE', "%{$search}%")
+                  ->orWhereHas('user', function($q) use ($search) {
+                      $q->where('first_name', 'LIKE', "%{$search}%");
+                  })
+                  ->orWhereHas('user', function($q) use ($search) {
+                    $q->where('last_name', 'LIKE', "%{$search}%");
+                });
         }
 
         // Filter by due date (if provided)
@@ -27,16 +34,16 @@ class CreditController extends Controller
             if (count($dateRange) == 2) {
                 $startDate = date('Y-m-d', strtotime(trim($dateRange[0])));
                 $endDate = date('Y-m-d', strtotime(trim($dateRange[1])));
-                $credits->whereBetween('due_date', [$startDate, $endDate]);
+                $query->whereBetween('due_date', [$startDate, $endDate]);
             }
         }
 
         // Filter by payment status (if provided)
         if ($request->has('payment_status')) {
-            $credits->where('payment_status', $request->get('payment_status'));
+            $query->where('payment_status', $request->get('payment_status'));
         }
 
-        $credits = $credits->paginate(10); // Paginate results (10 per page)
+        $credits = $query->paginate(10); // Paginate results (10 per page)
 
         return view('credits', compact('credits'));
     }

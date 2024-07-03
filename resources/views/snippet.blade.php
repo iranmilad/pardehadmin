@@ -8,19 +8,27 @@
     <div class="col-lg-8 col-xl-10">
         <div class="card">
             <div class="card-body">
-                <div class="mb-10">
-                    <label for="title" class="required form-label">عنوان</label>
-                    <input type="text" id="title" class="form-control" placeholder="عنوان را وارد کنید" />
+                <div class="row mb-10">
+                    <div class="col-6">
+                        <label for="title" class="required form-label">عنوان</label>
+                        <input type="text" id="title" class="form-control" placeholder="عنوان را وارد کنید" />
+                    </div>
+                    <div class="col-6">
+                        <label for="url" class="form-label">فقط صفحه خاص (خالی برای همه صفحات)</label>
+                        <input type="url" class="form-control" placeholder="ادرس صفحه وارد کنید" />
+                    </div>
                 </div>
                 <div class="row mb-10">
                     <div class="col-6">
                         <div class="">
                             <label for="" class="form-label">مکان قرارگیری</label>
                             <select name="" id="" class="form-control">
-                                <option value="header">ابتدای هدر</option>
-                                <option value="footer">اتهای هدر</option>
-                                <option value="sidebar">بدنه</option>
-                                <option value="content">محتوا</option>
+                                <option value="">ابتدای هدر</option>
+                                <option value="">انتهای هدر</option>
+                                <option value="">ابتدای بدنه</option>
+                                <option value="">انتهای بدنه</option>
+                                <option value="">ابتدای فوتر</option>
+                                <option value="">انتهای فوتر</option>
                             </select>
                         </div>
                     </div>
