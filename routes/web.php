@@ -442,3 +442,7 @@ Route::get('/transport/{id}', function ($id) {
 Route::get('/create-transport', function () {
     return view('transport');
 })->name("transport.create.show");
+
+Route::get('/files-manager', function () {
+    return view('files');
+})->name("files-manager");

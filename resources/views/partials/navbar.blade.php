@@ -147,9 +147,9 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
-	<div data-kt-menu-trigger="click" class="menu-item">
+	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="/slides" class="menu-link">
+		<a href="{{ route('files-manager') }}" class="menu-link {{ Route::is('files-manager') ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-folder-open"></i>
 			</span>

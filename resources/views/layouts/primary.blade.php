@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Vite;
 
     <title>@yield('title')</title>
 
+    @yield('css-before')
     <link rel="stylesheet" href="{{asset('css/style-rtl.css')}}">
     <link rel="stylesheet" href="{{asset('plugins/global/plugins.bundle.css')}}">
     <link rel="stylesheet" href="{{asset('plugins/global/plugins.bundle.rtl.css')}}">
