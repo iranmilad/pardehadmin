@@ -15,6 +15,7 @@ export default defineConfig({
                 'resources/plugins/global/plugins.bundle.rtl.css',
 
                 'resources/js/app.js',
+                'resources/js/file-manager.js'
             ],
             refresh: true,
         }),
