@@ -32,7 +32,7 @@ class OrderController extends Controller
     // نمایش فرم ایجاد سفارش جدید
     public function create()
     {
-        return view('order');
+        return view('order-create');
     }
 
     // ذخیره سفارش جدید
@@ -267,13 +267,13 @@ class OrderController extends Controller
             'product_id' => 'required|integer|exists:products,id',
             'quantity' => 'required|integer|min:1',
         ]);
-    
+
         // Find the order
         $order = Order::findOrFail($orderId);
-    
+
         // Find the product
         $product = Product::findOrFail($validated['product_id']);
-    
+
         // Create a new order item
         $orderItem = new OrderItem([
             'id' => rand(1000000,9999999),
@@ -283,13 +283,13 @@ class OrderController extends Controller
             'sale_price' => $product->sale_price,
             'total' => $product->sale_price * $validated['quantity'],
         ]);
-    
+
         // Associate the order item with the order
         $order->orderItems()->save($orderItem);
-    
+
         return redirect()->route('orders.edit', $orderId)->with('success', 'محصول با موفقیت به سفارش اضافه شد.');
     }
-    
+
 
 
 }

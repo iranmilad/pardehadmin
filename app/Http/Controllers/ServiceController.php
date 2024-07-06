@@ -9,12 +9,12 @@ class ServiceController extends Controller
     public function index()
     {
         $settings = Setting::all();
-        return view('settings.index', compact('settings'));
+        return view('settings', compact('settings'));
     }
 
     public function create()
     {
-        return view('settings.create');
+        return view('settings');
     }
 
     public function store(Request $request)
@@ -63,7 +63,7 @@ class ServiceController extends Controller
         // اگر تنظیمات وجود دارد، آن را به ویو پاس بدهید
         if ($setting) {
             //dd($setting);
-            return view('services', compact('setting'));
+            return view('settings', compact('setting'));
         }
 
         // اگر تنظیمات وجود ندارد، یک آرایه خالی به عنوان مقدار پیش‌فرض برای ویو ارسال کنید
@@ -88,7 +88,7 @@ class ServiceController extends Controller
         ];
 
         // ویو را با استفاده از مقادیر پیش‌فرض ارسال کنید
-        return view('services', $defaultSettings);
+        return view('settings', $defaultSettings);
     }
 
 

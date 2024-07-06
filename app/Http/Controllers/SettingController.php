@@ -63,7 +63,7 @@ class SettingController extends Controller
         // اگر تنظیمات وجود دارد، آن را به ویو پاس بدهید
         if ($setting) {
             //dd($setting);
-            return view('services', compact('setting'));
+            return view('settings', compact('setting'));
         }
 
         // اگر تنظیمات وجود ندارد، یک آرایه خالی به عنوان مقدار پیش‌فرض برای ویو ارسال کنید
@@ -88,7 +88,7 @@ class SettingController extends Controller
         ];
 
         // ویو را با استفاده از مقادیر پیش‌فرض ارسال کنید
-        return view('services', $defaultSettings);
+        return view('settings', $defaultSettings);
     }
 
 
