@@ -31,7 +31,7 @@ return [
      * List of disk names that you want to use
      * (from config/filesystems)
      */
-    'diskList'  => ['images', 'public'],
+    'diskList'  => ['uploads'],
 
     /**
      * Default disk for left manager
@@ -87,7 +87,7 @@ return [
     /**
      * Show / Hide system files and folders
      */
-    'hiddenFiles'       => true,
+    'hiddenFiles'       => false,
 
     /***************************************************************************
      * Middleware

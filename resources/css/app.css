@@ -430,3 +430,7 @@ a.token {
     color: white;
     transition: all 0.3s;
 }
+
+.fm{
+    height: 600px !important;
+}
