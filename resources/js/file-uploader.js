@@ -17,17 +17,20 @@ import { hydrate,createElement } from "preact";
 
 function getIdForMessagesOrComments() {
     let url = new URL(window.location.href);
-    if (url.pathname === "/dashboard/notifications") {
-        let id = url.searchParams.get("id");
-        return { message: id };
-    }
 
-    if (url.pathname === "/dashboard/order") {
-        let orderId = url.searchParams.get("id");
+    // Check if the path starts with /sessions/edit
+    if (url.pathname.startsWith("/sessions/edit")) {
+        // Get the ID from the path
+        let segments = url.pathname.split('/');
+        let id = segments.pop(); // Get the last segment
+        return { message: id };
+    } else {
+        let orderId = window["orderId"];
         let id = window["productId"];
         return { order: orderId, productId: id };
     }
 }
+
 
 
 if (document.getElementById("upload-file-modal")) {

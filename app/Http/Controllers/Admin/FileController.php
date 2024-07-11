@@ -7,12 +7,13 @@ use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Log;
 
 class FileController extends Controller
 {
     public function upload(Request $request)
     {
+        //log::info($request);
         // یا برای دریافت هدرها:
         $headers = (object)$request->header();
 
@@ -25,7 +26,7 @@ class FileController extends Controller
 
                 $file = $request->file('file');
                 $fileName = $file->getClientOriginalName();
-                $filePath = $file->storeAs('public/uploads', $fileName); // ذخیره فایل در مسیر مورد نظر، مانند storage/app/uploads
+                $filePath = $file->storeAs('uploads', $fileName); // ذخیره فایل در مسیر مورد نظر، مانند storage/app/uploads
                 $file->move(public_path('uploads'), $fileName);
 
                 $uploadedFiles = $filePath;

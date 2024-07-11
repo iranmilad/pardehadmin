@@ -39,6 +39,9 @@ function fetchMessages(id) {
     $.ajax({
         url: `/api/messages/${id}`,
         method: "GET",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         beforeSend: function () {
             block.block();
         },

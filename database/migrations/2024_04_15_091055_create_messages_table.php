@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('sender_id');
-            $table->unsignedBigInteger('recipient_id');
+            $table->unsignedBigInteger('recipient_id')->nullable();
             $table->text('message');
             $table->string('image')->nullable();
             $table->timestamps();

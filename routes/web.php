@@ -29,6 +29,7 @@ use App\Http\Controllers\CodePieceController;
 use App\Http\Controllers\TransportController;
 use App\Http\Controllers\ProductTagController;
 use App\Http\Controllers\HoloSettingController;
+use App\Http\Controllers\ImageMarkerController;
 use App\Http\Controllers\InstallmentController;
 use App\Http\Controllers\SubAttributeController;
 use App\Http\Controllers\Admin\SessionController;
@@ -569,7 +570,8 @@ Route::group(['prefix' => 'code-piceces'], function () {
 
 });
 
-
+Route::resource('image-markers', ImageMarkerController::class);
+Route::get('checkproduct/{id}', [ImageMarkerController::class, 'checkProduct']);
 
 
 });
@@ -858,17 +860,17 @@ Route::get('/worktime/create', function () {
 
 
 
-Route::get('/imagemarkers', function () {
-    return view('imagemarkers');
-})->name("imagemarkers.show");
+// Route::get('/imagemarkers', function () {
+//     return view('imagemarkers');
+// })->name("imagemarkers.show");
 
-Route::get('/imagemarkers-create', function () {
-    return view('imagemarker');
-})->name("imagemarkers.create");
+// Route::get('/imagemarkers-create', function () {
+//     return view('imagemarker');
+// })->name("imagemarkers.create");
 
-Route::get('/imagemarker/{id}', function ($id) {
-    return view('imagemarker');
-})->name("imagemarker.edit");
+// Route::get('/imagemarker/{id}', function ($id) {
+//     return view('imagemarker');
+// })->name("imagemarker.edit");
 
 // Route::get('/gateways', function () {
 //     return view('gateways');
@@ -948,3 +950,7 @@ Route::get('/customize', function () {
 Route::get('/files-manager', function () {
     return view('files');
 })->name("files-manager");
+
+Route::get('/test', function () {
+    return view('file.ckeditor');
+})->name("files-test");

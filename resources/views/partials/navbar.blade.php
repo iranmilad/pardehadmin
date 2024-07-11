@@ -136,7 +136,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{route('imagemarkers.show')}}" class="menu-link {{ Route::is('imagemarkers.show')   ? 'active' : '' }}">
+		<a href="{{route('image-markers.index')}}" class="menu-link {{ Route::is('image-markers.*')   ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-image"></i>
 			</span>

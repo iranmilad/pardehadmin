@@ -145,12 +145,12 @@ $(document).ready(function () {
         let spans = $("#data-dots").val();
         if (spans !== "") {
             let blockUI = new KTBlockUI(document.getElementById("kt_app_main"));
-            spans = JSON.parse(spans);
+            let markerId = $('input[name="marks_id"]').val();
 
             $.ajax({
-                url: "/api/checkproduct",
-                data: {
-                    products: spans,
+                url: `/checkproduct/${markerId}`,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 beforeSend: () => blockUI.block(),
                 success: (response) => {
@@ -167,6 +167,7 @@ $(document).ready(function () {
                     }
                     blockUI.release();
                 },
+                error: () => blockUI.release()
             });
         }
     }

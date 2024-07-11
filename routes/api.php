@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\FileController;
+use App\Http\Controllers\ImageMarkerController;
 use App\Http\Controllers\Admin\SessionController;
 
 /*
@@ -72,27 +73,7 @@ Route::get('/search', function (Request $request) {
 
 
 
-Route::get('/checkproduct', function (Request $request) {
 
-    /**
-     * REQUEST
-     * products id
-     */
-    // $request = [
-    //     'products' => [1,2,3,4]
-    // ];
-
-    $response = [
-        [
-            "dataId" => 1,
-            "productName" => "نتیجه یک",
-            "top" => 33.362500508626304,
-            "left" => 83.86930669936791
-        ],
-    ];
-
-    return response()->json($response);
-});
 
 Route::get('/product-options/{id}', function ($id) {
     // TYPE => SELECT,INPUT
