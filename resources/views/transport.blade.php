@@ -110,5 +110,8 @@
     <div class="card text-end col-3 mt-3">
         <button type="submit" class="btn btn-primary btn-sm">{{ isset($transport) ? 'بروزرسانی' : 'ایجاد' }}</button>
     </div>
+    <button class="btn btn-success mt-5">
+        ذخیره
+    </button>
 </form>
 @endsection
