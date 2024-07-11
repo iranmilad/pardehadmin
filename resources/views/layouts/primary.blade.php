@@ -143,6 +143,15 @@ use Illuminate\Support\Facades\Vite;
                 minimumInputLength: 3
             });
         })
+
+        function fmSetLink($url) {
+            // document.getElementById('image_label').value = $url;
+            let btn = $(window['choose_file']);
+            console.log(btn.next().val($url));
+            if(btn.data("choose") === "single"){
+                btn.html("1 فایل انتخاب شد")
+            }
+        }
     </script>
     @vite("resources/js/app.js")
     @yield('scripts')

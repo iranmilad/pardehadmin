@@ -65,5 +65,8 @@
         </div>
 
     </div>
+    <button class="btn btn-success mt-5">
+        ذخیره
+    </button>
 </form>
 @endsection

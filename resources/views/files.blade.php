@@ -35,9 +35,5 @@
         });
     });
 
-    // set file link
-    function fmSetLink($url) {
-        document.getElementById('image_label').value = $url;
-    }
 </script>
 @endsection

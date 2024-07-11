@@ -99,7 +99,7 @@ Route::get('/search', function (Request $request) {
 
 
 
-Route::get('/checkproduct', function (Request $request) {
+Route::post('/checkproduct', function (Request $request) {
 
     /**
      * REQUEST

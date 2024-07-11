@@ -124,14 +124,16 @@ function updateInputMarks() {
     let spans = [];
     $(".image_dotter span").each(function (index, item) {
         let $item = $(item);
-        let top = $item.position().top;
-        let left = $item.position().left;
+        let percentY = $item.position().top;
+        let percentX = $item.position().left;
         let dataId = $item.attr("data-id");
         let productName = $item.attr("data-bs-title");
+        percentY = (percentY / $item.parent().height()) * 100;
+        percentX = (percentX / $item.parent().width()) * 100;
 
         spans.push({
-            top: top,
-            left: left,
+            top: percentY,
+            left: percentX,
             dataId: dataId,
             productName,
         });
@@ -145,29 +147,33 @@ $(document).ready(function () {
         let spans = $("#data-dots").val();
         if (spans !== "") {
             let blockUI = new KTBlockUI(document.getElementById("kt_app_main"));
-            spans = JSON.parse(spans);
+            let markerId = $('input[name="marks_id"]').val();
 
-            $.ajax({
-                url: "/api/checkproduct",
-                data: {
-                    products: spans,
-                },
-                beforeSend: () => blockUI.block(),
-                success: (response) => {
-                    let res = response;
-                    if (res.length > 0) {
-                        res.map((item) => {
-                            createMarks(
-                                item.top,
-                                item.left,
-                                item.dataId,
-                                item.productName
-                            );
-                        });
-                    }
-                    blockUI.release();
-                },
-            });
+            if(markerId !== ""){
+                $.ajax({
+                    url: `/checkproduct/${markerId}`,
+                    method: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    beforeSend: () => blockUI.block(),
+                    success: (response) => {
+                        let res = response;
+                        if (res.length > 0) {
+                            res.map((item) => {
+                                createMarks(
+                                    item.top,
+                                    item.left,
+                                    item.dataId,
+                                    item.productName
+                                );
+                            });
+                        }
+                        blockUI.release();
+                    },
+                    error: () => blockUI.release()
+                });
+            }
         }
     }
 });
