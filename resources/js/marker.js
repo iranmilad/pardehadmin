@@ -73,12 +73,13 @@ $("#selectProductModalSubmit").on("click", function (e) {
     imageMarkerModal.hide();
 });
 
-function createMarks(percentY, percentX, productID, productName) {
+function createMarks(percentY, percentX, productID, productName,productLink) {
     let elm = $("<span>", {
         style: `top: ${percentY}%; left: ${percentX}%;`,
         "data-id": productID,
         "data-bs-toggle": "tooltip",
         "data-bs-title": productName,
+        "data-link": productLink,
         click: changeImageMarker,
     });
     $(".image_dotter").append(elm);
@@ -101,6 +102,7 @@ let selectedDot = null;
 var selectType = "";
 function changeImageMarker(e) {
     let id = $(this).data('id');
+    let link = $(this).data('link')
     $.ajax({
         url: `/api/imgdot/${id}`,
         beforeSend: function () {
@@ -110,10 +112,8 @@ function changeImageMarker(e) {
         },
         success: function (result) {
             $("#priceModal .product_details").html(result.html);
-            $("#priceModal .modal-footer a").attr(
-                'href',
-                `https://javidcode.com/product/` + id
-            );
+            $("#priceModal .modal-footer a").attr('href',link);
+            $("#priceModal .modal-footer a").attr('target',"_blank")
             productDetailBlock.release();
         },
     });
@@ -190,36 +190,33 @@ function updateInputMarks() {
 
 $(document).ready(function () {
     if ($("#data-dots").length > 0) {
-        let spans = $("#data-dots").val();
-        if (spans !== "") {
+        let markerId = $('input[name="marks_id"]').val();
+        if (markerId !== "") {
             let blockUI = new KTBlockUI(document.getElementById("kt_app_main"));
-            let markerId = $('input[name="marks_id"]').val();
-
-            if(markerId !== ""){
-                $.ajax({
-                    url: `/api/checkproduct/${markerId}`,
-                    method: "GET",
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    beforeSend: () => blockUI.block(),
-                    success: (response) => {
-                        let res = response;
-                        if (res.length > 0) {
-                            res.map((item) => {
-                                createMarks(
-                                    item.top,
-                                    item.left,
-                                    item.dataId,
-                                    item.productName
-                                );
-                            });
-                        }
-                        blockUI.release();
-                    },
-                    error: () => blockUI.release()
-                });
-            }
+            $.ajax({
+                url: `/api/checkproduct/${markerId}`,
+                method: "GET",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                beforeSend: () => blockUI.block(),
+                success: (response) => {
+                    let res = response;
+                    if (res.length > 0) {
+                        res.map((item) => {
+                            createMarks(
+                                item.top,
+                                item.left,
+                                item.dataId,
+                                item.productName,
+                                item.link
+                            );
+                        });
+                    }
+                    blockUI.release();
+                },
+                error: () => blockUI.release()
+            });
         }
     }
 });

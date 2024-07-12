@@ -13,7 +13,7 @@
       <!-- DEFAULT MARKS IN VALUE -->
       <!-- DEFAULT MARKS IN VALUE -->
        <input type="hidden" name="marks_id" value="1">
-      <input id="data-dots" name="marks" type="hidden" value="[{&quot;top&quot;:40.02916717529297,&quot;left&quot;:94.82074502262022,&quot;dataId&quot;:&quot;1&quot;,&quot;productName&quot;:&quot;نتیجه یک&quot;}]" />
+      <input id="data-dots" name="marks" type="hidden" value="" />
       <div class="d-flex align-items-center gap-5">
         <input class="form-control form-control-solid" name="image" id="choose_image" type="file">
         <button type="button" id="remove_image" class="btn btn-sm btn-danger tw-w-[125px]">حذف تصویر</button>

@@ -114,6 +114,7 @@ Route::get('/checkproduct/{id}', function (Request $request) {
         [
             "dataId" => 1,
             "productName" => "نتیجه یک",
+            "link" => "https://javidcode.com",
             "top" => 33.362500508626304,
             "left" => 83.86930669936791
         ],
