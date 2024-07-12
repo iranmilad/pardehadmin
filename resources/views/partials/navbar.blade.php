@@ -369,7 +369,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{route('worktimes.show')}}" class="menu-link {{ Route::is('worktimes.show') ? 'active' : '' }}">
+		<a href="{{route('worktimes.index')}}" class="menu-link {{ Route::is('worktimes.*') ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-timer"></i>
 			</span>

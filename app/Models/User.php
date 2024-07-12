@@ -493,4 +493,45 @@ use Illuminate\Notifications\Notifiable;
         return $this->hasMany(ServiceDetail::class);
     }
 
+    public function worktimes()
+    {
+        return $this->hasMany(Worktime::class);
+    }
+
+    public function getCurrentMonthTotalHours()
+    {
+        $currentJalaliMonth = Jalalian::now();
+
+        // استخراج سال و ماه شمسی
+        $year = $currentJalaliMonth->getYear();
+        $month = $currentJalaliMonth->getMonth();
+
+        // تعیین تعداد روزهای ماه جاری
+        $daysInMonth = 30; // پیش فرض برای ماه‌های 30 روزه
+        if ($month <= 6) {
+            $daysInMonth = 31; // ماه‌های 31 روزه (فروردین تا شهریور)
+        } elseif ($month == 12) {
+            $daysInMonth = $currentJalaliMonth->isLeapYear() ? 30 : 29; // اسفند ماه (سال کبیسه یا غیر کبیسه)
+        }
+
+        if ($month < 10) {
+            $month = "0" . $month;
+        }
+
+        // تاریخ شروع ماه جاری (اولین روز ماه شمسی)
+        $startOfMonthJalali = Jalalian::fromFormat('Y-m-d', "$year-$month-01");
+        $startOfMonth = $startOfMonthJalali->toCarbon()->toDateString();
+
+        // تاریخ پایان ماه جاری (آخرین روز ماه شمسی)
+        $endOfMonthJalali = Jalalian::fromFormat('Y-m-d', "$year-$month-$daysInMonth");
+        $endOfMonth = $endOfMonthJalali->toCarbon()->toDateString();
+
+        return $this->worktimes()
+                    ->whereBetween('date', [$startOfMonth, $endOfMonth])
+                    ->sum('hours');
+    }
+
+
+
+
 }

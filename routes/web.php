@@ -24,6 +24,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DiscountController;
+use App\Http\Controllers\WorkTimeController;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\CodePieceController;
 use App\Http\Controllers\TransportController;
@@ -571,8 +572,10 @@ Route::group(['prefix' => 'code-piceces'], function () {
 });
 
 Route::resource('image-markers', ImageMarkerController::class);
-Route::get('checkproduct/{id}', [ImageMarkerController::class, 'checkProduct']);
+Route::get('/checkproduct/{id}', [ImageMarkerController::class, 'checkProduct']);
 
+Route::resource('worktimes', WorktimeController::class);
+Route::delete('worktimes/{worktime}', [WorkTimeController::class, 'destroy'])->name('worktimes.destroy');
 
 });
 
@@ -846,17 +849,17 @@ Route::get('/reports', function () {
 //     })->name("installments.report.show");
 // });
 
-Route::get('/worktimes', function () {
-    return view('worktimes');
-})->name("worktimes.show");
+// Route::get('/worktimes', function () {
+//     return view('worktimes');
+// })->name("worktimes.show");
 
-Route::get('/worktime/edit/{id}', function ($id) {
-    return view('worktime');
-})->name("worktime.edit.show");
+// Route::get('/worktime/edit/{id}', function ($id) {
+//     return view('worktime');
+// })->name("worktime.edit.show");
 
-Route::get('/worktime/create', function () {
-    return view('worktime');
-})->name("worktime.create.show");
+// Route::get('/worktime/create', function () {
+//     return view('worktime');
+// })->name("worktime.create.show");
 
 
 

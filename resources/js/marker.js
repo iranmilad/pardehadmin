@@ -152,7 +152,7 @@ $(document).ready(function () {
             if(markerId !== ""){
                 $.ajax({
                     url: `/checkproduct/${markerId}`,
-                    method: "POST",
+                    method: "GET",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
