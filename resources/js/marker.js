@@ -45,6 +45,10 @@ document.getElementById('selectProductModal').addEventListener("hidden.bs.modal"
     selectType = "";
 })
 
+document.addEventListener("DOMContentLoaded" , () => {
+    selectType = "";
+})
+
 $("#selectProductModalSubmit").on("click", function (e) {
     let productName = $("#selectProductModal .modal-body form select")
         .find(":selected")
