@@ -7,9 +7,9 @@ if ($("#selectProductModal").length > 0) {
         focus: false,
     });
 
-    var productInfoModal = new bootstrap.Modal("#priceModal",{
-        focus: false
-    })
+    var productInfoModal = new bootstrap.Modal("#priceModal", {
+        focus: false,
+    });
 }
 var percentX = 0;
 var percentY = 0;
@@ -32,22 +32,25 @@ if ($("#imgmarker-preview").length > 0) {
             percentY = (IMGY / imgHeight) * 100;
 
             imageMarkerModal.show();
-            if(selectType === ""){
+            if (selectType === "") {
                 $("#removeSelectDot").addClass("d-none");
-            }
-            else{
+            } else {
                 $("#removeSelectDot").removeClass("d-none");
             }
         });
 }
 
-document.getElementById('selectProductModal').addEventListener("hidden.bs.modal",() => {
-    selectType = "";
-})
+if ($("#selectProductModal").length > 0) {
+    document
+        .getElementById("selectProductModal")
+        .addEventListener("hidden.bs.modal", () => {
+            selectType = "";
+        });
+}
 
-document.addEventListener("DOMContentLoaded" , () => {
+document.addEventListener("DOMContentLoaded", () => {
     selectType = "";
-})
+});
 
 $("#selectProductModalSubmit").on("click", function (e) {
     let productName = $("#selectProductModal .modal-body form select")
@@ -73,7 +76,7 @@ $("#selectProductModalSubmit").on("click", function (e) {
     imageMarkerModal.hide();
 });
 
-function createMarks(percentY, percentX, productID, productName,productLink) {
+function createMarks(percentY, percentX, productID, productName, productLink) {
     let elm = $("<span>", {
         style: `top: ${percentY}%; left: ${percentX}%;`,
         "data-id": productID,
@@ -101,8 +104,8 @@ let productDetailBlock = new KTBlockUI(
 let selectedDot = null;
 var selectType = "";
 function changeImageMarker(e) {
-    let id = $(this).data('id');
-    let link = $(this).data('link')
+    let id = $(this).data("id");
+    let link = $(this).data("link");
     $.ajax({
         url: `/api/imgdot/${id}`,
         beforeSend: function () {
@@ -112,8 +115,8 @@ function changeImageMarker(e) {
         },
         success: function (result) {
             $("#priceModal .product_details").html(result.html);
-            $("#priceModal .modal-footer a").attr('href',link);
-            $("#priceModal .modal-footer a").attr('target',"_blank")
+            $("#priceModal .modal-footer a").attr("href", link);
+            $("#priceModal .modal-footer a").attr("target", "_blank");
             productDetailBlock.release();
         },
     });
@@ -157,10 +160,10 @@ $("#remove_image").on("click", function (e) {
     updateInputMarks();
 });
 
-$("#editDot").on("click",() => {
+$("#editDot").on("click", () => {
     productInfoModal.hide();
     imageMarkerModal.show();
-})
+});
 
 /**
  * with this function i update input[name="marks"] in form
@@ -197,7 +200,9 @@ $(document).ready(function () {
                 url: `/api/checkproduct/${markerId}`,
                 method: "GET",
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
                 },
                 beforeSend: () => blockUI.block(),
                 success: (response) => {
@@ -215,7 +220,7 @@ $(document).ready(function () {
                     }
                     blockUI.release();
                 },
-                error: () => blockUI.release()
+                error: () => blockUI.release(),
             });
         }
     }

@@ -414,11 +414,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 window['choose_file'] = null;
 document.addEventListener("DOMContentLoaded", () => {
-    $(".choose_file_button").on("click",(e) => {
-        event.preventDefault();
+    $(".choose_file_button,.image-input .preview-image-label").on("click",(e) => {
+        e.preventDefault();
         window['choose_file'] = e.target;
 
         window.open('/file-manager/fm-button', 'fm', 'width=1400,height=800');
     })
-
 })

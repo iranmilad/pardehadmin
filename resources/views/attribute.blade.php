@@ -140,11 +140,7 @@
                                     </div>
                                     <div class="col-12 col-md">
                                         <label class="form-label" for="">انتخاب طرح</label>
-                                        <div class="choose_file_box">
-                                            <button class="choose_file_button" data-choose="single">انتخاب فایل</button>
-                                            <input type="hidden" name="option[image]">
-                                            <button class="remove_choose_file"><i class="fas fa-times"></i></button>
-                                        </div>
+                                        <x-file-input type="single" :preview="false" name="option[image]" />
                                     </div>
                                     <div class="col-12 col-md">
                                         <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-8">
