@@ -170,13 +170,27 @@ use Illuminate\Support\Facades\Vite;
             });
         })
 
+        window['changethatBg'] = function(elm,url){
+            elm.style.backgroundImage = `url(https://placehold.co/600x400)`;
+        }
+
         function fmSetLink($url) {
             // document.getElementById('image_label').value = $url;
-            let btn = $(window['choose_file']);
-            console.log(btn.next().val($url));
-            if(btn.data("choose") === "single"){
-                btn.html("1 فایل انتخاب شد")
+            let btn = window['choose_file'];
+            if (btn.classList.contains('path1') || btn.classList.contains('preview-image-label')) {
+                if (btn.classList.contains('path1')) {
+                    const closestImageWrapper = btn.parentElement.closest('.image-input-wrapper');
+                    if (closestImageWrapper) {
+                        window['changethatBg'](closestImageWrapper,$url)
+                    }
+                } else {
+                    const siblingImageWrapper = btn.parentElement.querySelector('.image-input-wrapper');
+                    if (siblingImageWrapper) {
+                        window['changethatBg'](siblingImageWrapper,$url)
+                    }
+                }
             }
+            // btn.parent().find("input").val($url)
         }
     </script>
     @vite("resources/js/app.js")

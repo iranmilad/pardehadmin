@@ -434,29 +434,8 @@ a.token {
     height: 600px !important;
 }
 
-.choose_file_button {
-    display: block;
-    width: 100%;
-    padding: 0.775rem 1rem;
-    font-size: 1.1rem;
-    font-weight: 500;
-    line-height: 1.5;
-    color: var(--bs-gray-700);
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-color: var(--bs-body-bg);
-    background-clip: padding-box;
-    border: 1px solid var(--bs-gray-300);
-    border-radius: 0.475rem;
-    box-shadow: false;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    text-align: right;
-}
-
-.choose_file_box{
-    display: flex;
-    align-items: center;
+.choose_file_input input:disabled{
+    background: white;
 }
 
 .remove_choose_file{
@@ -465,4 +444,8 @@ a.token {
     outline: none;
     border: none;
     @apply tw-text-red-500;
+}
+
+.select2-dropdown.select2-dropdown--below{
+    z-index: 999999999;
 }

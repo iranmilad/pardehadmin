@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\ImageMarkerController;
@@ -73,7 +74,7 @@ Route::get('/search', function (Request $request) {
 
 
 
-Route::post('/checkproduct', function (Request $request) {
+Route::get('/checkproduct/{id}', function (Request $request) {
 
     /**
      * REQUEST
@@ -87,12 +88,28 @@ Route::post('/checkproduct', function (Request $request) {
         [
             "dataId" => 1,
             "productName" => "نتیجه یک",
+            "link" => "https://javidcode.com",
             "top" => 33.362500508626304,
             "left" => 83.86930669936791
         ],
     ];
 
     return response()->json($response);
+});
+
+// FOR IMAGE DOT. IT GETS DATA OF PRODUCT {ID} AND FILTER
+Route::get("/imgdot/{id}", function ($id) {
+    $product = [
+        "name" => "محصول",
+        "img" => "https://placehold.co/600x400",
+        "price" => "25,000,000",
+        "discounted_price" => "18,000,000",
+        "discount" => "20%"
+    ];
+
+    $html = View::make("components/imgdot", $product)->render();
+
+    return response()->json(['html' => $html]);
 });
 
 Route::get('/product-options/{id}', function ($id) {
