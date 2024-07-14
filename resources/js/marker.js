@@ -14,6 +14,15 @@ if ($("#selectProductModal").length > 0) {
 var percentX = 0;
 var percentY = 0;
 
+document.addEventListener("DOMContentLoaded" , () => {
+    if($("[name='image']").val() !== ''){
+        $("#remove_image").css('display','block')
+    }
+    else{
+        $("#remove_image").css('display','none')
+    }
+})
+
 if ($("#imgmarker-preview").length > 0) {
     document
         .getElementById("imgmarker-preview")
@@ -133,30 +142,22 @@ $("#removeSelectDot").on("click", function () {
     $(this).addClass("d-none");
 });
 
-$("#choose_image").on("change", function (event) {
-    const file = event.target.files[0];
+$("#apply_image").on("click", function(){
+    let file = $("[name='image']").val();
     const imgPreview = document.getElementById("imgmarker-preview");
-
-    if (file) {
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-            imgPreview.src = e.target.result;
-            imgPreview.style.display = "block"; // Show the image
-        };
-
-        reader.readAsDataURL(file); // Read the file as a data URL
+    if (file !== '' && file !== imgPreview.getAttribute('src')) {
+        imgPreview.src = file;
+        imgPreview.style.display = "block";
         $(".image_dotter span").remove();
-    } else {
-        imgPreview.src = "";
-        imgPreview.style.display = "none"; // Hide the image if no file is selected
+        $(this).css("display",'block')
     }
 });
 
 $("#remove_image").on("click", function (e) {
-    $("#choose_image").val("");
+    $("[name=image]").val("");
     $("#imgmarker-preview").attr("src", "");
     $(".image_dotter span").remove();
+    $(this).css("display",'none')
     updateInputMarks();
 });
 

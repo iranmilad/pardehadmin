@@ -140,7 +140,7 @@
                                     </div>
                                     <div class="col-12 col-md">
                                         <label class="form-label" for="">انتخاب طرح</label>
-                                        <x-file-input type="single" :preview="false" name="option[image]" />
+                                        <x-file-input type="single" :preview="false" name="option[image]"/>
                                     </div>
                                     <div class="col-12 col-md">
                                         <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-8">
@@ -417,7 +417,6 @@
 @endsection
 
 @section('script-before')
-<script src="{{asset('plugins/custom/formrepeater/formrepeater.bundle.js')}}"></script>
 <script src="{{asset('plugins/custom/pickr/pickr.es5.min.js')}}"></script>
 @endsection
 
@@ -493,6 +492,7 @@
             initEmpty: false,
             show: function() {
                 $(this).slideDown();
+                window['KT_File_Input']();
             },
 
             hide: function(deleteElement) {

@@ -15,7 +15,7 @@
                     </div>
                     <div class="col-md-5">
                         <label class="form-label">تصویر:</label>
-                        <input name="file" type="file" class="form-control mb-2 mb-md-0" />
+                        <x-file-input type="single" :preview="false" name="file"/>
                     </div>
                     <div class="col-md-2">
                         <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-8">
@@ -53,6 +53,7 @@
 
         show: function() {
             $(this).slideDown();
+            window['KT_File_Input']();
         },
 
         hide: function(deleteElement) {

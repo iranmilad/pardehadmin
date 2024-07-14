@@ -7,18 +7,19 @@
 
 <div class="card tw-select-none">
   <div class="card-header py-4">
-    <form action="" class="d-flex tw-items-start tw-gap-3 md:align-items-center tw-w-full tw-justify-between tw-flex-col md:tw-flex-row">
+    <form action="" class="d-flex tw-items-start tw-gap-3 md:tw-items-baseline tw-w-full tw-justify-between tw-flex-col md:tw-flex-row">
       <!-- DEFAULT MARKS IN VALUE -->
       <!-- DEFAULT MARKS IN VALUE -->
       <!-- DEFAULT MARKS IN VALUE -->
       <!-- DEFAULT MARKS IN VALUE -->
        <input type="hidden" name="marks_id" value="1">
       <input id="data-dots" name="marks" type="hidden" value="" />
-      <div class="d-flex align-items-center gap-5">
-        <input class="form-control form-control-solid" name="image" id="choose_image" type="file">
-        <button type="button" id="remove_image" class="btn btn-sm btn-danger tw-w-[125px]">حذف تصویر</button>
+      <div class="d-flex tw-items-baseline gap-5">
+        <x-file-input type="single" :preview="false" name="image" value="/images/imagemarker.jpg" />
+        <button type="button" id="apply_image" class="btn btn-success">اعمال</button>
+        <button type="button" id="remove_image" class="btn btn-danger">حذف تصویر</button>
       </div>
-      <button class="btn btn-sm btn-success">ذخیره</button>
+      <button class="btn btn-success">ذخیره</button>
     </form>
   </div>
   <div class="card-body">

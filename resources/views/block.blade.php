@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <label class="form-label">تصویر:</label>
-                                        <input name="option[image]" type="file" class="form-control mb-2 mb-md-0" placeholder="وارد کنید" />
+                                        <x-file-input type="single" :preview="false" name="pic" />
                                     </div>
                                     <div class="col-md-4">
                                         <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-8">

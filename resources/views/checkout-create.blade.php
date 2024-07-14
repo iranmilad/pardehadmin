@@ -87,7 +87,7 @@
                 </div>
                 <div class="mb-5">
                     <label for="" class="form-label">لوگو</label>
-                    <input type="file" class="form-control">
+                    <x-file-input type="single" :preview="false" name="pic" />
                 </div>
                 <h4 class="my-6">تنظیمات حساب زرین پال</h4>
                 <div class="form-group row">

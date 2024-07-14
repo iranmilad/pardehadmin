@@ -12,14 +12,14 @@
             <div class="row mb-6">
                 <label class="col-lg-3 col-form-label fw-semibold fs-6">لوگو</label>
                 <div class="col-lg-8 col-xl-8">
-                    <input name="logo" type="file" class="form-control mb-2 mb-md-0" />
+                    <x-file-input type="single" :preview="true" name="logo" value="" />
                 </div>
             </div>
 
             <div class="row mb-6">
                 <label class="col-lg-3 col-form-label fw-semibold fs-6">فاوآیکون</label>
                 <div class="col-lg-8 col-xl-8">
-                    <input name="favicon" type="file" class="form-control mb-2 mb-md-0" />
+                    <x-file-input type="single" :preview="true" name="favicon" value="" />
                 </div>
             </div>
 
@@ -99,6 +99,7 @@
                 <div class="col-lg-8">
                     <div id="map" style="height: 300px;"></div>
                     <input type="hidden" id="location-map" name="location" value="35.70222474889245,51.338657483464765">
+                    <span class="text-muted">برای تغییر آدرس در محل مورد نظر کلیک کنید</span>
                 </div>
             </div>
             <div class="row mb-6">

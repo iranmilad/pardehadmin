@@ -1,45 +1,106 @@
 <div>
     @if($type === "single")
-    @if($preview === true)
-    <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
-        <!--begin::نمایش existing avatar-->
-        <div class="image-input-wrapper w-150px h-150px" style="background-image: url(http://localhost/uploads/2021-Bugatti-Chiron-Pur-Sport-011-2160.jpg);"></div>
-        <!--end::نمایش existing avatar-->
-        <!--begin::Tags-->
-        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow preview-image-label" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
-            <i class="ki-duotone ki-pencil fs-7">
-                <span class="path1"></span>
-                <span class="path2"></span>
-            </i>
-            <!--begin::Inputs-->
-            <input type="hidden" name="{{$name}}" />
-            <!--end::Inputs-->
-        </label>
-        <!--end::Tags-->
-        <!--begin::انصراف-->
-        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="انصراف">
-            <i class="ki-duotone ki-cross fs-2">
-                <span class="path1"></span>
-                <span class="path2"></span>
-            </i>
-        </span>
-        <!--end::انصراف-->
-        <!--begin::حذف-->
-        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف آواتار">
-            <i class="ki-duotone ki-cross fs-2">
-                <span class="path1"></span>
-                <span class="path2"></span>
-            </i>
-        </span>
-        <!--end::حذف-->
-    </div>
-    @else
+        @if($preview === true)
+        <div class="image-input image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
+            <!--begin::نمایش existing avatar-->
+            <div class="image-input-wrapper w-150px h-150px" @if($value !=="" ) style="background-image: url('{{ $value }}')" @endif></div>
 
-    <div class="input-group choose_file_input">
-        <input type="text" class="form-control" readonly disabled name="{{$name}}">
-        <button class="btn btn-secondary choose_file_button" type="button">انتخاب فایل</button>
-    </div>
-    @endif
+            <!--end::نمایش existing avatar-->
+            <!--begin::Tags-->
+            <button type="button" class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow preview-image-label tw-absolute -tw-top-4 -tw-left-3" data-bs-toggle="tooltip" title="تعویض تصویر">
+                <i class="ki-duotone ki-pencil fs-7">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                </i>
+                <!--begin::Inputs-->
+                <input type="hidden" name="{{$name}}" class="image_src" value="{{$value}}" />
+                <!--end::Inputs-->
+            </button>
+            <!--end::Tags-->
+            <!--begin::حذف-->
+            <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow tw-absolute -tw-bottom-4 -tw-left-3 remove-image-input" data-bs-toggle="tooltip" title="">
+                <i class="ki-duotone ki-cross fs-2">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                </i>
+            </span>
+            <!--end::حذف-->
+        </div>
+        @else
+            <div class="mb-3">
+                <div class="d-flex align-items-center choose_file_input">
+                    <input type="text" class="form-control" readonly disabled name="{{$name}}" value="{{$value}}">
+                </div>
+                <div class="d-flex tw-justify-end tw-w-full">
+                    <button type="button" class="btn p-0 text-info choose_file_button">آپلود</button>
+                </div>
+            </div>
+        @endif
     @else
+        @if($preview === true)
+        <div>
+            <div class="tw-flex tw-gap-8 md:tw-gap-8 lg:tw-gap-7 tw-flex-wrap multiple_image_input">
+                @if($value)
+                @php
+                $value = array_values($value);
+                @endphp
+                @foreach($value as $index => $new_value)
+                <div class="image-input image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
+                    <!--begin::نمایش existing avatar-->
+                    <div class="image-input-wrapper w-100px h-100px" @if($new_value !=="" ) style="background-image: url('{{ $new_value }}')" @endif></div>
+
+                    <!--end::نمایش existing avatar-->
+                    <!--begin::Tags-->
+                    <button type="button" class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow preview-image-label tw-absolute -tw-top-4 -tw-left-3" data-bs-toggle="tooltip" title="تعویض تصویر">
+                        <i class="ki-duotone ki-pencil fs-7">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                        <!--begin::Inputs-->
+                        <input type="hidden" name="{{$name}}[{{$index}}]" class="image_src" value="{{$new_value}}" />
+                        <!--end::Inputs-->
+                    </button>
+                    <!--end::Tags-->
+                    <!--begin::حذف-->
+                    <button type="button" data-remove-full="true" data-preview="true" class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow tw-absolute -tw-bottom-4 -tw-left-3 remove-image-input" data-bs-toggle="tooltip" title="">
+                        <i class="ki-duotone ki-cross fs-2">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                    </button>
+                    <!--end::حذف-->
+                </div>
+                @endforeach
+                @endif
+            </div>
+            <div class="text-right w-100 d-flex align-items-center tw-justify-start mt-3">
+                <button type="button" class="btn btn-sm btn-primary" data-add-multiple-type="preview" data-name="{{$name}}">افزودن</button>
+            </div>
+        </div>
+        @else
+            <div>
+                <div class="multiple_image_input">
+                    @if($value)
+                        @php
+                            $value = array_values($value);
+                        @endphp
+                        @foreach($value as $index => $new_value)
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center choose_file_input">
+                                <span class="remove-image-input" data-remove-full="true" data-preview="false"><i class="fa-regular fa-xmark text-danger me-3 fs-5"></i></span>
+                                <input type="text" class="form-control image_src" readonly disabled value="{{$new_value}}" name="{{$name}}[{{$index}}]">
+                            </div>
+                            <div class="d-flex tw-justify-end tw-w-full">
+                                <button type="button" class="btn p-0 text-info choose_file_button">آپلود</button>
+                            </div>
+                        </div>
+                        @endforeach
+                    @endif
+                </div>
+                <div class="mt-2">
+                    <button type="button" class="btn btn-sm btn-primary"  data-add-multiple-type="nopreview" data-name="{{$name}}">افزودن</button>
+                </div>
+            </div>
+        @endif
     @endif
 </div>

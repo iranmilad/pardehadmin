@@ -14,11 +14,13 @@ class fileInput extends Component
     public $type;
     public $preview;
     public $name;
-    public function __construct($type,$preview = false,$name)
+    public $value;
+    public function __construct($type,$preview = false,$name,$value = "")
     {
         $this->type = $type;
         $this->preview = $preview;
         $this->name = $name;
+        $this->value = $value;
     }
 
     /**

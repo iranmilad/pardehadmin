@@ -39,6 +39,7 @@ import "leaflet/dist/leaflet.css";
 import markerIcon from "../images/marker-icon.svg";
 import "./messages-dashboard";
 import "./file-uploader"
+import { KT_File_Input } from "./file-input";
 
 KTUtil.onDOMContentLoaded(function () {
     PostsTable()?.init();
@@ -63,7 +64,10 @@ KTUtil.onDOMContentLoaded(function () {
     SnippetsTable()?.init();
     ReportsTable()?.init();
     GlobalTable()?.init();
+    KT_File_Input();
 });
+
+window['KT_File_Input'] = KT_File_Input;
 
 if ($(".editor").length > 0) {
     document.querySelectorAll(".editor").forEach((elm) => {
@@ -411,13 +415,3 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-
-window['choose_file'] = null;
-document.addEventListener("DOMContentLoaded", () => {
-    $(".choose_file_button,.image-input .preview-image-label").on("click",(e) => {
-        e.preventDefault();
-        window['choose_file'] = e.target;
-
-        window.open('/file-manager/fm-button', 'fm', 'width=1400,height=800');
-    })
-})
