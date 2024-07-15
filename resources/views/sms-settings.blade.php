@@ -2,6 +2,11 @@
 
 @section('title', 'پیامک')
 
+@section("toolbar")
+<a href="{{route('sms-text.create.show')}}" class="btn btn-primary">ایجاد وضعیت جدید</a>
+@endsection
+
+
 @section('content')
 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
     <li class="nav-item" role="presentation">
@@ -77,7 +82,8 @@
             </div>
         </div>
     </div>
-    <div class="tab-pane fade " id="pills-webservice" role="tabpanel" aria-labelledby="pills-webservice-tab">
+    <form method="post" class="tab-pane fade " id="pills-webservice" role="tabpanel" aria-labelledby="pills-webservice-tab">
+        @csrf
         <div class="card">
             <div class="card-body">
                 <form action="" method="post">
@@ -117,7 +123,8 @@
                 </form>
             </div>
         </div>
-    </div>
+        <button type="submit" class="btn btn-success mt-10">ذخیره</button>
+    </form>
 </div>
 @endsection
 

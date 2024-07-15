@@ -393,6 +393,10 @@ Route::get('/sms-text/{id}', function ($id) {
     return view('sms-text');
 })->name("sms-text.show");
 
+Route::get('/create-sms-text/', function () {
+    return view('sms-text');
+})->name("sms-text.create.show");
+
 Route::group(['prefix' => 'snippets'], function () {
     Route::get('/list', function () {
         return view('snippets');
