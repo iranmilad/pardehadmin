@@ -533,17 +533,46 @@
 
 
 	<!--begin:Menu item-->
-	<div class="menu-item">
+	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('reports*') ? 'show' : ''}}">
 		<!--begin:Menu link-->
-		<a href="{{route('reports')}}" class="menu-link {{ Route::is('reports')   ? 'active' : '' }}">
+		<span class="menu-link">
 			<span class="menu-icon">
-				<i class="fa-duotone fa-chart-simple"></i>
+				<i class="fa-duotone fa-money-check-dollar"></i>
 			</span>
 			<span class="menu-title">گزارش ها</span>
-		</a>
+			<span class="menu-arrow"></span>
+		</span>
 		<!--end:Menu link-->
+		<!--begin:Menu sub-->
+		<div class="menu-sub menu-sub-accordion">
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link {{ Route::is('reports.show')  ? 'active' : '' }}" href="{{ route('reports.show') }}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">همه گزارش ها</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link {{ Route::is('report.create.show')  ? 'active' : '' }}" href="{{ route('report.create.show') }}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">افزودن گزارش</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+		</div>
+		<!--end:Menu sub-->
 	</div>
-	<!--end:Menu item-->
+	<!-- end:Menu item -->
 
 	<!--begin:Menu item-->
 	<div class="menu-item">

@@ -5,6 +5,7 @@
 @section('content')
 
 <form action="" method="post">
+    @csrf
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">
@@ -37,6 +38,7 @@
             </div>
         </div>
     </div>
+    <button class="btn btn-success mt-10" type="submit">ذخیره</button>
 </form>
 
 @endsection

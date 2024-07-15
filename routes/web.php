@@ -253,10 +253,22 @@ Route::group(['prefix' => 'products'], function () {
     })->name("products.settings.show");
 });
 
+Route::group(['prefix' => 'reports'], function () {
 
-Route::get('/reports', function () {
-    return view('reports');
-})->name("reports");
+    Route::get('/all', function () {
+        return view('reports');
+    })->name("reports.show");
+
+    Route::get('/reports/create', function () {
+        return view('report');
+    })->name("report.create.show");
+
+    Route::get('/reports/{id}', function ($id) {
+        return view('report');
+    })->name("report.edit.show");
+});
+
+
 
 Route::get('/messages', function () {
     return view('messages');

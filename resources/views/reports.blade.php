@@ -264,6 +264,14 @@
 
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
+                                    <a href="{{route('report.edit.show',['id' => 1])}}" class="menu-link px-3">
+                                        ویرایش
+                                    </a>
+                                </div>
+                                <!--end::Menu item-->
+
+                                <!--begin::Menu item-->
+                                <div class="menu-item px-3">
                                     <a href="#" class="menu-link px-3" data-kt-docs-table-filter="delete_row">
                                         حذف
                                     </a>
