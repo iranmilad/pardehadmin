@@ -1,6 +1,10 @@
 @extends('layouts.primary')
 
-@section('title', 'ایجاد گزارش')
+@if(Route::is('report.edit.show'))
+    @section('title', 'ویرایش گزارش')
+@else
+    @section('title', 'ایجاد گزارش')
+@endif
 
 @section('content')
 <form action="">

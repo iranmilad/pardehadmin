@@ -166,6 +166,18 @@ Route::group(['prefix' => 'users'], function () {
     Route::post('/delete', function ($id) {
         return view('user', ['id' => $id]);
     })->name("user.delete");
+
+    Route::get('/roles', function () {
+        return view('roles');
+    })->name("user.roles.show");
+
+    Route::get('/role-create', function () {
+        return view('role');
+    })->name("user.role.create.show");
+    
+    Route::get('/role/{id}', function ($id) {
+        return view('role');
+    })->name("user.role.edit.show");
 });
 
 Route::group(['prefix' => 'settings'], function () {
@@ -268,6 +280,19 @@ Route::group(['prefix' => 'reports'], function () {
     })->name("report.edit.show");
 });
 
+Route::group(['prefix' => 'customers-group'], function () {
+    Route::get('/list', function () {
+        return view('customers-group');
+    })->name("customers-group.show");
+
+    Route::get('/create', function () {
+        return view('customer-group');
+    })->name("customers-group.create.show");
+
+    Route::get('/edit/{id}', function ($id) {
+        return view('customer-group');
+    })->name("customers-group.edit.show");
+});
 
 
 Route::get('/messages', function () {
