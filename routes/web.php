@@ -188,7 +188,6 @@ Route::group(['prefix' => 'settings'], function () {
     Route::post('/settings', function () {
     })->name("settings.save");
 });
-// table of posts
 
 
 
@@ -487,3 +486,32 @@ Route::get('/create-transport', function () {
 Route::get('/files-manager', function () {
     return view('files');
 })->name("files-manager");
+
+
+Route::get('/customize', function () {
+    return view('customize');
+})->name("customize.show");
+
+Route::group(['prefix' => 'services'], function () {
+    Route::get('/service1', function () {
+        return view('services');
+    })->name("services.show");
+});
+
+Route::group(['prefix' => 'scores'], function () {
+    Route::get('/groups', function () {
+        return view('score-groups');
+    })->name("score-groups.show");
+
+    Route::get('/group/{id}', function ($id) {
+        return view('score-group');
+    })->name("score-group.edit.show");
+
+    Route::get('/group-create/', function () {
+        return view('score-group');
+    })->name("score-group.create.show");
+    
+    Route::get('/settings', function () {
+        return view('score-settings');
+    })->name("score-settings.show");
+});
