@@ -577,6 +577,11 @@ Route::get('/checkproduct/{id}', [ImageMarkerController::class, 'checkProduct'])
 Route::resource('worktimes', WorktimeController::class);
 Route::delete('worktimes/{worktime}', [WorkTimeController::class, 'destroy'])->name('worktimes.destroy');
 
+Route::get('/files-manager', function () {
+    return view('files');
+})->name("files-manager");
+
+
 });
 
 Route::get('login', [LoginController::class, 'index'])->name('login');
@@ -950,9 +955,7 @@ Route::get('/customize', function () {
 //     return view('transport');
 // })->name("transport.create.show");
 
-Route::get('/files-manager', function () {
-    return view('files');
-})->name("files-manager");
+
 
 Route::get('/test', function () {
     return view('file.ckeditor');
