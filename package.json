@@ -4,10 +4,10 @@
     "scripts": {
         "dev": "vite",
         "production": "vite build",
-        "css": "sass ./resources/sass/style.scss ./resources/css/style-rtl.css",
+        "css": "sass --no-source-map ./resources/sass/style.scss ./resources/css/style-rtl.css",
         "rtl": "rtlcss ./resources/css/style-rtl.css ./resources/css/style-rtl.css",
-        "theme": "npm run -s css rtl",
-        "build": "npm-run-all -s theme production"
+        "theme": "npm-run-all css rtl",
+        "build": "npm-run-all -s css rtl production"
     },
     "devDependencies": {
         "axios": "^1.6.4",

@@ -277,6 +277,19 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
+		<a href="{{route('service-orders.show')}}" class="menu-link {{Request::is('service-orders*') ? 'active' : ''}}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-bags-shopping"></i>
+			</span>
+			<span class="menu-title">سفارشات خدمت</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
 		<a href="{{route('carts.show')}}" class="menu-link {{ Route::is('carts.show') || Route::is('cart.edit.show') || Route::is('cart.create.show')  ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-shopping-cart"></i>
@@ -433,8 +446,8 @@
 	</div>
 	<!-- end:Menu item -->
 
-		<!--begin:Menu item-->
-		<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('scores*') ? 'show' : ''}}">
+	<!--begin:Menu item-->
+	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('scores*') ? 'show' : ''}}">
 		<!--begin:Menu link-->
 		<span class="menu-link">
 			<span class="menu-icon">
