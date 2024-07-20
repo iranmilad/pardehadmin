@@ -229,6 +229,103 @@
     </div>
 </div>
 
+<div class="card mb-10">
+    <div class="card-header">
+        <div class="card-title">
+            <h4>خدمت ها</h4>
+        </div>
+    </div>
+    <div class="card-body">
+        <table id="global_table" class="table gy-5 gs-7 tw-align-middle">
+            <thead>
+                <tr class="fs-7 fw-bold text-gray-400 border-bottom-0">
+                    <th class="cursor-pointer px-0 text-start">عنوان</th>
+                    <th class="cursor-pointer px-0 text-start">هزینه</th>
+                    <th class="cursor-pointer px-0 text-start">تعداد</th>
+                    <th class="cursor-pointer px-0 text-start">مجموع</th>
+                    <th class="text-end">عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <a href="{{route('attribute.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">
+                            <span>خیاطی پارچه مخمل</span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{route('attribute.show',['id' => 1])}}">12,000,000 تومان</a>
+                    </td>
+                    <td>
+                        <span>1</span>
+                    </td>
+                    <td>
+                        <span>12,000,000</span>
+                    </td>
+                    <td class="text-end">
+                        <a href="{{route('attribute.show',['id' => 1])}}" class="btn btn-danger btn-sm">
+                            حذف
+                        </a>
+                    </td>
+                </tr>
+                <tr id="details-1234" style="display:none;">
+                    <td colspan="6">
+                        <form id="product-details-1234">
+                            <label class="form-label">رنگ: 
+                                <select disabled class="form-select">
+                                    <option value="red">قرمز</option>
+                                    <option value="green">سبز</option>
+                                    <option value="blue">آبی</option>
+                                </select>
+                            </label>
+                            <label class="form-label">جنس: 
+                                <select disabled class="form-select">
+                                    <option value="cotton">پنبه</option>
+                                    <option value="silk">ابریشم</option>
+                                    <option value="wool">پشم</option>
+                                </select>
+                            </label>
+                            <label class="form-label">سایز: 
+                                <select disabled class="form-select">
+                                    <option value="small">کوچک</option>
+                                    <option value="medium">متوسط</option>
+                                    <option value="large">بزرگ</option>
+                                </select>
+                            </label>
+                            <label class="form-label">تعداد: 
+                                <input disabled type="number" class="form-control" value="1">
+                            </label>
+                            <button type="button" class="btn btn-secondary editOptionsToggleOrder" data-clicked="false">ویرایش</button>
+                            <button class="btn btn-success" type="submit">ذخیره</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+        <div class="d-flex align-items-center justify-content-between flex-column-reverse flex-md-row">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-5 mb-5">
+                <button class="btn btn-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#add_service_collapse">افزودن خدمت</button>
+            </div>
+            <ul class="tw-space-y-3">
+                <li class="fs-6"><span class="fw-bold">مجموع سفارش: </span>12,000,000</li>
+            </ul>
+        </div>
+        <div class="collapse" id="add_service_collapse">
+            <div class="row align-items-end gap-5">
+                <div class="col-md-6 col-lg-4">
+                    <x-advanced-search type="product" label="خدمت" name="new_products" solid />
+                </div>
+                <div class="col-md-6 col-lg">
+                    <button class="btn btn-sm btn-success" type="submit">افزودن</button>
+                    <button class="btn btn-sm btn-danger" data-bs-toggle="collapse" data-bs-target="#add_service_collapse">لغو</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-lg-6">
         <div class="card mb-10">

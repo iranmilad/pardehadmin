@@ -415,3 +415,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+
+// document.addEventListener("DOMContentLoaded" ,() => {
+//     if($("#add_service_modal").length > 0){
+//         let service_modal = new bootstrap.Modal("#add_service_modal" , {
+//             focus: false
+//         })
+//         $("#show_add_service_modal").on("click" , () => {
+//             service_modal.show()
+//         })
+//     }
+// })

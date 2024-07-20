@@ -838,8 +838,15 @@ Route::group(['prefix' => 'reports'], function () {
 //     Route::get('/order/print/{id}', function ($id) {
 //         return view('order-print');
 //     })->name("order.print.show");
-// });
 
+
+
+// });
+Route::group(['prefix' => 'service-orders'], function () {
+    Route::get('/list/', function () {
+        return view('orders-service');
+    })->name("service-orders.show");
+});
 // Route::group(['prefix' => 'installments'], function () {
 //     Route::get('/list', function () {
 //         return view('installments');
