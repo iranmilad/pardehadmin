@@ -22,7 +22,7 @@
                 </div>
                 <div class="mb-5">
                     <label for="logo" class="form-label">لوگو</label>
-                    <input type="file" name="logo" class="form-control">
+                    <x-file-input type="single" :preview="false" name="pic" />
                 </div>
                 <h4 class="my-6">تنظیمات حساب</h4>
                 <div class="form-group row">

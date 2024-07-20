@@ -38,13 +38,7 @@
 
                 <div class="col-md-5">
                     <label class="form-label">تصویر:</label>
-                    <input name="files[]" type="file" class="form-control mb-2 mb-md-0" />
-                    @if(isset($sliderImage->image))
-                    <div class="mt-2">
-                        <img src="{{ asset($sliderImage->image) }}" alt="تصویر فعلی"
-                            style="max-width: 100px; max-height: 100px;">
-                    </div>
-                    @endif
+                    <x-file-input type="single" :preview="false" name="file"/>
                 </div>
                 <div class="col-md-2">
                     <a href="{{ route('sliders.deleteImage',$sliderImage->id) }}" class="btn btn-sm btn-light-danger mt-3 mt-md-8 remove_field">
