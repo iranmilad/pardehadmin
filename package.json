@@ -3,8 +3,11 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
-        "prod": "npm run production"
+        "production": "vite build",
+        "css": "sass ./resources/sass/style.scss ./resources/css/style-rtl.css",
+        "rtl": "rtlcss ./resources/css/style-rtl.css ./resources/css/style-rtl.css",
+        "theme": "npm run -s css rtl",
+        "build": "npm-run-all -s theme production"
     },
     "devDependencies": {
         "axios": "^1.6.4",

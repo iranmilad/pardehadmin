@@ -183,8 +183,8 @@
                             <span class="path2"></span>
                         </i>
                         <!--begin::Inputs-->
-                        <input type="file" name="thumbnail" accept=".png, .jpg, .jpeg" />
-                        <input type="hidden" name="thumbnail_remove" />
+                        <x-file-input type="single" :preview="true" name="thumbnail" />
+
                         <!--end::Inputs-->
                     </label>
                     <!--end::Tags-->

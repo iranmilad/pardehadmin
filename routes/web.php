@@ -698,7 +698,6 @@ Route::get('/changepass', function () {
 //     Route::post('/settings', function () {
 //     })->name("settings.save");
 // });
-// table of posts
 
 
 
@@ -775,6 +774,7 @@ Route::get('/changepass', function () {
 //     })->name("products.settings.show");
 // });
 
+Route::group(['prefix' => 'reports'], function () {
 
 Route::get('/reports', function () {
     return view('reports');
@@ -899,6 +899,10 @@ Route::get('/sms-settings', function () {
 Route::get('/sms-text/{id}', function ($id) {
     return view('sms-text');
 })->name("sms-text.show");
+
+Route::get('/create-sms-text/', function () {
+    return view('sms-text');
+})->name("sms-text.create.show");
 
 Route::get('/sms-text-create', function () {
     return view('sms-text-create');

@@ -7,7 +7,6 @@ import Dashboard from "@uppy/dashboard";
 import "@uppy/dashboard/dist/style.min.css";
 import Persian from "@uppy/locales/lib/fa_IR";
 import $ from "jquery";
-import * as bootstrap from "bootstrap";
 import "@uppy/core/dist/style.min.css";
 import "@uppy/drag-drop/dist/style.min.css";
 import "@uppy/status-bar/dist/style.min.css";

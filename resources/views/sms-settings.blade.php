@@ -82,7 +82,8 @@
             </div>
         </div>
     </div>
-    <div class="tab-pane fade " id="pills-webservice" role="tabpanel" aria-labelledby="pills-webservice-tab">
+    <div method="post" class="tab-pane fade " id="pills-webservice" role="tabpanel" aria-labelledby="pills-webservice-tab">
+        @csrf
         <div class="card">
             <div class="card-body">
                 <form action="" method="post">
@@ -122,6 +123,7 @@
                 </form>
             </div>
         </div>
+        <button type="submit" class="btn btn-success mt-10">ذخیره</button>
     </div>
 </div>
 @endsection

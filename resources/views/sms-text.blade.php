@@ -1,40 +1,59 @@
 @extends('layouts.primary')
 
-@section('title', 'ویرایش وضعیت سفارش')
+@if(Route::is('sms-text.show'))
+    @section('title', 'ویرایش وضعیت پیامک')
+@else
+    @section('title', 'ایجاد وضعیت جدید')
+@endif
 
 @section('content')
 <div class="card">
     <div class="card-body">
         <form action="" method="post">
             <div class="form-group row mb-5">
-                <label for="" class="col-2 form-label">ارسال پیامک به مدیران کل</label>
+                <label for="" class="col-2 form-label">مورد استفاده در : </label>
                 <div class="col-10">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="">
-                        <label class="form-check-label">
-                            با فعالسازی این گزینه، در هنگام ثبت و یا تغییر سفارش، برای مدیران کل سایت پیامک ارسال می گردد.
-                        </label>
+                        <select name="" id="" class="form-select for-select-solid" data-control="select2">
+                            <option value="">در حال انجام</option>
+                            <option value="">در حال بررسی</option>
+                            <option value="">اتمام یافته</option>
+                            <option value="">لغو شده</option>
+                        </select>
                     </div>
                 </div>
             </div>
-            <div class="form-group mb-10">
-                <label for="" class="form-label">شماره موبایل های مدیران کل</label>
-                <div>
-                    <div>
-                        <input dir="ltr" type="text" class="form-control">
-                        <div class="form-text">
-                            شماره ها را با کاما (,) جدا نمایید.
-                        </div>
+            <div class="form-group row mb-5">
+                <label for="" class="col-2 form-label">ارسال برای : </label>
+                <div class="col-10">
+                    <div class="form-check">
+                        <select name="" id="" class="form-select for-select-solid" data-control="select2">
+                            <option value="">خیاط ها</option>
+                            <option value="">مدیران</option>
+                            <option value="">مشتریان</option>
+                            <option value="">تامین کنندگان</option>
+                        </select>
                     </div>
                 </div>
             </div>
-            <h4 class="my-8">متن پیامک مدیر کل</h4>
+            <div class="form-group row mb-5">
+                <label for="" class="col-2 form-label">سیستم پیامک : </label>
+                <div class="col-10">
+                    <div class="form-check">
+                        <select name="" id="" class="form-select for-select-solid" data-control="select2">
+                            <option value="">ippanel.com</option>
+                            <option value="">yektatech</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <h4 class="my-8">متن پیامک </h4>
             <div class="row mb-5">
                 <div class="col-2">
                     <span>شورت کد های قابل استفاده</span>
                 </div>
                 <div class="col-10">
-                    <button type="button" class="btn" data-bs-toggle="collapse" data-bs-target="#shortcodes">برای مشاهده شورتکدهای قابل استفاده در متن پیامک ها کلیک کنید.</button>
+                    <button type="button" class="btn" data-bs-toggle="collapse" data-bs-target="#shortcodes" aria-expanded="false" aria-controls="shortcodes">برای مشاهده شورتکدهای قابل استفاده در متن پیامک ها کلیک کنید.</button>
                     <div class="collapse" id="shortcodes">
                         <div class="mb-6">
                             <b><i>جزئیات سفارش</i></b>
@@ -74,7 +93,7 @@
                 </div>
             </div>
             <div class="form-group row mb-5">
-                <label for="" class="col-2 form-label">وضعیت در انتظار پرداخت (بلافاصله بعد از ثبت سفارش)</label>
+                <label for="" class="col-2 form-label">متن پیامک را وارد کنید</label>
                 <div class="col-10">
                     <div>
                         <textarea name="" id="" class="form-control" rows="5">سلام مدیر سفارش {order_id} ثبت شده است و هم اکنون در وضعیت در انتظار پرداخت می باشد. آیتم های سفارش : {all_items} . مبلغ سفارش : {price}
@@ -88,4 +107,5 @@
         </form>
     </div>
 </div>
+<button class="btn btn-success mt-10">ذخیره</button>
 @endsection

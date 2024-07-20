@@ -143,6 +143,7 @@ use Illuminate\Support\Facades\Vite;
     <script src="{{asset('js/scripts.bundle.js')}}"></script>
     <script src="{{asset('js/widgets.bundle.js')}}"></script>
     <script src="{{asset('js/custom/widgets.js')}}"></script>
+    <script src="{{asset('plugins/custom/formrepeater/formrepeater.bundle.js')}}"></script>
     @yield('script-before')
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -170,28 +171,42 @@ use Illuminate\Support\Facades\Vite;
             });
         })
 
-        window['changethatBg'] = function(elm,url){
-            elm.style.backgroundImage = `url(https://placehold.co/600x400)`;
-        }
-
         function fmSetLink($url) {
-            // document.getElementById('image_label').value = $url;
             let btn = window['choose_file'];
             if (btn.classList.contains('path1') || btn.classList.contains('preview-image-label')) {
                 if (btn.classList.contains('path1')) {
-                    const closestImageWrapper = btn.parentElement.closest('.image-input-wrapper');
+                    const closestImageWrapper = btn.parentElement.parentElement.parentElement.querySelector('.image-input-wrapper');
                     if (closestImageWrapper) {
-                        window['changethatBg'](closestImageWrapper,$url)
+                        window['changethatBg'](closestImageWrapper, $url);
                     }
                 } else {
                     const siblingImageWrapper = btn.parentElement.querySelector('.image-input-wrapper');
                     if (siblingImageWrapper) {
-                        window['changethatBg'](siblingImageWrapper,$url)
+                        window['changethatBg'](siblingImageWrapper, $url);
                     }
                 }
+            } else if (btn.classList.contains('choose_file_button')) {
+                btn.parentElement.parentElement.querySelector('input').value = $url;
             }
-            // btn.parent().find("input").val($url)
+            else if(btn.hasAttribute("data-add-multiple-type")){
+                window['preview_multi'](btn,$url)
+            }
         }
+        document.addEventListener("DOMContentLoaded", () => {
+            if ($(".multiple_file_repeater").length > 0) {
+                $(".multiple_file_repeater").repeater({
+                    initEmpty: false,
+                    show: function() {
+                        $(this).show();
+                        window['KT_File_Input']();
+                    },
+
+                    hide: function(deleteElement) {
+                        $(this).slideUp(deleteElement);
+                    }
+                });
+            }
+        })
     </script>
     @vite("resources/js/app.js")
     @yield('scripts')

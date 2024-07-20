@@ -168,23 +168,81 @@
             </div>
             <!-- END:TAGS -->
 
-            <!-- START: THUMBNAIL -->
-            <div class="card card-flush py-4 mb-5">
-                <!--begin::کارت header-->
-                <div class="card-header">
-                    <!--begin::کارت title-->
-                    <div class="card-title">
-                        <h4>تصویر شاخص</h4>
-                    </div>
-                    <!--end::کارت title-->
+        <!-- START: THUMBNAIL -->
+        <div class="card card-flush py-4 mb-5">
+            <!--begin::کارت header-->
+            <div class="card-header">
+                <!--begin::کارت title-->
+                <div class="card-title">
+                    <h4>تصویر شاخص</h4>
                 </div>
-                <!--end::کارت header-->
-                <!--begin::کارت body-->
-                <div class="card-body text-center pt-0">
-                    <!--begin::Image input-->
-                    <div class="image-input image-input-empty image-input-outline {{ isset($product) && $product->img ?  '' : 'image-input-placeholder' }} mb-3" data-kt-image-input="true" style="background-image: url({{ isset($product) && $product->img ? asset($product->img) : '/images/1.jpg' }});">
+                <!--end::کارت title-->
+            </div>
+            <!--end::کارت header-->
+            <!--begin::کارت body-->
+            <div class="card-body text-center pt-0">
+                <!--begin::Image input-->
+                <!--end::Image input placeholder-->
+                <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
+                    <!--begin::نمایش existing avatar-->
+                    <div class="image-input-wrapper w-150px h-150px"></div>
+                    <!--end::نمایش existing avatar-->
+                    <!--begin::Tags-->
+                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
+                        <i class="ki-duotone ki-pencil fs-7">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                        <!--begin::Inputs-->
+                        <x-file-input type="single" :preview="true" name="thumbnail" />
+
+                        <!--end::Inputs-->
+                    </label>
+                    <!--end::Tags-->
+                    <!--begin::انصراف-->
+                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="انصراف">
+                        <i class="ki-duotone ki-cross fs-2">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                    </span>
+                    <!--end::انصراف-->
+                    <!--begin::حذف-->
+                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف آواتار">
+                        <i class="ki-duotone ki-cross fs-2">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                    </span>
+                    <!--end::حذف-->
+                </div>
+                <!--end::Image input-->
+                <!--begin::توضیحات-->
+                <div class="text-muted fs-7">تصویر شاخص را انتخاب کنید</div>
+                <!--end::توضیحات-->
+            </div>
+            <!--end::کارت body-->
+        </div>
+        <!-- END:THUMBNAIL -->
+
+        <!-- START: THUMBNAIL -->
+        <div class="card card-flush py-4 mb-5">
+            <!--begin::کارت header-->
+            <div class="card-header">
+                <!--begin::کارت title-->
+                <div class="card-title">
+                    <h4>گالری تصویر</h4>
+                </div>
+                <!--end::کارت title-->
+            </div>
+            <!--end::کارت header-->
+            <!--begin::کارت body-->
+            <div class="card-body text-center pt-0">
+                <div class="tw-flex tw-gap-5 tw-flex-wrap">
+                    <!--end::Image input placeholder-->
+                    <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
                         <!--begin::نمایش existing avatar-->
-                        <div class="image-input-wrapper w-150px h-150px"></div>
+                        <div class="image-input-wrapper w-100px h-100px" style="background-image: url(/images/1.jpg)"></div>
                         <!--end::نمایش existing avatar-->
                         <!--begin::Tags-->
                         <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
@@ -193,145 +251,113 @@
                                 <span class="path2"></span>
                             </i>
                             <!--begin::Inputs-->
-                            <input type="file" name="thumbnail" accept=".png, .jpg, .jpeg" />
-                            <input type="hidden" name="thumbnail_remove" />
+                            <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+                            <input type="hidden" name="avatar_remove" />
                             <!--end::Inputs-->
                         </label>
                         <!--end::Tags-->
                         <!--begin::انصراف-->
-                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="انصراف">
+                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-gallery-action="remove" data-bs-toggle="tooltip" title="حذف">
                             <i class="ki-duotone ki-cross fs-2">
                                 <span class="path1"></span>
                                 <span class="path2"></span>
                             </i>
                         </span>
                         <!--end::انصراف-->
-                        <!--begin::حذف-->
-                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف آواتار">
+                    </div>
+                    <!--end::Image input-->
+
+                    <!--end::Image input placeholder-->
+                    <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
+                        <!--begin::نمایش existing avatar-->
+                        <div class="image-input-wrapper w-100px h-100px" style="background-image: url(/images/1.jpg)"></div>
+                        <!--end::نمایش existing avatar-->
+                        <!--begin::Tags-->
+                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
+                            <i class="ki-duotone ki-pencil fs-7">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                            <!--begin::Inputs-->
+                            <x-file-input type="multiple" :preview="true" name="gallery" :value='["https://placehold.co/600x400?text=Hello+World","https://placehold.co/600x400?text=XYZ"]' />
+                            <!--end::Inputs-->
+                        </label>
+                        <!--end::Tags-->
+                        <!--begin::انصراف-->
+                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-gallery-action="remove" data-bs-toggle="tooltip" title="حذف">
                             <i class="ki-duotone ki-cross fs-2">
                                 <span class="path1"></span>
                                 <span class="path2"></span>
                             </i>
                         </span>
-                        <!--end::حذف-->
+                        <!--end::انصراف-->
                     </div>
                     <!--end::Image input-->
-                    <!--begin::توضیحات-->
-                    <div class="text-muted fs-7 d-none">تصویر شاخص را انتخاب کنید</div>
-                    <input type="file" class="form-control-file" id="img" name="img">
-                    <!--end::توضیحات-->
                 </div>
-                <!--end::کارت body-->
+
             </div>
-            <!-- END: THUMBNAIL -->
+            <!--end::کارت body-->
 
-
-
-            <!-- START: THUMBNAIL -->
-            <div class="card card-flush py-4 mb-5">
-                <!--begin::کارت header-->
-                <div class="card-header">
-                    <!--begin::کارت title-->
-                    <div class="card-title">
-                        <h4>گالری تصویر</h4>
-                    </div>
-                    <!--end::کارت title-->
+            <div class="card-footer">
+                <div class="d-flex align-items-center justify-content-between flex-wrap">
+                    <button class="btn btn-sm btn-light-primary">افزودن تصویر جدید</button>
                 </div>
-                <!--end::کارت header-->
-                <!--begin::کارت body-->
-                <div class="card-body text-center pt-0">
-                    <div class="tw-flex tw-gap-5 tw-flex-wrap">
-                        @isset($product)
-                            @forelse ($product->images as $image)
-                                <!--end::Image input placeholder-->
-                                <div class="image-input image-input-empty image-input-outline {{ isset($product) && $image->url ?  '' : 'image-input-placeholder' }} mb-3" data-kt-image-input="true" style="background-image: url({{ isset($product) && $image->url ? $image->url : '/images/1.jpg' }});">
-                                    <!--begin::نمایش existing avatar-->
-                                    <div class="image-input-wrapper w-150px h-150px"></div>
-                                    <!--end::نمایش existing avatar-->
-                                    <!--begin::Tags-->
-                                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
-                                        <i class="ki-duotone ki-pencil fs-7">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i>
-                                        <!--begin::Inputs-->
-                                        <input type="file" name="thumbnail" accept=".png, .jpg, .jpeg" />
-                                        <input type="hidden" name="thumbnail_remove" />
-                                        <!--end::Inputs-->
-                                    </label>
-                                    <!--end::Tags-->
-                                    <!--begin::انصراف-->
-                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="انصراف">
-                                        <i class="ki-duotone ki-cross fs-2">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i>
-                                    </span>
-                                    <!--end::انصراف-->
-                                    <!--begin::حذف-->
-                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف آواتار">
-                                        <i class="ki-duotone ki-cross fs-2">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i>
-                                    </span>
-                                    <!--end::حذف-->
-                                </div>
-                                <!--end::Image input-->
-                                
-                            @empty
-                                <!--end::Image input placeholder-->
-                                <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true" style="background-image: url('/images/1.jpg');">
-                                    <!--begin::نمایش existing avatar-->
-                                    <div class="image-input-wrapper w-150px h-150px"></div>
-                                    <!--end::نمایش existing avatar-->
-                                    <!--begin::Tags-->
-                                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
-                                        <i class="ki-duotone ki-pencil fs-7">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i>
-                                        <!--begin::Inputs-->
-                                        <input type="file" name="thumbnail" accept=".png, .jpg, .jpeg" />
-                                        <input type="hidden" name="thumbnail_remove" />
-                                        <!--end::Inputs-->
-                                    </label>
-                                    <!--end::Tags-->
-                                    <!--begin::انصراف-->
-                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="انصراف">
-                                        <i class="ki-duotone ki-cross fs-2">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i>
-                                    </span>
-                                    <!--end::انصراف-->
-                                    <!--begin::حذف-->
-                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف آواتار">
-                                        <i class="ki-duotone ki-cross fs-2">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i>
-                                    </span>
-                                    <!--end::حذف-->
-                                </div>
-                                <!--end::Image input-->                            
-                            @endforelse
-                        @endisset
-                    </div>
-                </div>
-                <!--end::کارت body-->
+            </div>
+        </div>
+        <!-- END:THUMBNAIL -->
 
-                <div class="card-footer">
-                    <div class="d-flex align-items-center justify-content-between flex-wrap">
-                        <button class="btn btn-sm btn-light-primary d-none">افزودن تصویر جدید</button>
-                        <input type="file" class="form-control-file" id="gallery" name="gallery[]" multiple>
-                        @isset($product)
-                            @if ($product->images->count()>0)
-                                <a href="{{ route('products.delete.images', $product->id) }}" class="btn btn-sm btn-danger tw-w-[125px] mt-2">حذف همه</a>
-                            @endif
-                        @endisset
-                    </div>
+        <!-- START: VIDEO THUMBNAIL -->
+        <div class="card card-flush py-4">
+            <!--begin::کارت header-->
+            <div class="card-header">
+                <!--begin::کارت title-->
+                <div class="card-title">
+                    <h4>ویدئو</h4>
                 </div>
+                <!--end::کارت title-->
+            </div>
+            <!--end::کارت header-->
+            <!--begin::کارت body-->
+            <div class="card-body text-center pt-0">
+                <!--begin::Image input-->
+                <!--end::Image input placeholder-->
+                <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
+                    <!--begin::نمایش existing avatar-->
+                    <div class="image-input-wrapper w-150px h-150px"></div>
+                    <!--end::نمایش existing avatar-->
+                    <!--begin::Tags-->
+                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض ویدئو">
+                        <i class="ki-duotone ki-pencil fs-7">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                        <!--begin::Inputs-->
+                        <input type="file" name="avatar" accept="mp4" />
+                        <input type="hidden" name="avatar_remove" />
+                        <!--end::Inputs-->
+                    </label>
+                    <!--end::Tags-->
+                    <!--begin::انصراف-->
+                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="انصراف">
+                        <i class="ki-duotone ki-cross fs-2">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                    </span>
+                    <!--end::انصراف-->
+                    <!--begin::حذف-->
+                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف ویدئو">
+                        <i class="ki-duotone ki-cross fs-2">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                    </span>
+                    <!--end::حذف-->
+                </div>
+                <!--end::Image input-->
+                <!--begin::توضیحات-->
+                <div class="text-muted fs-7">ویدئو محصول را انتخاب کنید</div>
+                <!--end::توضیحات-->
             </div>
             <!-- END:THUMBNAIL -->
 
@@ -361,9 +387,9 @@
                             </span>
                         </div>
                         <div class="text-muted fs-7 d-none">ویدئو محصول را انتخاب کنید</div>
-                        <input type="file" class="form-control-file" id="video" name="video">
+                        <x-file-input type="single" :preview="false" name="video" />
                     </div>
-                
+
                 <!-- END:THUMBNAIL -->
             </div>
             <!-- END:VIDEO THUMBNAIL -->
@@ -375,7 +401,7 @@
                         <label class="form-label ">راهنمای اندازه گیری</label>
                         <div class="row row-editor">
                             <div class="editor-container">
-                        
+
                                 <textarea id="guide" name="guide" class="editor tw-max-h-96 tw-overflow-auto">{{ old('guide', isset($product) ? isset($product->article) ? $product->article->guide : '' : '') }}</textarea>
                             </div>
                         </div>

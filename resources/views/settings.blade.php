@@ -14,13 +14,13 @@
             <div class="row mb-6">
                 <label class="col-lg-3 col-form-label fw-semibold fs-6">لوگو</label>
                 <div class="col-lg-8 col-xl-8">
-                    <input name="settings[logo]" type="file" class="form-control mb-2 mb-md-0" />
+                    <x-file-input type="single" :preview="true" name="logo" value="" />
                 </div>
             </div>
             <div class="row mb-6">
                 <label class="col-lg-3 col-form-label fw-semibold fs-6">فاوآیکون</label>
                 <div class="col-lg-8 col-xl-8">
-                    <input name="settings[favicon]" type="file" class="form-control mb-2 mb-md-0" />
+                    <x-file-input type="single" :preview="true" name="settings[favicon]" value="" />
                 </div>
             </div>
             <div class="row mb-6">

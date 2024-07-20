@@ -260,7 +260,7 @@
                                     </div>
                                     <div class="col-12 col-md">
                                         <label class="form-label" for="">انتخاب طرح</label>
-                                        <x-file-input type="single" :preview="false" name="option[image]" />
+                                        <x-file-input type="single" :preview="false" name="option[image]"/>
                                     </div>
                                     <div class="col-12 col-md">
                                         <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-8">
@@ -538,4 +538,111 @@
         </div>
     </div>
 </div>
-<!-- MOTHER PATTERN --> --}}
+<!-- MOTHER PATTERN -->
+
+@endsection
+
+@section('script-before')
+<script src="{{asset('plugins/custom/pickr/pickr.es5.min.js')}}"></script>
+@endsection
+
+@section("scripts")
+<script>
+    const pickerConfig = {
+        el: '.color-picker',
+        theme: 'nano', // or 'monolith', or 'nano'
+
+        swatches: [
+            'rgba(244, 67, 54, 1)',
+            'rgba(233, 30, 99, 1)',
+            'rgba(156, 39, 176,1)',
+            'rgba(103, 58, 183,1)',
+            'rgba(63, 81, 181, 1)',
+            'rgba(33, 150, 243,1)',
+            'rgba(3, 169, 244,1)',
+            'rgba(0, 188, 212,1)',
+            'rgba(0, 150, 136,1)',
+            'rgba(76, 175, 80,1)',
+            'rgba(139, 195, 74,1)',
+            'rgba(205, 220, 57,1)',
+            'rgba(255, 235, 59,1)',
+            'rgba(255, 193, 7, 1)'
+        ],
+
+        components: {
+
+            // Main components
+            preview: true,
+            opacity: false,
+            hue: false,
+
+            // Input / output Options
+            interaction: {
+                hex: true,
+                input: true,
+                clear: true,
+                cancel: true,
+                save: true
+            }
+        },
+        i18n: {
+            'btn:save': 'ذخیره',
+            'btn:cancel': 'انصراف',
+            'btn:clear': 'پاک کردن',
+        }
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+
+        $('.color_repeater').repeater({
+            initEmpty: false,
+            ready: function(e) {
+                new Pickr(pickerConfig).on("save", (color, instance) => {
+                    $(instance._root.root).parent().children("input[type='hidden']").val(color.toHEXA().toString())
+                    instance.hide();
+                })
+            },
+            show: function() {
+                $(this).slideDown();
+                const pickr = new Pickr(pickerConfig).on("save", (color, instance) => {
+                    $(instance._root.root).parent().children("input[type='hidden']").val(color.toHEXA().toString())
+                    instance.hide();
+                });
+            },
+
+            hide: function(deleteElement) {
+                $(this).slideUp(deleteElement);
+            }
+        });
+
+        $(".other_repeater").repeater({
+            initEmpty: false,
+            show: function() {
+                $(this).slideDown();
+                window['KT_File_Input']();
+            },
+
+            hide: function(deleteElement) {
+                $(this).slideUp(deleteElement);
+            }
+        });
+
+        $(".select_repeater").repeater({
+            initEmpty: false,
+            ready: function() {
+                document.querySelectorAll(".select-option").forEach(item => {
+                    new Tagify(item);
+                })
+            },
+            show: function() {
+                $(this).slideDown();
+                let item = $(this).find(".select-option").get(0);
+                new Tagify(item);
+            },
+
+            hide: function(deleteElement) {
+                $(this).slideUp(deleteElement);
+            }
+        });
+    })
+</script>
+@endsection

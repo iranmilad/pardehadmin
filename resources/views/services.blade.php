@@ -5,6 +5,7 @@
 @section('content')
 
 <form action="" method="post">
+    @csrf
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">

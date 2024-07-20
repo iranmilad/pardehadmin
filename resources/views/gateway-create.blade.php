@@ -64,8 +64,8 @@
                     <input type="text" name="title" class="form-control" placeholder="عنوان را وارد کنید" required>
                 </div>
                 <div class="mb-5">
-                    <label for="logo" class="form-label">لوگو</label>
-                    <input type="file" name="logo" class="form-control">
+                    <label for="" class="form-label">لوگو</label>
+                    <x-file-input type="single" :preview="false" name="pic" />
                 </div>
                 <h4 class="my-6">تنظیمات حساب زرین پال</h4>
                 <div class="form-group row">
