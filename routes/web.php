@@ -307,6 +307,18 @@ Route::middleware(['auth'])->group(function () {
 
         Route::post('/bulk_action', [UserController::class, 'bulk_action'])->name("users.bulk_action");
 
+        Route::get('/roles', function () {
+            return view('roles');
+        })->name("user.roles.show");
+
+        Route::get('/role-create', function () {
+            return view('role');
+        })->name("user.role.create.show");
+
+        Route::get('/role/{id}', function ($id) {
+            return view('role');
+        })->name("user.role.edit.show");
+
     });
 
 
@@ -776,9 +788,9 @@ Route::get('/changepass', function () {
 
 Route::group(['prefix' => 'reports'], function () {
 
-Route::get('/reports', function () {
-    return view('reports');
-})->name("reports");
+    Route::get('/reports', function () {
+        return view('reports');
+    })->name("reports");
 
 // Route::get('/messages', function () {
 //     return view('messages');
@@ -789,7 +801,7 @@ Route::get('/reports', function () {
 // })->name("message.show");
 
 
-
+});
 
 
 
@@ -964,3 +976,22 @@ Route::get('/customize', function () {
 Route::get('/test', function () {
     return view('file.ckeditor');
 })->name("files-test");
+
+
+Route::group(['prefix' => 'scores'], function () {
+    Route::get('/groups', function () {
+        return view('score-groups');
+    })->name("score-groups.show");
+
+    Route::get('/group/{id}', function ($id) {
+        return view('score-group');
+    })->name("score-group.edit.show");
+
+    Route::get('/group-create/', function () {
+        return view('score-group');
+    })->name("score-group.create.show");
+
+    Route::get('/settings', function () {
+        return view('score-settings');
+    })->name("score-settings.show");
+});
