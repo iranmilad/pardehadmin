@@ -393,6 +393,19 @@
 	<!--end:Menu item-->
 
 	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{route('tasks.show')}}" class="menu-link {{Request::is('tasks*') ? 'active' : ''}}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-solid fa-list-check"></i>
+			</span>
+			<span class="menu-title">کار ها</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+
+	<!--begin:Menu item-->
 	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('users*') ? 'show' : ''}}">
 		<!--begin:Menu link-->
 		<span class="menu-link">

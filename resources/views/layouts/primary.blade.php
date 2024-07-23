@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Vite;
     <link rel="stylesheet" href="{{asset('css/style-rtl.css')}}">
     <link rel="stylesheet" href="{{asset('plugins/global/plugins.bundle.css')}}">
     <link rel="stylesheet" href="{{asset('plugins/global/plugins.bundle.rtl.css')}}">
+    <link rel="stylesheet" href="{{asset('css/flatpickr.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/flatpickr-custom.css')}}">
     @vite(['resources/css/app.css'])
 </head>
 
@@ -118,6 +120,7 @@ use Illuminate\Support\Facades\Vite;
     <script src="{{asset('js/widgets.bundle.js')}}"></script>
     <script src="{{asset('js/custom/widgets.js')}}"></script>
     <script src="{{asset('plugins/custom/formrepeater/formrepeater.bundle.js')}}"></script>
+    <script src="{{asset('plugins/flatpickr.min.js')}}"></script>
     @yield('script-before')
     <script>
         document.addEventListener("DOMContentLoaded", function() {

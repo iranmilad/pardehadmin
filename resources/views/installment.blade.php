@@ -69,19 +69,25 @@
 
 @section('script-before')
 <script src="{{asset('plugins/flatpicker_fa.js')}}"></script>
-<script src="{{asset('plugins/jdate.min.js')}}"></script>
+<script src="{{asset('plugins/jalali-moment.browser.js')}}"></script>
 @endsection
 
 @section("scripts")
 <script>
-    window.Date = window.JDate;
-
     flatpickr = $(".date_picker").flatpickr({
         disableMobile: "true",
         altInput: true,
-        altFormat: "Y-m-d",
-        dateFormat: "Y-m-d",
+        dateFormat: "YYYY-MM-DD",
+        altFormat: "DD-MM-YYYY",
         locale: "fa",
+        parseDate: (datestr, format) => {
+            return moment(datestr, format, true).toDate();
+        },
+        formatDate: (date, format, locale) => {
+            // locale can also be used
+            console.log(format)
+            return moment(date).locale('fa').format(format);
+        }
     })
 </script>
 @endsection

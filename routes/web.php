@@ -521,3 +521,9 @@ Route::group(['prefix' => 'scores'], function () {
         return view('score-settings');
     })->name("score-settings.show");
 });
+
+Route::group(['prefix' => 'tasks'], function () {
+    Route::get('/list', function () {
+        return view('tasks');
+    })->name("tasks.show");
+});
