@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\ImageMarker;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class ImageMarkerController extends Controller
 {
@@ -56,8 +58,8 @@ class ImageMarkerController extends Controller
             'marks' => 'required|json',
         ]);
 
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
+        if ($request->input('image')) {
+            $imagePath = $request->input('image');
             $imageMarker->update(['image_path' => $imagePath]);
         }
 
@@ -95,6 +97,23 @@ class ImageMarkerController extends Controller
         }
 
         return response()->json($response);
+    }
+
+
+    public function imgdot($id){
+        $product= Product::find($id);
+
+        $product = [
+            "name" => $product->title,
+            "img" => $product->img,
+            "price" => number_format($product->price),
+            "discounted_price" => number_format($product->sale_price),
+            "discount" => $product->discountPercentage
+        ];
+
+        $html = View::make("components/imgdot", $product)->render();
+
+        return response()->json(['html' => $html]);
     }
 
 }

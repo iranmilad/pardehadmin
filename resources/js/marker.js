@@ -116,7 +116,10 @@ function changeImageMarker(e) {
     let id = $(this).data("id");
     let link = $(this).data("link");
     $.ajax({
-        url: `/api/imgdot/${id}`,
+        url: `/imgdot/${id}`,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         beforeSend: function () {
             $("#priceModal .product_details").html("");
             productInfoModal.show();
@@ -199,7 +202,7 @@ $(document).ready(function () {
             let blockUI = new KTBlockUI(document.getElementById("kt_app_main"));
             let markerId = $('input[name="marks_id"]').val();
 
-            if(markerId !== ""){
+            if(markerId){
                 $.ajax({
                     url: `/checkproduct/${markerId}`,
                     method: "GET",

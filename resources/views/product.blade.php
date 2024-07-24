@@ -11,390 +11,252 @@
             <input type="hidden" value="{{ $product->id }}" name="product">
         @endif
         @csrf
-        <div class="col-8 col-lg-8 col-xl-9">
-            <div class="card mb-7">
-                <div class="card-body">
-                    <div class="mb-10">
-                        <label for="title" class="required form-label">عنوان</label>
-                        <input type="text" id="title" name="title" class="form-control" value="{{ isset($product) ? $product->title : '' }}" placeholder="عنوان را وارد کنید" />
-                    </div>
-                    <div class="mb-2 mt-10">
-                        <label class="form-label ">توضیحات</label>
-                        <div class="row row-editor">
-                            <div class="editor-container">
-                                <textarea id="description" name="description" class="editor tw-max-h-96 tw-overflow-auto">{{ old('description', isset($product) ? $product->description : '') }}</textarea>
-                            </div>
-                        </div>
-                    </div>
+        <div class="row">
 
-                </div>
-            </div>
-            @if (isset($product))
-                <div class="card">
-                    <div class="card-header py-4">
-                        <div class="card-title">
-                            <h4>اطلاعات محصول</h4>
-                        </div>
-                        <select class="form-select form-select-solid tw-w-max" name="service" id="service">
-                            <option value="0" {{ isset($product) && $product->service == 0 ? 'selected' : '' }}>محصول </option>
-                            <option value="1" {{ isset($product) && $product->service == 1 ? 'selected' : '' }}>خدمت</option>
-                        </select>
-                    </div>
+            <div class="col-8 col-lg-8 col-xl-9">
+                <div class="card mb-7">
                     <div class="card-body">
-                        <div class="nav nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                            @if (!$product->service)
-                            <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">انبار</button>
-                            @endif
-                            <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">حمل و نقل</button>
-                            <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-relation" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">متغیر های وابسته</button>
-                            <button class="nav-link" id="v-pills-norelation-tab" data-bs-toggle="pill" data-bs-target="#v-pills-norelation" type="button" role="tab" aria-controls="v-pills-norelation" aria-selected="false">متغیر های مستقل</button>
-                            <button class="nav-link" id="v-pills-installments-tab" data-bs-toggle="pill" data-bs-target="#v-pills-installments" type="button" role="tab" aria-controls="v-pills-installments" aria-selected="false">پرداخت اقساطی</button>
-                            @if ($product->service)
-                            <button class="nav-link active" id="v-pills-service-tab" data-bs-toggle="pill" data-bs-target="#v-pills-service" type="button" role="tab" aria-controls="v-pills-service" aria-selected="false">خدمت</button>
-                            @endif
+                        <div class="mb-10">
+                            <label for="title" class="required form-label">عنوان</label>
+                            <input type="text" id="title" name="title" class="form-control" value="{{ isset($product) ? $product->title : '' }}" placeholder="عنوان را وارد کنید" />
                         </div>
-                        <div class="tab-content mt-6 border-top pt-6" id="v-pills-tabContent">
-                            @if (!$product->service)
-                                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
-                                    <livewire:product-attributes-manager :product="$product" />
+                        <div class="mb-2 mt-10">
+                            <label class="form-label ">توضیحات</label>
+                            <div class="row row-editor">
+                                <div class="editor-container">
+                                    <textarea id="description" name="description" class="editor tw-max-h-96 tw-overflow-auto">{{ old('description', isset($product) ? $product->description : '') }}</textarea>
                                 </div>
-                            @endif
-                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
-                                <livewire:product-transport :product="$product" />
                             </div>
-                            <div class="tab-pane fade" id="v-pills-relation" role="tabpanel" aria-labelledby="v-pills-relation-tab" tabindex="0">
-                                <livewire:product-attributes :id="$product->id" />
-                            </div>
-                            <div class="tab-pane fade" id="v-pills-norelation" role="tabpanel" aria-labelledby="v-pills-norelation-tab" tabindex="0">
-                                <livewire:product-independent-attributes :id="$product->id" />
-                            </div>
-                            <div class="tab-pane fade" id="v-pills-installments" role="tabpanel" aria-labelledby="v-pills-installments-tab" tabindex="0">
-                                <livewire:product-credit-plan :product="$product" />
-                            </div>
-                            @if ($product->service)
-                                <div class="tab-pane fade show active" id="v-pills-service" role="tabpanel" aria-labelledby="v-pills-service-tab" tabindex="0">
-                                    <livewire:service-attributes-manager :product="$product" />
-                                </div>
-                            @endif
-
                         </div>
 
                     </div>
                 </div>
-            @endif
-        </div>
-
-        <div class="col-4 col-lg-4 col-xl-3">
-            <!-- START:STATUS -->
-            <div class="card card-flush py-4 mb-5">
-                <div class="card-header">
-                    <div class="card-title">
-                        <h4>وضعیت</h4>
-                    </div>
-                </div>
-                <div class="card-body pt-0">
-                    <select class="form-select mb-2" name="status">
-                        <option value="published" {{ isset($product) && $product->status == 'published' ? 'selected' : '' }}>منتشر شده</option>
-                        <option value="inactive" {{ isset($product) && $product->status == 'inactive' ? 'selected' : '' }}>پیش نویس</option>
-                    </select>
-                    <div class="text-muted fs-7">وضعیت نوشته را تنظیم کنید.</div>
-                    <div class="form-check mt-5">
-                        <input class="form-check-input" type="checkbox" name="reviews_enabled" value="1" id="flexCheckChecked" {{ isset($product) && $product->reviews_enabled ? 'checked' : '' }} />
-                        <label class="form-check-label text-dark" for="flexCheckChecked">
-                            فعال بودن دیدگاه ها
-                        </label>
-                    </div>
-                </div>
-                <div class="card-footer text-end">
-                    <div class="d-flex align-items-center justify-content-between flex-wrap">
-                        <button type="submit" class="btn btn-sm btn-success">ذخیره تغییرات</button>
-                    </div>
-                </div>
-            </div>
-            <!-- END:STATUS -->
-
-            <!-- START:CATEGORY -->
-            <div class="card card-flush py-4 mb-5">
-                <div class="card-header">
-                    <div class="card-title">
-                        <h4>دسته بندی ها</h4>
-                    </div>
-                </div>
-                <div class="card-body pt-0">
-                    <div class="tw-max-h-56 tw-overflow-auto tw-pt-1">
-                        <ul class="intermediat-checkbox category-list">
-                            @foreach($categories as $category)
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="{{ $category->id }}" id="category{{ $category->id }}" name="categories[]" {{ isset($product) && $product->categories->contains($category->id) ? 'checked' : '' }} />
-                                    <label class="form-check-label" for="category{{ $category->id }}">
-                                        {{ $category->title }}
-                                    </label>
-                                </div>
-                                @if($category->children)
-                                    <ul>
-                                        @foreach($category->children as $child)
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="{{ $child->id }}" id="category{{ $child->id }}" name="categories[]" {{ isset($product) && $product->categories->contains($child->id) ? 'checked' : '' }} />
-                                                <label class="form-check-label" for="category{{ $child->id }}">
-                                                    {{ $child->title }}
-                                                </label>
-                                            </div>
-                                        </li>
-                                        @endforeach
-                                    </ul>
+                @if (isset($product))
+                    <div class="card">
+                        <div class="card-header py-4">
+                            <div class="card-title">
+                                <h4>اطلاعات محصول</h4>
+                            </div>
+                            <select class="form-select form-select-solid tw-w-max" name="service" id="service">
+                                <option value="0" {{ isset($product) && $product->service == 0 ? 'selected' : '' }}>محصول </option>
+                                <option value="1" {{ isset($product) && $product->service == 1 ? 'selected' : '' }}>خدمت</option>
+                            </select>
+                        </div>
+                        <div class="card-body">
+                            <div class="nav nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                @if (!$product->service)
+                                <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">انبار</button>
                                 @endif
-                            </li>
-                            @endforeach
-                        </ul>
+                                <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">حمل و نقل</button>
+                                <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-relation" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">متغیر های وابسته</button>
+                                <button class="nav-link" id="v-pills-norelation-tab" data-bs-toggle="pill" data-bs-target="#v-pills-norelation" type="button" role="tab" aria-controls="v-pills-norelation" aria-selected="false">متغیر های مستقل</button>
+                                <button class="nav-link" id="v-pills-installments-tab" data-bs-toggle="pill" data-bs-target="#v-pills-installments" type="button" role="tab" aria-controls="v-pills-installments" aria-selected="false">پرداخت اقساطی</button>
+                                @if ($product->service)
+                                <button class="nav-link active" id="v-pills-service-tab" data-bs-toggle="pill" data-bs-target="#v-pills-service" type="button" role="tab" aria-controls="v-pills-service" aria-selected="false">خدمت</button>
+                                @endif
+                            </div>
+                            <div class="tab-content mt-6 border-top pt-6" id="v-pills-tabContent">
+                                @if (!$product->service)
+                                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
+                                        <livewire:product-attributes-manager :product="$product" />
+                                    </div>
+                                @endif
+                                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
+                                    <livewire:product-transport :product="$product" />
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-relation" role="tabpanel" aria-labelledby="v-pills-relation-tab" tabindex="0">
+                                    <livewire:product-attributes :id="$product->id" />
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-norelation" role="tabpanel" aria-labelledby="v-pills-norelation-tab" tabindex="0">
+                                    <livewire:product-independent-attributes :id="$product->id" />
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-installments" role="tabpanel" aria-labelledby="v-pills-installments-tab" tabindex="0">
+                                    <livewire:product-credit-plan :product="$product" />
+                                </div>
+                                @if ($product->service)
+                                    <div class="tab-pane fade show active" id="v-pills-service" role="tabpanel" aria-labelledby="v-pills-service-tab" tabindex="0">
+                                        <livewire:service-attributes-manager :product="$product" />
+                                    </div>
+                                @endif
+
+                            </div>
+
+                        </div>
                     </div>
-                    <a class="nav-link" type="button" href="{{ route('categories.list') }}">افزودن دسته ی جدید</a>
-                </div>
+                @endif
             </div>
-            <!-- END:CATEGORY -->
 
-            <!-- START:TAGS -->
-            <div class="card card-flush py-4 mb-5">
-                <div class="card-header">
-                    <div class="card-title">
-                        <h4>برچسب ها</h4>
+            <div class="col-4 col-lg-4 col-xl-3">
+                <!-- START:STATUS -->
+                <div class="card card-flush py-4 mb-5">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h4>وضعیت</h4>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0">
+                        <select class="form-select mb-2" name="status">
+                            <option value="published" {{ isset($product) && $product->status == 'published' ? 'selected' : '' }}>منتشر شده</option>
+                            <option value="inactive" {{ isset($product) && $product->status == 'inactive' ? 'selected' : '' }}>پیش نویس</option>
+                        </select>
+                        <div class="text-muted fs-7">وضعیت نوشته را تنظیم کنید.</div>
+                        <div class="form-check mt-5">
+                            <input class="form-check-input" type="checkbox" name="reviews_enabled"  id="reviews_enabled" {{ isset($product) && $product->reviews_enabled ? 'checked' : '' }} />
+                            <label class="form-check-label text-dark" for="reviews_enabled">
+                                فعال بودن دیدگاه ها
+                            </label>
+                        </div>
+                    </div>
+                    <div class="card-footer text-end">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap">
+                            <button type="submit" class="btn btn-sm btn-success">ذخیره تغییرات</button>
+                        </div>
                     </div>
                 </div>
-                <div class="card-body pt-0">
-                    <input class="form-control form-control-solid" id="product-type-tags" name="tags" value="{{ old("tags", isset($product) ? json_encode($product->tags->pluck("name")->toArray()) : "[]") }}" />
-                    <span class="text-muted fs-7">برچسب جدید را وارد کنید و Enter را بزنید</span>
-                </div>
-            </div>
-            <!-- END:TAGS -->
+                <!-- END:STATUS -->
 
-        <!-- START: THUMBNAIL -->
-        <div class="card card-flush py-4 mb-5">
-            <!--begin::کارت header-->
-            <div class="card-header">
-                <!--begin::کارت title-->
-                <div class="card-title">
-                    <h4>تصویر شاخص</h4>
-                </div>
-                <!--end::کارت title-->
-            </div>
-            <!--end::کارت header-->
-            <!--begin::کارت body-->
-            <div class="card-body text-center pt-0">
-                <!--begin::Image input-->
-                <!--end::Image input placeholder-->
-                <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
-                    <!--begin::نمایش existing avatar-->
-                    <div class="image-input-wrapper w-150px h-150px"></div>
-                    <!--end::نمایش existing avatar-->
-                    <!--begin::Tags-->
-                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
-                        <i class="ki-duotone ki-pencil fs-7">
-                            <span class="path1"></span>
-                            <span class="path2"></span>
-                        </i>
-                        <!--begin::Inputs-->
-                        <x-file-input type="single" :preview="true" name="thumbnail" />
-
-                        <!--end::Inputs-->
-                    </label>
-                    <!--end::Tags-->
-                    <!--begin::انصراف-->
-                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="انصراف">
-                        <i class="ki-duotone ki-cross fs-2">
-                            <span class="path1"></span>
-                            <span class="path2"></span>
-                        </i>
-                    </span>
-                    <!--end::انصراف-->
-                    <!--begin::حذف-->
-                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف آواتار">
-                        <i class="ki-duotone ki-cross fs-2">
-                            <span class="path1"></span>
-                            <span class="path2"></span>
-                        </i>
-                    </span>
-                    <!--end::حذف-->
-                </div>
-                <!--end::Image input-->
-                <!--begin::توضیحات-->
-                <div class="text-muted fs-7">تصویر شاخص را انتخاب کنید</div>
-                <!--end::توضیحات-->
-            </div>
-            <!--end::کارت body-->
-        </div>
-        <!-- END:THUMBNAIL -->
-
-        <!-- START: THUMBNAIL -->
-        <div class="card card-flush py-4 mb-5">
-            <!--begin::کارت header-->
-            <div class="card-header">
-                <!--begin::کارت title-->
-                <div class="card-title">
-                    <h4>گالری تصویر</h4>
-                </div>
-                <!--end::کارت title-->
-            </div>
-            <!--end::کارت header-->
-            <!--begin::کارت body-->
-            <div class="card-body text-center pt-0">
-                <div class="tw-flex tw-gap-5 tw-flex-wrap">
-                    <!--end::Image input placeholder-->
-                    <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
-                        <!--begin::نمایش existing avatar-->
-                        <div class="image-input-wrapper w-100px h-100px" style="background-image: url(/images/1.jpg)"></div>
-                        <!--end::نمایش existing avatar-->
-                        <!--begin::Tags-->
-                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
-                            <i class="ki-duotone ki-pencil fs-7">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                            </i>
-                            <!--begin::Inputs-->
-                            <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
-                            <input type="hidden" name="avatar_remove" />
-                            <!--end::Inputs-->
-                        </label>
-                        <!--end::Tags-->
-                        <!--begin::انصراف-->
-                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-gallery-action="remove" data-bs-toggle="tooltip" title="حذف">
-                            <i class="ki-duotone ki-cross fs-2">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                            </i>
-                        </span>
-                        <!--end::انصراف-->
+                <!-- START:CATEGORY -->
+                <div class="card card-flush py-4 mb-5">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h4>دسته بندی ها</h4>
+                        </div>
                     </div>
-                    <!--end::Image input-->
-
-                    <!--end::Image input placeholder-->
-                    <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
-                        <!--begin::نمایش existing avatar-->
-                        <div class="image-input-wrapper w-100px h-100px" style="background-image: url(/images/1.jpg)"></div>
-                        <!--end::نمایش existing avatar-->
-                        <!--begin::Tags-->
-                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
-                            <i class="ki-duotone ki-pencil fs-7">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                            </i>
-                            <!--begin::Inputs-->
-                            <x-file-input type="multiple" :preview="true" name="gallery" :value='["https://placehold.co/600x400?text=Hello+World","https://placehold.co/600x400?text=XYZ"]' />
-                            <!--end::Inputs-->
-                        </label>
-                        <!--end::Tags-->
-                        <!--begin::انصراف-->
-                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-gallery-action="remove" data-bs-toggle="tooltip" title="حذف">
-                            <i class="ki-duotone ki-cross fs-2">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                            </i>
-                        </span>
-                        <!--end::انصراف-->
+                    <div class="card-body pt-0">
+                        <div class="tw-max-h-56 tw-overflow-auto tw-pt-1">
+                            <ul class="intermediat-checkbox category-list">
+                                @foreach($categories as $category)
+                                <li>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="{{ $category->id }}" id="category{{ $category->id }}" name="categories[]" {{ isset($product) && $product->categories->contains($category->id) ? 'checked' : '' }} />
+                                        <label class="form-check-label" for="category{{ $category->id }}">
+                                            {{ $category->title }}
+                                        </label>
+                                    </div>
+                                    @if($category->children)
+                                        <ul>
+                                            @foreach($category->children as $child)
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="{{ $child->id }}" id="category{{ $child->id }}" name="categories[]" {{ isset($product) && $product->categories->contains($child->id) ? 'checked' : '' }} />
+                                                    <label class="form-check-label" for="category{{ $child->id }}">
+                                                        {{ $child->title }}
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        <a class="nav-link" type="button" href="{{ route('categories.list') }}">افزودن دسته ی جدید</a>
                     </div>
-                    <!--end::Image input-->
                 </div>
+                <!-- END:CATEGORY -->
 
-            </div>
-            <!--end::کارت body-->
-
-            <div class="card-footer">
-                <div class="d-flex align-items-center justify-content-between flex-wrap">
-                    <button class="btn btn-sm btn-light-primary">افزودن تصویر جدید</button>
+                <!-- START:TAGS -->
+                <div class="card card-flush py-4 mb-5">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h4>برچسب ها</h4>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0">
+                        <input class="form-control form-control-solid" id="product-type-tags" name="tags" value="{{ old("tags", isset($product) ? json_encode($product->tags->pluck("name")->toArray()) : "[]") }}" />
+                        <span class="text-muted fs-7">برچسب جدید را وارد کنید و Enter را بزنید</span>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <!-- END:THUMBNAIL -->
+                <!-- END:TAGS -->
 
-        <!-- START: VIDEO THUMBNAIL -->
-        <div class="card card-flush py-4">
-            <!--begin::کارت header-->
-            <div class="card-header">
-                <!--begin::کارت title-->
-                <div class="card-title">
-                    <h4>ویدئو</h4>
+                <!-- START: THUMBNAIL -->
+                <div class="card card-flush py-4 mb-5">
+                    <!--begin::کارت header-->
+                    <div class="card-header">
+                        <!--begin::کارت title-->
+                        <div class="card-title">
+                            <h4>تصویر شاخص</h4>
+                        </div>
+                        <!--end::کارت title-->
+                    </div>
+                    <!--end::کارت header-->
+                    <!--begin::کارت body-->
+                    <div class="card-body text-center pt-0">
+                        <!--begin::Image input-->
+                        <!--end::Image input placeholder-->
+                        @if(isset($product))
+                            <x-file-input type="single" :preview="true" name="img" :value="$product->img" />
+                        @else
+                            <x-file-input type="single" :preview="true" name="img" />
+                        @endif
+                        <!--end::Image input-->
+                        <!--begin::توضیحات-->
+                        <div class="text-muted fs-7">تصویر شاخص را انتخاب کنید</div>
+                        <!--end::توضیحات-->
+                    </div>
+                    <!--end::کارت body-->
                 </div>
-                <!--end::کارت title-->
-            </div>
-            <!--end::کارت header-->
-            <!--begin::کارت body-->
-            <div class="card-body text-center pt-0">
-                <!--begin::Image input-->
-                <!--end::Image input placeholder-->
-                <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
-                    <!--begin::نمایش existing avatar-->
-                    <div class="image-input-wrapper w-150px h-150px"></div>
-                    <!--end::نمایش existing avatar-->
-                    <!--begin::Tags-->
-                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض ویدئو">
-                        <i class="ki-duotone ki-pencil fs-7">
-                            <span class="path1"></span>
-                            <span class="path2"></span>
-                        </i>
-                        <!--begin::Inputs-->
-                        <input type="file" name="avatar" accept="mp4" />
-                        <input type="hidden" name="avatar_remove" />
-                        <!--end::Inputs-->
-                    </label>
-                    <!--end::Tags-->
-                    <!--begin::انصراف-->
-                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="انصراف">
-                        <i class="ki-duotone ki-cross fs-2">
-                            <span class="path1"></span>
-                            <span class="path2"></span>
-                        </i>
-                    </span>
-                    <!--end::انصراف-->
-                    <!--begin::حذف-->
-                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف ویدئو">
-                        <i class="ki-duotone ki-cross fs-2">
-                            <span class="path1"></span>
-                            <span class="path2"></span>
-                        </i>
-                    </span>
-                    <!--end::حذف-->
+                <!-- END:THUMBNAIL -->
+
+                <!-- START: THUMBNAIL -->
+                <div class="card card-flush py-4 mb-5">
+                    <!--begin::کارت header-->
+                    <div class="card-header">
+                        <!--begin::کارت title-->
+                        <div class="card-title">
+                            <h4>گالری تصویر</h4>
+                        </div>
+                        <!--end::کارت title-->
+                    </div>
+                    <!--end::کارت header-->
+                    <!--begin::کارت body-->
+                    <div class="card-body text-center pt-0">
+
+                        @php
+                            $imageUrls = isset($product) && $product->images ? $product->images->pluck('url')->toArray() : null;
+                        @endphp
+                        <x-file-input type="multiple" :preview="true" name="gallery" :value='$imageUrls' />
+
+
+                    </div>
+                    <!--end::کارت body-->
                 </div>
-                <!--end::Image input-->
-                <!--begin::توضیحات-->
-                <div class="text-muted fs-7">ویدئو محصول را انتخاب کنید</div>
-                <!--end::توضیحات-->
-            </div>
-            <!-- END:THUMBNAIL -->
+                <!-- END:THUMBNAIL -->
 
 
-            <!-- START: VIDEO THUMBNAIL -->
-            <div class="card card-flush py-4">
-                <!--begin::کارت header-->
+                <!-- START: VIDEO THUMBNAIL -->
+                <div class="card card-flush py-4">
+                    <!--begin::کارت header-->
                     <div class="card-header">
                         <!--begin::کارت title-->
                         <div class="card-title">
                             <h4>ویدئو</h4>
                         </div>
+                        <!--end::کارت title-->
                     </div>
+                    <!--end::کارت header-->
+                    <!--begin::کارت body-->
                     <div class="card-body text-center pt-0">
-                        <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
-                            <div class="image-input-wrapper w-150px h-150px" style="background-image: url('{{ isset($product) ? asset($product->video_path) : '' }}');"></div>
-                            <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض ویدئو">
-                                <i class="ki-duotone ki-pencil fs-7"><span class="path1"></span><span class="path2"></span></i>
-                                <input type="file" name="video" accept="video/mp4" />
-                                <input type="hidden" name="video_remove" />
-                            </label>
-                            <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="انصراف">
-                                <i class="ki-duotone ki-cross fs-2"><span class="path1"></span><span class="path2"></span></i>
-                            </span>
-                            <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف ویدئو">
-                                <i class="ki-duotone ki-cross fs-2"><span class="path1"></span><span class="path2"></span></i>
-                            </span>
-                        </div>
-                        <div class="text-muted fs-7 d-none">ویدئو محصول را انتخاب کنید</div>
-                        <x-file-input type="single" :preview="false" name="video" />
+                        <!--begin::Image input-->
+                        @if(isset($product))
+                            <x-file-input type="single" :preview="false" name="video_path" :value="$product->video_path"/>
+                        @else
+                            <x-file-input type="single" :preview="false" name="video_path" />
+                        @endif
+                        <!--begin::توضیحات-->
+                        <div class="text-muted fs-7">ویدئو محصول را انتخاب کنید</div>
+                        <!--end::توضیحات-->
                     </div>
-
-                <!-- END:THUMBNAIL -->
+                    <!--end::کارت body-->
+                </div>
+                <!-- END:VIDEO THUMBNAIL -->
             </div>
-            <!-- END:VIDEO THUMBNAIL -->
         </div>
+
         @if (isset($product))
+        <div class="row">
+
             <div class="col-4 col-lg-8 col-xl-9">
                 <div class="card">
                     <div class="card-body">
@@ -413,6 +275,7 @@
 
                 </div>
             </div>
+         </div>
         @endif
 
 

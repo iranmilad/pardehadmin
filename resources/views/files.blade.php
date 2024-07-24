@@ -2,10 +2,6 @@
 
 @section('title', 'مدیریت فایل ها')
 
-@extends('layouts.primary')
-
-@section('title', 'مدیریت فایل ها')
-
 @section('css-before')
 <link rel="stylesheet" href="{{ asset('vendor/file-manager/css/file-manager.css') }}">
 @endsection

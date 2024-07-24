@@ -38,6 +38,7 @@ use App\Http\Controllers\AttributeItemController;
 use App\Http\Controllers\Auth\Mail\AuthController;
 use App\Http\Controllers\PostCategoriesController;
 use App\Http\Controllers\Auth\Mail\LoginController;
+use App\Http\Controllers\SettlementDocumentController;
 use App\Http\Controllers\Auth\Mail\ResetPasswordController;
 use App\Http\Controllers\Auth\Mail\ForgotPasswordController;
 
@@ -585,6 +586,8 @@ Route::group(['prefix' => 'code-piceces'], function () {
 
 Route::resource('image-markers', ImageMarkerController::class);
 Route::get('/checkproduct/{id}', [ImageMarkerController::class, 'checkProduct']);
+Route::get('/imgdot/{id}', [ImageMarkerController::class, 'imgdot']);
+
 
 Route::resource('worktimes', WorktimeController::class);
 Route::delete('worktimes/{worktime}', [WorkTimeController::class, 'destroy'])->name('worktimes.destroy');
@@ -592,6 +595,10 @@ Route::delete('worktimes/{worktime}', [WorkTimeController::class, 'destroy'])->n
 Route::get('/files-manager', function () {
     return view('files');
 })->name("files-manager");
+
+
+Route::resource('settlement_documents', SettlementDocumentController::class);
+Route::post('/settlement_documents/bulk-delete', [SettlementDocumentController::class, 'bulkDelete'])->name('settlement_documents.bulk_delete');
 
 
 });
@@ -786,24 +793,34 @@ Route::get('/changepass', function () {
 //     })->name("products.settings.show");
 // });
 
-Route::group(['prefix' => 'reports'], function () {
+// Route::group(['prefix' => 'reports'], function () {
 
-    Route::get('/reports', function () {
-        return view('reports');
-    })->name("reports");
+//     Route::get('/all', function () {
+//         return view('reports');
+//     })->name("reports.show");
 
-// Route::get('/messages', function () {
-//     return view('messages');
-// })->name("messages.show");
+//     Route::get('/reports/create', function () {
+//         return view('report');
+//     })->name("report.create.show");
 
-// Route::get('/message/{id}', function ($id) {
-//     return view('message');
-// })->name("message.show");
+//     Route::get('/reports/{id}', function ($id) {
+//         return view('report');
+//     })->name("report.edit.show");
+// });
 
+Route::group(['prefix' => 'customers-group'], function () {
+    Route::get('/list', function () {
+        return view('customers-group');
+    })->name("customers-group.show");
 
+    Route::get('/create', function () {
+        return view('customer-group');
+    })->name("customers-group.create.show");
+
+    Route::get('/edit/{id}', function ($id) {
+        return view('customer-group');
+    })->name("customers-group.edit.show");
 });
-
-
 
 // Route::group(['prefix' => 'discounts'], function () {
 //     Route::get('/list', function () {
@@ -1002,3 +1019,5 @@ Route::group(['prefix' => 'scores'], function () {
         return view('score-settings');
     })->name("score-settings.show");
 });
+
+

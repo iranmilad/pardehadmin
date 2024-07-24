@@ -84,22 +84,22 @@
               </div>
             </td>
             <td>
-              <a href="{{route('order.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">#060 فرهاد باقری</a>
+              <a href="{{route('orders.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">#060 فرهاد باقری</a>
             </td>
             <td>
-              <a href="{{route('order.show',['id' => 1])}}">12/12/1403</a>
+              <a href="{{route('orders.edit',['id' => 1])}}">12/12/1403</a>
             </td>
             <td>
-              <a class="badge badge-warning" href="{{route('order.show',['id' => 1])}}">دوخت</a>
-              <a class="badge badge-info" href="{{route('order.show',['id' => 1])}}">طراحی</a>
-              <a class="badge badge-success" href="{{route('order.show',['id' => 1])}}">نصب</a>
+              <a class="badge badge-warning" href="{{route('orders.edit',['id' => 1])}}">دوخت</a>
+              <a class="badge badge-info" href="{{route('orders.edit',['id' => 1])}}">طراحی</a>
+              <a class="badge badge-success" href="{{route('orders.edit',['id' => 1])}}">نصب</a>
             </td>
             <td>42,000,000 تومان</td>
             <td>
-              <a class="badge badge-primary" href="{{route('order.show',['id' => 1])}}">درگاه بانکی</a>
+              <a class="badge badge-primary" href="{{route('orders.edit',['id' => 1])}}">درگاه بانکی</a>
             </td>
             <td class="text-end">
-              <a href="{{route('order.show',['id' => 1])}}" class="btn btn-light btn-sm">
+              <a href="{{route('orders.edit',['id' => 1])}}" class="btn btn-light btn-sm">
                 مشاهده
               </a>
             </td>

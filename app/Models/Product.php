@@ -43,6 +43,7 @@ class Product extends Model
         'is_top' => 'boolean',
         'is_new' => 'boolean',
         'service' => 'boolean',
+        'reviews_enabled' => 'boolean',
     ];
 
     public function categories()
@@ -248,7 +249,7 @@ class Product extends Model
     {
         return $this->belongsToMany(CreditPlan::class, 'credit_plan_products', 'product_id', 'credit_plan_id');
     }
-    
+
     public function creditInstallmentTimeline($totalAmount)
     {
         $creditPlanProduct = $this->creditPlanProduct()->first();

@@ -3,7 +3,7 @@
         @if($preview === true)
         <div class="image-input image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
             <!--begin::نمایش existing avatar-->
-            <div class="image-input-wrapper w-150px h-150px" @if($value !=="" ) style="background-image: url('{{ $value }}')" @endif></div>
+            <div class="image-input-wrapper w-150px h-150px" @if($value !=="" ) style="background-image: url('{{ asset($value) }}')" @endif></div>
 
             <!--end::نمایش existing avatar-->
             <!--begin::Tags-->
@@ -27,14 +27,15 @@
             <!--end::حذف-->
         </div>
         @else
-            <div class="mb-3">
-                <div class="d-flex align-items-center choose_file_input">
-                    <input type="text" class="form-control" readonly disabled name="{{$name}}" value="{{$value}}">
-                </div>
-                <div class="d-flex tw-justify-end tw-w-full">
-                    <button type="button" class="btn p-0 text-info choose_file_button">آپلود</button>
+        <div class="mt-3 mb-3">
+            <div class="input-group choose_file_input">
+                <input type="text" class="form-control" readonly name="{{$name}}" value="{{$value}}">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-success choose_file_button"><i class="fas fa-upload"></i></button>
                 </div>
             </div>
+        </div>
+
         @endif
     @else
         @if($preview === true)
@@ -47,7 +48,7 @@
                 @foreach($value as $index => $new_value)
                 <div class="image-input image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
                     <!--begin::نمایش existing avatar-->
-                    <div class="image-input-wrapper w-100px h-100px" @if($new_value !=="" ) style="background-image: url('{{ $new_value }}')" @endif></div>
+                    <div class="image-input-wrapper w-100px h-100px" @if($new_value !=="" ) style="background-image: url('{{ asset($new_value) }}')" @endif></div>
 
                     <!--end::نمایش existing avatar-->
                     <!--begin::Tags-->
@@ -57,7 +58,7 @@
                             <span class="path2"></span>
                         </i>
                         <!--begin::Inputs-->
-                        <input type="hidden" name="{{$name}}[{{$index}}]" class="image_src" value="{{$new_value}}" />
+                        <input type="hidden" name="{{$name}}[{{$index}}]" class="image_src" value="{{ is_array($new_value) ? $new_value[0] : $new_value }}" />
                         <!--end::Inputs-->
                     </button>
                     <!--end::Tags-->
@@ -88,7 +89,7 @@
                         <div class="mb-3">
                             <div class="d-flex align-items-center choose_file_input">
                                 <span class="remove-image-input" data-remove-full="true" data-preview="false"><i class="fa-regular fa-xmark text-danger me-3 fs-5"></i></span>
-                                <input type="text" class="form-control image_src" readonly disabled value="{{$new_value}}" name="{{$name}}[{{$index}}]">
+                                <input type="text" class="form-control image_src" readonly disabled value="{{is_array($new_value) ? $new_value[0] : $new_value}}" name="{{$name}}[{{$index}}]">
                             </div>
                             <div class="d-flex tw-justify-end tw-w-full">
                                 <button type="button" class="btn p-0 text-info choose_file_button">آپلود</button>

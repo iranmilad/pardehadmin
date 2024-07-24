@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\SettlementDocument;
 
 class SearchController extends Controller
 {
@@ -57,6 +58,31 @@ class SearchController extends Controller
             ];
 
             return response()->json($data);
+        }
+        elseif ($type === 'settlement_document') {
+                $query = $request->get('query');
+                $settlementDocuments = SettlementDocument::where('account_number', 'like', "%{$query}%")
+                                ->orWhere('transaction_number', 'like', "%{$query}%")
+                                ->orWhere('id', 'like', "%{$query}%")
+                                ->orWhere('order_id', 'like', "%{$query}%")
+                                ->limit(10)
+                                ->get();
+
+                $results = $settlementDocuments->map(function ($document) {
+                    return [
+                        'id' => $document->id,
+                        'text' => "کد سند {$document->id} شماره حساب {$document->account_number} شماره تراکنش {$document->transaction_number}",
+                    ];
+                });
+
+                $data = [
+                    'search' => $query,
+                    'results' => $results,
+                ];
+
+                return response()->json($data);
+
+
         }
         elseif ($type === 'product') {
             $property=[];

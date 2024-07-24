@@ -171,41 +171,7 @@
             <!--begin::کارت body-->
             <div class="card-body text-center pt-0">
                 <!--begin::Image input-->
-                <!--end::Image input placeholder-->
-                <div class="image-input image-input-empty image-input-outline {{ isset($post) && $post->image ?  '' : 'image-input-placeholder' }} mb-3" data-kt-image-input="true" style="background-image: url({{ isset($post) && $post->image ? asset($post->image) : 'path/to/default/image.png' }});">
-                    <!--begin::نمایش existing avatar-->
-                    <div class="image-input-wrapper w-150px h-150px"></div>
-                    <!--end::نمایش existing avatar-->
-                    <!--begin::Tags-->
-                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر">
-                        <i class="ki-duotone ki-pencil fs-7">
-                            <span class="path1"></span>
-                            <span class="path2"></span>
-                        </i>
-                        <!--begin::Inputs-->
-                        <x-file-input type="single" :preview="true" name="thumbnail" />
-
-                        <!--end::Inputs-->
-                    </label>
-                    <!--end::Tags-->
-                    <!--begin::انصراف-->
-                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="انصراف">
-                        <i class="ki-duotone ki-cross fs-2">
-                            <span class="path1"></span>
-                            <span class="path2"></span>
-                        </i>
-                    </span>
-                    <!--end::انصراف-->
-                    <!--begin::حذف-->
-                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف آواتار">
-                        <i class="ki-duotone ki-cross fs-2">
-                            <span class="path1"></span>
-                            <span class="path2"></span>
-                        </i>
-                    </span>
-                    <!--end::حذف-->
-                </div>
-                <!--end::Image input-->
+                <x-file-input type="single" :preview="true" name="thumbnail" :value="$post->image" />
                 <!--begin::توضیحات-->
                 <div class="text-muted fs-7">تصویر شاخص را انتخاب کنید</div>
                 <!--end::توضیحات-->

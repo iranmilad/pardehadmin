@@ -26,7 +26,7 @@
         <div class="d-flex flex-wrap">
             @foreach($uploadedImages as $image)
                 <div class="m-2">
-                    <img src="{{ Storage::url($image) }}" alt="Image" style="max-width: 150px; max-height: 150px;">
+                    <img src="{{ $image }}" alt="Image" style="max-width: 150px; max-height: 150px;">
                     <button wire:click="deleteImage('{{ $image }}')" class="btn btn-danger btn-sm mt-1">حذف</button>
                 </div>
             @endforeach

@@ -98,19 +98,19 @@ Route::get('/checkproduct/{id}', function (Request $request) {
 });
 
 // FOR IMAGE DOT. IT GETS DATA OF PRODUCT {ID} AND FILTER
-Route::get("/imgdot/{id}", function ($id) {
-    $product = [
-        "name" => "محصول",
-        "img" => "https://placehold.co/600x400",
-        "price" => "25,000,000",
-        "discounted_price" => "18,000,000",
-        "discount" => "20%"
-    ];
+// Route::get("/imgdot/{id}", function ($id) {
+//     $product = [
+//         "name" => "محصول",
+//         "img" => "https://placehold.co/600x400",
+//         "price" => "25,000,000",
+//         "discounted_price" => "18,000,000",
+//         "discount" => "20%"
+//     ];
 
-    $html = View::make("components/imgdot", $product)->render();
+//     $html = View::make("components/imgdot", $product)->render();
 
-    return response()->json(['html' => $html]);
-});
+//     return response()->json(['html' => $html]);
+// });
 
 Route::get('/product-options/{id}', function ($id) {
     // TYPE => SELECT,INPUT

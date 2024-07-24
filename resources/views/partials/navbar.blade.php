@@ -657,7 +657,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('reports.show')  ? 'active' : '' }}" href="{{ route('reports.show') }}">
+				<a class="menu-link {{ Route::is('settlement_documents.index')  ? 'active' : '' }}" href="{{ route('settlement_documents.index') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -669,7 +669,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('report.create.show')  ? 'active' : '' }}" href="{{ route('report.create.show') }}">
+				<a class="menu-link {{ Route::is('settlement_documents.create')  ? 'active' : '' }}" href="{{ route('settlement_documents.create') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>

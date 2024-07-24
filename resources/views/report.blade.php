@@ -17,16 +17,12 @@
                     <x-advanced-search type="order" label="" name="user" solid />
                 </div>
             </div>
-            <div class="form-group row mb-5 align-items-center">
-                <label for="" class="col-2 form-label">تاریخ</label>
-                <div class="col-10">
-                    <input type="text" class="date_time form-control-solid" placeholder="انتخاب تاریخ">
-                </div>
-            </div>
+
             <div class="form-group row mb-5 align-items-center">
                 <label for="" class="col-2 form-label">وضعیت</label>
                 <div class="col-10">
                     <select name="" id="" class="form-select form-select-solid" data-control="select2">
+                        <option value="">تکمیل شده</option>
                         <option value="">در حال انجام</option>
                         <option value="">لغو شده</option>
                         <option value="">در انتظار بررسی</option>
@@ -34,12 +30,11 @@
                 </div>
             </div>
             <div class="form-group row mb-5 align-items-center">
-                <label for="" class="col-2 form-label">نوع تسویه</label>
+                <label for="" class="col-2 form-label">نوع سند</label>
                 <div class="col-10">
                     <select name="" id="" class="form-select form-select-solid" data-control="select2">
-                        <option value="">اقساط</option>
-                        <option value="">کارت به کارت</option>
-                        <option value="">درگاه بانکی</option>
+                        <option value="">بدهکار</option>
+                        <option value="">بستانکار</option>
                     </select>
                 </div>
             </div>
@@ -62,10 +57,10 @@
                 </div>
             </div>
             <div class="form-group row mb-5 align-items-center">
-                <label for="" class="col-2 form-label">شماره سررسید</label>
+                <label for="" class="col-2 form-label">شماره حساب/شبا</label>
                 <div class="col-10">
                     <div class="input-group ">
-                        <input type="text" class="form-control form-control-solid" placeholder="شماره سررسید را وارد کنید">
+                        <input type="text" class="form-control form-control-solid" placeholder="شماره حساب یا شبا جهت تسویه را وارد کنید">
                     </div>
                 </div>
             </div>

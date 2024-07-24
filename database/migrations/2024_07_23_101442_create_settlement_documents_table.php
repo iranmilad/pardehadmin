@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('code_pieces', function (Blueprint $table) {
+        Schema::create('settlement_documents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
@@ -20,8 +20,8 @@ return new class extends Migration
             $table->bigInteger('service_total');
             $table->bigInteger('site_commission');
             $table->string('account_number');
-            $table->string('transaction_number');
-            $table->timestamp('settlement_date')->nullable();
+            $table->string('transaction_number')->nullable();
+            $table->date('transaction_date')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('code_pieces');
+        Schema::dropIfExists('settlement_documents');
     }
 };

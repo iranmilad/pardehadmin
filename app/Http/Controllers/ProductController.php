@@ -39,107 +39,48 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        // Validate incoming request data
-        $data = $request->validate([
-            'title' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'nullable|numeric',
-            'sale_price' => 'nullable|numeric',
-            'img' => 'nullable|image|max:2048',
-            'gallery.*' => 'nullable|image|max:2048',
-            'categories' => 'nullable|array', // Ensure categories is an array
-            'tags' => 'nullable|string', // Tags will be handled separately
-        ]);
-    
-        // Handle categories synchronization
-        if ($request->has('categories')) {
-            $categories = $request->input('categories');
-        }
-    
-        // Handle tags synchronization
-        if ($request->has('tags')) {
-            $tags = json_decode($request->input('tags'), true);
-        }
-    
-        // Handle main product image upload
-        if ($request->hasFile('img')) {
-            $file = $request->file('img');
-            $address = 'uploads/images/products';
-            $fileName = $file->getClientOriginalName();
-            $file->storeAs('public/uploads/images/products', $fileName); // ذخیره فایل در مسیر مورد نظر، مانند storage/app/uploads
-            $file->move(public_path($address), $fileName);
-            $imgPath =  $address.'/'.$fileName ;
- 
-            $data['img'] = $imgPath;
-        }
-    
-        // Create product instance
-        $product = Product::create($data);
-    
-        // Handle gallery images upload and association
-        if ($request->hasFile('gallery')) {
-            foreach ($request->file('gallery') as $file) {
-                $address = 'uploads/images/products/'.$product->id.'/gallery';
-                $fileName = $file->getClientOriginalName();
-                $file->storeAs('public/uploads/images/products/'.$product->id.'/gallery', $fileName); // ذخیره فایل در مسیر مورد نظر، مانند storage/app/uploads
-                $file->move(public_path($address), $fileName);
-                $galleryPath =  $address.'/'.$fileName ;
-
-                // ایجاد تصویر جدید برای محصول
-                $image = new ProductImage(['url' => "/".$galleryPath]);
-                $product->images()->save($image);
-            }
-        }
-    
-        // Synchronize categories if provided
-        if (isset($categories)) {
-            $product->categories()->sync($categories);
-        }
-    
-        // Synchronize tags if provided
-        if (isset($tags)) {
-            $tagIds = collect($tags)->map(function ($tagName) {
-                $tag = Tag::firstOrCreate(['name' => $tagName["value"], 'description' => $tagName["value"], 'type' => 'ability']);
-                return $tag->id;
-            });
-    
-            $product->tags()->sync($tagIds);
-        }
-    
-        // Redirect back with success message
-        return redirect()->route('products.edit', $product->id)->with('success', 'محصول با موفقیت ایجاد شد.');
-    }
-    
-    
-    
-
-    public function update(Request $request, $id)
-    {
-        $product = Product::findOrFail($id);
-
         // Validate input data
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'nullable|numeric',
             'sale_price' => 'nullable|numeric',
-            'service' => 'nullable|boolean',
-            'img' => 'nullable|image|max:2048', // img validation
-            'gallery.*' => 'nullable|image|max:2048', // Gallery validation
-            'video' => 'nullable|mimes:mp4|max:20480', // Video validation
+            'img' => 'nullable|string',
+            'gallery' => 'nullable|array',
+            'gallery.*' => 'nullable|string',
+            'video_path' => 'nullable|string',
+            'categories' => 'nullable|array',
+            'categories.*' => 'nullable|integer|exists:categories,id',
+            'tags' => 'nullable|string',
+            'status' => 'required|string|in:published,inactive', // Validate status
+            'reviews_enabled' => 'nullable|boolean', // Validate reviews_enabled
         ]);
 
-        //$product->service = $request->input('service');
-        
-        // مدیریت دسته‌بندی‌ها
+        // Create product instance
+        $product = Product::create($data);
+        $data['reviews_enabled'] = $request->has('reviews_enabled') ? $request->input('reviews_enabled') : 0;
+
+        // Handle gallery images paths and association
+        if ($request->has('gallery')) {
+            $galleryPaths = $request->input('gallery');
+            foreach ($galleryPaths as $galleryPath) {
+                // Ensure gallery path is a valid string and not empty
+                if (!empty($galleryPath) && is_string($galleryPath)) {
+                    // Create a new image instance and associate with the product
+                    $image = new ProductImage(['url' => $galleryPath]);
+                    $product->images()->save($image);
+                }
+            }
+        }
+
+        // Synchronize categories if provided
         if ($request->has('categories')) {
             $product->categories()->sync($request->input('categories'));
         }
 
+        // Synchronize tags if provided
         if ($request->has('tags')) {
             $tags = json_decode($request->input('tags'), true);
-
-            // تبدیل نام تگ‌ها به IDها و ایجاد تگ جدید در صورت عدم وجود
             $tagIds = collect($tags)->map(function ($tagName) {
                 $tag = Tag::firstOrCreate(['name' => $tagName["value"], 'description' => $tagName["value"], 'type' => 'ability']);
                 return $tag->id;
@@ -148,65 +89,79 @@ class ProductController extends Controller
             $product->tags()->sync($tagIds);
         }
 
-        // Handle img image update
-        if ($request->hasFile('img')) {
-            $file = $request->file('img');
-            $address = 'uploads/images/products/'.$product->id;
-            $fileName = $file->getClientOriginalName();
-            $file->storeAs('public/uploads/images/products/'.$product->id, $fileName); // ذخیره فایل در مسیر مورد نظر، مانند storage/app/uploads
-            $file->move(public_path($address), $fileName);
-            $imgPath =  $address.'/'.$fileName ;
-            $data['img'] = $imgPath;
+        // Redirect back with success message
+        return redirect()->route('products.edit', $product->id)->with('success', 'محصول با موفقیت ایجاد شد.');
+    }
 
-            // Delete old img if exists
-            if ($product->img) {
-                \Storage::delete('public/' . $product->img);
-            }
-        }
+
+
+
+
+    public function update(Request $request, $id)
+    {
+        //dd($request);
+        // Load the product
+        $product = Product::findOrFail($id);
+
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'nullable|numeric',
+            'sale_price' => 'nullable|numeric',
+            'img' => 'nullable|string',
+            'gallery' => 'nullable|array',
+            'gallery.*' => 'nullable|string',
+            'video_path' => 'nullable|string',
+            'categories' => 'nullable|array',
+            'categories.*' => 'nullable|integer|exists:categories,id',
+            'tags' => 'nullable|string',
+            'status' => 'required|string|in:published,inactive', // Validate status
+            'reviews_enabled' => 'nullable|boolean', // Validate reviews_enabled
+        ]);
+
+        $data['reviews_enabled'] = $request->has('reviews_enabled') ? $request->input('reviews_enabled') : 0;
 
         // Update product details
         $product->update($data);
 
-        // Handle gallery images update
-        if ($request->hasFile('gallery')) {
-            foreach ($request->file('gallery') as $file) {
+        // Update categories if provided
+        if ($request->has('categories')) {
+            $product->categories()->sync($request->input('categories'));
+        }
 
-                $address = 'uploads/images/products/'.$product->id.'/gallery';
-                $fileName = $file->getClientOriginalName();
-                $file->storeAs('public/uploads/images/products/'.$product->id.'/gallery', $fileName); // ذخیره فایل در مسیر مورد نظر، مانند storage/app/uploads
-                $file->move(public_path($address), $fileName);
-                $galleryPath =  $address.'/'.$fileName ;
+        // Update tags if provided
+        if ($request->has('tags')) {
+            $tags = json_decode($request->input('tags'), true);
+            $tagIds = collect($tags)->map(function ($tagName) {
+                $tag = Tag::firstOrCreate(['name' => $tagName["value"], 'description' => $tagName["value"], 'type' => 'ability']);
+                return $tag->id;
+            });
+            $product->tags()->sync($tagIds);
+        }
 
-                // ایجاد تصویر جدید برای محصول
-                $image = new ProductImage(['url' => "/".$galleryPath]);
-                $product->images()->save($image);
+
+
+        // Handle gallery images paths and association
+        if ($request->has('gallery')) {
+            $galleryPaths = $request->input('gallery');
+            $product->images()->delete(); // Optionally clear existing images if needed
+            foreach ($galleryPaths as $galleryPath) {
+                if (!empty($galleryPath) && is_string($galleryPath)) {
+                    $image = new ProductImage(['url' => $galleryPath]);
+                    $product->images()->save($image);
+                }
             }
         }
 
-        // Handle video update
-        if ($request->hasFile('video')) {
-            $file = $request->file('video');
-            $address = 'uploads/videos/products/'.$product->id.'/gallery';
-            $fileName = $file->getClientOriginalName();
-            $file->storeAs('public/uploads/videos/products/'.$product->id, $fileName); // ذخیره فایل در مسیر مورد نظر، مانند storage/app/uploads
-            $file->move(public_path($address), $fileName);
-            $video =  $address.'/'.$fileName ;
 
-            $data['video_path'] = $video;
-
-            // Delete old video if exists
-            if ($product->video_path) {
-                \Storage::delete('public/' . $product->video_path);
-            }
-        }
-
-        // Update product with new video path if provided
-        if (isset($data['video_path'])) {
-            $product->update(['video_path' => $data['video_path']]);
-        }
-
-        return redirect()->route('products.edit',$product->id)->with('success', 'محصول با موفقیت به‌روزرسانی شد.');
+        // Redirect back with success message
+        return redirect()->route('products.edit', $product->id)->with('success', 'محصول با موفقیت به‌روزرسانی شد.');
     }
+
+
+
+
+
 
 
     // نمایش فرم ویرایش محصول
@@ -322,9 +277,9 @@ class ProductController extends Controller
             $product->img = null;
             $product->save();
         }
-    
+
         return redirect()->route('products.edit', $product->id)->with('success', 'تصویر شاخص با موفقیت حذف شد.');
-    }    
+    }
     public function settings(){
         return view('products-settings');
     }

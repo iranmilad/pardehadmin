@@ -55,22 +55,22 @@
 </div>
 
 <div class="modal fade" id="priceModal" tabindex="-1" aria-labelledby="priceModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="product_details tw-min-h-8 tw-w-full tw-p-5"></div>
-                </div>
-                <div class="modal-footer tw-justify-start tw-border-none tw-bg-gray-100">
-                    <div class="d-flex align-items-center justify-content-between w-100">
-                      <div>
-                        <button type="button" class="btn btn-secondary closeModal" data-bs-dismiss="modal">بستن</button>
-                        <a type="button" class="btn btn-primary tw-py-1.5">مشاهده محصول</a>
-                      </div>
-                      <button class="btn btn-dark" id="editDot">ویرایش نشانه</button>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="product_details tw-min-h-8 tw-w-full tw-p-5"></div>
+            </div>
+            <div class="modal-footer tw-justify-start tw-border-none tw-bg-gray-100">
+                <div class="d-flex align-items-center justify-content-between w-100">
+                    <div>
+                    <button type="button" class="btn btn-secondary closeModal" data-bs-dismiss="modal">بستن</button>
+                    <a type="button" class="btn btn-primary tw-py-1.5">مشاهده محصول</a>
                     </div>
+                    <button class="btn btn-dark" id="editDot">ویرایش نشانه</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 @endsection

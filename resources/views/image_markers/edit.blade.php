@@ -12,8 +12,8 @@
             <input type="hidden" name="marks_id" value="{{ $imageMarker->id }}">
             <input id="data-dots" name="marks" type="hidden" value="{{$imageMarker->marks }}" />
             <div class="d-flex align-items-center gap-5">
-                <input class="form-control form-control-solid" name="image" id="choose_image" type="file">
-                <button type="button" id="remove_image" class="btn btn-sm btn-danger tw-w-[125px]">حذف تصویر</button>
+                <x-file-input type="single" :preview="false" name="image" value="{{ $imageMarker->image_path }}" />
+                <button type="button" id="remove_image" class="btn btn-danger">حذف تصویر</button>
             </div>
             <button class="btn btn-sm btn-success" type="submit">ذخیره</button>
         </form>
@@ -28,22 +28,41 @@
 <div class="modal fade" id="selectProductModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">انتخاب محصول</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">انتخاب محصول</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="" style="z-index: 999999;">
+            <x-advanced-search type="product" label="جستجوی محصول" name="product" solid />
+            </form>
+        </div>
+        <div class="modal-footer">
+            <div class="w-100 d-flex align-items-center tw-justify-between">
+            <div>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+                <button type="button" class="btn btn-primary" id="selectProductModalSubmit">اعمال</button>
             </div>
+            <button type="button" class="btn btn-danger d-none" id="removeSelectDot">حذف</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="priceModal" tabindex="-1" aria-labelledby="priceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
             <div class="modal-body">
-                <form action="">
-                    <x-advanced-search type="product" label="جستجوی محصول" name="product" solid />
-                </form>
+                <div class="product_details tw-min-h-8 tw-w-full tw-p-5"></div>
             </div>
-            <div class="modal-footer">
-                <div class="w-100 d-flex align-items-center tw-justify-between">
+            <div class="modal-footer tw-justify-start tw-border-none tw-bg-gray-100">
+                <div class="d-flex align-items-center justify-content-between w-100">
                     <div>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
-                        <button type="button" class="btn btn-primary" id="selectProductModalSubmit">اعمال</button>
+                    <button type="button" class="btn btn-secondary closeModal" data-bs-dismiss="modal">بستن</button>
+                    <a type="button" class="btn btn-primary tw-py-1.5">مشاهده محصول</a>
                     </div>
-                    <button type="button" class="btn btn-danger d-none" id="removeSelectDot">حذف</button>
+                    <button class="btn btn-dark" id="editDot">ویرایش نشانه</button>
                 </div>
             </div>
         </div>
@@ -51,19 +70,4 @@
 </div>
 @endsection
 
-@section('scripts')
-<script>
-    document.getElementById('choose_image').addEventListener('change', function() {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('imgmarker-preview').src = e.target.result;
-        }
-        reader.readAsDataURL(this.files[0]);
-    });
 
-    document.getElementById('remove_image').addEventListener('click', function() {
-        document.getElementById('choose_image').value = '';
-        document.getElementById('imgmarker-preview').src = '';
-    });
-</script>
-@endsection
