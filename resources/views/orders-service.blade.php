@@ -3,7 +3,7 @@
 @section('title', 'سفارشات خدمت')
 
 @section("toolbar")
-<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_service_modal" >افزودن خدمت برای سفارش</button>
+<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_service_modal">افزودن خدمت برای سفارش</button>
 @endsection
 
 @section('content')
@@ -126,13 +126,21 @@
 <div class="modal fade" id="add_service_modal" tabindex="-1" aria-labelledby="add_service_modal_label" aria-hidden="true" data-bs-focus="false">
   <div class="modal-dialog">
     <form class="modal-content" method="post">
-        @csrf
+      @csrf
       <div class="modal-header">
         <h5 class="modal-title">افزودن خدمت برای سفارش</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <x-advanced-search type="product" label="شماره سفارش" name="new_products" solid />
+        <x-advanced-search type="orders" label="شماره سفارش" name="order" solid />
+        <div class="mt-5">
+          <label for="" class="form-label">انتخاب نوع خدمت</label>
+          <select name="service" id="" class="form-control form-control-solid" data-control="select2">
+            <option value="">دوخت</option>
+            <option value="">طراحی طرح</option>
+            <option value="">نصب</option>
+          </select>
+        </div>
         <p class="mt-5 text-success fs-7">محاسبه قیمت به طور خودکار انجام میشود</p>
       </div>
       <div class="modal-footer">

@@ -625,7 +625,8 @@
         dateFormat: "H:i Y-m-d",
         locale: "fa",
         enableTime: true,
-        time_24hr: true
+        time_24hr: true,
+        monthSelectorType: "static"
     });
 
     function toggleDetails(id) {

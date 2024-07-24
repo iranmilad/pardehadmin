@@ -1021,3 +1021,10 @@ Route::group(['prefix' => 'scores'], function () {
 });
 
 
+
+
+Route::group(['prefix' => 'tasks'], function () {
+    Route::get('/list', function () {
+        return view('tasks');
+    })->name("tasks.show");
+});
