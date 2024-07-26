@@ -168,7 +168,3 @@
 </form>
 <x-add-fast-category />
 @endsection
-
-@section("script-before")
-<script src="{{ asset('/js/ckeditor.js') }}"></script>
-@endsection
