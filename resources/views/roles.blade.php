@@ -3,24 +3,25 @@
 @section('title', 'نقش ها')
 
 @section("toolbar")
-<a href="{{route('user.role.create.show')}}" class="btn btn-primary">نقش جدید</a>
+<a href="{{route('users.roles.create')}}" class="btn btn-primary">نقش جدید</a>
 @endsection
 
 @section('content')
 <!-- START:TABLE -->
 <div class="card">
     <div class="card-body">
-        <form class="d-flex align-items-center justify-content-end" action="" method="get">
+        <form class="d-flex align-items-center justify-content-end" action="{{ route('users.roles.index') }}" method="get">
             @csrf
             <div class="d-flex align-items-center position-relative my-1">
                 <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6"><span class="path1"></span><span class="path2"></span></i>
                 <input name="s" value="{{ request()->get('s') ?? '' }}" type="text" data-kt-docs-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="جست و جو" />
             </div>
         </form>
-        <form method="post" class="" id="action_form">
+        <form method="post" class="" id="action_form" action="{{ route('users.bulk_action') }}">
+            @csrf
             <div class="d-flex tw-items-center tw-justify-start tw-w-full gap-4">
-                <select class="form-select form-select-solid tw-w-max" name="" id="">
-                    <option>عملیات</option>
+                <select class="form-select form-select-solid tw-w-max" name="action" id="">
+                    <option value="">عملیات</option>
                     <option value="delete">حذف</option>
                 </select>
                 <button class="btn btn-primary" type="submit">اجرا</button>
@@ -40,17 +41,18 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($roles as $role)
                     <tr>
                         <td>
                             <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" name="checked_row" value="1" />
+                                <input class="form-check-input" type="checkbox" name="checked_row[]" value="{{ $role->id }}" />
                             </div>
                         </td>
                         <td>
-                            <a href="{{route('user.role.edit.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder">ادمین</a>
+                            <a href="{{ route('users.roles.edit', ['id' => $role->id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder">{{ $role->title }}</a>
                         </td>
                         <td>
-                            <a href="{{route('user.role.edit.show',['id' => 1])}}" class="badge badge-primary">20</a>
+                            <span class="badge badge-primary">{{ $role->users()->count }}</span>
                         </td>
                         <td class="text-end">
                             <a href="#" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
@@ -68,7 +70,7 @@
                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-kt-menu="true">
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="{{ route('user.role.edit.show', ['id' => 1]) }}" class="menu-link px-3">
+                                    <a href="{{ route('users.roles.edit', ['id' => $role->id]) }}" class="menu-link px-3">
                                         ویرایش
                                     </a>
                                 </div>
@@ -76,28 +78,26 @@
 
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="#" class="menu-link px-3" data-kt-docs-table-filter="delete_row">
+                                    <a href="#" class="menu-link px-3" data-kt-docs-table-filter="delete_row" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $role->id }}').submit();">
                                         حذف
                                     </a>
+                                    <form id="delete-form-{{ $role->id }}" action="{{ route('users.roles.delete', ['id' => $role->id]) }}" method="POST" style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
                                 </div>
                                 <!--end::Menu item-->
                             </div>
                         </td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </form>
         <!--end::Group actions-->
 
         <ul class="pagination">
-            <li class="page-item previous disabled"><a href="#" class="page-link"><i class="previous"></i></a></li>
-            <li class="page-item active"><a href="#" class="page-link">1</a></li>
-            <li class="page-item"><a href="#" class="page-link">2</a></li>
-            <li class="page-item "><a href="#" class="page-link">3</a></li>
-            <li class="page-item "><a href="#" class="page-link">4</a></li>
-            <li class="page-item "><a href="#" class="page-link">5</a></li>
-            <li class="page-item "><a href="#" class="page-link">6</a></li>
-            <li class="page-item next"><a href="#" class="page-link"><i class="next"></i></a></li>
+            {{ $roles->links("vendor.pagination.custom-pagination") }}
         </ul>
     </div>
 </div>

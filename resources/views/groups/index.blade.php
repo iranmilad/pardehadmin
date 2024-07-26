@@ -3,23 +3,24 @@
 @section('title', 'گروه مشتریان')
 
 @section("toolbar")
-<a href="{{route('customers-group.create.show')}}" class="btn btn-primary">گروه جدید</a>
+<a href="{{ route('groups.create') }}" class="btn btn-primary">گروه جدید</a>
 @endsection
 
 @section('content')
-<!-- START:TABLE -->
 <div class="card">
     <div class="card-body">
-        <form class="d-flex align-items-center justify-content-end" action="" method="get">
-            @csrf
+        <form class="d-flex align-items-center justify-content-end" action="{{ route('groups.index') }}" method="get">
             <div class="d-flex align-items-center position-relative my-1">
                 <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6"><span class="path1"></span><span class="path2"></span></i>
                 <input name="s" value="{{ request()->get('s') ?? '' }}" type="text" data-kt-docs-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="جست و جو" />
             </div>
         </form>
-        <form method="post" class="" id="action_form">
+
+        <form method="post" id="action_form" action="{{ route('groups.bulk_action') }}">
+            @csrf
+            @method('DELETE')
             <div class="d-flex tw-items-center tw-justify-start tw-w-full gap-4">
-                <select class="form-select form-select-solid tw-w-max" name="" id="">
+                <select class="form-select form-select-solid tw-w-max" name="action">
                     <option>عملیات</option>
                     <option value="delete">حذف</option>
                 </select>
@@ -40,17 +41,18 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($groups as $group)
                     <tr>
                         <td>
                             <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" name="checked_row" value="1" />
+                                <input class="form-check-input" type="checkbox" name="checked_rows[]" value="{{ $group->id }}" />
                             </div>
                         </td>
                         <td>
-                            <a href="{{route('customers-group.edit.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder">مشتریان ویژه</a>
+                            <a href="{{ route('groups.edit', $group) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder">{{ $group->name }}</a>
                         </td>
                         <td>
-                            <a href="{{route('customers-group.edit.show',['id' => 1])}}" class="badge badge-primary">20</a>
+                            <a href="{{ route('groups.edit', $group) }}" class="badge badge-primary">{{ $group->users_count }}</a>
                         </td>
                         <td class="text-end">
                             <a href="#" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
@@ -64,46 +66,29 @@
                                     </svg>
                                 </span>
                             </a>
-                            <!--begin::Menu-->
                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-kt-menu="true">
-                                <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="{{ route('customers-group.edit.show', ['id' => 1]) }}" class="menu-link px-3">
+                                    <a href="{{ route('groups.edit', $group) }}" class="menu-link px-3">
                                         ویرایش
                                     </a>
                                 </div>
-                                <!--end::Menu item-->
-
-                                <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="#" class="menu-link px-3" data-kt-docs-table-filter="delete_row">
-                                        حذف
-                                    </a>
+                                    <form action="{{ route('groups.destroy', $group) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="menu-link px-3" style="border: none; background: none;">حذف</button>
+                                    </form>
                                 </div>
-                                <!--end::Menu item-->
                             </div>
                         </td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </form>
-        <!--end::Group actions-->
-
         <ul class="pagination">
-            <li class="page-item previous disabled"><a href="#" class="page-link"><i class="previous"></i></a></li>
-            <li class="page-item active"><a href="#" class="page-link">1</a></li>
-            <li class="page-item"><a href="#" class="page-link">2</a></li>
-            <li class="page-item "><a href="#" class="page-link">3</a></li>
-            <li class="page-item "><a href="#" class="page-link">4</a></li>
-            <li class="page-item "><a href="#" class="page-link">5</a></li>
-            <li class="page-item "><a href="#" class="page-link">6</a></li>
-            <li class="page-item next"><a href="#" class="page-link"><i class="next"></i></a></li>
+            {{ $groups->links() }}
         </ul>
     </div>
 </div>
-<!-- END:TABLE -->
-@endsection
-
-@section('script-before')
-<script src="{{asset('plugins/custom/datatables/datatables.bundle.js')}}"></script>
 @endsection

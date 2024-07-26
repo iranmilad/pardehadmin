@@ -1,6 +1,6 @@
 @extends('layouts.primary')
 
-@if(Route::is('user.role.create.show'))
+@if(Route::is('users.roles.create'))
 @section('title', 'ایجاد نقش')
 @else
 @section('title', 'ویرایش نقش')

@@ -445,7 +445,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('user.roles.show') ? 'active' : '' }}" href="{{ route('user.roles.show') }}">
+				<a class="menu-link {{ Route::is('users.roles.index') ? 'active' : '' }}" href="{{ route('users.roles.index') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -475,7 +475,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('score-groups.show')  ? 'active' : '' }}" href="{{ route('score-groups.show') }}">
+				<a class="menu-link {{ Route::is('score-groups.index')  ? 'active' : '' }}" href="{{ route('score-groups.index') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -487,7 +487,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('score-settings.show') ? 'active' : '' }}" href="{{ route('score-settings.show') }}">
+				<a class="menu-link {{ Route::is('score-groups.setting') ? 'active' : '' }}" href="{{ route('score-groups.setting') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -502,7 +502,7 @@
 	<!-- end:Menu item -->
 
 	<!--begin:Menu item-->
-	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('customers-group*') ? 'show' : ''}}">
+	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('groups*') ? 'show' : ''}}">
 		<!--begin:Menu link-->
 		<span class="menu-link">
 			<span class="menu-icon">
@@ -517,7 +517,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('customers-group.show')  ? 'active' : '' }}" href="{{ route('customers-group.show') }}">
+				<a class="menu-link {{ Route::is('groups.index')  ? 'active' : '' }}" href="{{ route('groups.index') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -529,7 +529,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('customers-group.create.show') ? 'active' : '' }}" href="{{ route('customers-group.create.show') }}">
+				<a class="menu-link {{ Route::is('groups.create') ? 'active' : '' }}" href="{{ route('groups.create') }}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>

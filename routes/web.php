@@ -13,6 +13,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlockController;
 use App\Http\Controllers\CheckController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CreditController;
 use App\Http\Controllers\ReviewController;
@@ -29,6 +30,7 @@ use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\CodePieceController;
 use App\Http\Controllers\TransportController;
 use App\Http\Controllers\ProductTagController;
+use App\Http\Controllers\ScoreGroupController;
 use App\Http\Controllers\HoloSettingController;
 use App\Http\Controllers\ImageMarkerController;
 use App\Http\Controllers\InstallmentController;
@@ -308,18 +310,12 @@ Route::middleware(['auth'])->group(function () {
 
         Route::post('/bulk_action', [UserController::class, 'bulk_action'])->name("users.bulk_action");
 
-        Route::get('/roles', function () {
-            return view('roles');
-        })->name("user.roles.show");
-
-        Route::get('/role-create', function () {
-            return view('role');
-        })->name("user.role.create.show");
-
-        Route::get('/role/{id}', function ($id) {
-            return view('role');
-        })->name("user.role.edit.show");
-
+        Route::get('/roles', [UserController::class, 'roles'])->name("users.roles.index");
+        Route::get('/roles/create', [UserController::class, 'rolesCreate'])->name("users.roles.create");
+        Route::post('/roles/store', [UserController::class, 'rolesStore'])->name("user.roles.store");
+        Route::get('/roles/edit/{id}', [UserController::class, 'rolesEdit'])->name("users.roles.edit");
+        Route::put('/roles/{id}', [UserController::class, 'rolesUpdate'])->name("users.roles.update");
+        Route::delete('/roles/{id}', [UserController::class, 'rolesDelete'])->name("users.roles.delete"); // اضافه کردن روت حذف نقش
     });
 
 
@@ -601,6 +597,33 @@ Route::resource('settlement_documents', SettlementDocumentController::class);
 Route::post('/settlement_documents/bulk-delete', [SettlementDocumentController::class, 'bulkDelete'])->name('settlement_documents.bulk_delete');
 
 
+Route::group(['prefix' => 'groups'], function () {
+    Route::get('/', [GroupController::class, 'index'])->name('groups.index');
+    Route::get('/create', [GroupController::class, 'create'])->name('groups.create');
+    Route::post('/store', [GroupController::class, 'store'])->name('groups.store');
+    Route::get('/{group}/edit', [GroupController::class, 'edit'])->name('groups.edit');
+    Route::put('/{group}', [GroupController::class, 'update'])->name('groups.update');
+    Route::delete('/{group}', [GroupController::class, 'destroy'])->name('groups.destroy');
+    Route::post('/bulk_action', [GroupController::class, 'bulk_action'])->name("groups.bulk_action");
+
+});
+Route::group(['prefix' => 'score-groups'], function () {
+
+    Route::get('/', [ScoreGroupController::class, 'index'])->name("score-groups.index");
+
+    Route::get('/create', [ScoreGroupController::class, 'create'])->name("score-groups.create");
+    Route::post('/store', [ScoreGroupController::class, 'store'])->name("score-groups.store");
+
+    Route::get('/edit/{id}', [ScoreGroupController::class, 'edit'])->name("score-groups.edit");
+    Route::put('/update/{id}', [ScoreGroupController::class, 'update'])->name("score-groups.update");
+
+    Route::delete('/{id}', [ScoreGroupController::class, 'destroy'])->name("score-groups.destroy");
+
+    Route::post('/bulk_action', [ScoreGroupController::class, 'bulk_action'])->name("score-groups.bulk_action");
+    Route::get('/setting', [ScoreGroupController::class, 'setting'])->name("score-groups.setting");
+    Route::post('/setting/edit', [ScoreGroupController::class, 'editSetting'])->name("score-groups.setting.edit");
+});
+
 });
 
 Route::get('login', [LoginController::class, 'index'])->name('login');
@@ -808,19 +831,19 @@ Route::get('/changepass', function () {
 //     })->name("report.edit.show");
 // });
 
-Route::group(['prefix' => 'customers-group'], function () {
-    Route::get('/list', function () {
-        return view('customers-group');
-    })->name("customers-group.show");
+// Route::group(['prefix' => 'customers-group'], function () {
+//     Route::get('/list', function () {
+//         return view('customers-group');
+//     })->name("customers-group.show");
 
-    Route::get('/create', function () {
-        return view('customer-group');
-    })->name("customers-group.create.show");
+//     Route::get('/create', function () {
+//         return view('customer-group');
+//     })->name("customers-group.create.show");
 
-    Route::get('/edit/{id}', function ($id) {
-        return view('customer-group');
-    })->name("customers-group.edit.show");
-});
+//     Route::get('/edit/{id}', function ($id) {
+//         return view('customer-group');
+//     })->name("customers-group.edit.show");
+// });
 
 // Route::group(['prefix' => 'discounts'], function () {
 //     Route::get('/list', function () {
@@ -1002,23 +1025,23 @@ Route::get('/test', function () {
 })->name("files-test");
 
 
-Route::group(['prefix' => 'scores'], function () {
-    Route::get('/groups', function () {
-        return view('score-groups');
-    })->name("score-groups.show");
+// Route::group(['prefix' => 'scores'], function () {
+//     Route::get('/groups', function () {
+//         return view('score-groups');
+//     })->name("score-groups.show");
 
-    Route::get('/group/{id}', function ($id) {
-        return view('score-group');
-    })->name("score-group.edit.show");
+//     Route::get('/group/{id}', function ($id) {
+//         return view('score-group');
+//     })->name("score-group.edit.show");
 
-    Route::get('/group-create/', function () {
-        return view('score-group');
-    })->name("score-group.create.show");
+//     Route::get('/group-create/', function () {
+//         return view('score-group');
+//     })->name("score-group.create.show");
 
-    Route::get('/settings', function () {
-        return view('score-settings');
-    })->name("score-settings.show");
-});
+//     Route::get('/settings', function () {
+//         return view('score-settings');
+//     })->name("score-settings.show");
+// });
 
 
 

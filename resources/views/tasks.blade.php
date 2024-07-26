@@ -23,12 +23,12 @@
                 <button class="btn btn-primary" type="submit">اجرا</button>
             </div>
 
-            <table id="attributes_table" class="table gy-5 gs-7">
+            <table id="attributesseditle" class="table gy-5 gs-7">
                 <thead>
                     <tr class="fs-7 fw-bold text-gray-400 border-bottom-0">
                         <th class="w-10px">
                             <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#attributes_table .form-check-input" value="1" />
+                                <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#attributesseditle .form-check-input" value="1" />
                             </div>
                         </th>
                         <th class="cursor-pointer px-0 min-w-175px text-start">عنوان</th>
@@ -44,13 +44,13 @@
                             </div>
                         </td>
                         <td>
-                            <a href="{{route('attribute.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">پرده رنگی</a>
+                            <a href="{{route('attributes.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">پرده رنگی</a>
                         </td>
                         <td>
-                            <a href="{{route('attribute.show',['id' => 1])}}">colorfull-curtain</a>
+                            <a href="{{route('attributes.edit',['id' => 1])}}">colorfull-curtain</a>
                         </td>
                         <td class="text-end">
-                            <a href="{{route('attribute.show',['id' => 1])}}" class="btn btn-light btn-sm">
+                            <a href="{{route('attributes.edit',['id' => 1])}}" class="btn btn-light btn-sm">
                                 ویرایش
                             </a>
                         </td>
@@ -62,13 +62,13 @@
                             </div>
                         </td>
                         <td>
-                            <a href=" {{route('attribute.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">پرده رنگی</a>
+                            <a href=" {{route('attributes.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">پرده رنگی</a>
                         </td>
                         <td>
-                            <a href="{{route('attribute.show',['id' => 1])}}">colorfull-curtain</a>
+                            <a href="{{route('attributes.edit',['id' => 1])}}">colorfull-curtain</a>
                         </td>
                         <td class="text-end">
-                            <a href="{{route('attribute.show',['id' => 1])}}" class="btn btn-light btn-sm">
+                            <a href="{{route('attributes.edit',['id' => 1])}}" class="btn btn-light btn-sm">
                                 ویرایش
                             </a>
                         </td>

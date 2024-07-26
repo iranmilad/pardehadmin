@@ -32,6 +32,7 @@ use Illuminate\Notifications\Notifiable;
         'check_payment_active',
         'credit_payment_active',
         'credit_limit',
+        'role_id',
     ];
 
     protected $casts = [
@@ -98,6 +99,7 @@ use Illuminate\Notifications\Notifiable;
     {
         return $this->belongsTo(Role::class);
     }
+
     public function hasRole(string $role): bool
     {
         return $this->role()->where('title', $role)->exists();
@@ -107,6 +109,7 @@ use Illuminate\Notifications\Notifiable;
     {
         return $this->role->title === 'admin';
     }
+
 	public function tokens()
 	{
 		return $this->hasMany(UserToken::class);
@@ -531,7 +534,60 @@ use Illuminate\Notifications\Notifiable;
                     ->sum('hours');
     }
 
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'group_user');
+    }
 
+    public function creditScore()
+    {
+        return $this->hasOne(CreditScore::class);
+    }
+
+    // فرض بر این است که مدل User مربوط به جدول users است و شامل روابط لازم برای نقش‌ها و پرمیشن‌ها می‌باشد.
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    /**
+     * بررسی دسترسی برای یک کد دسترسی خاص
+     *
+     * @param string $permissionName
+     * @param string $type
+     * @return bool
+     */
+    public function hasPermission($permissionName, $type = 'read')
+    {
+        foreach ($this->roles as $role) {
+            if ($role->hasPermission($permissionName, $type)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * بررسی دسترسی خواندن
+     *
+     * @param string $permissionName
+     * @return bool
+     */
+    public function hasReadPermission($permissionName)
+    {
+        return $this->hasPermission($permissionName, 'read');
+    }
+
+    /**
+     * بررسی دسترسی نوشتن
+     *
+     * @param string $permissionName
+     * @return bool
+     */
+    public function hasWritePermission($permissionName)
+    {
+        return $this->hasPermission($permissionName, 'write');
+    }
 
 
 }

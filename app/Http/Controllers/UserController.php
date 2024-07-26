@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -178,5 +179,65 @@ class UserController extends Controller
         $user = User::find($id);
 
         return view('user-sessions',compact('user'));
+    }
+
+
+
+    public function roles(Request $request)
+    {
+        $search = $request->input('s');
+        $roles = Role::withCount('users')
+            ->when($search, function($query, $search) {
+                return $query->where('title', 'like', "%{$search}%")
+                             ->orWhere('display_name', 'like', "%{$search}%");
+            })->paginate(10);
+
+        return view('users.roles.index', compact('roles', 'search'));
+    }
+
+    public function rolesCreate()
+    {
+        return view('users.roles.create');
+    }
+
+    public function rolesStore(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+
+        Role::create($request->all());
+
+        return redirect()->route('users.roles.index')->with('success', 'نقش با موفقیت ایجاد شد');
+    }
+
+    public function rolesEdit($id)
+    {
+        $role = Role::findOrFail($id);
+        return view('users.roles.edit', compact('role'));
+    }
+
+    public function rolesUpdate(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+
+        $role = Role::findOrFail($id);
+        $role->update($request->all());
+
+        return redirect()->route('users.roles.index')->with('success', 'نقش با موفقیت ویرایش شد');
+    }
+
+    public function rolesDelete(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|integer|exists:roles,id',
+        ]);
+
+        $role = Role::findOrFail($request->id);
+        $role->delete();
+
+        return redirect()->route('users.roles.index')->with('success', 'نقش با موفقیت حذف شد');
     }
 }

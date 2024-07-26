@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Group;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
@@ -121,6 +122,27 @@ class SearchController extends Controller
                 return [
                     'id' => $category->id,
                     'text' => "{$category->title}",
+                ];
+            });
+
+            $data = [
+                'search' => $query,
+                'results' => $results,
+            ];
+
+            return response()->json($data);
+        }
+        elseif ($type === 'group') {
+            $query = $request->get('query');
+            $groups = Group::where('name', 'like', "%{$query}%")
+                            ->orWhere('description', 'like', "%{$query}%")
+                            ->limit(10)
+                            ->get();
+
+            $results = $groups->map(function ($group) {
+                return [
+                    'id' => $group->id,
+                    'text' => "{$group->name}",
                 ];
             });
 
