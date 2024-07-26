@@ -40,6 +40,7 @@ import markerIcon from "../images/marker-icon.svg";
 import "./messages-dashboard";
 import "./file-uploader"
 import { KT_File_Input } from "./file-input";
+import "./ckeditor/bundle";
 
 KTUtil.onDOMContentLoaded(function () {
     PostsTable()?.init();
@@ -69,17 +70,6 @@ KTUtil.onDOMContentLoaded(function () {
 
 window['KT_File_Input'] = KT_File_Input;
 
-if ($(".editor").length > 0) {
-    document.querySelectorAll(".editor").forEach((elm) => {
-        ClassicEditor.create(elm, {
-            // Editor configuration.
-        })
-            .then((editor) => {
-                window.editor = editor;
-            })
-            .catch();
-    });
-}
 
 // intermidiate checkbox
 $(document).ready(function () {

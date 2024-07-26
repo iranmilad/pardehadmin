@@ -186,7 +186,7 @@
 
 @section("script-before")
 <script src="{{ asset('/js/ckeditor.js') }}"></script>
-<script>
+{{-- <script>
     CKEDITOR.replace( 'editor', {filebrowserImageBrowseUrl: '/file-manager/ckeditor'});
   </script>
 <script>
@@ -211,7 +211,7 @@
         hiddenInput.value = JSON.stringify(tags);
         this.appendChild(hiddenInput);
     });
-</script>
+</script> --}}
 
 
 @endsection

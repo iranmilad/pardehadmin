@@ -176,26 +176,35 @@ use Illuminate\Support\Facades\Vite;
 
         function fmSetLink($url) {
             let btn = window['choose_file'];
-            if (btn.classList.contains('path1') || btn.classList.contains('preview-image-label')) {
-                if (btn.classList.contains('path1')) {
-                    const closestImageWrapper = btn.parentElement.parentElement.parentElement.querySelector('.image-input-wrapper');
-                    if (closestImageWrapper) {
-                        window['changethatBg'](closestImageWrapper, $url);
+            if (btn) {
+                if (btn.classList.contains('path1') || btn.classList.contains('preview-image-label')) {
+                    if (btn.classList.contains('path1')) {
+                        const closestImageWrapper = btn.parentElement.parentElement.parentElement.querySelector('.image-input-wrapper');
+                        if (closestImageWrapper) {
+                            window['changethatBg'](closestImageWrapper, $url);
+                        }
+                    } else {
+                        const siblingImageWrapper = btn.parentElement.querySelector('.image-input-wrapper');
+                        if (siblingImageWrapper) {
+                            window['changethatBg'](siblingImageWrapper, $url);
+                        }
                     }
-                } else {
-                    const siblingImageWrapper = btn.parentElement.querySelector('.image-input-wrapper');
-                    if (siblingImageWrapper) {
-                        window['changethatBg'](siblingImageWrapper, $url);
-                    }
+                } else if (btn.classList.contains('choose_file_button')) {
+                    btn.parentElement.parentElement.querySelector('input').value = $url;
+                } else if (btn.hasAttribute("data-add-multiple-type")) {
+                    window['preview_multi'](btn, $url)
                 }
-            } else if (btn.classList.contains('choose_file_button')) {
-                btn.parentElement.parentElement.querySelector('input').value = $url;
             }
-            else if(btn.hasAttribute("data-add-multiple-type")){
-                window['preview_multi'](btn,$url)
+            if(window['uploader-type'] === "ckeditor"){
+                window['ckeditor_file']($url)
             }
         }
         document.addEventListener("DOMContentLoaded", () => {
+            window.addEventListener('message', event => {
+                if (event.origin === new URL(document.referrer).origin) {
+                    alert(event.data);
+                }
+            });
             if ($(".multiple_file_repeater").length > 0) {
                 $(".multiple_file_repeater").repeater({
                     initEmpty: false,
