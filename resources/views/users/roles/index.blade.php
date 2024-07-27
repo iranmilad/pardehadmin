@@ -17,7 +17,7 @@
                 <input name="s" value="{{ request()->get('s') ?? '' }}" type="text" data-kt-docs-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="جست و جو" />
             </div>
         </form>
-        <form method="post" class="" id="action_form" action="{{ route('users.bulk_action') }}">
+        <form method="post" class="" id="action_form" action="{{ route('users.roles.bulk_action') }}">
             @csrf
             <div class="d-flex tw-items-center tw-justify-start tw-w-full gap-4">
                 <select class="form-select form-select-solid tw-w-max" name="action" id="">
@@ -82,13 +82,10 @@
 
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="#" class="menu-link px-3" data-kt-docs-table-filter="delete_row" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $role->id }}').submit();">
+                                    <a href="{{ route('users.roles.delete', ['id' => $role->id]) }}" class="menu-link px-3">
                                         حذف
                                     </a>
-                                    <form id="delete-form-{{ $role->id }}" action="{{ route('users.roles.delete', ['id' => $role->id]) }}" method="POST" style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
+
                                 </div>
                                 <!--end::Menu item-->
                             </div>
@@ -98,7 +95,7 @@
                 </tbody>
             </table>
         </form>
-        <!--end::Group actions-->
+
 
         <ul class="pagination">
             {{ $roles->appends(['s' => request()->get('s')])->links() }}

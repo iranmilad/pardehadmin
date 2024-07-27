@@ -312,10 +312,11 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/roles', [UserController::class, 'roles'])->name("users.roles.index");
         Route::get('/roles/create', [UserController::class, 'rolesCreate'])->name("users.roles.create");
-        Route::post('/roles/store', [UserController::class, 'rolesStore'])->name("user.roles.store");
+        Route::post('/roles/store', [UserController::class, 'rolesStore'])->name("users.roles.store");
         Route::get('/roles/edit/{id}', [UserController::class, 'rolesEdit'])->name("users.roles.edit");
         Route::put('/roles/{id}', [UserController::class, 'rolesUpdate'])->name("users.roles.update");
-        Route::delete('/roles/{id}', [UserController::class, 'rolesDelete'])->name("users.roles.delete"); // اضافه کردن روت حذف نقش
+        Route::get('/roles/{id}', [UserController::class, 'rolesDelete'])->name("users.roles.delete"); // اضافه کردن روت حذف نقش
+        Route::post('/roles/bulk_action', [UserController::class, 'rolesBulk_action'])->name("users.roles.bulk_action");
     });
 
 

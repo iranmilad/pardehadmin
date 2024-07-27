@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -197,47 +198,84 @@ class UserController extends Controller
 
     public function rolesCreate()
     {
-        return view('users.roles.create');
+        $permissions = Permission::all();
+        return view('users.roles.create', compact('permissions'));
     }
 
     public function rolesStore(Request $request)
     {
+
         $request->validate([
             'title' => 'required|string|max:255',
+            'display_name' => 'required|string|max:255',
+            'access_code' => 'array',
+            'access_code.*' => 'in:0,1,2',
         ]);
 
-        Role::create($request->all());
+        $role = Role::create([
+            'title' => $request->input('title'),
+            'display_name' => $request->input('display_name'),
+        ]);
 
-        return redirect()->route('users.roles.index')->with('success', 'نقش با موفقیت ایجاد شد');
+        foreach ($request->input('access_code', []) as $permissionId => $accessCode) {
+            $role->permissions()->attach($permissionId, ['access_code' => $accessCode]);
+        }
+
+        return redirect()->route('users.roles.index')->with('success', 'Role created successfully.');
+
     }
 
     public function rolesEdit($id)
     {
         $role = Role::findOrFail($id);
-        return view('users.roles.edit', compact('role'));
+        $permissions = Permission::all(); // بررسی کنید که این خط به درستی کار کند
+        return view('users.roles.edit', compact('role', 'permissions'));
     }
 
     public function rolesUpdate(Request $request, $id)
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'display_name' => 'required|string|max:255',
+            'access_code' => 'array',
+            'access_code.*' => 'in:0,1,2',
         ]);
 
         $role = Role::findOrFail($id);
-        $role->update($request->all());
-
-        return redirect()->route('users.roles.index')->with('success', 'نقش با موفقیت ویرایش شد');
-    }
-
-    public function rolesDelete(Request $request)
-    {
-        $request->validate([
-            'id' => 'required|integer|exists:roles,id',
+        $role->update([
+            'title' => $request->input('title'),
+            'display_name' => $request->input('display_name'),
         ]);
 
-        $role = Role::findOrFail($request->id);
+        // سنکرون کردن دسترسی‌ها
+        foreach ($request->input('access_code', []) as $permissionId => $accessCode) {
+            $role->permissions()->updateExistingPivot($permissionId, ['access_code' => $accessCode]);
+        }
+
+        return redirect()->route('users.roles.index')->with('success', 'Role updated successfully.');
+    }
+
+    public function rolesDelete($id)
+    {
+        $role = Role::findOrFail($id);
         $role->delete();
 
-        return redirect()->route('users.roles.index')->with('success', 'نقش با موفقیت حذف شد');
+        return redirect()->route('users.roles.index')->with('success', 'Role deleted successfully.');
     }
+
+    public function rolesBulk_action(Request $request)
+    {
+        $action = $request->input('action');
+        $roleIds = $request->input('checked_row', []);
+
+        if ($action === 'delete') {
+            Role::whereIn('id', $roleIds)->delete();
+            return redirect()->route('users.roles.index')->with('success', 'Roles deleted successfully.');
+        }
+
+        return redirect()->route('users.roles.index')->with('error', 'Invalid action selected.');
+    }
+
+
+
 }
