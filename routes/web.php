@@ -526,4 +526,8 @@ Route::group(['prefix' => 'tasks'], function () {
     Route::get('/list', function () {
         return view('tasks');
     })->name("tasks.show");
+
+    Route::get('/task/{id}', function ($id) {
+        return view('task');
+    })->name("task.edit.show");
 });

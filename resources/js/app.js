@@ -24,6 +24,7 @@ import {
     SnippetsTable,
     ReportsTable,
     GlobalTable,
+    CustomerGroupTable
 } from "./pages";
 // import "./pages/attribute";
 // import "./create-fast-category";
@@ -65,6 +66,7 @@ KTUtil.onDOMContentLoaded(function () {
     SnippetsTable()?.init();
     ReportsTable()?.init();
     GlobalTable()?.init();
+    CustomerGroupTable()?.init();
     KT_File_Input();
 });
 

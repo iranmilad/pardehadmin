@@ -20,6 +20,7 @@ import ImageMarkersTable from "./imagemarkers"
 import SnippetsTable from "./snippets";
 import ReportsTable from "./reports";
 import GlobalTable from "./globalTable";
+import CustomerGroupTable from "./customer_group_table";
 
 export {
     PostCategoryTable,
@@ -43,5 +44,6 @@ export {
     ImageMarkersTable,
     SnippetsTable,
     ReportsTable,
-    GlobalTable
+    GlobalTable,
+    CustomerGroupTable
 };
