@@ -5,6 +5,7 @@ use App\Models\Review;
 use App\Models\Slider;
 use App\Models\PostCategory;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SmsController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\MenuController;
@@ -625,6 +626,27 @@ Route::group(['prefix' => 'score-groups'], function () {
     Route::post('/setting/edit', [ScoreGroupController::class, 'editSetting'])->name("score-groups.setting.edit");
 });
 
+
+Route::group(['prefix' => 'sms'], function () {
+
+    Route::get('/', [SmsController::class, 'index'])->name("sms.index");
+
+    Route::get('/create', [SmsController::class, 'create'])->name("sms.create");
+    Route::post('/store', [SmsController::class, 'store'])->name("sms.store");
+
+    Route::get('/edit/{id}', [SmsController::class, 'edit'])->name("sms.edit");
+    Route::put('/update/{id}', [SmsController::class, 'update'])->name("sms.update");
+
+    Route::post('/delete', [SmsController::class, 'delete'])->name("sms.delete");
+
+    Route::post('/bulk_action', [SmsController::class, 'bulk_action'])->name("sms.bulk_action");
+
+});
+
+
+
+
+
 });
 
 Route::get('login', [LoginController::class, 'index'])->name('login');
@@ -952,21 +974,21 @@ Route::group(['prefix' => 'service-orders'], function () {
 //     return view('checkout-create');
 // })->name("checkout-create.show");
 
-Route::get('/sms-settings', function () {
-    return view('sms-settings');
-})->name("sms-settings.show");
+// Route::get('/sms', function () {
+//     return view('sms');
+// })->name("sms.index");
 
-Route::get('/sms-text/{id}', function ($id) {
-    return view('sms-text');
-})->name("sms-text.show");
+// Route::get('/sms-text/{id}', function ($id) {
+//     return view('sms-text');
+// })->name("sms-text.show");
 
-Route::get('/create-sms-text/', function () {
-    return view('sms-text');
-})->name("sms-text.create.show");
+// Route::get('/create-sms-text/', function () {
+//     return view('sms-text');
+// })->name("sms.create");
 
-Route::get('/sms-text-create', function () {
-    return view('sms-text-create');
-})->name("sms-text.create");
+// Route::get('/sms-text-create', function () {
+//     return view('sms-text-create');
+// })->name("sms-text.create");
 
 
 Route::group(['prefix' => 'snippets'], function () {

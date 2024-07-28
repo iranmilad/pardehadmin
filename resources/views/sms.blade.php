@@ -3,7 +3,7 @@
 @section('title', 'پیامک')
 
 @section("toolbar")
-<a href="{{ route('sms-text.create') }}" class="btn btn-primary">افزودن پیامک </a>
+<a href="{{ route('sms.create') }}" class="btn btn-primary">افزودن پیامک </a>
 @endsection
 
 
@@ -44,7 +44,7 @@
                                         <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#global_table .form-check-input" value="1" />
                                     </div>
                                 </th>
-                                <th class="cursor-pointer px-0 min-w-175px text-start">وضعیت سفارش</th>
+                                <th class="cursor-pointer px-0 min-w-175px text-start">نوع پیامک</th>
                                 <th class="min-w-100px text-end">عملیات</th>
                             </tr>
                         </thead>

@@ -15,10 +15,18 @@
                 <div class="col-10">
                     <div class="form-check">
                         <select name="" id="" class="form-select for-select-solid" data-control="select2">
-                            <option value="">در حال انجام</option>
-                            <option value="">در حال بررسی</option>
-                            <option value="">اتمام یافته</option>
-                            <option value="">لغو شده</option>
+                            <option value="">تکمیل سفارش</option>
+                            <option value="">در حال انجام سفارش</option>
+                            <option value="">تایید سفارش</option>
+                            <option value="">آماده سازی سفارش</option>
+                            <option value="">تکمیل سفارش</option>
+                            <option value="">کد تایید دریافت سفارش</option>
+                            <option value="">تحویل سفارش</option>
+                            <option value="">ثبت نام</option>
+                            <option value="">ثبت دیدگاه</option>
+                            <option value="">لغو سفارش</option>
+                            <option value="">ثبت نام کاربر</option>
+                            <option value="">تغییر رمزعبور کاربر</option>
                         </select>
                     </div>
                 </div>
@@ -28,10 +36,11 @@
                 <div class="col-10">
                     <div class="form-check">
                         <select name="" id="" class="form-select for-select-solid" data-control="select2">
-                            <option value="">خیاط ها</option>
-                            <option value="">مدیران</option>
-                            <option value="">مشتریان</option>
-                            <option value="">تامین کنندگان</option>
+                            <option value="">مشتری</option>
+                            <option value="">خیاط</option>
+                            <option value="">مدیر</option>
+                            <option value="">تامین کننده</option>
+                            <option value="">تنظیم خودکار</option>
                         </select>
                     </div>
                 </div>

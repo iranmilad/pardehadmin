@@ -202,7 +202,7 @@ use Illuminate\Support\Facades\Vite;
         document.addEventListener("DOMContentLoaded", () => {
             window.addEventListener('message', event => {
                 if (event.origin === new URL(document.referrer).origin) {
-                    alert(event.data);
+                    //alert(event.data);
                 }
             });
             if ($(".multiple_file_repeater").length > 0) {

@@ -712,7 +712,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{route('sms-settings.show')}}" class="menu-link {{ Route::is('sms-settings.show') || Route::is('sms-text.show')   ? 'active' : '' }}">
+		<a href="{{route('sms.index')}}" class="menu-link {{ Route::is('sms.*') || Route::is('sms.index')   ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-comment-sms"></i>
 			</span>
