@@ -15,7 +15,38 @@
         </div>
     </div>
     <div class="card-body">
-        
+        <div class="row form-group mb-1">
+            <div class="col-md-2">
+                <label class="form-label" for="">عنوان کار</label>
+            </div>
+            <div class="col-md-4">
+                <select class="form-select form-select-solid" name="" id="" disabled data-control="select2">
+                    <option value="1">دوخت</option>
+                    <option value="2">نصب</option>
+                    <option value="3">طراحی طرح</option>
+                </select>
+            </div>
+        </div>
+        <div class="row form-group mb-5 tw-items-center">
+            <div class="col-md-2">
+                <label class="form-label" for="">انجام دهنده</label>
+            </div>
+            <div class="col-md-4">
+                <x-advanced-search type="users" label="" name="user" solid />
+            </div>
+        </div>
+        <div class="row form-group mb-5">
+            <div class="col-md-2">
+                <label class="form-label" for="">وضعیت</label>
+            </div>
+            <div class="col-md-4">
+                <select class="form-select form-select-solid" name="" id="" data-control="select2">
+                    <option value="1">بدون وضعیت</option>
+                    <option value="2">درحال انجام</option>
+                    <option value="3">انجام شده</option>
+                </select>
+            </div>
+        </div>
     </div>
 </div>
 <h4 class="card-title mb-5">روند کار</h4>
@@ -52,4 +83,8 @@
     </div>
 </div>
 
+@endsection
+
+@section('script-before')
+<script src="../js/ckeditor/bundle.js"></script>
 @endsection
