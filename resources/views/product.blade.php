@@ -281,6 +281,7 @@
 
     </form>
 <x-add-fast-category />
+<x-short-code-editor />
 @endsection
 
 @section("script-before")

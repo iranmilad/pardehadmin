@@ -80,10 +80,8 @@
         <!-- END:STATUS -->
     </div>
 </form>
-@endsection
-
-@section('script-before')
-<script src="{{ asset('/js/ckeditor.js') }}"></script>
+<x-add-fast-category />
+<x-short-code-editor />
 @endsection
 
 @section('script-after')

@@ -24,7 +24,7 @@ import {
     SnippetsTable,
     ReportsTable,
     GlobalTable,
-    CustomerGroupTable
+    CustomerGroupTable,
 } from "./pages";
 // import "./pages/attribute";
 // import "./create-fast-category";
@@ -34,12 +34,12 @@ import "jquery-validation";
 import "./pages/message";
 import "./marker";
 import "./menu";
-import Sortable,{Swap} from "sortablejs";
+import Sortable, { Swap } from "sortablejs";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import markerIcon from "../images/marker-icon.svg";
 import "./messages-dashboard";
-import "./file-uploader"
+import "./file-uploader";
 import { KT_File_Input } from "./file-input";
 import "./ckeditor/bundle";
 
@@ -70,8 +70,12 @@ KTUtil.onDOMContentLoaded(function () {
     KT_File_Input();
 });
 
-window['KT_File_Input'] = KT_File_Input;
-
+window["KT_File_Input"] = KT_File_Input;
+if ($("#shortCodeListModal").length > 0) {
+    window["shortCodeListModal"] = new bootstrap.Modal("#shortCodeListModal", {
+        keyboard: false,
+    });
+}
 
 // intermidiate checkbox
 $(document).ready(function () {
@@ -407,7 +411,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-
 
 // document.addEventListener("DOMContentLoaded" ,() => {
 //     if($("#add_service_modal").length > 0){

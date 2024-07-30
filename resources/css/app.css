@@ -14,6 +14,10 @@ body,
     font-feature-settings: "ss02";
 }
 
+.ck-button__label{
+    font-family: "IRANSansX", sans-serif !important;
+}
+
 .dashboard-card-chart {
     display: flex;
     flex-direction: column;
@@ -434,8 +438,9 @@ a.token {
     height: 600px !important;
 }
 
-.choose_file_input input:disabled{
+input.choose_file_input:disabled{
     background: white;
+    cursor: pointer;
 }
 
 .remove_choose_file{
