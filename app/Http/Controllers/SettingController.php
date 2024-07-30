@@ -55,40 +55,58 @@ class SettingController extends Controller
 
         return redirect()->back()->with('success', 'تنظیمات با موفقیت ذخیره شد.');
     }
-
     public function edit($group)
     {
         $setting = Setting::where('group', $group)->first();
 
-        // اگر تنظیمات وجود دارد، آن را به ویو پاس بدهید
-        if ($setting) {
-            //dd($setting);
-            return view('settings', compact('setting'));
+        if ($group == "general") {
+            $view = 'settings';
+            // مقادیر پیش‌فرض برای تنظیمات عمومی
+            $defaultSettings = [
+                'settings' => [
+                    'site_url' => '',
+                    'site_title' => '',
+                    'copyright' => '',
+                    'admin_email' => '',
+                    'meta_tags' => '',
+                    'address_1' => '',
+                    'address_2' => '',
+                    'phone_1' => '',
+                    'phone_2' => '',
+                    'postal_code' => '',
+                    'location' => '35.70222474889245,51.338657483464765',
+                    'maintenance_mode' => false,
+                    'maintenance_message' => 'به زودی برمیگردیم',
+                    'maintenance_start' => '',
+                    'maintenance_end' => '',
+                ],
+            ];
+
+
+
+        }
+        elseif ($group == "sms") {
+            $view = 'settings.sms';
+            // مقادیر پیش‌فرض برای تنظیمات پیامک
+            $defaultSettings = [
+                'settings' => [
+                    'service' => '',
+                    'username' => '',
+                    'password' => '',
+                    'sender_phone' => '',
+                    'domain' => '',
+                ],
+            ];
+            $defaultSettings = (object)$defaultSettings;
         }
 
-        // اگر تنظیمات وجود ندارد، یک آرایه خالی به عنوان مقدار پیش‌فرض برای ویو ارسال کنید
-        $defaultSettings = [
-            'settings' => [
-                'site_url' => '',
-                'site_title' => '',
-                'copyright' => '',
-                'admin_email' => '',
-                'meta_tags' => '',
-                'address_1' => '',
-                'address_2' => '',
-                'phone_1' => '',
-                'phone_2' => '',
-                'postal_code' => '',
-                'location' => '35.70222474889245,51.338657483464765',
-                'maintenance_mode' => false,
-                'maintenance_message' => 'به زودی برمیگردیم',
-                'maintenance_start' => '',
-                'maintenance_end' => '',
-            ],
-        ];
+        //dd($setting);
+        if ($setting) {
+            return view($view, compact('setting'));
+        }
 
         // ویو را با استفاده از مقادیر پیش‌فرض ارسال کنید
-        return view('settings', $defaultSettings);
+        return view($view, $defaultSettings);
     }
 
 
@@ -150,4 +168,63 @@ class SettingController extends Controller
         // منطق مورد نظر برای انجام عملیات دسته‌ای
         return redirect()->back()->with('success', 'عملیات دسته‌ای با موفقیت انجام شد.');
     }
+
+    public function updateSms(Request $request)
+    {
+        $data = $request->validate([
+            'settings.service' => 'required|string',
+            'settings.username' => 'required|string',
+            'settings.password' => 'required|string',
+            'settings.sender_phone' => 'required|string',
+            'settings.domain' => 'required|url',
+        ]);
+
+        // دریافت تنظیمات مربوط به گروه sms
+        $setting = Setting::where('group', 'sms')->first();
+
+        if ($setting) {
+            // اگر تنظیمات موجود است، آن را به‌روزرسانی کنید
+            $setting->update([
+                'settings' => $data['settings'],
+            ]);
+        } else {
+            // اگر تنظیمات موجود نیست، آن را ایجاد کنید
+            Setting::create([
+                'group' => 'sms',
+                'section' => 'main',
+                'settings' => $data['settings'],
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'تنظیمات پیامک با موفقیت بروزرسانی شد.');
+    }
+
+    public function editSms()
+    {
+        $setting = Setting::where('group', 'sms')->first();
+
+
+            $view = 'settings.sms';
+            // مقادیر پیش‌فرض برای تنظیمات پیامک
+            $defaultSettings = [
+                'settings' => [
+                    'service' => '',
+                    'username' => '',
+                    'password' => '',
+                    'sender_phone' => '',
+                    'domain' => '',
+                ],
+            ];
+            $defaultSettings = (object)$defaultSettings;
+
+
+        //dd($setting);
+        if ($setting) {
+            return view($view, compact('setting'));
+        }
+
+        // ویو را با استفاده از مقادیر پیش‌فرض ارسال کنید
+        return view($view, $defaultSettings);
+    }
+
 }

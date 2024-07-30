@@ -751,7 +751,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('services.edit') ? 'active' : '' }}" href="{{route('services.edit','holo')}}">
+				<a class="menu-link {{ Route::is('settings.holo.edit','holo') ? 'active' : '' }}" href="{{route('settings.holo.edit','holo')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
@@ -762,6 +762,25 @@
 			<!--end:Menu item-->
 		</div>
 		<!--end:Menu sub-->
+
+		<!--begin:Menu sub-->
+		<div class="menu-sub menu-sub-accordion">
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link {{ Route::is('services.sms.edit','sms') ? 'active' : '' }}" href="{{route('services.sms.edit','sms')}}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">سرویس پیامک</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+		</div>
+		<!--end:Menu sub-->
+
+
 	</div>
 	<!--end:Menu item-->
 

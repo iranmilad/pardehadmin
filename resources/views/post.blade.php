@@ -185,7 +185,7 @@
 @endsection
 
 @section("script-before")
-<script src="{{ asset('/js/ckeditor.js') }}"></script>
+
 {{-- <script>
     CKEDITOR.replace( 'editor', {filebrowserImageBrowseUrl: '/file-manager/ckeditor'});
   </script>

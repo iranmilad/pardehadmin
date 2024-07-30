@@ -32,6 +32,7 @@ use App\Http\Controllers\CodePieceController;
 use App\Http\Controllers\TransportController;
 use App\Http\Controllers\ProductTagController;
 use App\Http\Controllers\ScoreGroupController;
+use App\Http\Controllers\SmsSettingController;
 use App\Http\Controllers\HoloSettingController;
 use App\Http\Controllers\ImageMarkerController;
 use App\Http\Controllers\InstallmentController;
@@ -555,12 +556,16 @@ Route::group(['prefix' => 'services'], function () {
     Route::post('/store', [SettingController::class, 'store'])->name("services.store");
     Route::get('/holo', [HoloSettingController::class, 'edit'])->name('settings.holo.edit');
     Route::post('/holo', [HoloSettingController::class, 'update'])->name('settings.holo.update');
-    Route::get('/{group}', [SettingController::class, 'edit'])->name("services.edit");
+    Route::get('/sms', [SettingController::class, 'editSms'])->name("services.sms.edit");
+    Route::post('/update/sms', [SettingController::class, 'updateSms'])->name("services.update.sms");
+    Route::put('/update/sms', [SettingController::class, 'storeSms'])->name("services.store.sms");
+
     //Route::post('/update/{group}', [SettingController::class, 'update'])->name("services.update");
 
     Route::post('/delete', [SettingController::class, 'delete'])->name("services.delete");
 
     Route::post('/bulk_action', [SettingController::class, 'bulk_action'])->name("services.bulk_action");
+
 
 });
 
