@@ -683,10 +683,10 @@
     </div>
 </form>
 <x-add-fast-category />
+<x-short-code-editor />
 @endsection
 
 @section("script-before")
-<script src="{{ asset('/js/ckeditor.js') }}"></script>
 <script src="{{asset('plugins/custom/formrepeater/formrepeater.bundle.js')}}"></script>
 <script src="{{asset('plugins/flatpicker_fa.js')}}"></script>
 <script src="{{asset('plugins/jdate.min.js')}}"></script>

@@ -1,7 +1,7 @@
 export function KT_File_Input() {
     window["choose_file"] = null;
     $(
-        ".choose_file_button,.image-input .preview-image-label,button[data-add-multiple-type='preview'],button[data-add-multiple-type='nopreview']"
+        ".choose_file_button,.image-input .preview-image-label,button[data-add-multiple-type='preview'],button[data-add-multiple-type='nopreview'],.choose_file_input"
     ).on("click", (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -18,10 +18,13 @@ export function KT_File_Input() {
                 resortFieldsNames(parent);
             }
             else{
-                let parent = $(this).parent().parent().parent();
-                console.log(parent)
-                $(this).parent().parent().remove();
-                resortFieldsNames(parent);
+                if($(this).data('remove-this') === true){
+                    $(this).parent().remove();
+                }
+                else{
+                    $(this).parent().find('input').val("")
+                    $(this).css("display","none")
+                }
             }
         } else {
             $(this)
@@ -88,16 +91,14 @@ export function KT_File_Input() {
         }
         else{
             let index = elm.parentElement.parentElement.querySelectorAll('.image_src').length;
-            console.log(index)
             const name = elm.getAttribute("data-name");
             let new_elm = `
                 <div class="mb-3">
-                    <div class="d-flex align-items-center choose_file_input">
-                        <span class="remove-image-input" data-remove-full="true" data-preview="false"><i class="fa-regular fa-xmark text-danger me-3 fs-5"></i></span>
-                        <input type="text" class="form-control image_src" readonly disabled value="${url}" name="${name}[${index}]">
-                    </div>
-                    <div class="d-flex tw-justify-end tw-w-full">
-                        <button class="btn p-0 text-info choose_file_button">آپلود</button>
+                    <div class="border rounded-3 d-flex align-items-center">
+                        <input class="tw-w-full ps-3 border-0 tw-outline-none choose_file_input tw-cursor-pointer" type="text" placeholder="آپلود" readonly value="${url}" name="${name}[${index}]">
+                        <button class="btn btn-sm px-2 remove-image-input" type="button" data-remove-full="true" data-remove-this="true" data-preview="false">
+                            <i class="fa-regular fa-xmark"></i>
+                        </button>
                     </div>
                 </div>`;
                 elm.parentElement.parentElement.querySelector('.multiple_image_input').insertAdjacentHTML('beforeend', new_elm);

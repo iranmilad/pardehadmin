@@ -438,8 +438,9 @@ a.token {
     height: 600px !important;
 }
 
-.choose_file_input input:disabled{
+input.choose_file_input:disabled{
     background: white;
+    cursor: pointer;
 }
 
 .remove_choose_file{

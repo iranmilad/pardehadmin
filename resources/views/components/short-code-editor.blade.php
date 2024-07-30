@@ -16,12 +16,3 @@
         </div>
     </div>
 </div>
-
-@section('script-before')
-<script>
-    $("#submitShortcode").on("click", function() {
-        const val = $("[name='short_codes']").val();
-        window["shortCodeEditorAdder"](val);
-    });
-</script>
-@endsection

@@ -28,11 +28,14 @@
         </div>
         @else
             <div class="mb-3">
-                <div class="d-flex align-items-center choose_file_input">
-                    <input type="text" class="form-control" readonly disabled name="{{$name}}" value="{{$value}}">
-                </div>
-                <div class="d-flex tw-justify-end tw-w-full">
-                    <button type="button" class="btn p-0 text-info choose_file_button">آپلود</button>
+                <div class="border rounded-3 d-flex align-items-center">
+                    <button class="btn btn-sm px-4 btn-success ms-1 choose_file_input" type="button" data-remove-full="true" data-preview="false">
+                        <i class="fa-regular fa-arrow-up-from-bracket" style="padding-left: 0;"></i>
+                    </button>
+                    <input class="tw-w-full ps-2 border-0 tw-outline-none tw-cursor-pointer form-control" type="text" placeholder="آپلود" readonly>
+                    <button class="btn btn-sm px-2 remove-image-input" style="display: none;" type="button" data-remove-full="true" data-preview="false">
+                        <i class="fa-regular fa-xmark"></i>
+                    </button>
                 </div>
             </div>
         @endif
@@ -86,12 +89,11 @@
                         @endphp
                         @foreach($value as $index => $new_value)
                         <div class="mb-3">
-                            <div class="d-flex align-items-center choose_file_input">
-                                <span class="remove-image-input" data-remove-full="true" data-preview="false"><i class="fa-regular fa-xmark text-danger me-3 fs-5"></i></span>
-                                <input type="text" class="form-control image_src" readonly disabled value="{{$new_value}}" name="{{$name}}[{{$index}}]">
-                            </div>
-                            <div class="d-flex tw-justify-end tw-w-full">
-                                <button type="button" class="btn p-0 text-info choose_file_button">آپلود</button>
+                            <div class="border rounded-3 d-flex align-items-center">
+                                <input class="tw-w-full ps-3 border-0 tw-outline-none choose_file_input tw-cursor-pointer" type="text" placeholder="آپلود" readonly value="{{$new_value}}" name="{{$name}}[{{$index}}]">
+                                <button class="btn btn-sm px-2 remove-image-input" type="button" data-remove-full="true" data-preview="false">
+                                    <i class="fa-regular fa-xmark"></i>
+                                </button>
                             </div>
                         </div>
                         @endforeach
