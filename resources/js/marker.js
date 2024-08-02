@@ -14,14 +14,6 @@ if ($("#selectProductModal").length > 0) {
 var percentX = 0;
 var percentY = 0;
 
-document.addEventListener("DOMContentLoaded" , () => {
-    if($("[name='image']").val() !== ''){
-        $("#remove_image").css('display','block')
-    }
-    else{
-        $("#remove_image").css('display','none')
-    }
-})
 
 if ($("#imgmarker-preview").length > 0) {
     document
@@ -153,14 +145,6 @@ $("#apply_image").on("click", function(){
     }
 });
 
-$("#remove_image").on("click", function (e) {
-    $("[name=image]").val("");
-    $("#imgmarker-preview").attr("src", "");
-    $(".image_dotter span").remove();
-    $(this).css("display",'none')
-    updateInputMarks();
-});
-
 $("#editDot").on("click", () => {
     productInfoModal.hide();
     imageMarkerModal.show();
@@ -226,3 +210,12 @@ $(document).ready(function () {
         }
     }
 });
+
+
+document.querySelector('.remove-image-input').addEventListener("click", function(){
+    $("[name=image]").val("");
+    $("#imgmarker-preview").attr("src", "");
+    $(".image_dotter span").remove();
+    $(this).css("display",'none')
+    updateInputMarks();
+})

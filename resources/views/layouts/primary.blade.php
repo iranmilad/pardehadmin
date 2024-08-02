@@ -168,15 +168,13 @@ use Illuminate\Support\Facades\Vite;
                 } else if (btn.hasAttribute("data-add-multiple-type")) {
                     window['preview_multi'](btn, $url)
                 }
+                else if(btn.classList.contains("fa-arrow-up-from-bracket")){
+                    btn.parentElement.parentElement.parentElement.querySelector('input').value = $url;
+                    btn.parentElement.parentElement.parentElement.querySelector('.remove-image-input').style.display = "block";
+                }
                 else if(btn.classList.contains('choose_file_input')){
-                    if(btn.classList.contains("fa-regular")){
-                        btn.parentElement.parentElement.parentElement.querySelector('input').value = $url;
-                        btn.parentElement.parentElement.parentElement.querySelector('.remove-image-input').style.display = "block";
-                    }
-                    else{                        
-                        btn.parentElement.querySelector('input').value = $url;
-                        btn.parentElement.querySelector('.remove-image-input').style.display = "block";
-                    }
+                    btn.parentElement.querySelector('input').value = $url;
+                    btn.parentElement.querySelector('.remove-image-input').style.display = "block";
                 }
             }
             if (window['uploader-type'] === "ckeditor") {
