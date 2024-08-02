@@ -17,7 +17,6 @@
       <div class="d-flex tw-items-baseline gap-5">
         <x-file-input type="single" :preview="false" name="image" value="/images/imagemarker.jpg" />
         <button type="button" id="apply_image" class="btn btn-success">اعمال</button>
-        <button type="button" id="remove_image" class="btn btn-danger">حذف تصویر</button>
       </div>
       <button class="btn btn-sm btn-success">ذخیره</button>
     </form>

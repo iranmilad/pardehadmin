@@ -15,6 +15,10 @@
     <div>کار شما شروع نشده است . بر روی دکمه ی شروع کار کلیک کنید</div>
     <button class="btn btn-sm btn-warning mt-3">شروع کار</button>
 </div>
+<div class="alert alert-danger" role="alert">
+    <div>برای اتمام پروژه کلیک کنید</div>
+    <button class="btn btn-sm btn-danger mt-3">درخواست اتمام کار</button>
+</div>
 <div class="alert alert-info" role="alert">
     منتظر تایید ادمین باشید . بعد از تایید فرآیند تحویل کالا را با تایید کد انجام دهید
 </div>
@@ -83,6 +87,38 @@
             </div>
             <div class="col-md-4">
                 <span class="badge badge-primary">5 روز</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>یادداشت ها</h3>
+<div class="row mb-10">
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">یادداشت ادمین</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    @csrf
+                    <textarea name="" id="" class="form-control mb-5" rows="5" placeholder="یادداشت را وارد کنید"></textarea>
+                    <button class="btn btn-success" type="submit">ذخیره</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">یادداشت انجام دهنده</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    @csrf
+                    <textarea name="" id="" class="form-control mb-5" rows="5" placeholder="یادداشت را وارد کنید"></textarea>
+                    <button class="btn btn-success" type="submit">ذخیره</button>
+                </form>
             </div>
         </div>
     </div>

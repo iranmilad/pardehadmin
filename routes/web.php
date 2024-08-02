@@ -1083,3 +1083,17 @@ Route::group(['prefix' => 'tasks'], function () {
         return view('task');
     })->name("task.edit.show");
 });
+
+Route::group(['prefix' => 'workflows'], function () {
+    Route::get('/list/', function () {
+        return view('workflows');
+    })->name("workflows.show");
+
+    Route::get('/workflow/{id}', function ($id) {
+        return view('workflow');
+    })->name("workflow.edit.show");
+
+    Route::get('/workflow-create', function ($id) {
+        return view('workflow');
+    })->name("workflow.create.show");
+});
