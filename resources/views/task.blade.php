@@ -56,7 +56,7 @@
                 <label class="form-label" for="">سفارش</label>
             </div>
             <div class="col-md-4">
-                <a class="form-label text-primary" href="{{route('order.show',['id' => 1])}}">#123</a>
+                <a class="form-label text-primary" href="{{route('orders.edit',['id' => 1])}}">#123</a>
             </div>
         </div>
         <div class="row form-group mb-7 tw-items-center">
@@ -64,7 +64,7 @@
                 <label class="form-label" for="">انجام دهنده</label>
             </div>
             <div class="col-md-4">
-                <a class="form-label text-primary" href="{{route('user.profile',['id' => 1])}}">فرهاد باقری - 09374039436</a>
+                <a class="form-label text-primary" href="{{route('users.profile',['id' => 1])}}">فرهاد باقری - 09374039436</a>
             </div>
         </div>
         <div class="row form-group mb-7">

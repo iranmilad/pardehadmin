@@ -13,7 +13,7 @@
                 <button type="button" id="apply_image" class="btn btn-success">اعمال</button>
                 <button type="button" id="remove_image" class="btn btn-danger">حذف تصویر</button>
             </div>
-            <button class="btn btn-success">ذخیره</button>
+
         </form>
     </div>
     <div class="card-body">
@@ -21,6 +21,10 @@
         <img src="" alt="" id="imgmarker-preview">
         </div>
     </div>
+    <div class="card-footer">
+        <button class="btn btn-success">ذخیره</button>
+    </div>
+
 </div>
 
 

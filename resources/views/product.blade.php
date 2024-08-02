@@ -31,8 +31,9 @@
 
                     </div>
                 </div>
+
                 @if (isset($product))
-                    <div class="card">
+                    <div class="card mb-7">
                         <div class="card-header py-4">
                             <div class="card-title">
                                 <h4>اطلاعات محصول</h4>
@@ -81,6 +82,20 @@
 
                             </div>
 
+                        </div>
+                    </div>
+                @endif
+
+                @if (isset($product))
+                    <div class="card mb-7">
+                        <div class="card-body">
+                            <label class="form-label ">راهنمای اندازه گیری</label>
+                            <div class="row row-editor">
+                                <div class="editor-container">
+
+                                    <textarea id="guide" name="guide" class="editor tw-max-h-96 tw-overflow-auto">{{ old('guide', isset($product) ? isset($product->article) ? $product->article->guide : '' : '') }}</textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 @endif
@@ -245,7 +260,7 @@
                             <x-file-input type="single" :preview="false" name="video_path" />
                         @endif
                         <!--begin::توضیحات-->
-                        <div class="text-muted fs-7">ویدئو محصول را انتخاب کنید</div>
+                        <div class="text-muted text-center">ویدئو محصول را انتخاب کنید</div>
                         <!--end::توضیحات-->
                     </div>
                     <!--end::کارت body-->
@@ -254,34 +269,11 @@
             </div>
         </div>
 
-        @if (isset($product))
-        <div class="row">
-
-            <div class="col-4 col-lg-8 col-xl-9">
-                <div class="card">
-                    <div class="card-body">
-                        <label class="form-label ">راهنمای اندازه گیری</label>
-                        <div class="row row-editor">
-                            <div class="editor-container">
-
-                                <textarea id="guide" name="guide" class="editor tw-max-h-96 tw-overflow-auto">{{ old('guide', isset($product) ? isset($product->article) ? $product->article->guide : '' : '') }}</textarea>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-
-                </div>
-            </div>
-         </div>
-        @endif
 
 
     </form>
-<x-add-fast-category />
-<x-short-code-editor />
+    <x-add-fast-category />
+    <x-short-code-editor />
 @endsection
 
 @section("script-before")

@@ -19,7 +19,7 @@
         <button type="button" id="apply_image" class="btn btn-success">اعمال</button>
         <button type="button" id="remove_image" class="btn btn-danger">حذف تصویر</button>
       </div>
-      <button class="btn btn-success">ذخیره</button>
+      <button class="btn btn-sm btn-success">ذخیره</button>
     </form>
   </div>
   <div class="card-body">

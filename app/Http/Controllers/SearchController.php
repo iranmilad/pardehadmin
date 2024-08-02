@@ -6,6 +6,7 @@ use App\Models\Group;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\BlockWidget;
 use Illuminate\Http\Request;
 use App\Models\SettlementDocument;
 
@@ -153,7 +154,27 @@ class SearchController extends Controller
 
             return response()->json($data);
         }
+        elseif ($type === 'block') {
+            $query = $request->get('query');
+            $blocks = BlockWidget::where('block', 'like', "%{$query}%")
+                            ->orWhere('type', 'like', "%{$query}%")
+                            ->limit(10)
+                            ->get();
 
+            $results = $blocks->map(function ($block) {
+                return [
+                    'id' => "@livewire('load-widget', ['blockId' => '{$block->block}'])",
+                    'text' => "{$block->block}",
+                ];
+            });
+
+            $data = [
+                'search' => $query,
+                'results' => $results,
+            ];
+
+            return response()->json($data);
+        }
 
         return response()->json([
             'search' => $request->get('query'),

@@ -4,26 +4,32 @@
 @section('title', 'ویرایش نشانه گذاری تصویر')
 
 @section('content')
-<div class="card tw-select-none">
-    <div class="card-header py-4">
-        <form action="{{ route('image-markers.update', $imageMarker->id) }}" method="post" class="d-flex tw-items-start tw-gap-3 md:align-items-center tw-w-full tw-justify-between tw-flex-col md:tw-flex-row" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
-            <input type="hidden" name="marks_id" value="{{ $imageMarker->id }}">
-            <input id="data-dots" name="marks" type="hidden" value="{{$imageMarker->marks }}" />
-            <div class="d-flex align-items-center gap-5">
-                <x-file-input type="single" :preview="false" name="image" value="{{ $imageMarker->image_path }}" />
-                <button type="button" id="remove_image" class="btn btn-danger">حذف تصویر</button>
+<form action="{{ route('image-markers.update', $imageMarker->id) }}" method="post" class="" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
+    <div class="card tw-select-none">
+        <div class="card-header py-4">
+
+                <input type="hidden" name="marks_id" value="{{ $imageMarker->id }}">
+                <input id="data-dots" name="marks" type="hidden" value="{{$imageMarker->marks }}" />
+                <div class="d-flex align-items-center gap-5">
+                    <x-file-input type="single" :preview="false" name="image" value="{{ $imageMarker->image_path }}" />
+                    <button type="button" id="remove_image" class="btn btn-danger">حذف تصویر</button>
+                </div>
+
+
+        </div>
+        <div class="card-body">
+            <div class="image_dotter">
+                <img src="{{ asset( $imageMarker->image_path) }}" alt="" id="imgmarker-preview">
             </div>
+        </div>
+        <div class="card-footer py-4">
             <button class="btn btn-sm btn-success" type="submit">ذخیره</button>
-        </form>
-    </div>
-    <div class="card-body">
-        <div class="image_dotter">
-            <img src="{{ asset( $imageMarker->image_path) }}" alt="" id="imgmarker-preview">
         </div>
     </div>
-</div>
+
+</form>
 
 <div class="modal fade" id="selectProductModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
