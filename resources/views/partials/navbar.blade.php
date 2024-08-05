@@ -775,7 +775,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link {{ Route::is('workflow-logs.show') ? 'active' : '' }}" href="{{route('workflow-logs.show')}}">
+				<a class="menu-link {{ Route::is('workflow-logs.show') || Route::is('workflow-log.show') ? 'active' : '' }}" href="{{route('workflow-logs.show')}}">
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
