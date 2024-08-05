@@ -742,7 +742,7 @@
 			<span class="menu-icon">
 				<i class="fa-duotone fa-solid fa-network-wired"></i>
 			</span>
-			<span class="menu-title">روند عملیات ها</span>
+			<span class="menu-title"> فرآیند ها</span>
 			<span class="menu-arrow"></span>
 		</span>
 		<!--end:Menu link-->
@@ -755,7 +755,7 @@
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
-					<span class="menu-title">همه عملیات ها</span>
+					<span class="menu-title">همه فرآیند ها</span>
 				</a>
 				<!--end:Menu link-->
 			</div>
@@ -767,7 +767,19 @@
 					<span class="menu-bullet">
 						<span class="bullet bullet-dot"></span>
 					</span>
-					<span class="menu-title">ایجاد عملیات</span>
+					<span class="menu-title">ایجاد فرآیند</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link {{ Route::is('workflow-logs.show') ? 'active' : '' }}" href="{{route('workflow-logs.show')}}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">گزارش فرآیند ها</span>
 				</a>
 				<!--end:Menu link-->
 			</div>

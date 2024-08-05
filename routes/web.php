@@ -544,4 +544,12 @@ Route::group(['prefix' => 'workflows'], function () {
     Route::get('/workflow-create', function ($id) {
         return view('workflow');
     })->name("workflow.create.show");
+
+    Route::get('/workflow-logs', function () {
+        return view('workflow-logs');
+    })->name("workflow-logs.show");
+
+    Route::get('/workflow-log/{id}', function ($id) {
+        return view('workflow-log');
+    })->name("workflow-log.show");
 });
