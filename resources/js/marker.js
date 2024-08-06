@@ -14,7 +14,6 @@ if ($("#selectProductModal").length > 0) {
 var percentX = 0;
 var percentY = 0;
 
-
 if ($("#imgmarker-preview").length > 0) {
     document
         .getElementById("imgmarker-preview")
@@ -137,14 +136,14 @@ $("#removeSelectDot").on("click", function () {
     $(this).addClass("d-none");
 });
 
-$("#apply_image").on("click", function(){
+$("#apply_image").on("click", function () {
     let file = $("[name='image']").val();
     const imgPreview = document.getElementById("imgmarker-preview");
-    if (file !== '' && file !== imgPreview.getAttribute('src')) {
+    if (file !== "" && file !== imgPreview.getAttribute("src")) {
         imgPreview.src = file;
         imgPreview.style.display = "block";
         $(".image_dotter span").remove();
-        $(this).css("display",'block')
+        $(this).css("display", "block");
     }
 });
 
@@ -216,11 +215,14 @@ $(document).ready(function () {
     }
 });
 
-
-document.querySelector('.remove-image-input').addEventListener("click", function(){
-    $("[name=image]").val("");
-    $("#imgmarker-preview").attr("src", "");
-    $(".image_dotter span").remove();
-    $(this).css("display",'none')
-    updateInputMarks();
-})
+if ($(".remove-image-input").length > 0) {
+    document
+        .querySelector(".remove-image-input")
+        .addEventListener("click", function () {
+            $("[name=image]").val("");
+            $("#imgmarker-preview").attr("src", "");
+            $(".image_dotter span").remove();
+            $(this).css("display", "none");
+            updateInputMarks();
+        });
+}
