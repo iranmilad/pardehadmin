@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Group;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\DiscountCode;
@@ -78,6 +79,10 @@ class DiscountController extends Controller
         $discount->max_amount = $request->max_amount;
         $discount->except_special_products = $request->has('except_special_products') ?? 0;
         $discount->allowed_products = $request->allowed_products;
+
+        $discount->allowed_users = $request->allowed_users;
+        $discount->allowed_groups = $request->allowed_groups;
+
         $discount->disallowed_products = $request->disallowed_products;
         $discount->allowed_categories = $request->allowed_categories;
         $discount->disallowed_categories = $request->disallowed_categories;
@@ -101,6 +106,12 @@ class DiscountController extends Controller
             ];
         });
 
+        $allowedGroups = $discount->allowedGroups()->get()->map(function ($group) {
+            return [
+                'id' => $group->id,
+                'text' => "{$group->name})",
+            ];
+        });
 
         $allowedProducts = $discount->allowedProducts()->get()->map(function ($product) {
             return [
@@ -121,7 +132,7 @@ class DiscountController extends Controller
 
 
 
-        return view('discount', compact('discount', 'allowedUsers', 'allowedProducts', 'allowedCategories'));
+        return view('discount', compact('discount', 'allowedUsers', 'allowedProducts', 'allowedCategories','allowedGroups'));
     }
 
 
@@ -148,6 +159,7 @@ class DiscountController extends Controller
             'allowed_products' => 'nullable|array',
             'allowed_categories' => 'nullable|array',
             'allowed_users' => 'nullable|array',
+            'allowed_groups' => 'nullable|array',
         ]);
 
         // استخراج اطلاعات تخفیف
@@ -190,7 +202,8 @@ class DiscountController extends Controller
 
             // Sync allowed categories
             $discount->allowedCategories()->sync($allowedCategoriesIds);
-        } else {
+        }
+        else {
             // No allowed categories selected, sync with an empty array to remove existing relationships
             $discount->allowedCategories()->sync([]);
         }
@@ -213,6 +226,31 @@ class DiscountController extends Controller
                 if (!$exists) {
                     DB::table('user_discount_code')->insert([
                         'user_id' => $userId,
+                        'discount_code_id' => $discount->id,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+            }
+        }
+
+        if ($request->has('allowed_groups')) {
+            $allowedGroupIds = $request->allowed_groups;
+
+            foreach ($allowedGroupIds as $groupId) {
+                // بررسی وجود گروه
+                $group = Group::findOrFail($groupId);
+
+                // بررسی وجود رابطه بین گروه و کد تخفیف
+                $exists = DB::table('discount_group')
+                    ->where('group_id', $groupId)
+                    ->where('discount_code_id', $discount->id)
+                    ->exists();
+
+                // اضافه کردن رابطه فقط اگر وجود نداشته باشد
+                if (!$exists) {
+                    DB::table('discount_group')->insert([
+                        'group_id' => $groupId,
                         'discount_code_id' => $discount->id,
                         'created_at' => now(),
                         'updated_at' => now(),

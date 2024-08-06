@@ -54,7 +54,7 @@ class ImageMarkerController extends Controller
     {
         //dd($request);
         $request->validate([
-            'image' => 'nullable|image',
+            'image' => 'required',
             'marks' => 'required|json',
         ]);
 

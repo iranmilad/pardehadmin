@@ -71,15 +71,16 @@
                     @endif
 
                 </div>
-
-            </div>
-
-            <div class="row gy-8">
                 <div class="col-12 col-md-6 col-lg-4">
-                    <input type="checkbox" class="mt-15" name="all_user_allow" id="all_user_allow" checked>
-                    <label for="allowed" class="form-label">همه کاربران مجاز هستند</label>
+                    @if(Route::is('installments.edit'))
+                        <x-advanced-search type="group" label="فقط گروه مجاز" name="allowed_groups[]" :multiple="true" :solid="true" :selected="$allowedGroups" />
+                    @else
+                        <x-advanced-search type="group" label="فقط گروه مجاز" name="allowed_groups[]" :multiple="true" :solid="true" />
+                    @endif
+
                 </div>
             </div>
+
         </div>
     </div>
 

@@ -4,26 +4,26 @@
 
 @section('content')
 <div class="card tw-select-none">
-    <div class="card-header py-4">
-        <form action="{{ route('image-markers.store') }}" method="post" class="d-flex tw-items-start tw-gap-3 md:align-items-center tw-w-full tw-justify-between tw-flex-col md:tw-flex-row" enctype="multipart/form-data">
-            @csrf
+    <form action="{{ route('image-markers.store') }}" method="post" enctype="multipart/form-data">
+        @csrf
+        <div class="card-header py-4">
             <input id="data-dots" name="marks" type="hidden" value="" />
             <div class="d-flex tw-items-baseline gap-5">
                 <x-file-input type="single" :preview="false" name="image" value="" />
                 <button type="button" id="apply_image" class="btn btn-success">اعمال</button>
-                <button type="button" id="remove_image" class="btn btn-danger">حذف تصویر</button>
+
             </div>
 
-        </form>
-    </div>
-    <div class="card-body">
-        <div class="image_dotter">
-        <img src="" alt="" id="imgmarker-preview">
         </div>
-    </div>
-    <div class="card-footer">
-        <button class="btn btn-success">ذخیره</button>
-    </div>
+        <div class="card-body">
+            <div class="image_dotter">
+                <img src="" alt="" id="imgmarker-preview">
+            </div>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-success"  type="submit">ذخیره</button>
+        </div>
+    </form>
 
 </div>
 

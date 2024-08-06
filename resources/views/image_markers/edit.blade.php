@@ -14,9 +14,8 @@
                 <input id="data-dots" name="marks" type="hidden" value="{{$imageMarker->marks }}" />
                 <div class="d-flex align-items-center gap-5">
                     <x-file-input type="single" :preview="false" name="image" value="{{ $imageMarker->image_path }}" />
-                    <button type="button" id="remove_image" class="btn btn-danger">حذف تصویر</button>
+                        <button type="button" id="apply_image" class="btn btn-success">اعمال</button>
                 </div>
-
 
         </div>
         <div class="card-body">

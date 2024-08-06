@@ -30,7 +30,12 @@ class WidgetSeeder extends Seeder
 
         $widget = Widget::create([
             'name' => 'WidgetProducts',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+                    "new product":{"i":{"title":"t|محصول ","link":"t|","type":"o|simple:series:special","count":"n","hover":"c|true","data":"f|new product"},"l":"محصول جدید"},
+                    "discount product":{"i":{"title":"t|محصول تخفیف دار","link":"t|","type":"o","count":"n","hover":"c","data":"f|discount product"},"l":"محصول تخفیف دار"},
+                    "category":{"i":{"title":"t|دسته بندی","link":"t","type":"o","count":"n","hover":"c","data":"f|category"},"l":"دسته بندی"}
+                    }
+                    ',
         ]);
 
 
@@ -50,7 +55,10 @@ class WidgetSeeder extends Seeder
 
         $widget = Widget::create([
             'name' => 'WidgetPosts',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+                "new post":{"i":{"title":"t|آخرین مطالب ","link":"t|","type":"o|simple:mosaic:list","count":"n","data":"f|new post"},"l":"آخرین مطالب"},
+                "popular post":{"i":{"title":"t|پر بازدیدترین مطالب","link":"t|","type":"o|simple:mosaic:list","count":"n","data":"f|popular post"},"l":"محبوب ترین مطالب"}
+            }',
         ]);
 
         $data = [
@@ -83,7 +91,9 @@ class WidgetSeeder extends Seeder
         // Create sample data for PostsList widget
         $widget = Widget::create([
             'name' => 'WidgetPostsList',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+                    "search":{"i":{"title":"t|نتایج جستجو ","link":"t|","type":"f|new post","count":"n"},"l":"جستجو مطالب"}
+                }',
         ]);
         BlockWidget::create([
             'widget_id' => $widget->id,
@@ -94,10 +104,6 @@ class WidgetSeeder extends Seeder
         // end sample data for PostsList widget
 
         // Create sample data for WidgetPostsList widget
-        $widget = Widget::create([
-            'name' => 'WidgetPostsList',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
-        ]);
         BlockWidget::create([
             'widget_id' => $widget->id,
             'block' => 'block_35' ,
@@ -109,7 +115,10 @@ class WidgetSeeder extends Seeder
         // Create sample data for Banners widget
         $widget = Widget::create([
             'name' => 'WidgetBanners',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+                "selection":{"i":{"title":"t|","name":"t|","link":"t|","type":"f|template1:template2","count":"n","data":"f|selection","images":"t|"},"l":"بنر"}
+            }
+            ',
         ]);
 
         $data = [
@@ -127,7 +136,10 @@ class WidgetSeeder extends Seeder
         // Create sample data for Sliders widget
         $widget = Widget::create([
             'name' => 'WidgetSliders',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+                "selection":{"i":{"title":"t|","name":"t|","link":"t|","type":"f|template1","count":"n","data":"f|selection","images":"t|"},"l":"اسلایدر"}
+            }
+            ',
         ]);
 
         $data = [
@@ -153,7 +165,10 @@ class WidgetSeeder extends Seeder
         ]);
         $widget = Widget::create([
             'name' => 'WidgetMenus',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+                "simple":{"i":{"title":"t|","name":"t|","link":"t|","type":"o|portfolio:features_menu:menu_category","count":"n","alias":"t|"},"l":"منو"},
+                "menu_category":{"i":{"title":"t|","name":"t|","link":"t|","type":"o|portfolio:features_menu:menu_category","count":"n","alias":"t|"},"l":"منو"}
+            }',
         ]);
 
         $data = [
@@ -188,7 +203,10 @@ class WidgetSeeder extends Seeder
         // Create sample data for WidgetPostsSearch widget
         $widget = Widget::create([
             'name' => 'WidgetPostsSearch',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+    "category":{"i":{"title":"t|","type":"f|simple"},"l":"جستجو پست"}
+}
+',
         ]);
 
         $data = [
@@ -206,7 +224,10 @@ class WidgetSeeder extends Seeder
         // Create sample data for WidgetPostTitle widget
         $widget = Widget::create([
             'name' => 'WidgetPostTitle',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+    "single post":{"i":{"title":"t|","link":"t|","type":"o|simple"},"l":"عنوان پست"}
+}
+',
         ]);
 
         $data = [
@@ -224,7 +245,9 @@ class WidgetSeeder extends Seeder
         // Create sample data for WidgetPostInfo widget
         $widget = Widget::create([
             'name' => 'WidgetPostInfo',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+    "single post":{"i":{"title":"t|","link":"t|","type":"o|simple"},"l":"اطلاعات پست"}
+}',
         ]);
 
         $data = [
@@ -245,7 +268,9 @@ class WidgetSeeder extends Seeder
         // Create sample data for WidgetPostFeaturedImage widget
         $widget = Widget::create([
             'name' => 'WidgetPostFeaturedImage',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+                "single post":{"i":{"title":"t|","link":"t|","type":"o|simple"},"l":" تصویر اصلی پست"}
+            }',
         ]);
 
         $data = [
@@ -264,7 +289,9 @@ class WidgetSeeder extends Seeder
         // Create sample data for WidgetPostContent widget
         $widget = Widget::create([
             'name' => 'WidgetPostContent',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+                "single post":{"i":{"title":"t|","link":"t|","type":"o|simple"},"l":"محتوای پست"}
+            }',
         ]);
 
         $data = [
@@ -284,7 +311,9 @@ class WidgetSeeder extends Seeder
         // Create sample data for WidgetPostTags widget
         $widget = Widget::create([
             'name' => 'WidgetPostTags',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+                "single post":{"i":{"title":"t|","link":"t|","type":"o|simple"},"l":"برچسب پست"}
+            }',
         ]);
 
         $data = [
@@ -304,7 +333,9 @@ class WidgetSeeder extends Seeder
         // Create sample data for WidgetPostComments widget
         $widget = Widget::create([
             'name' => 'WidgetPostComments',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+                "single post":{"i":{"title":"t|","link":"t|","type":"o|simple"},"l":"نظرات پست"}
+            }',
         ]);
 
         $data = [
@@ -323,7 +354,9 @@ class WidgetSeeder extends Seeder
         // Create sample data for WidgetPostCategory widget
         $widget = Widget::create([
             'name' => 'WidgetPostCategory',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+                "posts category":{"i":{"title":"t|","link":"t|","type":"o|simple"},"l":"دسته بندی پست"}
+            }',
         ]);
 
         $data = [
@@ -343,7 +376,10 @@ class WidgetSeeder extends Seeder
         // Create sample data for WidgetProductsList widget
         $widget = Widget::create([
             'name' => 'WidgetProductsList',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+    "favorite":{"i":{"title":"t|","link":"t|","type":"o|list","filter":"o|true:false"},"l":"محصولات در علاقه مندی"},
+    "category":{"i":{"title":"t|","link":"t|","type":"o|list","filter":"o|true:false"},"l":"محصولات در دسته بندی"}
+}',
         ]);
 
         $data = [
@@ -363,7 +399,9 @@ class WidgetSeeder extends Seeder
         // Create sample data for Landing widget
         $widget = Widget::create([
             'name' => 'WidgetLanding',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+                "image":{"i":{"title":"t|","name":"t|","description":"t|","link":"t|","btnLink1":"t|","btnLink2":"t|","cap1":"t|","cap2":"t|","image":"t|","video":"t|","type":"f|image","style":"o|template1"},"l":"صفحه فرود"}
+            }',
         ]);
 
         $data = [
@@ -384,7 +422,9 @@ class WidgetSeeder extends Seeder
         // Create sample data for WidgetContactForm
         $widget = Widget::create([
             'name' => 'WidgetContactForm',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+            "simple":{"i":{"title":"t|","description":"t|","type":"f|simple","style":"o|template1"},"l":"فرم تماس"}
+        }',
         ]);
 
         $data = [
@@ -401,10 +441,13 @@ class WidgetSeeder extends Seeder
 
 
 
+
         // Create sample data for WidgetContactInfo
         $widget = Widget::create([
             'name' => 'WidgetContactInfo',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+                "simple":{"i":{"title":"t|","description":"t|","address":"t|","phone":"t|","email":"t|","working_hours":"t|","type":"f|simple","style":"o|template1"},"l":"اطلاعات تماس"}
+            }',
         ]);
 
         $data = [
@@ -434,7 +477,9 @@ class WidgetSeeder extends Seeder
         // Create sample data for WidgetGooglemap
         $widget = Widget::create([
             'name' => 'WidgetGooglemap',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+                "simple":{"i":{"title":"t|","description":"t|","address":"t|","working_hours":"t|","type":"f|simple","style":"o|template1"},"l":"نقشه گوگل"}
+            }',
         ]);
 
         $data = [
@@ -465,7 +510,9 @@ class WidgetSeeder extends Seeder
         // Create sample data for WidgetPageContent widget
             $widget = Widget::create([
                 'name' => 'WidgetPageContent',
-                'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+                'setup' => '{
+                    "single page":{"i":{"title":"t|","name":"t|","link":"t|","type":"f|simple"},"l":"محتوای صفحه"}
+                }',
             ]);
 
             $data = [
@@ -485,7 +532,9 @@ class WidgetSeeder extends Seeder
         // Create sample data for WidgetPageTitle widget
             $widget = Widget::create([
                 'name' => 'WidgetPageTitle',
-                'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+                'setup' => '{
+                    "single page":{"i":{"title":"t|","name":"t|","link":"t|","type":"f|simple"},"l":"عنوان صفحه"}
+                }',
             ]);
 
             $data = [
@@ -501,90 +550,13 @@ class WidgetSeeder extends Seeder
 
         // end sample data for WidgetPageTitle widget
 
-        // Create sample data for WidgetPageContent widget
-            $widget = Widget::create([
-                'name' => 'WidgetPageContent',
-                'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
-            ]);
-
-            $data = [
-                '{"title":"","name":"","link":"/contact-us","type":"simple"}',
-            ];
-
-            BlockWidget::create([
-                'widget_id' => $widget->id,
-                'block' => 'block_52' ,
-                'type' => 'single page',
-                'settings' => $data[0]
-            ]);
-
-        // end sample data for WidgetPageContent widget
-
-
-        // Create sample data for WidgetPageTitle widget
-            $widget = Widget::create([
-                'name' => 'WidgetPageTitle',
-                'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
-            ]);
-
-            $data = [
-                '{"title":"","name":"","link":"/contact-us","type":"simple"}',
-            ];
-
-            BlockWidget::create([
-                'widget_id' => $widget->id,
-                'block' => 'block_53' ,
-                'type' => 'single page',
-                'settings' => $data[0]
-            ]);
-
-        // end sample data for WidgetPageTitle widget
-
-
-        // Create sample data for WidgetPageContent widget
-            $widget = Widget::create([
-                'name' => 'WidgetPageContent',
-                'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
-            ]);
-
-            $data = [
-                '{"title":"","name":"","link":"/terms","type":"simple"}',
-            ];
-
-            BlockWidget::create([
-                'widget_id' => $widget->id,
-                'block' => 'block_54' ,
-                'type' => 'single page',
-                'settings' => $data[0]
-            ]);
-
-        // end sample data for WidgetPageContent widget
-
-
-        // Create sample data for WidgetPageTitle widget
-            $widget = Widget::create([
-                'name' => 'WidgetPageTitle',
-                'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
-            ]);
-
-            $data = [
-                '{"title":"","name":"","link":"/terms","type":"simple"}',
-            ];
-
-            BlockWidget::create([
-                'widget_id' => $widget->id,
-                'block' => 'block_55' ,
-                'type' => 'single page',
-                'settings' => $data[0]
-            ]);
-
-        // end sample data for WidgetPageTitle widget
-
 
         // Create sample data for WidgetReviewComments widget
         $widget = Widget::create([
             'name' => 'WidgetReviewComments',
-            'setup' => json_encode(['option1' => 'value1', 'option2' => 'value2']),
+            'setup' => '{
+                    "template1":{"i":{"title":"t|","name":"t|","link":"t|","type":"f|simple"},"l":"دیدگاه های محصول"}
+                }',
         ]);
 
         $data = [

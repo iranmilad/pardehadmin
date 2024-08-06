@@ -47,29 +47,26 @@ class DiscountCode extends Model
         return $this->hasMany(Order::class);
     }
 
+    public function allowedGroups()
+    {
+        return $this->belongsToMany(Group::class, 'discount_group', 'discount_code_id', 'group_id');
+    }
 
     public function allowedUsers()
     {
         return $this->belongsToMany(User::class, 'user_discount_code', 'discount_code_id', 'user_id');
     }
 
-    // رابطه‌ی بسیار به بسیار با محصولات
     public function allowedProducts()
     {
         return $this->belongsToMany(Product::class, 'discount_product', 'discount_code_id', 'product_id');
     }
 
-    // رابطه‌ی بسیار به بسیار با دسته‌های محصولات
     public function allowedCategories()
     {
         return $this->belongsToMany(Category::class, 'discount_category', 'discount_code_id', 'category_id');
     }
 
-    /**
-     * تبدیل تاریخ شروع تخفیف به تاریخ شمسی
-     *
-     * @return string
-     */
     public function getDiscountExpireStartShamsiAttribute()
     {
         if ($this->discount_expire_start) {
@@ -78,11 +75,6 @@ class DiscountCode extends Model
         return null;
     }
 
-    /**
-     * تبدیل تاریخ پایان تخفیف به تاریخ شمسی
-     *
-     * @return string
-     */
     public function getDiscountExpireEndShamsiAttribute()
     {
         if ($this->discount_expire_end) {
@@ -91,35 +83,26 @@ class DiscountCode extends Model
         return null;
     }
 
-
-    // متد ذخیره‌سازی تخفیف جدید
     public static function createDiscount($data)
     {
         return self::create($data);
     }
 
-    // متد به‌روزرسانی تخفیف
     public function updateDiscount($data)
     {
         $this->update($data);
     }
 
-    // متد حذف تخفیف
     public function deleteDiscount()
     {
         DB::beginTransaction();
 
         try {
-            // حذف رابطه با کاربران
             $this->allowedUsers()->detach();
-
-            // حذف رابطه با محصولات
             $this->allowedProducts()->detach();
-
-            // حذف رابطه با دسته‌های محصولات
             $this->allowedCategories()->detach();
+            $this->allowedGroups()->detach();
 
-            // حذف خود تخفیف
             $this->delete();
 
             DB::commit();
@@ -129,11 +112,9 @@ class DiscountCode extends Model
         }
     }
 
-    // متد بررسی استفاده تخفیف
     public function isUsed()
     {
         return $this->is_used;
     }
-
 
 }

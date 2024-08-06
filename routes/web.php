@@ -1093,7 +1093,7 @@ Route::group(['prefix' => 'workflows'], function () {
         return view('workflow');
     })->name("workflow.edit.show");
 
-    Route::get('/workflow-create', function ($id) {
+    Route::get('/workflow-create', function () {
         return view('workflow');
     })->name("workflow.create.show");
 });

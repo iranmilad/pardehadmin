@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Credit;
 use Carbon\Carbon;
+use App\Models\Group;
+use App\Models\Credit;
 use App\Models\CreditPlan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InstallmentController extends Controller
 {
@@ -39,6 +41,7 @@ class InstallmentController extends Controller
             'installment_interval_months' => 'required|integer',
             'credit_percentage' => 'required|numeric',
             'allowed_users' => 'nullable|array',
+            'allowed_groups' => 'nullable|array',
         ]);
 
         $creditPlan = CreditPlan::create($request->all());
@@ -47,6 +50,31 @@ class InstallmentController extends Controller
             $creditPlan->allowedUsers()->sync($request->allowed_users);
         } else {
             $creditPlan->allowedUsers()->sync([]);
+        }
+
+        if ($request->has('allowed_groups')) {
+            $allowedGroupIds = $request->allowed_groups;
+
+            foreach ($allowedGroupIds as $groupId) {
+                // بررسی وجود گروه
+                $group = Group::findOrFail($groupId);
+
+                // بررسی وجود رابطه بین گروه و طرح اعتباری
+                $exists = DB::table('credit_plan_group')
+                    ->where('group_id', $groupId)
+                    ->where('credit_plan_id', $creditPlan->id)
+                    ->exists();
+
+                // اضافه کردن رابطه فقط اگر وجود نداشته باشد
+                if (!$exists) {
+                    DB::table('credit_plan_group')->insert([
+                        'group_id' => $groupId,
+                        'credit_plan_id' => $creditPlan->id,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+            }
         }
 
         return redirect()->route('installments.list')->with('success', 'پلن با موفقیت ایجاد شد.');
@@ -62,7 +90,15 @@ class InstallmentController extends Controller
             ];
         });
 
-        return view('installments-plan', compact('creditPlan','allowedUsers'));
+        $allowedGroups = $creditPlan->groups()->get()->map(function ($group) {
+            return [
+                'id' => $group->id,
+                'text' => "{$group->name}",
+            ];
+        });
+
+
+        return view('installments-plan', compact('creditPlan','allowedUsers','allowedGroups'));
     }
 
     public function update(Request $request, $id)
@@ -73,6 +109,7 @@ class InstallmentController extends Controller
             'installment_interval_months' => 'required|integer',
             'credit_percentage' => 'required|numeric',
             'allowed_users' => 'nullable|array',
+            'allowed_groups' => 'nullable|array',
         ]);
 
         $creditPlan = CreditPlan::findOrFail($id);
@@ -82,6 +119,31 @@ class InstallmentController extends Controller
             $creditPlan->allowedUsers()->sync($request->allowed_users);
         } else {
             $creditPlan->allowedUsers()->sync([]);
+        }
+
+        if ($request->has('allowed_groups')) {
+            $allowedGroupIds = $request->allowed_groups;
+
+            foreach ($allowedGroupIds as $groupId) {
+                // بررسی وجود گروه
+                $group = Group::findOrFail($groupId);
+
+                // بررسی وجود رابطه بین گروه و طرح اعتباری
+                $exists = DB::table('credit_plan_group')
+                    ->where('group_id', $groupId)
+                    ->where('credit_plan_id', $creditPlan->id)
+                    ->exists();
+
+                // اضافه کردن رابطه فقط اگر وجود نداشته باشد
+                if (!$exists) {
+                    DB::table('credit_plan_group')->insert([
+                        'group_id' => $groupId,
+                        'credit_plan_id' => $creditPlan->id,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+            }
         }
 
         return redirect()->route('installments.list')->with('success', 'پلن با موفقیت ویرایش شد.');

@@ -90,6 +90,16 @@
 
                         <div class="mb-10">
                             @if (isset($discount))
+                            <x-advanced-search multiple type="group" label="تنها این گروه ها" name="allowed_groups[]" :selected="$allowedGroups" />
+                            @else
+                            <x-advanced-search multiple type="group" label="تنها این گروه ها" name="allowed_groups[]" />
+                            @endif
+                        </div>
+
+
+
+                        <div class="mb-10">
+                            @if (isset($discount))
                             <x-advanced-search multiple type="product" label="محصولات" name="allowed_products[]" :selected="$allowedProducts" />
                             @else
                             <x-advanced-search multiple type="product" label="محصولات" name="allowed_products[]" />

@@ -16,15 +16,24 @@ class CreditPlan extends Model
     {
         return $this->belongsToMany(Product::class, 'credit_plan_products', 'credit_plan_id', 'product_id');
     }
-    
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'credit_plan_user');
     }
-
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'credit_plan_group');
+    }
     public function allowedUsers()
     {
         return $this->belongsToMany(User::class, 'credit_plan_user', 'credit_plan_id', 'user_id');
     }
+
+    public function allowedGroups()
+    {
+        return $this->belongsToMany(Group::class, 'credit_plan_group', 'credit_plan_id', 'user_id');
+    }
+
 
 }

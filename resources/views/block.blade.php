@@ -25,7 +25,7 @@
                     <option selected disabled>یک گزینه انتخاب کنید</option>
                 </select>
             </div>
-            <div class="mb-10">
+            {{-- <div class="mb-10">
                 <label for="exampleFormControlInput1" class="required form-label">سلکت 2</label>
                 <select class="form-select form-select-solid" data-placeholder="یک گزینه انتخاب کنید" data-control="select2" data-close-on-select="false" data-allow-clear="true" multiple="multiple">
                     <option value="1">One</option>
@@ -88,6 +88,8 @@
                         </div>
                     </div>
                     <!--end::Form group-->
+                </div>
+            </div> --}}
             <div id="setup-options">
                 <!-- Setup options will be populated here -->
             </div>

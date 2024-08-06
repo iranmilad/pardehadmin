@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Group extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','description'];
+    protected $fillable = ['name', 'description'];
 
     public function users()
     {
@@ -20,4 +20,13 @@ class Group extends Model
         return $this->hasMany(GroupCreditLimit::class, 'group_id', 'id');
     }
 
+    public function discountCodes()
+    {
+        return $this->belongsToMany(DiscountCode::class, 'discount_group', 'group_id', 'discount_code_id');
+    }
+
+    public function creditPlans()
+    {
+        return $this->belongsToMany(CreditPlan::class, 'credit_plan_group', 'group_id', 'credit_plan_id');
+    }
 }
