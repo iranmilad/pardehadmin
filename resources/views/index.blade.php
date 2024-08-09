@@ -5,6 +5,32 @@
 @section('content')
 <div class="row g-5 g-xl-10 ">
     <!--begin::Col-->
+    <div class="col-xl-6 tw-h-auto">
+        <div class="card tw-h-full">
+            <div class="card-header">
+                <h3 class="card-title">
+                    اخبار و اطلاعیه ها
+                </h3>
+            </div>
+            <div class="card-body ps-0 tw-overflow-auto" style="max-height: 450px;">
+                <ul class="tw-list-none mb-5">
+                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">محصول شماره #1234 بروزرسانی شد</a></li>
+                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">یک پیام جدید دارید !</a></li>
+                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">3 سفارش جدید اضافه جدید</a></li>
+                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">4 کاربر جدید ثبت نام کردند</a></li>
+                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">4 درخواست تایید کار دارید</a></li>
+                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">مشکلی در انجام فعالیت ها رخ داده</a></li>
+                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
+                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
+                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
+                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
+                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
+                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
+                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <div class="col-xl-6">
         <!--begin::Chart widget 36-->
         <div class="card card-flush dashboard-card-chart overflow-hidden h-lg-100">
@@ -316,7 +342,7 @@
                                 </td>
                                 <td class="text-end">
                                     <a href="#" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary w-30px h-30px">
-                                    <i class="fa-duotone fa-arrow-right"></i>
+                                        <i class="fa-duotone fa-arrow-right"></i>
                                     </a>
                                 </td>
                             </tr>
@@ -340,7 +366,7 @@
                                 </td>
                                 <td class="text-end">
                                     <a href="#" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary w-30px h-30px">
-                                    <i class="fa-duotone fa-arrow-right"></i>
+                                        <i class="fa-duotone fa-arrow-right"></i>
                                     </a>
                                 </td>
                             </tr>
@@ -364,7 +390,7 @@
                                 </td>
                                 <td class="text-end">
                                     <a href="#" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary w-30px h-30px">
-                                    <i class="fa-duotone fa-arrow-right"></i>
+                                        <i class="fa-duotone fa-arrow-right"></i>
                                     </a>
                                 </td>
                             </tr>
@@ -388,7 +414,7 @@
                                 </td>
                                 <td class="text-end">
                                     <a href="#" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary w-30px h-30px">
-                                    <i class="fa-duotone fa-arrow-right"></i>
+                                        <i class="fa-duotone fa-arrow-right"></i>
                                     </a>
                                 </td>
                             </tr>
@@ -412,7 +438,7 @@
                                 </td>
                                 <td class="text-end">
                                     <a href="#" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary w-30px h-30px">
-                                    <i class="fa-duotone fa-arrow-right"></i>
+                                        <i class="fa-duotone fa-arrow-right"></i>
                                     </a>
                                 </td>
                             </tr>

@@ -511,3 +511,7 @@ input.choose_file_input:disabled{
 .leader_bottom-dots .leader_dot-text {
     margin-right: 10px;
 }
+
+.pcr-button{
+    border: 1px solid black;
+}

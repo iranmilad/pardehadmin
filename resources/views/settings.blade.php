@@ -9,19 +9,6 @@
     @csrf
     <div class="card">
         <div class="card-body">
-            <div class="row mb-6">
-                <label class="col-lg-3 col-form-label fw-semibold fs-6">لوگو</label>
-                <div class="col-lg-8 col-xl-8">
-                    <x-file-input type="single" :preview="true" name="logo" value="" />
-                </div>
-            </div>
-
-            <div class="row mb-6">
-                <label class="col-lg-3 col-form-label fw-semibold fs-6">فاوآیکون</label>
-                <div class="col-lg-8 col-xl-8">
-                    <x-file-input type="single" :preview="true" name="favicon" value="" />
-                </div>
-            </div>
 
             <div class="row mb-6">
                 <label class="col-lg-3 col-form-label fw-semibold fs-6">آدرس سایت</label>
