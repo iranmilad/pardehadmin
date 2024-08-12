@@ -4,8 +4,8 @@
     "scripts": {
         "dev": "vite",
         "production": "vite build",
-        "css": "sass --no-source-map ./resources/sass/style.scss ./resources/css/style-rtl.css",
-        "rtl": "rtlcss ./resources/css/style-rtl.css ./resources/css/style-rtl.css",
+        "css": "sass --no-source-map ./resources/sass/style.scss ./resources/css/style-blue-rtl.css",
+        "rtl": "rtlcss ./resources/css/style-blue-rtl.css ./resources/css/style-blue-rtl.css",
         "theme": "npm-run-all css rtl",
         "build": "npm-run-all -s css rtl production"
     },

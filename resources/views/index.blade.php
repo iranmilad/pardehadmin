@@ -14,19 +14,19 @@
             </div>
             <div class="card-body ps-0 tw-overflow-auto" style="max-height: 450px;">
                 <ul class="tw-list-none mb-5">
-                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">محصول شماره #1234 بروزرسانی شد</a></li>
-                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">یک پیام جدید دارید !</a></li>
-                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">3 سفارش جدید اضافه جدید</a></li>
-                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">4 کاربر جدید ثبت نام کردند</a></li>
-                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">4 درخواست تایید کار دارید</a></li>
-                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">مشکلی در انجام فعالیت ها رخ داده</a></li>
-                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
-                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
-                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
-                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
-                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
-                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
-                    <li class="tw-bg-slate-50 tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
+                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">محصول شماره #1234 بروزرسانی شد</a></li>
+                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">یک پیام جدید دارید !</a></li>
+                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">3 سفارش جدید اضافه جدید</a></li>
+                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">4 کاربر جدید ثبت نام کردند</a></li>
+                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">4 درخواست تایید کار دارید</a></li>
+                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">مشکلی در انجام فعالیت ها رخ داده</a></li>
+                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
+                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
+                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
+                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
+                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
+                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
+                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
                 </ul>
             </div>
         </div>

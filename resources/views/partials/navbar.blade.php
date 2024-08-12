@@ -382,6 +382,19 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
+		<a href="{{route('changes-request.show')}}" class="menu-link {{ Route::is('changes-request.show') ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-solid fa-bell-exclamation"></i>
+			</span>
+			<span class="menu-title">درخواست تغییرات</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
 		<a href="{{route('worktimes.show')}}" class="menu-link {{ Route::is('worktimes.show') ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-timer"></i>
