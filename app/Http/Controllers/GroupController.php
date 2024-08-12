@@ -5,19 +5,36 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Group;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 
 class GroupController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_groups';
+    }
+
     public function index(Request $request)
     {
+        // دریافت پارامتر جستجو
         $search = $request->input('s');
-        $groups = Group::withCount('users');
 
+        // ساختن کوئری برای Group
+        $query = Group::withCount('users');
+
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        // فیلتر کردن نتایج بر اساس جستجو
         if ($search) {
-            $groups->where('name', 'like', "%{$search}%");
+            $query->where('name', 'like', "%{$search}%");
         }
 
-        $groups = $groups->paginate(10);
+        // صفحه‌بندی نتایج
+        $groups = $query->paginate(10);
 
         return view('groups.index', compact('groups'));
     }

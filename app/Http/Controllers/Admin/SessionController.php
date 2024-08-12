@@ -86,7 +86,7 @@ class SessionController extends Controller
                 $message->recipient_id = $randomMember->user_id;
             } else {
                 // خطا در صورت نبودن اعضا
-                return redirect()->route('sessions.list')->withErrors(['error' => 'هیچ کاربری در این بخش یافت نشد.']);
+                return redirect()->route('sessions.index')->withErrors(['error' => 'هیچ کاربری در این بخش یافت نشد.']);
             }
         } else {
             $message->recipient_id = $request->recipient_id;
@@ -96,7 +96,7 @@ class SessionController extends Controller
 
         $message->save();
 
-        return redirect()->route('sessions.list')->with('success', 'پیام با موفقیت ارسال شد.');
+        return redirect()->route('sessions.index')->with('success', 'پیام با موفقیت ارسال شد.');
     }
 
 
@@ -164,7 +164,7 @@ class SessionController extends Controller
                 $message->recipient_id = $randomMember->user_id;
             } else {
                 // خطا در صورت نبودن اعضا
-                return redirect()->route('sessions.list')->withErrors(['error' => 'هیچ کاربری در این بخش یافت نشد.']);
+                return redirect()->route('sessions.index')->withErrors(['error' => 'هیچ کاربری در این بخش یافت نشد.']);
             }
         } else {
             $message->recipient_id = $session->user->id;

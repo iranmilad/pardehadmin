@@ -7,12 +7,18 @@ use App\Models\Group;
 use App\Models\Credit;
 use App\Models\CreditPlan;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 use Illuminate\Support\Facades\DB;
 
 class InstallmentController extends Controller
 {
-    public function installment(){
-        return view('installments');
+
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_installments';
     }
 
     /**
@@ -20,9 +26,22 @@ class InstallmentController extends Controller
      */
     public function index()
     {
-        $creditPlans = CreditPlan::paginate(10);
+        // ساختن کوئری برای CreditPlan
+        $query = CreditPlan::query();
+
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        // صفحه‌بندی نتایج
+        $creditPlans = $query->paginate(10);
+
         return view('installments-plans', compact('creditPlans'));
     }
+
+    public function installment(){
+        return view('installments');
+    }
+
 
     /**
      * Show the form for creating a new installment plan.
@@ -77,7 +96,7 @@ class InstallmentController extends Controller
             }
         }
 
-        return redirect()->route('installments.list')->with('success', 'پلن با موفقیت ایجاد شد.');
+        return redirect()->route('installments.index')->with('success', 'پلن با موفقیت ایجاد شد.');
     }
 
     public function edit($id)
@@ -146,7 +165,7 @@ class InstallmentController extends Controller
             }
         }
 
-        return redirect()->route('installments.list')->with('success', 'پلن با موفقیت ویرایش شد.');
+        return redirect()->route('installments.index')->with('success', 'پلن با موفقیت ویرایش شد.');
     }
 
     public function delete(Request $request)
@@ -158,7 +177,7 @@ class InstallmentController extends Controller
         $creditPlan = CreditPlan::findOrFail($request->id);
         $creditPlan->delete();
 
-        return redirect()->route('installments.list')->with('success', 'پلن با موفقیت حذف شد.');
+        return redirect()->route('installments.index')->with('success', 'پلن با موفقیت حذف شد.');
     }
 
     /**
@@ -174,10 +193,10 @@ class InstallmentController extends Controller
 
         if ($request->action === 'delete') {
             CreditPlan::destroy($request->ids);
-            return redirect()->route('installments.list')->with('success', 'پلن‌ها با موفقیت حذف شدند.');
+            return redirect()->route('installments.index')->with('success', 'پلن‌ها با موفقیت حذف شدند.');
         }
 
-        return redirect()->route('installments.list')->with('error', 'عملیات نامعتبر است.');
+        return redirect()->route('installments.index')->with('error', 'عملیات نامعتبر است.');
     }
 
     /**

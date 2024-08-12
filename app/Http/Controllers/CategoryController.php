@@ -3,12 +3,29 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 
 class CategoryController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_categories';
+    }
+
     public function index()
     {
-        $categories = Category::orderBy('created_at', 'desc')->paginate(10);;
+        // ساختن کوئری برای دسته‌بندی‌ها
+        $query = Category::orderBy('created_at', 'desc');
+
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        // صفحه‌بندی نتایج
+        $categories = $query->paginate(10);
+
         return view('product-categories', compact('categories'));
     }
 
@@ -32,7 +49,7 @@ class CategoryController extends Controller
 
         $this->saveSubcategories($request, $category);
 
-        return redirect()->route('categories.list')->with('success', 'Category created successfully.');
+        return redirect()->route('categories.index')->with('success', 'Category created successfully.');
     }
 
     public function edit($id)
@@ -58,7 +75,7 @@ class CategoryController extends Controller
 
         $this->saveSubcategories($request, $category);
 
-        return redirect()->route('categories.list')->with('success', 'Category updated successfully.');
+        return redirect()->route('categories.index')->with('success', 'Category updated successfully.');
     }
 
     public function delete(Request $request)
@@ -66,7 +83,7 @@ class CategoryController extends Controller
         $id = $request->input('id');
         $category = Category::findOrFail($id);
         $category->delete();
-        return redirect()->route('categories.list')->with('success', 'Category deleted successfully.');
+        return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
     }
 
     private function saveSubcategories(Request $request, Category $category)

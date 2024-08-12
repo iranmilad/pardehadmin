@@ -6,11 +6,20 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Permission;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
+
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        $this->permissionName = 'manage_users';
+    }
+
     /**
      * Display a listing of the users.
      *
@@ -18,7 +27,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(10);
+        $query = User::query();
+
+        $query = $this->applyAccessControl($query);
+
+        $users = $query->paginate(10);
+
         return view('users', compact('users'));
     }
 
@@ -58,7 +72,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('users.list')->with('success', 'کاربر با موفقیت ایجاد شد.');
+        return redirect()->route('users.index')->with('success', 'کاربر با موفقیت ایجاد شد.');
     }
 
     /**
@@ -70,6 +84,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
+        $this->authorizeAction($user);
         return view('user-detail', compact('user'));
     }
 
@@ -83,7 +98,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-
+        $this->authorizeAction($user);
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -186,9 +201,12 @@ class UserController extends Controller
 
     public function roles(Request $request)
     {
+        $query = Role::withCount('users');
+
+        $query = $this->applyAccessControl($query);
+
         $search = $request->input('s');
-        $roles = Role::withCount('users')
-            ->when($search, function($query, $search) {
+        $roles = $query->when($search, function($query, $search) {
                 return $query->where('title', 'like', "%{$search}%")
                              ->orWhere('display_name', 'like', "%{$search}%");
             })->paginate(10);
@@ -204,25 +222,61 @@ class UserController extends Controller
 
     public function rolesStore(Request $request)
     {
-
+        // اعتبارسنجی داده‌های ورودی
         $request->validate([
             'title' => 'required|string|max:255',
             'display_name' => 'required|string|max:255',
             'access_code' => 'array',
-            'access_code.*' => 'in:0,1,2',
+            'access_code.*.read_own' => 'nullable|boolean',
+            'access_code.*.read_same_role' => 'nullable|boolean',
+            'access_code.*.read_all' => 'nullable|boolean',
+            'access_code.*.write_own' => 'nullable|boolean',
+            'access_code.*.write_same_role' => 'nullable|boolean',
+            'access_code.*.write_all' => 'nullable|boolean',
         ]);
 
+        // ایجاد نقش جدید
         $role = Role::create([
             'title' => $request->input('title'),
             'display_name' => $request->input('display_name'),
         ]);
 
-        foreach ($request->input('access_code', []) as $permissionId => $accessCode) {
-            $role->permissions()->attach($permissionId, ['access_code' => $accessCode]);
-        }
+        // آماده‌سازی داده‌ها برای همگام‌سازی
+        $syncData = $this->prepareSyncData($request->input('access_code', []));
+
+        // همگام‌سازی مجوزها با نقش جدید
+        $role->permissions()->sync($syncData);
 
         return redirect()->route('users.roles.index')->with('success', 'Role created successfully.');
+    }
 
+    /**
+     * آماده‌سازی داده‌ها برای همگام‌سازی
+     *
+     * @param array $accessCodes
+     * @return array
+     */
+    private function prepareSyncData(array $accessCodes): array
+    {
+        $syncData = [];
+
+        foreach ($accessCodes as $permissionId => $access) {
+            // اگر هیچ دسترسی انتخاب نشده باشد، این مجوز را نادیده بگیریم
+            if (empty($access)) {
+                continue;
+            }
+
+            $syncData[$permissionId] = [
+                'read_own' => !empty($access['read_own']),
+                'read_same_role' => !empty($access['read_same_role']),
+                'read_all' => !empty($access['read_all']),
+                'write_own' => !empty($access['write_own']),
+                'write_same_role' => !empty($access['write_same_role']),
+                'write_all' => !empty($access['write_all']),
+            ];
+        }
+
+        return $syncData;
     }
 
     public function rolesEdit($id)
@@ -234,26 +288,43 @@ class UserController extends Controller
 
     public function rolesUpdate(Request $request, $id)
     {
-        $request->validate([
+        // اعتبارسنجی داده‌های ورودی
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'display_name' => 'required|string|max:255',
-            'access_code' => 'array',
-            'access_code.*' => 'in:0,1,2',
         ]);
 
+        // پیدا کردن نقش بر اساس ID
         $role = Role::findOrFail($id);
-        $role->update([
-            'title' => $request->input('title'),
-            'display_name' => $request->input('display_name'),
-        ]);
 
-        // سنکرون کردن دسترسی‌ها
-        foreach ($request->input('access_code', []) as $permissionId => $accessCode) {
-            $role->permissions()->updateExistingPivot($permissionId, ['access_code' => $accessCode]);
+        // به‌روزرسانی اطلاعات نقش
+        $role->update($validated);
+
+        // پردازش دسترسی‌ها
+        $permissions = $request->input('access_code', []);
+        $syncData = [];
+
+        foreach ($permissions as $permissionId => $accessCodes) {
+            $syncData[$permissionId] = [
+                'read_all' => isset($accessCodes['read_all']),
+                'read_same_role' => isset($accessCodes['read_same_role']),
+                'read_own' => isset($accessCodes['read_own']),
+                'write_all' => isset($accessCodes['write_all']),
+                'write_same_role' => isset($accessCodes['write_same_role']),
+                'write_own' => isset($accessCodes['write_own']),
+            ];
         }
 
-        return redirect()->route('users.roles.index')->with('success', 'Role updated successfully.');
+        // به‌روزرسانی دسترسی‌ها
+        $role->permissions()->sync($syncData);
+
+        // انتقال به صفحه لیست نقش‌ها با پیام موفقیت
+        return redirect()->route('users.roles.edit',$id)->with('success', 'Role updated successfully.');
     }
+
+
+
+
 
     public function rolesDelete($id)
     {

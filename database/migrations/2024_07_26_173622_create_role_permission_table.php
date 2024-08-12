@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('role_permission', function (Blueprint $table) {
+            $table->id();
             $table->unsignedInteger('role_id');
             $table->unsignedBigInteger('permission_id');
+            $table->string('label'); // ذخیره label دسترسی
             $table->timestamps();
 
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');

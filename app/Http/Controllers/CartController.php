@@ -3,24 +3,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 use App\Models\Order; // جایگزینی با مدل مناسب برای سبد خرید در صورت لزوم
 
 class CartController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_carts';
+    }
+
     public function index(Request $request)
     {
-        // جستجو بر اساس نام کاربر یا شماره تلفن
         $query = Order::query();
 
-        if ($request->filled('s')) {
-            $search = $request->input('s');
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        // جستجو بر اساس نام کاربر یا شماره تلفن
+        $search = $request->input('s');
+        if ($search) {
             $query->whereHas('user', function ($q) use ($search) {
-                $q->where('full_name', 'like', "%$search%")
-                    ->orWhere('mobile', 'like', "%$search%");
-            })->where('status','basket');
+                $q->where('full_name', 'like', "%{$search}%")
+                  ->orWhere('mobile', 'like', "%{$search}%");
+            })->where('status', 'basket');
         }
 
-        $orders = $query->paginate(10); // تعداد سفارشات در هر صفحه
+        // صفحه‌بندی نتایج
+        $orders = $query->paginate(10);
 
         return view('carts', compact('orders'));
     }
@@ -36,6 +49,7 @@ class CartController extends Controller
         // نمایش فرم ویرایش سبد خرید با شناسه $id
         // اینجا باید کدی نوشته شود که سبد خرید مربوطه را بارگیری کند و به ویو مناسب منتقل کند
         $order = Order::findOrFail($id);
+        $this->authorizeAction($order);
         //dd($order->basket());
         return view('cart', compact('order'));
     }
@@ -43,6 +57,7 @@ class CartController extends Controller
     public function update(Request $request, $id)
     {
         $order = Order::findOrFail($id);
+        $this->authorizeAction($order);
         $this->saveOrder($order, $request);
         return redirect()->route('cart.index')->with('success', 'سبد خرید با موفقیت ویرایش شد.');
     }

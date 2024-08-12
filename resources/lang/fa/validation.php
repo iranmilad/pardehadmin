@@ -19,4 +19,9 @@ return [
         'max_score' => 'حداکثر نمره',
     ],
 
+    'numeric' => 'فیلد :attribute باید عددی باشد.',
+    'array' => 'فیلد :attribute باید آرایه باشد.',
+    'in' => 'فیلد :attribute باید یکی از مقادیر مجاز باشد.',
+    'boolean' => 'فیلد :attribute باید درست یا نادرست باشد.',
 ];
+

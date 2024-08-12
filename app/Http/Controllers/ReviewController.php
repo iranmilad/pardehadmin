@@ -1,16 +1,30 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use App\Models\Review;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 
 class ReviewController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_reviews';
+    }
+
     public function index(Request $request)
     {
+        // ساختن کوئری برای Review
         $query = Review::query();
 
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        // فیلتر کردن براساس جستجو
         if ($request->has('s')) {
             $search = $request->get('s');
             $query->where('id', 'LIKE', "%{$search}%")
@@ -21,7 +35,10 @@ class ReviewController extends Controller
                     $q->where('last_name', 'LIKE', "%{$search}%");
                 });
         }
+
+        // مرتب‌سازی بر اساس تاریخ ایجاد و صفحه‌بندی نتایج
         $reviews = $query->orderBy('created_at', 'desc')->paginate(10);
+
         return view('product-reviews', compact('reviews'));
     }
 
@@ -34,6 +51,8 @@ class ReviewController extends Controller
     public function edit($id)
     {
         $review = Review::findOrFail($id);
+        $this->authorizeAction($review);
+
         $product = $review->product;
         return view('product-review', compact('review', 'product'));
     }
@@ -68,7 +87,7 @@ class ReviewController extends Controller
         $review->user_id = auth()->id();
         $review->save();
 
-        return redirect()->route('products.reviews.list')->with('success', 'Review created successfully.');
+        return redirect()->route('products.reviews.index')->with('success', 'Review created successfully.');
     }
 
     public function update(Request $request, $id)
@@ -89,6 +108,7 @@ class ReviewController extends Controller
         ]);
 
         $review = Review::findOrFail($id);
+        $this->authorizeAction($review);
 
         $images = json_decode($review->images, true) ?? [];
         if ($request->hasFile('images')) {
@@ -102,14 +122,16 @@ class ReviewController extends Controller
         $review->images = json_encode($images);
         $review->save();
 
-        return redirect()->route('products.reviews.list')->with('success', 'Review updated successfully.');
+        return redirect()->route('products.reviews.index')->with('success', 'Review updated successfully.');
     }
 
 
     public function destroy($id)
     {
         $review = Review::findOrFail($id);
+        $this->authorizeAction($review);
+
         $review->delete();
-        return redirect()->route('products.reviews.list')->with('success', 'Review deleted successfully.');
+        return redirect()->route('products.reviews.index')->with('success', 'Review deleted successfully.');
     }
 }

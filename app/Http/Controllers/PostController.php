@@ -6,26 +6,41 @@ use App\Models\Post;
 use Illuminate\Support\Str;
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
+
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        $this->permissionName = 'manage_posts';
+    }
+
     public function index()
     {
-        $posts = Post::with(['user', 'categories', 'tags', 'comments'])
-        ->orderBy('created_at', 'desc')
-        ->paginate(10);
+        $query = Post::with(['user', 'categories', 'tags', 'comments'])
+                     ->orderBy('created_at', 'desc');
+
+        // اعمال فیلتر دسترسی
+        $query = $this->applyAccessControl($query);
+
+        $posts = $query->paginate(10);
 
         return view('posts', compact('posts'));
-
     }
 
     public function edit($id)
     {
+
         $categories = PostCategory::all();
         $tags = Tag::all();
         $post = Post::findOrFail($id);
+
+        $this->authorizeAction($post);
 
         return view('post', compact('post', 'categories', 'tags'));
     }
@@ -90,13 +105,16 @@ class PostController extends Controller
             $post->update(['image' => "/". 'uploads/'.$fileName]);
         }
 
-        return redirect()->route('post.list')->with('success', 'پست با موفقیت ایجاد شد');
+        return redirect()->route('post.index')->with('success', 'پست با موفقیت ایجاد شد');
     }
 
 
     public function update(Request $request, $id)
     {
+        //dd($request);
         $post = Post::findOrFail($id);
+
+        $this->authorizeAction($post);
 
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
@@ -106,7 +124,6 @@ class PostController extends Controller
             'categories' => 'required|array', // اعتبارسنجی برای فیلد categories به عنوان آرایه
             'categories.*' => 'exists:post_categories,id', // هر دسته باید معتبر باشد
             'tags' => 'sometimes|string',  // اعتبارسنجی برای فیلد tags به صورت رشته
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         // در صورت عدم وجود، مقدار پیش‌فرض برای comments_enabled را به false تنظیم کنید
@@ -117,7 +134,8 @@ class PostController extends Controller
         $post->update($validatedData);
 
         if ($request->has('tags')) {
-            $tags = json_decode($request->input('tags'), true);
+            $tags = json_decode($request->input('tags'), true)[0];
+            //dd($tags);
 
             // تبدیل نام تگ‌ها به IDها و ایجاد تگ جدید در صورت عدم وجود
             $tagIds = collect($tags)->map(function ($tagName) {
@@ -142,7 +160,7 @@ class PostController extends Controller
             $post->update(['image' => "/". 'uploads/'.$fileName]);
         }
 
-        return redirect()->route('post.list')->with('success', 'پست با موفقیت به‌روزرسانی شد');
+        return redirect()->route('post.index')->with('success', 'پست با موفقیت به‌روزرسانی شد');
     }
 
 

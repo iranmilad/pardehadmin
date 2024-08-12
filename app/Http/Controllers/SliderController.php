@@ -5,13 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Slider;
 use App\Models\SliderImage;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 use Illuminate\Support\Facades\Storage;
 
 class SliderController extends Controller
 {
-    public function index()
+    use AuthorizeAccess;
+
+    public function __construct()
     {
-        $sliders = Slider::latest()->paginate(10); // دریافت همه‌ی اسلایدرها به صورت صفحه‌بندی شده
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_sliders';
+    }
+
+    public function index(Request $request)
+    {
+        $query = Slider::latest();
+
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        $sliders = $query->paginate(10); // دریافت همه‌ی اسلایدرها به صورت صفحه‌بندی شده
 
         return view('sliders', compact('sliders'));
     }
@@ -42,7 +56,7 @@ class SliderController extends Controller
             'image' => $imagePath,
         ]);
 
-        return redirect()->route('sliders.list')->with('success', 'اسلایدر با موفقیت ایجاد شد.');
+        return redirect()->route('sliders.index')->with('success', 'اسلایدر با موفقیت ایجاد شد.');
     }
 
     public function edit($id)
@@ -107,7 +121,7 @@ class SliderController extends Controller
         //     }
         // }
 
-        return redirect()->route('sliders.list')->with('success', 'اسلایدر با موفقیت به‌روزرسانی شد.');
+        return redirect()->route('sliders.index')->with('success', 'اسلایدر با موفقیت به‌روزرسانی شد.');
     }
 
     public function addImage(Request $request, $id)
@@ -141,7 +155,7 @@ class SliderController extends Controller
             }
         }
 
-        return redirect()->route('sliders.list')->with('success', 'تصاویر جدید با موفقیت به اسلایدر اضافه شدند.');
+        return redirect()->route('sliders.index')->with('success', 'تصاویر جدید با موفقیت به اسلایدر اضافه شدند.');
     }
 
     public function slideView($id)
@@ -171,7 +185,7 @@ class SliderController extends Controller
             'image' => $imagePath,
         ]);
 
-        return redirect()->route('sliders.list')->with('success', 'تصویر جدید به اسلایدر افزوده شد.');
+        return redirect()->route('sliders.index')->with('success', 'تصویر جدید به اسلایدر افزوده شد.');
     }
 
     public function deleteImage($image_id)

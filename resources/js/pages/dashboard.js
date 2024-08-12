@@ -1,14 +1,43 @@
 import ApexCharts from "apexcharts";
 
-function generateTime() {
+function generateTime(range) {
     var time = [];
-    for (var i = 0; i < 24; i++) {
-        time.push(i + ":00");
+    switch (range) {
+        case '3days':
+            // Generate hours for the last 3 days (72 hours)
+            for (var i = 0; i < 72; i++) {
+                time.push((i % 24) + ":00 روز " + Math.floor(i / 24 + 1));
+            }
+            break;
+        case 'week':
+            // Generate days for the last week (7 days)
+            for (var i = 1; i <= 7; i++) {
+                time.push(i + " روز");
+            }
+            break;
+        case 'month':
+            // Generate days for the last month (30 days)
+            for (var i = 1; i <= 30; i++) {
+                time.push(i + " روز");
+            }
+            break;
+        case 'year':
+            // Generate months for the last year (12 months)
+            for (var i = 1; i <= 12; i++) {
+                time.push(i + " ماه");
+            }
+            break;
+        default:
+            // Generate hours for today (24 hours)
+            for (var i = 0; i < 24; i++) {
+                time.push(i + ":00");
+            }
+            break;
     }
     return time;
 }
 
-if(document.getElementById("view_chart")){
+if (document.getElementById("view_chart")) {
     let options1 = {
         series: [],
         chart: {
@@ -24,8 +53,7 @@ if(document.getElementById("view_chart")){
         colors: ["#14b8a6"],
         xaxis: {
             type: "category",
-            // set fromt 00 to 24
-            categories: generateTime(),
+            categories: generateTime('today'), // Default to 'today'
             tooltip: {
                 enabled: false,
             },
@@ -47,45 +75,88 @@ if(document.getElementById("view_chart")){
                 format: "dd/MM/yy HH:mm",
             },
             y: {
-              title: {
-                  formatter: (seriesName) => " بازدید ",
-              },
-          },
+                title: {
+                    formatter: (seriesName) => " بازدید ",
+                },
+            },
         },
     };
-    
-    
+
     var chart = new ApexCharts(document.getElementById("view_chart"), options1);
     chart.render();
-    
+
+    function fetchData(range) {
+        $.ajax("/view-stat/" + range, {
+            method: "GET",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (data) {
+                // Update x-axis categories based on the selected range
+                chart.updateOptions({
+                    xaxis: {
+                        categories: generateTime(range),
+                    }
+                });
+                // Update series data
+                chart.updateSeries([{
+                    data: data,
+                }]);
+            },
+        });
+    }
+
     $(document).on("DOMContentLoaded", () => {
-        $.ajax("/api/view-stat", {
-            method: "GET",
-            success: (data) => {
-                chart.updateSeries([
-                    {
-                        data: data,
-                    },
-                ]);
-            },
-        });
+        fetchData('today');
     });
-    
-    $("#dashboard-view-stat").on("change", () => {
-        $.ajax("/api/view-stat", {
-            method: "GET",
-            success: (data) => {
-                chart.updateSeries([
-                    {
-                        data: data,
-                    },
-                ]);
-            },
-        });
+
+    $("#dashboard-view-stat").on("change", (event) => {
+        const selectedRange = event.target.value;
+        fetchData(selectedRange);
     });
 }
 
-if(document.getElementById("sell_chart")){
+
+function generateSellTime(range) {
+    var time = [];
+    switch (range) {
+        case '3days':
+            // Generate hours for the last 3 days (72 hours)
+            for (var i = 0; i < 72; i++) {
+                var day = Math.floor(i / 24) + 1;
+                var hour = i % 24;
+                time.push(`روز ${day} - ${hour}:00`);
+            }
+            break;
+        case 'week':
+            // Generate days for the last week (7 days)
+            for (var i = 1; i <= 7; i++) {
+                time.push(`روز ${i}`);
+            }
+            break;
+        case 'month':
+            // Generate days for the last month (30 days)
+            for (var i = 1; i <= 30; i++) {
+                time.push(`روز ${i}`);
+            }
+            break;
+        case 'year':
+            // Generate months for the last year (12 months)
+            for (var i = 1; i <= 12; i++) {
+                time.push(`ماه ${i}`);
+            }
+            break;
+        default:
+            // Generate hours for today (24 hours)
+            for (var i = 0; i < 24; i++) {
+                time.push(i + ":00");
+            }
+            break;
+    }
+    return time;
+}
+
+if (document.getElementById("sell_chart")) {
     let options2 = {
         series: [],
         chart: {
@@ -98,10 +169,10 @@ if(document.getElementById("sell_chart")){
         stroke: {
             curve: "smooth",
         },
+        colors: ["#8b5cf6"],
         xaxis: {
             type: "category",
-            // set fromt 00 to 24
-            categories: generateTime(),
+            categories: generateSellTime('today'), // Default to 'today'
             tooltip: {
                 enabled: false,
             },
@@ -112,7 +183,6 @@ if(document.getElementById("sell_chart")){
                 rotate: 0,
             },
         },
-        colors: ["#8b5cf6"],
         yaxis: {
             labels: {
                 show: true,
@@ -124,40 +194,43 @@ if(document.getElementById("sell_chart")){
                 format: "dd/MM/yy HH:mm",
             },
             y: {
-              title: {
-                  formatter: (seriesName) => " فروش ",
-              },
-          },
+                title: {
+                    formatter: (seriesName) => " فروش ",
+                },
+            },
         },
     };
-    
+
     var chart2 = new ApexCharts(document.getElementById("sell_chart"), options2);
     chart2.render();
-    
-    $("#dashboard-sell-stat").on("change", () => {
-        $.ajax("/api/view-stat", {
+
+    function fetchSellData(range) {
+        $.ajax("/sell-stat/" + range, {
             method: "GET",
-            success: (data) => {
-                chart2.updateSeries([
-                    {
-                        data: data,
-                    },
-                ]);
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (data) {
+                // Update x-axis categories based on the selected range
+                chart2.updateOptions({
+                    xaxis: {
+                        categories: generateSellTime(range),
+                    }
+                });
+                // Update series data
+                chart2.updateSeries([{
+                    data: data,
+                }]);
             },
         });
-    });
-    
-    
+    }
+
     $(document).on("DOMContentLoaded", () => {
-      $.ajax("/api/sell-stat", {
-          method: "GET",
-          success: (data) => {
-            chart2.updateSeries([
-                  {
-                      data: data,
-                  },
-              ]);
-          },
-      });
+        fetchSellData('today');
+    });
+
+    $("#dashboard-sell-stat").on("change", (event) => {
+        const selectedRange = event.target.value;
+        fetchSellData(selectedRange);
     });
 }

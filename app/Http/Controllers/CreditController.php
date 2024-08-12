@@ -7,28 +7,39 @@ use App\Models\Credit;
 use App\Models\CreditPlan;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
+use App\Traits\AuthorizeAccess;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class CreditController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_credits';
+    }
+
     public function index(Request $request)
     {
-        // Fetch credits with filters (optional)
+        // ساختن کوئری برای Credit
         $query = Credit::query();
 
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        // جستجو بر اساس شناسه یا نام کاربر
         if ($request->has('s')) {
             $search = $request->get('s');
             $query->where('id', 'LIKE', "%{$search}%")
                   ->orWhereHas('user', function($q) use ($search) {
-                      $q->where('first_name', 'LIKE', "%{$search}%");
-                  })
-                  ->orWhereHas('user', function($q) use ($search) {
-                    $q->where('last_name', 'LIKE', "%{$search}%");
-                });
+                      $q->where('first_name', 'LIKE', "%{$search}%")
+                        ->orWhere('last_name', 'LIKE', "%{$search}%");
+                  });
         }
 
-        // Filter by due date (if provided)
+        // فیلتر بر اساس تاریخ (اگر ارائه شده باشد)
         if ($request->has('date')) {
             $dateRange = explode(' to ', $request->get('date'));
             if (count($dateRange) == 2) {
@@ -38,12 +49,13 @@ class CreditController extends Controller
             }
         }
 
-        // Filter by payment status (if provided)
+        // فیلتر بر اساس وضعیت پرداخت (اگر ارائه شده باشد)
         if ($request->has('payment_status')) {
             $query->where('payment_status', $request->get('payment_status'));
         }
 
-        $credits = $query->paginate(10); // Paginate results (10 per page)
+        // صفحه‌بندی نتایج
+        $credits = $query->paginate(10);
 
         return view('credits', compact('credits'));
     }
@@ -87,7 +99,7 @@ class CreditController extends Controller
     {
         // Find the credit by ID
         $credit = Credit::findOrFail($id);
-
+        $this->authorizeAction($credit);
         // Get any necessary data for the edit form (e.g., users, credit plans)
         $users = User::all();
         $creditPlans = CreditPlan::all();
@@ -110,7 +122,7 @@ class CreditController extends Controller
 
         // Find the credit by ID
         $credit = Credit::findOrFail($id);
-
+        $this->authorizeAction($credit);
         // به‌روزرسانی اطلاعات قسط
         $credit->update([
             'amount' => $request->input('amount'),

@@ -2,7 +2,7 @@
     <div class="header">
         <!-- TITLE OF MESSAGE -->
         <span></span>
-        <a href="{{route('sessions.list')}}" class="btn custom-btn-primary btn-sm  tw-rounded-xl">بازگشت</a>
+        <a href="{{route('sessions.index')}}" class="btn custom-btn-primary btn-sm  tw-rounded-xl">بازگشت</a>
     </div>
     <div class="main">
         <!-- MESSAGES -->

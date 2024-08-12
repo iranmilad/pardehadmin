@@ -3,15 +3,31 @@ namespace App\Http\Controllers;
 
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 
 class PostCategoriesController extends Controller
 {
-    public function index()
+    use AuthorizeAccess;
+
+    public function __construct()
     {
-        $categories = PostCategory::withCount('posts')->orderBy('created_at', 'desc')->paginate(10);
-        return view('post-categories', compact('categories'));
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_post_categories';
     }
 
+    public function index()
+    {
+        // ساختن کوئری برای PostCategory
+        $query = PostCategory::withCount('posts')->orderBy('created_at', 'desc');
+
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        // صفحه‌بندی نتایج
+        $categories = $query->paginate(10);
+
+        return view('post-categories', compact('categories'));
+    }
     public function create()
     {
         return view('post-category');
@@ -40,7 +56,7 @@ class PostCategoriesController extends Controller
             }
         }
 
-        return redirect()->route('postCategories.list')->with('success', 'دسته‌بندی با موفقیت ایجاد شد.');
+        return redirect()->route('postCategories.index')->with('success', 'دسته‌بندی با موفقیت ایجاد شد.');
     }
 
     public function edit($id)
@@ -75,7 +91,7 @@ class PostCategoriesController extends Controller
             }
         }
 
-        return redirect()->route('postCategories.list')->with('success', 'دسته‌بندی با موفقیت به‌روزرسانی شد.');
+        return redirect()->route('postCategories.index')->with('success', 'دسته‌بندی با موفقیت به‌روزرسانی شد.');
     }
 
     public function delete(Request $request)
@@ -83,6 +99,6 @@ class PostCategoriesController extends Controller
         $category = PostCategory::findOrFail($request->id);
         $category->delete();
 
-        return redirect()->route('postCategories.list')->with('success', 'دسته‌بندی با موفقیت حذف شد.');
+        return redirect()->route('postCategories.index')->with('success', 'دسته‌بندی با موفقیت حذف شد.');
     }
 }

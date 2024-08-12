@@ -2,23 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ImageMarker;
 use App\Models\Product;
+use App\Models\ImageMarker;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 use Illuminate\Support\Facades\View;
 
 class ImageMarkerController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_image_markers';
+    }
+
     public function index(Request $request)
     {
+        // دریافت پارامتر جستجو
         $search = $request->input('s');
+
+        // ساختن کوئری برای ImageMarker
         $query = ImageMarker::query();
 
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        // فیلتر کردن نتایج بر اساس جستجو
         if ($search) {
             $query->where('image_path', 'like', "%{$search}%");
         }
 
+        // صفحه‌بندی نتایج
         $imageMarkers = $query->paginate(10);
+
         return view('image_markers.index', compact('imageMarkers'));
     }
 

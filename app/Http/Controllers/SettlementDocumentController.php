@@ -7,14 +7,26 @@ use App\Models\User;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
+use App\Traits\AuthorizeAccess;
 use App\Models\SettlementDocument;
 use Illuminate\Support\Facades\Validator;
 
 class SettlementDocumentController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_settlement_documents';
+    }
+
     public function index(Request $request)
     {
         $query = SettlementDocument::query();
+
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
 
         // جستجو بر اساس متن وارد شده
         if ($request->has('s')) {
@@ -47,7 +59,7 @@ class SettlementDocumentController extends Controller
         }
 
         // فیلتر بر اساس نوع سند
-        if ($request->has('document_type') and  $request->input('document_type')!=null) {
+        if ($request->has('document_type') and $request->input('document_type')!=null) {
             $query->whereIn('document_type', $request->input('document_type'));
         }
 

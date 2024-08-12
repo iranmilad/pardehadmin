@@ -4,33 +4,35 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TransportRegion;
-use Illuminate\Support\Facades\File;
+use App\Traits\AuthorizeAccess;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class TransportController extends Controller
 {
-    private function getProvinces()
+    use AuthorizeAccess;
+
+    public function __construct()
     {
-        $json = File::get(public_path('/js/iran_cities_with_coordinates.json'));
-        $data = json_decode($json, true);
-
-        $provinces = [];
-        foreach ($data as $province) {
-            $provinces[] = $province['name'];
-        }
-
-        return $provinces;
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_transport';
     }
 
     public function index(Request $request)
     {
         $search = $request->get('s', '');
-        $transports = TransportRegion::query()
-            ->when($search, function ($query, $search) {
-                $query->where('title', 'LIKE', "%{$search}%")
-                      ->orWhere('regions', 'LIKE', "%{$search}%");
-            })
-            ->paginate(10);
+        $query = TransportRegion::query();
+
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        // جستجو بر اساس عنوان و مناطق
+        $query->when($search, function ($query, $search) {
+            $query->where('title', 'LIKE', "%{$search}%")
+                  ->orWhere('regions', 'LIKE', "%{$search}%");
+        });
+
+        $transports = $query->paginate(10);
 
         return view('transports', compact('transports'));
     }
@@ -44,6 +46,7 @@ class TransportController extends Controller
     public function edit($id)
     {
         $transport = TransportRegion::findOrFail($id);
+        $this->authorizeAction($transport);
         $provinces = $this->getProvinces();
         return view('transport', compact('transport', 'provinces'));
     }
@@ -70,13 +73,13 @@ class TransportController extends Controller
 
         TransportRegion::create($data);
 
-        return redirect()->route('transports.list')->with('success', 'منطقه حمل و نقل با موفقیت ایجاد شد.');
+        return redirect()->route('transports.index')->with('success', 'منطقه حمل و نقل با موفقیت ایجاد شد.');
     }
 
     public function update(Request $request, $id)
     {
         $transport = TransportRegion::findOrFail($id);
-
+        $this->authorizeAction($transport);
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'regions' => 'required|array',
@@ -99,19 +102,33 @@ class TransportController extends Controller
 
         $transport->update($data);
 
-        return redirect()->route('transports.list')->with('success', 'منطقه حمل و نقل با موفقیت به‌روزرسانی شد.');
+        return redirect()->route('transports.index')->with('success', 'منطقه حمل و نقل با موفقیت به‌روزرسانی شد.');
     }
 
     public function delete(Request $request)
     {
         $transport = TransportRegion::findOrFail($request->id);
+        $this->authorizeAction($transport);
         $transport->delete();
 
-        return redirect()->route('transports.list')->with('success', 'منطقه حمل و نقل با موفقیت حذف شد.');
+        return redirect()->route('transports.index')->with('success', 'منطقه حمل و نقل با موفقیت حذف شد.');
     }
 
     public function bulk_action(Request $request)
     {
         // Bulk action logic here
+    }
+
+    private function getProvinces()
+    {
+        $json = File::get(public_path('/js/iran_cities_with_coordinates.json'));
+        $data = json_decode($json, true);
+
+        $provinces = [];
+        foreach ($data as $province) {
+            $provinces[] = $province['name'];
+        }
+
+        return $provinces;
     }
 }

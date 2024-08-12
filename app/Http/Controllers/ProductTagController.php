@@ -5,12 +5,29 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 
 class ProductTagController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_product_tags';
+    }
+
     public function index(Request $request)
     {
-        $tags = Tag::paginate(10);
+        // ساختن کوئری برای Tag
+        $query = Tag::query();
+
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        // صفحه‌بندی نتایج
+        $tags = $query->paginate(10);
+
         return view('product-tags', compact('tags'));
     }
 
@@ -29,7 +46,7 @@ class ProductTagController extends Controller
 
         Tag::create($request->all());
 
-        return redirect()->route('products.tags.list')->with('success', 'برچسب با موفقیت ایجاد شد');
+        return redirect()->route('products.tags.index')->with('success', 'برچسب با موفقیت ایجاد شد');
     }
 
     public function edit($id)
@@ -49,7 +66,7 @@ class ProductTagController extends Controller
         $tag = Tag::findOrFail($id);
         $tag->update($request->all());
 
-        return redirect()->route('products.tags.list')->with('success', 'برچسب با موفقیت ویرایش شد');
+        return redirect()->route('products.tags.index')->with('success', 'برچسب با موفقیت ویرایش شد');
     }
 
     public function delete(Request $request)
@@ -57,6 +74,6 @@ class ProductTagController extends Controller
         $tag = Tag::findOrFail($request->id);
         $tag->delete();
 
-        return redirect()->route('products.tags.list')->with('success', 'برچسب با موفقیت حذف شد');
+        return redirect()->route('products.tags.index')->with('success', 'برچسب با موفقیت حذف شد');
     }
 }

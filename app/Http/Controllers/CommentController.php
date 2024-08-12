@@ -2,15 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
 use App\Models\Post;
+use App\Models\Comment;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 
 class CommentController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_comments';
+    }
+
     public function index(Request $request)
     {
-        $comments = Comment::with('post')->orderBy('created_at', 'desc')->paginate(10);
+        // ساختن کوئری برای نظرات
+        $query = Comment::with('post')->orderBy('created_at', 'desc');
+
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        // صفحه‌بندی نتایج
+        $comments = $query->paginate(10);
+
         return view('post-comments', compact('comments'));
     }
 
@@ -35,19 +52,20 @@ class CommentController extends Controller
             'status' => $request->status,
         ]);
 
-        return redirect()->route('comments.list')->with('success', 'دیدگاه با موفقیت ایجاد شد.');
+        return redirect()->route('comments.index')->with('success', 'دیدگاه با موفقیت ایجاد شد.');
     }
 
     public function edit($id)
     {
         $comment = Comment::findOrFail($id);
+        $this->authorizeAction($comment);
         return view('post-comment', compact('comment'));
     }
 
     public function update(Request $request, $id)
     {
         $comment = Comment::findOrFail($id);
-
+        $this->authorizeAction($comment);
         $request->validate([
             'content' => 'required|string',
             'status' => 'required|string|in:pending,approved,rejected',
@@ -58,13 +76,13 @@ class CommentController extends Controller
             'status' => $request->status,
         ]);
 
-        return redirect()->route('comments.list')->with('success', 'دیدگاه با موفقیت به‌روزرسانی شد.');
+        return redirect()->route('comments.index')->with('success', 'دیدگاه با موفقیت به‌روزرسانی شد.');
     }
 
     public function delete(Request $request)
     {
         Comment::findOrFail($request->id)->delete();
-        return redirect()->route('comments.list')->with('success', 'دیدگاه با موفقیت حذف شد.');
+        return redirect()->route('comments.index')->with('success', 'دیدگاه با موفقیت حذف شد.');
     }
 
     public function bulk_action(Request $request)
@@ -74,10 +92,10 @@ class CommentController extends Controller
 
         if ($action == 'delete' && !empty($commentIds)) {
             Comment::whereIn('id', $commentIds)->delete();
-            return redirect()->route('comments.list')->with('success', 'دیدگاه‌ها با موفقیت حذف شدند.');
+            return redirect()->route('comments.index')->with('success', 'دیدگاه‌ها با موفقیت حذف شدند.');
         }
 
-        return redirect()->route('comments.list')->with('error', 'عملیات نامعتبر است.');
+        return redirect()->route('comments.index')->with('error', 'عملیات نامعتبر است.');
     }
 
 
@@ -101,13 +119,14 @@ class CommentController extends Controller
         ]);
 
 
-        return redirect()->route('comments.list')->with('success', 'پاسخ با موفقیت ثبت شد.');
+        return redirect()->route('comments.index')->with('success', 'پاسخ با موفقیت ثبت شد.');
     }
 
 
     public function approve($id)
     {
         $comment = Comment::find($id);
+        $this->authorizeAction($comment);
         if ($comment) {
             $comment->status = 'approved';
             $comment->save();
@@ -118,6 +137,7 @@ class CommentController extends Controller
     public function reject($id)
     {
         $comment = Comment::find($id);
+        $this->authorizeAction($comment);
         if ($comment) {
             $comment->status = 'rejected';
             $comment->save();

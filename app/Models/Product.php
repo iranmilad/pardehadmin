@@ -46,6 +46,12 @@ class Product extends Model
         'reviews_enabled' => 'boolean',
     ];
 
+    // Define the relationship with the User model
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_product', 'product_id', 'category_id');

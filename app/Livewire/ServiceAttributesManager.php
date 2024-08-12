@@ -22,7 +22,7 @@ class ServiceAttributesManager extends Component
         $this->services = $product->services()->with('serviceDetails')->get();
         $this->serviceDetails = [];
         $this->selectedServicesType = [];
-    
+
         if ($this->services->isNotEmpty()) {
             foreach ($this->services as $service) {
                 foreach ($service->serviceDetails as $detail) {
@@ -33,10 +33,10 @@ class ServiceAttributesManager extends Component
                 }
             }
         }
-      
+
         Log::info($this->services);
     }
-    
+
 
     public function save()
     {
@@ -52,7 +52,7 @@ class ServiceAttributesManager extends Component
 
         foreach ($this->serviceDetails as $detail) {
             $serviceDetailModel = ServiceDetail::find($detail['id']);
-            $serviceDetailModel->holo_code = $detail['holo_code'];
+            $serviceDetailModel->holo_code = $detail['holo_code'] ?? null;
             $serviceDetailModel->normal_price = $detail['normal_price'];
             $serviceDetailModel->urgent_price = $detail['urgent_price'];
             $serviceDetailModel->sale_price = $detail['sale_price'];
@@ -60,26 +60,26 @@ class ServiceAttributesManager extends Component
             $serviceDetailModel->urgent_duration = $detail['urgent_duration'];
             $serviceDetailModel->save();
         }
-        
+
 
         // نمایش پیام موفقیت‌آمیز برای کاربر
         session()->flash('message', 'Services saved successfully.');
     }
 
-    
+
     public function createService()
     {
         $this->validate([
             'selectedServiceType' => 'required',
         ]);
-    
+
         // ایجاد سرویس
         $service = Service::create([
             'product_id' => $this->product->id,
             'type' => $this->selectedServiceType,
             'category_id' => 1, // بر اساس منطق دسته‌بندی خود تنظیم کنید
         ]);
-    
+
         // ایجاد جزئیات سرویس
         $serviceDetail = new ServiceDetail();
         $serviceDetail->service_id = $service->id;
@@ -91,15 +91,18 @@ class ServiceAttributesManager extends Component
         $serviceDetail->normal_duration = 0; // مقدار پیش‌فرض یا مقدار مورد نظر
         $serviceDetail->urgent_duration = 0; // مقدار پیش‌فرض یا مقدار مورد نظر
         $serviceDetail->save();
-    
+
         // افزودن جزئیات سرویس به لیست serviceDetails
-        $this->serviceDetails->push($serviceDetail);
-    
+        array_push($this->serviceDetails, $serviceDetail);
+
         session()->flash('message', 'Service created successfully.');
+
+        // Refresh the current page
+        return redirect()->route('products.edit',$this->product->id); // نام route فعلی را به جای 'current.route.name' قرار دهید
+
     }
-    
-    
-    
+
+
     public function render()
     {
         return view('livewire.service-attributes-manager');

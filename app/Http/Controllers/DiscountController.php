@@ -9,22 +9,36 @@ use App\Models\Category;
 use App\Models\DiscountCode;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
+use App\Traits\AuthorizeAccess;
 use Illuminate\Support\Facades\DB;
 
 class DiscountController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_discounts';
+    }
+
     // نمایش لیست کدهای تخفیف
     public function index(Request $request)
     {
+        // ساختن کوئری برای DiscountCode
+        $query = DiscountCode::query();
+
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
         // دریافت پارامترهای جستجو
         $search = $request->get('s', '');
 
         // فیلتر کردن بر اساس جستجو
-        $query = DiscountCode::query();
         if (!empty($search)) {
             $query->where('code', 'like', '%' . $search . '%')
-                ->orWhere('discount_amount', 'like', '%' . $search . '%')
-                ->orWhere('usage_type', 'like', '%' . $search . '%');
+                  ->orWhere('discount_amount', 'like', '%' . $search . '%')
+                  ->orWhere('usage_type', 'like', '%' . $search . '%');
         }
 
         // صفحه‌بندی نتایج
@@ -259,7 +273,7 @@ class DiscountController extends Controller
             }
         }
 
-        return redirect()->route('discounts.list')->with('success', 'تخفیف با موفقیت به‌روزرسانی شد.');
+        return redirect()->route('discounts.index')->with('success', 'تخفیف با موفقیت به‌روزرسانی شد.');
     }
 
     // حذف کد تخفیف
@@ -268,7 +282,7 @@ class DiscountController extends Controller
         $discount = DiscountCode::findOrFail($request->id);
         $discount->delete();
 
-        return redirect()->route('discounts.list')->with('success', 'کد تخفیف با موفقیت حذف شد');
+        return redirect()->route('discounts.index')->with('success', 'کد تخفیف با موفقیت حذف شد');
     }
 
     // متد عملیات گروهی

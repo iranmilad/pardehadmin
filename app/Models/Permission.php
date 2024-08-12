@@ -12,6 +12,14 @@ class Permission extends Model
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'role_permission')->withPivot('access_code');
+        return $this->belongsToMany(Role::class, 'role_permission')
+                    ->withPivot([
+                        'read_all',
+                        'read_same_role',
+                        'read_own',
+                        'write_all',
+                        'write_same_role',
+                        'write_own'
+                    ]);
     }
 }

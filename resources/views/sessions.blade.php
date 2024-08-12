@@ -10,7 +10,7 @@
 <!-- START:TABLE -->
 <div class="card">
     <div class="card-body">
-        <form class="d-flex align-items-center justify-content-end mb-10" action="{{ route('sessions.list') }}" method="get">
+        <form class="d-flex align-items-center justify-content-end mb-10" action="{{ route('sessions.index') }}" method="get">
             @csrf
             <div class="d-flex align-items-center position-relative my-1">
                 <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6"><span class="path1"></span><span class="path2"></span></i>

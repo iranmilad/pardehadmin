@@ -116,7 +116,7 @@
                         </select>
                         <div class="text-muted fs-7">وضعیت نوشته را تنظیم کنید.</div>
                         <div class="form-check mt-5">
-                            <input class="form-check-input" type="checkbox" name="reviews_enabled"  id="reviews_enabled" {{ isset($product) && $product->reviews_enabled ? 'checked' : '' }} />
+                            <input class="form-check-input" type="checkbox" name="reviews_enabled"  id="reviews_enabled" value="1" {{ isset($product) && $product->reviews_enabled ? 'checked' : '' }} />
                             <label class="form-check-label text-dark" for="reviews_enabled">
                                 فعال بودن دیدگاه ها
                             </label>
@@ -166,7 +166,7 @@
                                 @endforeach
                             </ul>
                         </div>
-                        <a class="nav-link" type="button" href="{{ route('categories.list') }}">افزودن دسته ی جدید</a>
+                        <a class="nav-link" type="button" href="{{ route('categories.index') }}">افزودن دسته ی جدید</a>
                     </div>
                 </div>
                 <!-- END:CATEGORY -->

@@ -3,14 +3,32 @@ namespace App\Http\Controllers;
 
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 
 class SettingController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_settings';
+    }
+
     public function index()
     {
-        $settings = Setting::all();
+        // ساختن کوئری برای دریافت تنظیمات
+        $query = Setting::query();
+
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        // دریافت تمام تنظیمات
+        $settings = $query->get();
+
         return view('settings.index', compact('settings'));
     }
+
 
     public function create()
     {

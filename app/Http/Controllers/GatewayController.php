@@ -4,20 +4,37 @@ namespace App\Http\Controllers;
 
 use App\Models\Gateway;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 
 class GatewayController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_gateways';
+    }
+
     public function index(Request $request)
     {
         // دریافت پارامترهای جستجو و صفحه‌بندی
         $search = $request->input('search');
         $perPage = $request->input('per_page', 10); // تعداد نتایج در هر صفحه
 
+        // ساختن کوئری برای Gateway
+        $query = Gateway::query();
+
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
         // فیلتر کردن نتایج بر اساس جستجو
-        $gateways = Gateway::when($search, function ($query, $search) {
-                return $query->where('title', 'like', "%{$search}%");
-            })
-            ->paginate($perPage);
+        $query->when($search, function ($query, $search) {
+            return $query->where('title', 'like', "%{$search}%");
+        });
+
+        // صفحه‌بندی نتایج
+        $gateways = $query->paginate($perPage);
 
         return view('gateways', compact('gateways', 'search', 'perPage'));
     }
@@ -62,7 +79,7 @@ class GatewayController extends Controller
             }
         }
 
-        return redirect()->route('gateways.list')->with('success', 'روش پرداخت با موفقیت ایجاد شد.');
+        return redirect()->route('gateways.index')->with('success', 'روش پرداخت با موفقیت ایجاد شد.');
     }
 
     public function edit($id)
@@ -106,14 +123,14 @@ class GatewayController extends Controller
             }
         }
 
-        return redirect()->route('gateways.list')->with('success', 'روش پرداخت با موفقیت ویرایش شد.');
+        return redirect()->route('gateways.index')->with('success', 'روش پرداخت با موفقیت ویرایش شد.');
     }
 
     public function destroy($id)
     {
         $gateway = Gateway::findOrFail($id);
         $gateway->delete();
-        return redirect()->route('gateways.list')->with('success', 'روش پرداخت با موفقیت حذف شد.');
+        return redirect()->route('gateways.index')->with('success', 'روش پرداخت با موفقیت حذف شد.');
     }
 
     public function activate($id, Request $request)
@@ -124,7 +141,7 @@ class GatewayController extends Controller
         $gateway->is_active = $is_active;
         $gateway->save();
 
-        return redirect()->route('gateways.list')->with('success', 'وضعیت روش پرداخت با موفقیت تغییر یافت.');
+        return redirect()->route('gateways.index')->with('success', 'وضعیت روش پرداخت با موفقیت تغییر یافت.');
     }
 
     public function bulk_action(Request $request)

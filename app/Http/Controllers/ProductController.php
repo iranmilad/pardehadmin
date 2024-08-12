@@ -9,19 +9,37 @@ use App\Models\Category;
 use App\Models\Attribute;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_products';
+    }
+
     // نمایش لیست محصولات
     public function index(Request $request)
     {
+        // ساختن کوئری برای Product
+        $query = Product::with(['categories', 'tags']);
+
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        // فیلتر کردن براساس جستجو
         $searchQuery = $request->input('s');
-        $products = Product::with(['categories', 'tags'])
-            ->when($searchQuery, function($query, $searchQuery) {
-                return $query->where('title', 'LIKE', "%{$searchQuery}%");
-            })
-            ->paginate(6);
+        if ($searchQuery) {
+            $query->where('title', 'LIKE', "%{$searchQuery}%");
+        }
+
+        // صفحه‌بندی نتایج
+        $products = $query->paginate(6);
 
         return view('products', compact('products'));
     }
@@ -45,7 +63,6 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'nullable|numeric',
             'sale_price' => 'nullable|numeric',
-            'img' => 'nullable|string',
             'gallery' => 'nullable|array',
             'gallery.*' => 'nullable|string',
             'video_path' => 'nullable|string',
@@ -55,7 +72,8 @@ class ProductController extends Controller
             'status' => 'required|string|in:published,inactive', // Validate status
             'reviews_enabled' => 'nullable|boolean', // Validate reviews_enabled
         ]);
-
+        // افزودن user_id به داده‌ها
+        $data['user_id'] = Auth::id();
         // Create product instance
         $product = Product::create($data);
         $data['reviews_enabled'] = $request->has('reviews_enabled') ? $request->input('reviews_enabled') : 0;
@@ -93,15 +111,12 @@ class ProductController extends Controller
         return redirect()->route('products.edit', $product->id)->with('success', 'محصول با موفقیت ایجاد شد.');
     }
 
-
-
-
-
     public function update(Request $request, $id)
     {
         //dd($request);
         // Load the product
         $product = Product::findOrFail($id);
+        $this->authorizeAction($product);
 
         $data = $request->validate([
             'title' => 'required|string|max:255',
@@ -117,6 +132,7 @@ class ProductController extends Controller
             'tags' => 'nullable|string',
             'status' => 'required|string|in:published,inactive', // Validate status
             'reviews_enabled' => 'nullable|boolean', // Validate reviews_enabled
+            'service'=> 'required|boolean', // Validate service
         ]);
 
         $data['reviews_enabled'] = $request->has('reviews_enabled') ? $request->input('reviews_enabled') : 0;
@@ -158,16 +174,11 @@ class ProductController extends Controller
         return redirect()->route('products.edit', $product->id)->with('success', 'محصول با موفقیت به‌روزرسانی شد.');
     }
 
-
-
-
-
-
-
     // نمایش فرم ویرایش محصول
     public function edit($id)
     {
         $product = Product::with(['categories', 'tags'])->findOrFail($id);
+        $this->authorizeAction($product);
         $categories = Category::all();
         $tags = Tag::all();
         $attributes = Attribute::all();
@@ -193,6 +204,7 @@ class ProductController extends Controller
     public function delete(Request $request)
     {
         $product = Product::findOrFail($request->input('id'));
+        $this->authorizeAction($product);
 
         if ($product->img) {
             \Storage::delete('public/' . $product->img);
@@ -200,7 +212,7 @@ class ProductController extends Controller
 
         $product->delete();
 
-        return redirect()->route('products.list')->with('success', 'محصول با موفقیت حذف شد.');
+        return redirect()->route('products.index')->with('success', 'محصول با موفقیت حذف شد.');
     }
 
     // عملیات دسته‌ای
@@ -211,16 +223,17 @@ class ProductController extends Controller
 
         if ($action === 'delete') {
             Product::whereIn('id', $ids)->delete();
-            return redirect()->route('products.list')->with('success', 'محصولات انتخابی با موفقیت حذف شدند.');
+            return redirect()->route('products.index')->with('success', 'محصولات انتخابی با موفقیت حذف شدند.');
         }
 
-        return redirect()->route('products.list')->with('error', 'عملیات نامعتبر است.');
+        return redirect()->route('products.index')->with('error', 'عملیات نامعتبر است.');
     }
 
     // نمایش اطلاعات محصول
     public function show($id)
     {
         $product = Product::with(['categories', 'tags', 'reviews.user'])->findOrFail($id);
+        $this->authorizeAction($product);
         return view('products.show', compact('product'));
     }
 
@@ -228,6 +241,7 @@ class ProductController extends Controller
     public function storeReview(Request $request, $id)
     {
         $product = Product::findOrFail($id);
+        $this->authorizeAction($product);
 
         $data = $request->validate([
             'rating' => 'required|integer|min:1|max:5',
@@ -246,6 +260,7 @@ class ProductController extends Controller
     public function updateAttributes(Request $request)
     {
         $product = Product::find($request->input('product_id'));
+        $this->authorizeAction($product);
 
         if ($product) {
             // به‌روز رسانی ویژگی‌های محصول
@@ -260,6 +275,7 @@ class ProductController extends Controller
     public function deleteAllImages($id)
     {
         $product = Product::findOrFail($id);
+        $this->authorizeAction($product);
 
         // حذف تمام تصاویر گالری محصول
         foreach ($product->images as $image) {
@@ -272,6 +288,8 @@ class ProductController extends Controller
     public function deleteThumbnail($id)
     {
         $product = Product::findOrFail($id);
+        $this->authorizeAction($product);
+
         if ($product->img) {
             \Storage::delete('public/' . $product->img);
             $product->img = null;

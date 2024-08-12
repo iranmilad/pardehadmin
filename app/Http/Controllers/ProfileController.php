@@ -5,18 +5,35 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_users';
+    }
+
     /**
-     * Display a listing of the users.
+     * نمایش لیست کاربران.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $users = User::paginate(10);
+        // ساختن کوئری برای User
+        $query = User::query();
+
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        // صفحه‌بندی نتایج
+        $users = $query->paginate(10);
+
         return view('users', compact('users'));
     }
 
@@ -56,7 +73,7 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return redirect()->route('users.list')->with('success', 'کاربر با موفقیت ایجاد شد.');
+        return redirect()->route('users.index')->with('success', 'کاربر با موفقیت ایجاد شد.');
     }
 
     /**
@@ -131,7 +148,7 @@ class ProfileController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('users.list')->with('success', 'کاربر با موفقیت حذف شد.');
+        return redirect()->route('users.index')->with('success', 'کاربر با موفقیت حذف شد.');
     }
 
     /**
@@ -164,7 +181,7 @@ class ProfileController extends Controller
                 break;
         }
 
-        return redirect()->route('users.list')->with('success', $message);
+        return redirect()->route('users.index')->with('success', $message);
     }
 
     public function profile($id){

@@ -35,7 +35,7 @@ class ProductAttributesManager extends Component
     public function save()
     {
         $this->validate([
-            'holo_code' => 'required|string|max:255',
+            'holo_code' => 'nullable|string|max:255',
             'price' => 'required|numeric|min:0',
             'sale_price' => 'nullable|numeric|min:0',
             'wholesale_price' => 'nullable|numeric|min:0',

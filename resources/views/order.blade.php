@@ -155,10 +155,10 @@
                                     @endforeach
                                 @endforeach
                             @else
-     
+
                                 @foreach ($item->product->attributes as $attribute)
-                                
-                                    @if ($attribute->independent != 1)  
+
+                                    @if ($attribute->independent != 1)
                                         <label class="form-label">{{ $attribute->name }}:
                                             <select class="form-select" name="param[attribute][{{ $attribute->id }}]">
                                                 @foreach($attribute->properties as $property)
@@ -167,7 +167,7 @@
                                             </select>
                                         </label>
                                     @endif
-                                @endforeach                                
+                                @endforeach
                             @endif
 
                             <label class="form-label">تعداد:
@@ -214,7 +214,7 @@
                         <div class="col-md-6 col-lg-2">
                             <label class="form-label" for="quantity">تعداد:</label>
                             <input type="number" class="form-control" name="quantity" required min="1">
-                            
+
                         </div>
 
                     </div>
@@ -223,13 +223,13 @@
                         <button class="btn btn-sm btn-danger" data-bs-toggle="collapse" data-bs-target="#add_product_collapse">لغو</button>
                     </div>
                 </form>
-                
+
             </div>
         </div>
     </div>
 </div>
 
-<div class="card mb-10">
+<div class="card mb-10 d-none">
     <div class="card-header">
         <div class="card-title">
             <h4>خدمت ها</h4>
@@ -249,12 +249,12 @@
             <tbody>
                 <tr>
                     <td>
-                        <a href="{{route('attribute.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">
+                        <a href="{{route('orders.edit',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">
                             <span>خیاطی پارچه مخمل</span>
                         </a>
                     </td>
                     <td>
-                        <a href="{{route('attribute.show',['id' => 1])}}">12,000,000 تومان</a>
+                        <a href="{{route('orders.edit',['id' => 1])}}">12,000,000 تومان</a>
                     </td>
                     <td>
                         <span>1</span>
@@ -263,7 +263,7 @@
                         <span>12,000,000</span>
                     </td>
                     <td class="text-end">
-                        <a href="{{route('attribute.show',['id' => 1])}}" class="btn btn-danger btn-sm">
+                        <a href="{{route('orders.edit',['id' => 1])}}" class="btn btn-danger btn-sm">
                             حذف
                         </a>
                     </td>
@@ -271,28 +271,28 @@
                 <tr id="details-1234" style="display:none;">
                     <td colspan="6">
                         <form id="product-details-1234">
-                            <label class="form-label">رنگ: 
+                            <label class="form-label">رنگ:
                                 <select disabled class="form-select">
                                     <option value="red">قرمز</option>
                                     <option value="green">سبز</option>
                                     <option value="blue">آبی</option>
                                 </select>
                             </label>
-                            <label class="form-label">جنس: 
+                            <label class="form-label">جنس:
                                 <select disabled class="form-select">
                                     <option value="cotton">پنبه</option>
                                     <option value="silk">ابریشم</option>
                                     <option value="wool">پشم</option>
                                 </select>
                             </label>
-                            <label class="form-label">سایز: 
+                            <label class="form-label">سایز:
                                 <select disabled class="form-select">
                                     <option value="small">کوچک</option>
                                     <option value="medium">متوسط</option>
                                     <option value="large">بزرگ</option>
                                 </select>
                             </label>
-                            <label class="form-label">تعداد: 
+                            <label class="form-label">تعداد:
                                 <input disabled type="number" class="form-control" value="1">
                             </label>
                             <button type="button" class="btn btn-secondary editOptionsToggleOrder" data-clicked="false">ویرایش</button>

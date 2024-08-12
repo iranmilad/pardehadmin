@@ -2,18 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BlockWidget;
 use App\Models\Widget;
+use App\Models\BlockWidget;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 
 class BlockController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        $this->permissionName = 'manage_blocks';
+    }
+
     public function index(Request $request)
     {
         $query = BlockWidget::query();
 
+        $query = $this->applyAccessControl($query);
+
         if ($search = $request->input('s')) {
-            $query->where('title', 'like', "%{$search}%");
+            $query->where('block', 'like', "%{$search}%");
         }
 
         $blocks = $query->paginate(10);
@@ -48,7 +58,7 @@ class BlockController extends Controller
             'type' => $type,
             'settings' => json_encode($settings)
         ]);
-        return redirect()->route('blocks.list')->with('success', 'بلاک جدید با موفقیت ایجاد شد.');
+        return redirect()->route('blocks.index')->with('success', 'بلاک جدید با موفقیت ایجاد شد.');
     }
 
     public function update(Request $request, $id)
@@ -60,7 +70,7 @@ class BlockController extends Controller
         $block->save();
 
 
-        return redirect()->route('blocks.list')->with('success', 'بلاک با موفقیت بروزرسانی شد.');
+        return redirect()->route('blocks.index')->with('success', 'بلاک با موفقیت بروزرسانی شد.');
     }
 
     public function delete($id)
@@ -69,7 +79,7 @@ class BlockController extends Controller
         $block = BlockWidget::findOrFail($id);
         $block->delete();
 
-        return redirect()->route('blocks.list')->with('success', 'بلاک با موفقیت حذف شد.');
+        return redirect()->route('blocks.index')->with('success', 'بلاک با موفقیت حذف شد.');
     }
 
     public function bulk_action(Request $request)
@@ -79,9 +89,9 @@ class BlockController extends Controller
 
         if ($action == 'delete' && !empty($ids)) {
             BlockWidget::whereIn('id', $ids)->delete();
-            return redirect()->route('blocks.list')->with('success', 'بلاک‌های انتخاب شده با موفقیت حذف شدند.');
+            return redirect()->route('blocks.index')->with('success', 'بلاک‌های انتخاب شده با موفقیت حذف شدند.');
         }
 
-        return redirect()->route('blocks.list')->with('error', 'هیچ عملیاتی انتخاب نشده است.');
+        return redirect()->route('blocks.index')->with('error', 'هیچ عملیاتی انتخاب نشده است.');
     }
 }

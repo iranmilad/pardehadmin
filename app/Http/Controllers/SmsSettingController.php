@@ -5,12 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Setting;
 use App\Models\SmsSetting;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 
 class SmsSettingController extends Controller
 {
-    public function index()
+    use AuthorizeAccess;
+
+    public function __construct()
     {
-        $settings = SmsSetting::all();
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_sms_settings';
+    }
+
+    public function index(Request $request)
+    {
+        $query = SmsSetting::query();
+
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        $settings = $query->paginate(10);
+
         return view('settings.sms', compact('settings'));
     }
 

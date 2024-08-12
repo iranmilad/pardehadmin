@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PageViewController;
 use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\ImageMarkerController;
 use App\Http\Controllers\Admin\SessionController;
@@ -32,11 +33,11 @@ function generateRandomNumbers()
     return $randomNumbers;
 }
 
-Route::get('/view-stat', function (Request $request) {
+// Route::get('/view-stat', function (Request $request) {
 
-    $data = generateRandomNumbers();
-    return response()->json($data);
-});
+//     $data = generateRandomNumbers();
+//     return response()->json($data);
+// });
 
 Route::get('/sell-stat', function (Request $request) {
 
@@ -163,3 +164,5 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/file/upload', [FileController::class,'upload'])->name('api.dashboard.upload');
     Route::delete('/file/remove', [FileController::class,'remove'])->name('api.dashboard.remove');
 });
+
+

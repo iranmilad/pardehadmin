@@ -14,7 +14,7 @@
         <div class="card mb-5">
             <div class="card-body">
                 <h4>محصول : </h4>
-                <a class="text-decoration-underline" name="title" href="{{ route('products.list', $product->id) }}">{{ $product->title }}</a>
+                <a class="text-decoration-underline" name="title" href="{{ route('products.index', $product->id) }}">{{ $product->title }}</a>
             </div>
         </div>
 

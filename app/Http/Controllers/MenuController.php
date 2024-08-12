@@ -5,12 +5,29 @@ namespace App\Http\Controllers;
 use App\Models\Menu;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 
 class MenuController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_menus';
+    }
+
     public function index()
     {
-        $menus = Menu::paginate(10);;
+        // ساختن کوئری برای Menu
+        $query = Menu::query();
+
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        // صفحه‌بندی نتایج
+        $menus = $query->paginate(10);
+
         return view('menus', compact('menus'));
     }
 
@@ -33,7 +50,7 @@ class MenuController extends Controller
 
         Menu::create($validatedData);
 
-        return redirect()->route('menu.list')->with('success', 'Menu created successfully.');
+        return redirect()->route('menu.index')->with('success', 'Menu created successfully.');
     }
 
     public function edit($id)
@@ -90,7 +107,7 @@ class MenuController extends Controller
             }
         }
 
-        return redirect()->route('menus.list')->with('success', 'Menu updated successfully.');
+        return redirect()->route('menus.index')->with('success', 'Menu updated successfully.');
     }
 
     public function delete(Request $request)
@@ -98,7 +115,7 @@ class MenuController extends Controller
         $menu = Menu::findOrFail($request->id);
         $menu->delete();
 
-        return redirect()->route('menu.list')->with('success', 'Menu deleted successfully.');
+        return redirect()->route('menu.index')->with('success', 'Menu deleted successfully.');
     }
 
     public function bulk_action(Request $request)
@@ -108,9 +125,9 @@ class MenuController extends Controller
 
         if ($action == 'delete') {
             Menu::whereIn('id', $ids)->delete();
-            return redirect()->route('menu.list')->with('success', 'Selected menus deleted successfully.');
+            return redirect()->route('menu.index')->with('success', 'Selected menus deleted successfully.');
         }
 
-        return redirect()->route('menu.list')->with('error', 'Invalid action selected.');
+        return redirect()->route('menu.index')->with('error', 'Invalid action selected.');
     }
 }

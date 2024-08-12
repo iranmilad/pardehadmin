@@ -133,16 +133,19 @@
             <!--end::کارت header-->
             <!--begin::کارت body-->
             <div class="card-body pt-0">
+                @php
+                    //dd( json_encode($post->tags->pluck("name")->toArray()) );
+                @endphp
                 <input
                     class="form-control form-control-solid"
                     name="tags"
-                    value='{{ old("tags", isset($post) ? json_encode($post->tags->pluck("name")->toArray()) : "[]") }}'
+                    value='{{ isset($post) ? json_encode($post->tags->pluck("name")->toArray()) : "[]" }}'
                     id="post-type-tags"
                 />
 
                 @if(old('tags'))
-                    @foreach(json_decode(old('tags'), true) as $tag)
-                        <input type="hidden" name="tags[]" value="{{ $tag }}" />
+                    @foreach($tags as $tag)
+                        <input type="hidden" name="tags[]" value="{{ $tag->value }}" />
                     @endforeach
                 @endif
 

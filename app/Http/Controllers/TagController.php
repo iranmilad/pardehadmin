@@ -4,12 +4,27 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 
 class TagController extends Controller
 {
-    public function index()
+    use AuthorizeAccess;
+
+    public function __construct()
     {
-        $tags = Tag::orderBy('created_at', 'desc')->paginate(10);
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_tags';
+    }
+
+    public function index(Request $request)
+    {
+        $query = Tag::orderBy('created_at', 'desc');
+
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        $tags = $query->paginate(10);
+
         return view('post-tags', compact('tags'));
     }
 
@@ -27,7 +42,7 @@ class TagController extends Controller
 
         Tag::create($request->all());
 
-        return redirect()->route('tags.list')->with('success', 'برچسب با موفقیت ایجاد شد.');
+        return redirect()->route('tags.index')->with('success', 'برچسب با موفقیت ایجاد شد.');
     }
 
     public function edit($id)
@@ -47,7 +62,7 @@ class TagController extends Controller
 
         $tag->update($request->all());
 
-        return redirect()->route('tags.list')->with('success', 'برچسب با موفقیت به‌روزرسانی شد.');
+        return redirect()->route('tags.index')->with('success', 'برچسب با موفقیت به‌روزرسانی شد.');
     }
 
     public function delete(Request $request)
@@ -55,7 +70,7 @@ class TagController extends Controller
         $tag = Tag::findOrFail($request->id);
         $tag->delete();
 
-        return redirect()->route('tags.list')->with('success', 'برچسب با موفقیت حذف شد.');
+        return redirect()->route('tags.index')->with('success', 'برچسب با موفقیت حذف شد.');
     }
 
     public function bulkAction(Request $request)
@@ -65,9 +80,9 @@ class TagController extends Controller
 
         if ($action == 'delete' && !empty($tagIds)) {
             Tag::whereIn('id', $tagIds)->delete();
-            return redirect()->route('tags.list')->with('success', 'برچسب‌ها با موفقیت حذف شدند.');
+            return redirect()->route('tags.index')->with('success', 'برچسب‌ها با موفقیت حذف شدند.');
         }
 
-        return redirect()->route('tags.list')->with('error', 'عملیات نامعتبر است.');
+        return redirect()->route('tags.index')->with('error', 'عملیات نامعتبر است.');
     }
 }

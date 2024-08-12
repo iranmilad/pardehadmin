@@ -10,53 +10,64 @@ class Role extends Model
 
     public function users()
     {
-       return $this->hasMany(User::class);
+        return $this->hasMany(User::class);
     }
 
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class, 'role_permission')->withPivot('access_code');
+        return $this->belongsToMany(Permission::class, 'role_permission')
+                    ->withPivot([
+                        'read_all',
+                        'read_same_role',
+                        'read_own',
+                        'write_all',
+                        'write_same_role',
+                        'write_own'
+                    ]);
     }
 
     /**
-     * بررسی دسترسی به کد دسترسی خاص از نظر نوع (خواندن یا نوشتن)
+     * بررسی دسترسی به کد دسترسی خاص از نظر نوع
      *
      * @param string $permissionName
-     * @param string $type
+     * @param string $accessType
      * @return bool
      */
-    public function hasPermission($permissionName, $type = 'read')
+    public function hasPermission($permissionName, $accessType='read_own')
     {
-        // تعیین مقدار مناسب برای مقایسه دسترسی
-        $requiredCode = $type === 'write' ? '2' : '1';
-
-        // بررسی دسترسی بر اساس نوع
         return $this->permissions()
                     ->where('name', $permissionName)
-                    ->wherePivot('access_code', '>=', $requiredCode)
+                    ->wherePivot($accessType, true)
                     ->exists();
     }
 
-    /**
-     * بررسی دسترسی خواندن
-     *
-     * @param string $permissionName
-     * @return bool
-     */
-    public function hasReadPermission($permissionName)
+    public function canReadAll($permissionName)
     {
-        return $this->hasPermission($permissionName, 'read');
+        return $this->hasPermission($permissionName, 'read_all');
     }
 
-    /**
-     * بررسی دسترسی نوشتن
-     *
-     * @param string $permissionName
-     * @return bool
-     */
-    public function hasWritePermission($permissionName)
+    public function canReadSameRole($permissionName)
     {
-        return $this->hasPermission($permissionName, 'write');
+        return $this->hasPermission($permissionName, 'read_same_role');
     }
 
+    public function canReadOwn($permissionName)
+    {
+        return $this->hasPermission($permissionName, 'read_own');
+    }
+
+    public function canWriteAll($permissionName)
+    {
+        return $this->hasPermission($permissionName, 'write_all');
+    }
+
+    public function canWriteSameRole($permissionName)
+    {
+        return $this->hasPermission($permissionName, 'write_same_role');
+    }
+
+    public function canWriteOwn($permissionName)
+    {
+        return $this->hasPermission($permissionName, 'write_own');
+    }
 }

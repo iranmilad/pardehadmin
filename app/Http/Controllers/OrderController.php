@@ -6,15 +6,27 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
-use App\Models\ProductAttributeProperty;
-use App\Models\ProductAttributeCombination;
+use App\Traits\AuthorizeAccess;
+
 
 class OrderController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_orders';
+    }
+
     // نمایش لیست سفارش‌ها
     public function index(Request $request)
     {
+        // ساختن کوئری برای Order
         $query = Order::query();
+
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
 
         // فیلتر کردن براساس جستجو
         if ($search = $request->get('s')) {
@@ -49,13 +61,15 @@ class OrderController extends Controller
         $order = Order::create($validated);
 
         // هدایت به لیست سفارش‌ها با پیام موفقیت
-        return redirect()->route('orders.list')->with('success', 'سفارش با موفقیت ایجاد شد.');
+        return redirect()->route('orders.index')->with('success', 'سفارش با موفقیت ایجاد شد.');
     }
 
     // نمایش فرم ویرایش سفارش
     public function edit($id)
     {
         $order = Order::findOrFail($id);
+        $this->authorizeAction($order);
+
         return view('order', compact('order'));
     }
 
@@ -71,10 +85,12 @@ class OrderController extends Controller
 
         // یافتن سفارش و به‌روزرسانی
         $order = Order::findOrFail($id);
+        $this->authorizeAction($order);
+
         $order->update($validated);
 
         // هدایت به لیست سفارش‌ها با پیام موفقیت
-        return redirect()->route('orders.list')->with('success', 'سفارش با موفقیت به‌روزرسانی شد.');
+        return redirect()->route('orders.index')->with('success', 'سفارش با موفقیت به‌روزرسانی شد.');
     }
 
     // حذف سفارش
@@ -85,7 +101,7 @@ class OrderController extends Controller
         $order->delete();
 
         // هدایت به لیست سفارش‌ها با پیام موفقیت
-        return redirect()->route('orders.list')->with('success', 'سفارش با موفقیت حذف شد.');
+        return redirect()->route('orders.index')->with('success', 'سفارش با موفقیت حذف شد.');
     }
 
     // انجام عملیات‌های دسته‌ای
@@ -99,7 +115,7 @@ class OrderController extends Controller
         }
 
         // هدایت به لیست سفارش‌ها با پیام موفقیت
-        return redirect()->route('orders.list')->with('success', 'عملیات با موفقیت انجام شد.');
+        return redirect()->route('orders.index')->with('success', 'عملیات با موفقیت انجام شد.');
     }
 
     public function print($id){
@@ -118,6 +134,7 @@ class OrderController extends Controller
     public function updateBilling(Request $request, $id)
     {
         $order = Order::findOrFail($id);
+        $this->authorizeAction($order);
 
         $validatedData = $request->validate([
             'first_name' => 'required|string|max:255',
@@ -159,6 +176,7 @@ class OrderController extends Controller
     public function updateShipping(Request $request, $id)
     {
         $order = Order::findOrFail($id);
+        $this->authorizeAction($order);
 
         $validatedData = $request->validate([
             'customer_name' => 'required|string|max:255',
@@ -196,6 +214,7 @@ class OrderController extends Controller
     public function updateShippingNote(Request $request, $id)
     {
         $order = Order::findOrFail($id);
+        $this->authorizeAction($order);
 
         $validatedData = $request->validate([
             'shipping_admin_note' => 'nullable|string|max:1000',
@@ -218,6 +237,8 @@ class OrderController extends Controller
         ]);
 
         $orderItem = OrderItem::findOrFail($id);
+        $this->authorizeAction($orderItem->order);
+
         $product_id = $request->input('product_id');
         $newQuantity = $request->input('quantity');
         $attributes = $request->input('param.attribute');
@@ -270,7 +291,7 @@ class OrderController extends Controller
 
         // Find the order
         $order = Order::findOrFail($orderId);
-
+        $this->authorizeAction($order);
         // Find the product
         $product = Product::findOrFail($validated['product_id']);
 

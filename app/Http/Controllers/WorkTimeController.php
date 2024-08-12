@@ -9,22 +9,42 @@ use App\Models\User;
 use App\Models\WorkTime;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
+use App\Traits\AuthorizeAccess;
 
 class WorkTimeController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_worktimes';
+    }
+
     public function index(Request $request)
     {
         $search = $request->get('s');
 
-        $users = User::whereHas('worktimes', function ($query) use ($search) {
-            if ($search) {
-                $query->whereHas('user', function ($q) use ($search) {
-                    $q->where('first_name', 'like', "%$search%")
-                      ->orWhere('last_name', 'like', "%$search%");
-                });
-            }
-        })->paginate(10);
+        // ایجاد کوئری اولیه برای کاربران
+        $query = User::query();
 
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        // جستجو در کوئری کاربران
+        if ($search) {
+            $query->whereHas('worktimes', function ($q) use ($search) {
+                $q->whereHas('user', function ($q) use ($search) {
+                    $q->where('first_name', 'like', "%$search%")
+                    ->orWhere('last_name', 'like', "%$search%");
+                });
+            });
+        }
+
+        // صفحه‌بندی نتایج
+        $users = $query->paginate(10);
+
+        // محاسبه ساعات کاری برای هر کاربر
         foreach ($users as $user) {
             $user->total_hours = $user->worktimes()->sum('hours');
             $user->current_month_hours = $user->getCurrentMonthTotalHours();
@@ -48,6 +68,7 @@ class WorkTimeController extends Controller
     public function edit($id)
     {
         $user = User::with('worktimes')->findOrFail($id);
+        $this->authorizeAction($user);
         return view('worktimes.edit', compact('user'));
     }
 
@@ -60,6 +81,7 @@ class WorkTimeController extends Controller
         ]);
 
         $user = User::findOrFail($id);
+        $this->authorizeAction($user);
         $dates = explode('|', $request->input('date'));
 
         $startDate = Jalalian::fromFormat('Y-m-d', trim($dates[0]))->toCarbon();

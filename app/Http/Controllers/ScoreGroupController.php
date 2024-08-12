@@ -6,15 +6,29 @@ use App\Models\Group;
 use App\Models\Setting;
 use App\Models\CreditScore;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 use App\Models\GroupCreditLimit;
 use Illuminate\Support\Facades\Redirect;
 
 class ScoreGroupController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_score_groups';
+    }
+
     public function index(Request $request)
     {
+        // ساختن کوئری برای GroupCreditLimit
         $query = GroupCreditLimit::with('group');
 
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        // فیلتر کردن براساس جستجو
         if ($request->has('s')) {
             $search = $request->input('s');
             $query->whereHas('group', function($q) use ($search) {
@@ -22,6 +36,7 @@ class ScoreGroupController extends Controller
             })->orWhere('title', 'like', '%' . $search . '%');
         }
 
+        // صفحه‌بندی نتایج
         $creditLimits = $query->paginate(10);
 
         return view('score-groups.index', compact('creditLimits'));

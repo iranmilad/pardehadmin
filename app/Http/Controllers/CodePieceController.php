@@ -5,12 +5,29 @@ namespace App\Http\Controllers;
 
 use App\Models\CodePiece;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 
 class CodePieceController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_code_pieces';
+    }
+
     public function index()
     {
-        $codePieces = CodePiece::all();
+        // ساختن کوئری برای CodePiece
+        $query = CodePiece::query();
+
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        // دریافت نتایج و صفحه‌بندی
+        $codePieces = $query->paginate(10); // می‌توانید تعداد صفحه‌بندی را تغییر دهید
+
         return view('code-pieces.index', compact('codePieces'));
     }
 
@@ -32,7 +49,7 @@ class CodePieceController extends Controller
 
         CodePiece::create($validatedData);
 
-        return redirect()->route('code-piceces.list')->with('success', 'قطعه کد جدید با موفقیت ایجاد شد.');
+        return redirect()->route('code-piceces.index')->with('success', 'قطعه کد جدید با موفقیت ایجاد شد.');
     }
 
     public function edit($id)
@@ -55,7 +72,7 @@ class CodePieceController extends Controller
         $codePiece = CodePiece::findOrFail($id);
         $codePiece->update($validatedData);
 
-        return redirect()->route('code-piceces.list')->with('success', 'قطعه کد با موفقیت به‌روزرسانی شد.');
+        return redirect()->route('code-piceces.index')->with('success', 'قطعه کد با موفقیت به‌روزرسانی شد.');
     }
 
     public function delete(Request $request)

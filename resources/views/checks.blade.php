@@ -10,7 +10,7 @@
 <!-- START:TABLE -->
 <div class="card">
     <div class="card-body">
-        <form class="d-flex align-items-center justify-content-end" action="{{ route('checks.list') }}" method="get">
+        <form class="d-flex align-items-center justify-content-end" action="{{ route('checks.index') }}" method="get">
             @csrf
             <div class="d-flex align-items-center position-relative my-1">
                 <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6">

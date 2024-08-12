@@ -18,13 +18,19 @@
         </div>
         <div class="card-body">
             <div class="mb-5">
+
+                @if(Route::is('carts.edit'))
                 @php
+
                     $user= [[
                         'id' => $order->user->id,
                         'text' => "{$order->user->fullName} ({$order->user->email})",
                     ]];
                 @endphp
-                <x-advanced-search type="user" label="مشتری" name="user" solid :selected="$user" disabled/>
+                    <x-advanced-search type="user" label="مشتری" name="user" solid :selected="$user" disabled/>
+                @else
+                    <x-advanced-search type="user" label="مشتری" name="user" solid/>
+                @endif
             </div>
         </div>
     </div>

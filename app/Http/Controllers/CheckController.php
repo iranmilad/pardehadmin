@@ -7,9 +7,18 @@ use App\Models\Check;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
+use App\Traits\AuthorizeAccess;
 
 class CheckController extends Controller
 {
+    use AuthorizeAccess;
+
+    public function __construct()
+    {
+        // تنظیم نام دسترسی مورد نیاز
+        $this->permissionName = 'manage_checks';
+    }
+
     /**
      * Display a listing of the checks.
      *
@@ -18,22 +27,26 @@ class CheckController extends Controller
      */
     public function index(Request $request)
     {
+        // ساختن کوئری برای سفارش‌ها
         $query = Order::query();
 
+        // اعمال فیلتر بر اساس دسترسی‌های کاربر
+        $query = $this->applyAccessControl($query);
+
+        // جستجو بر اساس شناسه یا نام کاربر
         if ($request->has('s')) {
             $search = $request->get('s');
             $query->where('id', 'LIKE', "%{$search}%")
                   ->orWhereHas('user', function($q) use ($search) {
-                      $q->where('first_name', 'LIKE', "%{$search}%");
-                  })
-                  ->orWhereHas('user', function($q) use ($search) {
-                    $q->where('last_name', 'LIKE', "%{$search}%");
-                });
+                      $q->where('first_name', 'LIKE', "%{$search}%")
+                        ->orWhere('last_name', 'LIKE', "%{$search}%");
+                  });
         }
-        // افزودن شرط برای paymentMethod برابر با check
 
+        // افزودن شرط برای paymentMethod برابر با check
         $query->where('paymentMethod', 'check');
 
+        // صفحه‌بندی نتایج
         $orders = $query->paginate(10);
 
         return view('checks', compact('orders'));
@@ -77,12 +90,13 @@ class CheckController extends Controller
         }
 
         // Redirect or return a response as needed
-        return redirect()->route('checks.list')->with('success', 'چک‌ها با موفقیت ثبت شدند.');
+        return redirect()->route('checks.index')->with('success', 'چک‌ها با موفقیت ثبت شدند.');
     }
 
     public function edit($id)
     {
         $order = Order::findOrFail($id);
+        $this->authorizeAction($order);
         return view('check', compact('order'));
     }
 
@@ -90,7 +104,7 @@ class CheckController extends Controller
     {
 
         $order = Order::findOrFail($id);
-
+        $this->authorizeAction($order);
         $request->validate([
             'checks' => 'required|array',
             'checks.*.check_number' => 'required|string|max:255',
@@ -114,7 +128,7 @@ class CheckController extends Controller
             ]);
         }
 
-        return redirect()->route('checks.list')->with('success', 'چک‌ها با موفقیت ویرایش شدند.');
+        return redirect()->route('checks.index')->with('success', 'چک‌ها با موفقیت ویرایش شدند.');
     }
 
     /**
@@ -128,7 +142,7 @@ class CheckController extends Controller
         $check = Check::findOrFail($request->id);
         $check->delete();
 
-        return redirect()->route('checks.list')->with('success', 'چک با موفقیت حذف شد.');
+        return redirect()->route('checks.index')->with('success', 'چک با موفقیت حذف شد.');
     }
 
     /**
@@ -144,9 +158,9 @@ class CheckController extends Controller
 
         if ($action == 'delete' && !empty($ids)) {
             Check::destroy($ids);
-            return redirect()->route('checks.list')->with('success', 'چک‌ها با موفقیت حذف شدند.');
+            return redirect()->route('checks.index')->with('success', 'چک‌ها با موفقیت حذف شدند.');
         }
 
-        return redirect()->route('checks.list')->with('error', 'عملیات نامعتبر است.');
+        return redirect()->route('checks.index')->with('error', 'عملیات نامعتبر است.');
     }
 }

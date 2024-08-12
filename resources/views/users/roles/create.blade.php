@@ -2,11 +2,7 @@
 
 @extends('layouts.primary')
 
-@if(Route::is('users.roles.create'))
 @section('title', 'ایجاد نقش')
-@else
-@section('title', 'ویرایش نقش')
-@endif
 
 @section('content')
 
@@ -50,14 +46,33 @@
                     @foreach($permissions as $permission)
                         <div class="row tw-justify-between tw-items-center tw-border-b tw-border-0 tw-border-gray-200 tw-border-solid py-5">
                             <div class="col">
-                                <label for="permission-{{ $permission->id }}" class="form-label">{{ $permission->title }}</label>
+                                <label class="form-label">{{ $permission->title }}</label>
                             </div>
-                            <div class="col-2">
-                                <select name="access_code[{{ $permission->id }}]" id="permission-{{ $permission->id }}" class="form-control">
-                                    <option value="0">عدم دسترسی</option>
-                                    <option value="1">خواندنی</option>
-                                    <option value="2">خواندنی و نوشتنی</option>
-                                </select>
+                            <div class="col-12">
+                                <div class="form-check m-5">
+                                    <input type="checkbox" name="access_code[{{ $permission->id }}][read_own]" class="form-check-input" id="read_own-{{ $permission->id }}" value="1" {{ old("access_code.{$permission->id}.read_own") ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="read_own-{{ $permission->id }}">خواندن فقط خود</label>
+                                </div>
+                                <div class="form-check m-5">
+                                    <input type="checkbox" name="access_code[{{ $permission->id }}][read_same_role]" class="form-check-input" id="read_same_role-{{ $permission->id }}" value="1" {{ old("access_code.{$permission->id}.read_same_role") ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="read_same_role-{{ $permission->id }}">خواندن نقش مشابه</label>
+                                </div>
+                                <div class="form-check m-5">
+                                    <input type="checkbox" name="access_code[{{ $permission->id }}][read_all]" class="form-check-input" id="read_all-{{ $permission->id }}" value="1" {{ old("access_code.{$permission->id}.read_all") ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="read_all-{{ $permission->id }}">خواندن همه</label>
+                                </div>
+                                <div class="form-check m-5">
+                                    <input type="checkbox" name="access_code[{{ $permission->id }}][write_own]" class="form-check-input" id="write_own-{{ $permission->id }}" value="1" {{ old("access_code.{$permission->id}.write_own") ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="write_own-{{ $permission->id }}">نوشتن فقط خود</label>
+                                </div>
+                                <div class="form-check m-5">
+                                    <input type="checkbox" name="access_code[{{ $permission->id }}][write_same_role]" class="form-check-input" id="write_same_role-{{ $permission->id }}" value="1" {{ old("access_code.{$permission->id}.write_same_role") ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="write_same_role-{{ $permission->id }}">نوشتن نقش مشابه</label>
+                                </div>
+                                <div class="form-check m-5">
+                                    <input type="checkbox" name="access_code[{{ $permission->id }}][write_all]" class="form-check-input" id="write_all-{{ $permission->id }}" value="1" {{ old("access_code.{$permission->id}.write_all") ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="write_all-{{ $permission->id }}">نوشتن همه</label>
+                                </div>
                             </div>
                         </div>
                     @endforeach

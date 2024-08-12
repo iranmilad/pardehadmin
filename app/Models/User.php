@@ -40,6 +40,12 @@ use Illuminate\Notifications\Notifiable;
         'credit_payment_active' => 'boolean',
     ];
 
+    // Define the relationship with the Product model
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
 	public function payments()
 	{
 		return $this->hasMany(Payment::class);
@@ -107,7 +113,7 @@ use Illuminate\Notifications\Notifiable;
 
     public function isAdmin(): bool
     {
-        return $this->role->title === 'admin';
+        return $this->role->title !== 'user';
     }
 
 	public function tokens()
@@ -557,13 +563,13 @@ use Illuminate\Notifications\Notifiable;
      * @param string $type
      * @return bool
      */
-    public function hasPermission($permissionName, $type = 'read')
+    public function hasPermission($permissionName, $type = 'read_own')
     {
-        foreach ($this->roles as $role) {
-            if ($role->hasPermission($permissionName, $type)) {
-                return true;
-            }
+
+        if ($this->role->hasPermission($permissionName, $type)) {
+            return true;
         }
+
         return false;
     }
 
@@ -575,7 +581,7 @@ use Illuminate\Notifications\Notifiable;
      */
     public function hasReadPermission($permissionName)
     {
-        return $this->hasPermission($permissionName, 'read');
+        return $this->hasPermission($permissionName, 'read_own');
     }
 
     /**
@@ -586,7 +592,7 @@ use Illuminate\Notifications\Notifiable;
      */
     public function hasWritePermission($permissionName)
     {
-        return $this->hasPermission($permissionName, 'write');
+        return $this->hasPermission($permissionName, 'write_own');
     }
 
 

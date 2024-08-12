@@ -7,18 +7,18 @@
     <div class="mb-5 col-xl-6">
         <div class="row">
             <div class="col-4">
-                <label for="length" class="form-label">طول (سانتی متر)</label>
-                <input type="text" class="form-control form-control-solid" id="length" wire:model="length">
+                <label for="length" class="form-label">طول</label>
+                <input type="text" class="form-control form-control-solid" placeholder="سانتی متر" id="length" wire:model="length">
                 @error('length') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="col-4">
-                <label for="width" class="form-label">عرض (سانتی متر)</label>
-                <input type="text" class="form-control form-control-solid" id="width" wire:model="width">
+                <label for="width" class="form-label">عرض</label>
+                <input type="text" class="form-control form-control-solid" placeholder="سانتی متر" id="width" wire:model="width">
                 @error('width') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="col-4">
-                <label for="height" class="form-label">ارتفاع (سانتی متر)</label>
-                <input type="text" class="form-control form-control-solid" id="height" wire:model="height">
+                <label for="height" class="form-label">ارتفاع</label>
+                <input type="text" class="form-control form-control-solid" placeholder="سانتی متر" id="height" wire:model="height">
                 @error('height') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
         </div>

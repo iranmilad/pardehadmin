@@ -5,12 +5,32 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Attribute;
 use Illuminate\Http\Request;
+use App\Traits\AuthorizeAccess;
 
 class AttributeController extends Controller
 {
-    public function index()
+
+    use AuthorizeAccess;
+
+    public function __construct()
     {
-        $attributes = Attribute::orderBy('created_at', 'desc')->paginate(10);
+        $this->permissionName = 'manage_attributes';
+    }
+
+    public function index(Request $request)
+    {
+        $query = Attribute::orderBy('created_at', 'desc');
+
+        $query = $this->applyAccessControl($query);
+
+        $search = $request->input('s');
+        if ($search) {
+            $query->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+        }
+
+        $attributes = $query->paginate(10);
+
         return view('attributes', compact('attributes'));
     }
 
@@ -32,7 +52,7 @@ class AttributeController extends Controller
         ]);
 
         Attribute::create($validated);
-        return redirect()->route('attributes.list')->with('success', 'ویژگی با موفقیت ایجاد شد.');
+        return redirect()->route('attributes.index')->with('success', 'ویژگی با موفقیت ایجاد شد.');
     }
 
     public function edit($id)
@@ -69,10 +89,10 @@ class AttributeController extends Controller
             $attributeIds = $request->input('checked_row');
             Attribute::whereIn('id', $attributeIds)->delete();
 
-            return redirect()->route('attributes.list')->with('success', 'ویژگی‌ها با موفقیت حذف شدند.');
+            return redirect()->route('attributes.index')->with('success', 'ویژگی‌ها با موفقیت حذف شدند.');
         }
 
-        return redirect()->route('attributes.list')->with('error', 'عملیات معتبر نمی‌باشد.');
+        return redirect()->route('attributes.index')->with('error', 'عملیات معتبر نمی‌باشد.');
     }
 
 

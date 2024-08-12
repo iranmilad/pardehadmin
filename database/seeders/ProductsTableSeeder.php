@@ -1,6 +1,7 @@
 <?php
 namespace Database\Seeders;
 
+use App\Models\User;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
@@ -200,10 +201,11 @@ class ProductsTableSeeder extends Seeder
             ],
             // Add more products as needed
         ];
-
+        $user= User::first();
         foreach ($products as $productData) {
             $product = new Product();
             $product->fill($productData);
+            $product->user_id = $user->id;
             $product->type = 'simple';
             $product->is_top = false;
             $product->is_new = false;

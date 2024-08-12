@@ -10,7 +10,7 @@
 <!-- START:TABLE -->
 <div class="card">
     <div class="card-body">
-        <form class="d-flex align-items-center justify-content-end" action="{{ route('discounts.list') }}" method="get">
+        <form class="d-flex align-items-center justify-content-end" action="{{ route('discounts.index') }}" method="get">
             @csrf
             <div class="d-flex align-items-center position-relative my-1">
                 <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6"><span class="path1"></span><span class="path2"></span></i>
@@ -20,7 +20,7 @@
         <form method="post" action="{{ route('discounts.bulk_action') }}" id="action_form">
             @csrf
             <div class="d-flex align-items-center justify-content-start w-100 gap-4">
-                <select class="form-select form-select-solid w-max" name="bulk_action" id="bulk_action">
+                <select class="form-select form-select-solid tw-w-max" name="bulk_action" id="bulk_action">
                     <option>عملیات</option>
                     <option value="delete">حذف</option>
                 </select>
