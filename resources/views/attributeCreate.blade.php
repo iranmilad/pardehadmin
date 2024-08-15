@@ -117,7 +117,7 @@
                                 <td>{{ $propertie->description }}</td>
                                 <td>
                                     @if($propertie->img)
-                                        <img src="{{ $propertie->img }}" alt="تصویر خصوصیت" width="50">
+                                        <img src="{{ asset($propertie->img) }}" alt="تصویر خصوصیت" width="50">
                                     @endif
                                 </td>
                                 <td>

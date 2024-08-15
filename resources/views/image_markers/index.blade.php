@@ -48,7 +48,7 @@
                                 </div>
                             </td>
                             <td>
-                                <a href="{{ route('image-markers.edit', ['image_marker' => $imageMarker->id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">
+                                <a href="{{ route('image-markers.edit', ['id' => $imageMarker->id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">
                                     <img src="{{ asset( $imageMarker->image_path) }}" class="tw-h-20 tw-rounded-md" />
                                 </a>
                             </td>
@@ -56,7 +56,7 @@
                                 <span class="badge badge-light fs-6 tw-select-all">[marker id="{{ $imageMarker->id }}"]</span>
                             </td>
                             <td class="text-end">
-                                <a href="{{ route('image-markers.edit', ['image_marker' => $imageMarker->id]) }}" class="btn btn-light btn-sm">
+                                <a href="{{ route('image-markers.edit', ['id' => $imageMarker->id]) }}" class="btn btn-light btn-sm">
                                     ویرایش
                                 </a>
                             </td>

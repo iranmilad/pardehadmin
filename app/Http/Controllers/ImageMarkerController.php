@@ -63,12 +63,13 @@ class ImageMarkerController extends Controller
         return redirect()->route('image-markers.index')->with('success', 'Image marker created successfully.');
     }
 
-    public function edit(ImageMarker $imageMarker)
+    public function edit($id)
     {
+        $imageMarker = ImageMarker::find($id);
         return view('image_markers.edit', compact('imageMarker'));
     }
 
-    public function update(Request $request, ImageMarker $imageMarker)
+    public function update(Request $request,$id)
     {
         //dd($request);
         $request->validate([
@@ -78,6 +79,7 @@ class ImageMarkerController extends Controller
 
         if ($request->input('image')) {
             $imagePath = $request->input('image');
+            $imageMarker = ImageMarker::find($id);
             $imageMarker->update(['image_path' => $imagePath]);
         }
 
@@ -86,8 +88,9 @@ class ImageMarkerController extends Controller
         return redirect()->route('image-markers.index')->with('success', 'Image marker updated successfully.');
     }
 
-    public function destroy(ImageMarker $imageMarker)
+    public function destroy($id)
     {
+        $imageMarker = ImageMarker::find($id);
         $imageMarker->delete();
 
         return redirect()->route('image-markers.index')->with('success', 'Image marker deleted successfully.');

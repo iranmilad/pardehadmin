@@ -4,7 +4,8 @@
 @section('title', 'ویرایش نشانه گذاری تصویر')
 
 @section('content')
-<form action="{{ route('image-markers.update', $imageMarker->id) }}" method="post" class="" enctype="multipart/form-data">
+
+<form action="{{ route('image-markers.update', ['id' => $imageMarker->id] ) }}" method="post" class="" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="card tw-select-none">

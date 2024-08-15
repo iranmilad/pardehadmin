@@ -38,7 +38,7 @@
                         <th class="cursor-pointer px-0 text-start">نام منطقه</th>
                         <th class="cursor-pointer px-0 text-start">ناحیه ها</th>
                         <th class="cursor-pointer px-0 text-start">روش حمل و نقل</th>
-                        
+
                         <th class="cursor-pointer px-0 text-start">جزئیات هزینه</th>
                         <th class="text-end">عملیات</th>
                     </tr>

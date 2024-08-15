@@ -47,7 +47,7 @@ class AttributeItemController extends Controller
             'description' => 'nullable|string',
             'img' => 'nullable|string',
         ]);
-
+        //dd($request);
         $Property = Property::findOrFail($id);
         $Property->update($validated);
         return redirect()->route('attributes.edit',$validated["attribute_id"])->with('success', 'Attribute Item updated successfully.');
