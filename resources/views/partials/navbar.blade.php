@@ -849,6 +849,32 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
+		<a href="{{route('themes.show')}}" class="menu-link {{ Route::is('themes.show')  ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-paint-roller"></i>
+			</span>
+			<span class="menu-title">قالب ها</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+
+		<!--begin:Menu item-->
+		<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{route('custom-css.show')}}" class="menu-link {{ Route::is('custom-css.show')  ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-solid fa-file-code"></i>
+			</span>
+			<span class="menu-title">CSS سفارشی</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
 		<a href="{{route('customize.show')}}" class="menu-link {{ Route::is('customize.show')  ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-swatchbook"></i>
