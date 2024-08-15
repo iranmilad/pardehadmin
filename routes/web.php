@@ -989,3 +989,19 @@ Route::group(['prefix' => 'workflows'], function () {
         return view('workflow-log');
     })->name("workflow-log.show");
 });
+
+Route::get('/changes-request', function () {
+    return view('changes-request');
+})->name("changes-request.show");
+
+Route::get('/change-request/{id}', function ($id) {
+    return view('change-request');
+})->name("change-request.show");
+
+Route::get('/themes', function () {
+    return view('themes');
+})->name("themes.show");
+
+Route::get('/custom-css', function () {
+    return view('custom-css');
+})->name("custom-css.show");

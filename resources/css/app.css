@@ -2,6 +2,7 @@
 @import "./fontawesome/fontawesome.css";
 @import "../plugins/custom/datatables/datatables.bundle.rtl.css";
 @import "../plugins/custom/pickr/nano.min.css";
+@import "./theme.css";
 
 @tailwind components;
 @tailwind utilities;
@@ -510,4 +511,8 @@ input.choose_file_input:disabled{
 }
 .leader_bottom-dots .leader_dot-text {
     margin-right: 10px;
+}
+
+.pcr-button{
+    border: 1px solid black;
 }
