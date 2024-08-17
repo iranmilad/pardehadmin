@@ -562,6 +562,10 @@ Route::get('/change-request/{id}', function ($id) {
     return view('change-request');
 })->name("change-request.show");
 
+Route::get('/add-request/', function () {
+    return view('change-request-add');
+})->name("change-request-add.show");
+
 Route::get('/themes', function () {
     return view('themes');
 })->name("themes.show");

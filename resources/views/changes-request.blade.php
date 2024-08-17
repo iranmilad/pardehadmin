@@ -2,6 +2,9 @@
 
 @section('title', 'درخواست تغییرات')
 
+@section("toolbar")
+<a href="{{route('change-request-add.show')}}" class="btn btn-primary">درخواست جدید</a>
+@endsection
 
 @section('content')
 <!-- START:TABLE -->

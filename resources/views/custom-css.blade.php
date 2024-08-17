@@ -8,22 +8,11 @@
     @csrf
     <div class="card" x-data="{ showAdvancedSearch: true }">
         <div class="card-body">
-            <div class="row tw-items-center mb-5">
-                <div class="col-12 col-md-6 col-lg">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="flexCheckDefault"
-                            x-model="showAdvancedSearch">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            اجرا در تمام سایت
-                        </label>
-                    </div>
-                </div>
-            </div>
 
             <!-- Advanced Search Section -->
-            <div class="row mb-5" x-show="!showAdvancedSearch">
+            <div class="row mb-5">
                 <div class="col-12 col-md-6 col-lg mb-4">
-                    <x-advanced-search type="page" name="page" label="انتخاب صفحه" solid />
+                    <x-advanced-search type="page" name="select-product" label="انتخاب صفحه" solid />
                 </div>
             </div>
 
@@ -43,7 +32,6 @@
 @section('script-before')
 <script src="{{ asset('/js/ace.js') }}"></script>
 <script src="{{ asset('/js/theme-clouds.js') }}"></script>
-<script src="{{ asset('/js/mode-css.js') }}"></script>
 @endsection
 
 @section('scripts')
@@ -54,6 +42,17 @@
     editor.getSession().on('change', function() {
         var code = editor.getValue();
         $("#code").val(code);
+    });
+
+    $("[name='select-product']").on('select2:select', function(e) {
+        var data = e.params.data;
+        $.ajax('/api/custom-css',{
+            method: 'POST',
+            success: (result)=>{
+                editor.setValue(result.css)
+                $("#code").val(result.css)
+            }
+        })
     });
 </script>
 @endsection
