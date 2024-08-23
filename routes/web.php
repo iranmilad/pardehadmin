@@ -573,3 +573,15 @@ Route::get('/themes', function () {
 Route::get('/custom-css', function () {
     return view('custom-css');
 })->name("custom-css.show");
+
+Route::get('/site-categories', function () {
+    return view('site-categories');
+})->name("site-categories.show");
+
+Route::get('/change-site-category/{id}', function ($id) {
+    return view('site-category');
+})->name("change-site-category.show");
+
+Route::get('/create-site-category', function () {
+    return view('site-category');
+})->name("create-site-category.show");
