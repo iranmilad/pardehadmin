@@ -113,6 +113,14 @@ Route::get('/checkproduct/{id}', function (Request $request) {
 //     return response()->json(['html' => $html]);
 // });
 
+Route::post('/custom-css',function(){
+    // REQUEST => ID
+    $css = "body{
+    background-color: red;
+}";
+    return response()->json(['css' => $css]);
+});
+
 Route::get('/product-options/{id}', function ($id) {
     // TYPE => SELECT,INPUT
     // event for something like wrarranty use select.

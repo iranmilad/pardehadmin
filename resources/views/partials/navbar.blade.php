@@ -314,7 +314,18 @@
         </div>
     @endif
     <!--end:Menu item-->
-
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{route('site-categories.show')}}" class="menu-link {{Route::is('site-categories.show') || Route::is('change-site-category.show') || Route::is('create-site-category.show')  ? 'active' : ''}}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-solid fa-sidebar-flip"></i>
+			</span>
+			<span class="menu-title">پیکربندی دسته ها</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
     <!--begin:Menu item-->
     @if(userHasPermission('manage_service_orders'))
         <div class="menu-item">
@@ -968,7 +979,18 @@
         </div>
     @endif
     <!--end:Menu item-->
-
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{route('custom-css.show')}}" class="menu-link {{ Route::is('custom-css.show')  ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-solid fa-file-code"></i>
+			</span>
+			<span class="menu-title">CSS سفارشی</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
     <!--begin:Menu item-->
     @if(userHasPermission('manage_customize'))
         <div class="menu-item">

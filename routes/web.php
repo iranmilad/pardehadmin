@@ -998,6 +998,10 @@ Route::get('/change-request/{id}', function ($id) {
     return view('change-request');
 })->name("change-request.show");
 
+Route::get('/add-request/', function () {
+    return view('change-request-add');
+})->name("change-request-add.show");
+
 Route::get('/themes', function () {
     return view('themes');
 })->name("themes.show");
@@ -1005,3 +1009,15 @@ Route::get('/themes', function () {
 Route::get('/custom-css', function () {
     return view('custom-css');
 })->name("custom-css.show");
+
+Route::get('/site-categories', function () {
+    return view('site-categories');
+})->name("site-categories.show");
+
+Route::get('/change-site-category/{id}', function ($id) {
+    return view('site-category');
+})->name("change-site-category.show");
+
+Route::get('/create-site-category', function () {
+    return view('site-category');
+})->name("create-site-category.show");
