@@ -14,19 +14,7 @@
             </div>
             <div class="card-body ps-0 tw-overflow-auto" style="max-height: 450px;">
                 <ul class="tw-list-none mb-5">
-                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">محصول شماره #1234 بروزرسانی شد</a></li>
-                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">یک پیام جدید دارید !</a></li>
-                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">3 سفارش جدید اضافه جدید</a></li>
-                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">4 کاربر جدید ثبت نام کردند</a></li>
-                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">4 درخواست تایید کار دارید</a></li>
-                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">مشکلی در انجام فعالیت ها رخ داده</a></li>
-                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
-                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
-                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
-                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
-                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
-                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
-                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#">گروه جدید مشتریان اضافه شد</a></li>
+                    <li class=" tw-rounded-md  py-4 tw-pr-4 mt-4"><span class="badge badge-success me-3">جدید</span><a href="#"> به سایت جدید خوش آمدید</a></li>
                 </ul>
             </div>
         </div>
@@ -58,7 +46,7 @@
     </div>
     <!--end::Col-->
     <!--begin::Col-->
-    <div class="col-xl-6">\
+    <div class="col-xl-6">
         <!--begin::جداول widget 16-->
         <div class="card card-flush h-xl-100">
             <!--begin::Header-->
@@ -228,25 +216,7 @@
                                     </a>
                                 </td>
                                 <td class="text-end">
-                                    <a href="#" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary w-30px h-30px">
-                                        <i class="fa-duotone fa-arrow-right"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#" class="d-flex align-items-center">
-                                        <div class="symbol symbol-40px me-3">
-                                            <img src="/images/avatar.png" class="" alt="" />
-                                        </div>
-                                        <div class="d-flex justify-content-start flex-column">
-                                            <span class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6">فرهاد باقری</span>
-                                            <span class="text-gray-400 fw-semibold d-block fs-7">1403/01/01</span>
-                                        </div>
-                                    </a>
-                                </td>
-                                <td class="text-end ">
-                                    <span class="text-gray-600 text-start fw-bold fs-6 tw-line-clamp-2">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.</span>
+                                    <span class="text-gray-600 text-start fw-bold fs-6 tw-line-clamp-2">{{ $review->text }}</span>
                                 </td>
                                 <td class="text-end pe-7">
                                     @if ($review->status == 'approved')
@@ -264,31 +234,6 @@
                                 </td>
                             </tr>
                             @endforeach
-                            <tr>
-                                <td>
-                                    <a href="#" class="d-flex align-items-center">
-                                        <div class="symbol symbol-40px me-3">
-                                            <img src="/images/avatar.png" class="" alt="" />
-                                        </div>
-                                        <div class="d-flex justify-content-start flex-column">
-                                            <span class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6">فرهاد باقری</span>
-                                            <span class="text-gray-400 fw-semibold d-block fs-7">1403/01/01</span>
-                                        </div>
-                                    </a>
-                                </td>
-                                <td class="text-end ">
-                                    <span class="text-gray-600 fw-bold text-start fs-6 tw-line-clamp-2">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.</span>
-                                </td>
-                                <td class="text-end pe-7">
-                                    <span class="badge badge-info rounded-pill fs-6">اسپم</span>
-                                </td>
-                                <td class="text-end">
-                                    <a href="#" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary w-30px h-30px">
-                                        <i class="fa-duotone fa-arrow-right"></i>
-                                    </a>
-                                </td>
-                            </tr>
-
 
 
                         </tbody>

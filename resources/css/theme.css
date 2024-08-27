@@ -4,6 +4,8 @@
     --color-3: #6366f1;
     --color-4: #14b8a6;
     --color-5: #facc15;
+    --color-6: #ffffff;
+    --color-7: #ff0000;
 }
 
 .app-header{
@@ -122,4 +124,20 @@
 
 [data-color-theme="5"] #kt_app_sidebar{
     background-color: var(--color-5);
+}
+
+[data-color-theme="0"] .app-sidebar .menu .menu-item:not(.here) .menu-link:hover .fa-duotone{
+    color: var(--color-6) !important;
+}
+
+[data-color-theme="0"] .app-sidebar .menu .menu-item:not(.here) .menu-link:not(.active):hover .menu-title{
+    color: var(--color-6) !important;
+}
+
+[data-color-theme="0"] .app-sidebar .menu .menu-item:not(.here) .menu-link:not(.active):hover .menu-bullet .bullet{
+    color: var(--color-6) !important;
+}
+
+[data-color-theme="0"] .app-sidebar .menu .menu-item .menu-link :is(.fa-duotone,.menu-title){
+    color: var(--color-6) !important;
 }
