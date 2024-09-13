@@ -15,6 +15,7 @@ class ProductAttributesManager extends Component
     public $wholesale_price;
     public $few;
     public $type;
+    public $time_per_unit;
 
     public function mount(Product $product)
     {
@@ -25,6 +26,7 @@ class ProductAttributesManager extends Component
         $this->wholesale_price = $product->wholesale_price;
         $this->few = $product->few;
         $this->type = $product->type ? true : false; // Convert to boolean
+        $this->time_per_unit = $product->time_per_unit;
     }
 
     public function render()
@@ -41,17 +43,21 @@ class ProductAttributesManager extends Component
             'wholesale_price' => 'nullable|numeric|min:0',
             'few' => 'nullable|numeric|min:0',
             'type' => 'boolean',
+            'time_per_unit' => 'nullable|numeric|min:0',
         ]);
-
-        $this->product->holo_code = $this->holo_code;
+    
+        // تنظیم مقادیر محصول
+        $this->product->holo_code = $this->holo_code ?: null;
         $this->product->price = $this->price;
-        $this->product->sale_price = $this->sale_price;
-        $this->product->wholesale_price = $this->wholesale_price;
-        $this->product->few = $this->few;
-        $this->product->type = $this->type;
-
+        $this->product->sale_price = $this->sale_price ?: null;
+        $this->product->wholesale_price = $this->wholesale_price ?: null;
+        $this->product->few = $this->few ?: null;
+        $this->product->type = $this->type ?: false; // در صورتی که نوع محصول false باشد.
+        $this->product->time_per_unit = $this->time_per_unit ?: null;
+    
         $this->product->save();
-
+    
         session()->flash('message', 'اطلاعات محصول با موفقیت ذخیره شدند.');
     }
+    
 }

@@ -122,9 +122,9 @@ trait AuthorizeAccess
 
 
         if ($this->hasAccess('write_all')) {
+            
         }
-
-        if ($model->user) {
+        elseif ($model->user) {
             // اگر مدل دارای رابطه‌ی user باشد
             // بررسی دسترسی write_same_role: فقط کاربران با نقش مشابه را تغییر دهند
             if ($this->hasAccess('write_same_role') && $model->user->role_id == $userRoleId) {
@@ -133,7 +133,8 @@ trait AuthorizeAccess
             // بررسی دسترسی write_own: فقط کاربران خودشان را تغییر دهند
             elseif ($this->hasAccess('write_own') && $model->user_id == $userId) {
                 // دسترسی به تغییر خود
-            } else {
+            }
+            else {
                 abort(403, 'Unauthorized action. You do not have permission to edit this item.');
             }
         }
@@ -146,7 +147,8 @@ trait AuthorizeAccess
             // بررسی دسترسی write_own: فقط کاربران خودشان را تغییر دهند
             elseif ($this->hasAccess('write_own') && $model->id == $userId) {
                 // دسترسی به تغییر خود
-            } else {
+            }
+            else {
                 abort(403, 'Unauthorized action. You do not have permission to edit this item.');
             }
         }

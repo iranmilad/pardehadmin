@@ -13,6 +13,7 @@ class OrderItem extends Model
         'id',
         'order_id',
         'product_id',
+        'service_id',
         'quantity',
         'installer',
         'designer',
@@ -20,6 +21,8 @@ class OrderItem extends Model
         'price',
         'sale_price',
         'total',
+        'time_per_unit',
+        'time_total',
         'item_type',
         'status',
     ];
@@ -32,6 +35,11 @@ class OrderItem extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
     }
 
     public function combinations()

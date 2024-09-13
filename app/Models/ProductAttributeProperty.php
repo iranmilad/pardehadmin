@@ -32,6 +32,7 @@ class ProductAttributeProperty extends Model
     {
         return $this->belongsTo(Property::class);
     }
+
     public function combination()
     {
         return $this->belongsTo(ProductAttributeCombination::class, 'combination_id');

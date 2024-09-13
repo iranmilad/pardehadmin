@@ -8,7 +8,7 @@
         </select>
         <button type="button" wire:click="updateIndependentAttributes" wire:loading.attr="disabled" class="btn btn-primary mt-3">به‌روزرسانی</button>
     </div>
-    
+
     <div class="mt-5" wire:ignore>
         <label class="form-label" for="add-attributes-select">اضافه کردن ترکیب جدید</label>
         <select id="add-attributes-select" class="form-select form-select-solid" data-control="select2" wire:model="addIndependentAttribute">
@@ -24,8 +24,8 @@
         </select>
         <button type="button" wire:click="addCombination" class="btn btn-secondary mt-3">افزودن ترکیب</button>
     </div>
-    
-    
+
+
     @if (session()->has('message'))
         <div class="alert alert-success mt-3">
             {{ session('message') }}
@@ -43,8 +43,8 @@
         @php
             $attribute = $attributes->firstWhere('id', key($combination["attributes"]));
         @endphp
-            
-                
+
+
         <div class="card border border-gray-300">
             <input type="hidden" wire:model="combinations.{{ $index }}.combination_index" value="{{ $combination['combination_number'] ?? $combination['id'] }}">
             <div class="card-header py-2">
@@ -98,6 +98,13 @@
                             </div>
                         </div>
                         <div class="col-12">
+                            <label for="time_per_unit_{{ $index }}" class="form-label">زمان انجام به ازای هر واحد :</label>
+                            <div class="input-group">
+                                <input dir="ltr" name="time_per_unit_{{ $index }}" type="number" id="time_per_unit_{{ $index }}"   wire:model.defer="combinations.{{ $index }}.time_per_unit" class="form-control form-control-solid mb-2 mb-md-0" placeholder="زمان مورد نیاز را وارد کنید" />
+                                <span class="input-group-text bg-white ms-0">ساعت</span>
+                            </div>
+                        </div>
+                        <div class="col-12">
                             <div class="mb-8">
                                 <label for="description_{{ $index }}" class="form-label">توضیحات</label>
                                 <textarea class="form-control form-control-solid" id="description_{{ $index }}" wire:model.defer="combinations.{{ $index }}.description" rows="4" placeholder="توضیحات ترکیب"></textarea>
@@ -111,10 +118,10 @@
                 </div>
             </div>
         </div>
-           
-         
+
+
         @endforeach
-    
+
     </div>
 </div>
 

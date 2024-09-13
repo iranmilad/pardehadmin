@@ -12,7 +12,6 @@ class Service extends Model
     protected $fillable = [
         'product_id',
         'type',
-        'category_id',
     ];
 
     public function product()
@@ -20,15 +19,9 @@ class Service extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
-    }
-    
-    // رابطه جدید برای اتصال به جزئیات سرویس
-    public function serviceDetails()
-    {
-        return $this->hasMany(ServiceDetail::class);
+        return $this->belongsToMany(Category::class, 'category_service');
     }
 
 }

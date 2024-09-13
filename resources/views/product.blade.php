@@ -45,23 +45,21 @@
                         </div>
                         <div class="card-body">
                             <div class="nav nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                @if (!$product->service)
+                                
                                 <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">انبار</button>
-                                @endif
                                 <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">حمل و نقل</button>
                                 <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-relation" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">متغیر های وابسته</button>
                                 <button class="nav-link" id="v-pills-norelation-tab" data-bs-toggle="pill" data-bs-target="#v-pills-norelation" type="button" role="tab" aria-controls="v-pills-norelation" aria-selected="false">متغیر های مستقل</button>
                                 <button class="nav-link" id="v-pills-installments-tab" data-bs-toggle="pill" data-bs-target="#v-pills-installments" type="button" role="tab" aria-controls="v-pills-installments" aria-selected="false">پرداخت اقساطی</button>
-                                @if ($product->service)
-                                <button class="nav-link active" id="v-pills-service-tab" data-bs-toggle="pill" data-bs-target="#v-pills-service" type="button" role="tab" aria-controls="v-pills-service" aria-selected="false">خدمت</button>
-                                @endif
+                                <button class="nav-link" id="v-pills-services-tab" data-bs-toggle="pill" data-bs-target="#v-pills-services" type="button" role="tab" aria-controls="v-pills-services" aria-selected="false">سرویس مکمل</button>
+
                             </div>
                             <div class="tab-content mt-6 border-top pt-6" id="v-pills-tabContent">
-                                @if (!$product->service)
-                                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
-                                        <livewire:product-attributes-manager :product="$product" />
-                                    </div>
-                                @endif
+                                
+                                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
+                                    <livewire:product-attributes-manager :product="$product" />
+                                </div>
+                              
                                 <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
                                     <livewire:product-transport :product="$product" />
                                 </div>
@@ -74,11 +72,9 @@
                                 <div class="tab-pane fade" id="v-pills-installments" role="tabpanel" aria-labelledby="v-pills-installments-tab" tabindex="0">
                                     <livewire:product-credit-plan :product="$product" />
                                 </div>
-                                @if ($product->service)
-                                    <div class="tab-pane fade show active" id="v-pills-service" role="tabpanel" aria-labelledby="v-pills-service-tab" tabindex="0">
-                                        <livewire:service-attributes-manager :product="$product" />
-                                    </div>
-                                @endif
+                                <div class="tab-pane fade" id="v-pills-services" role="tabpanel" aria-labelledby="v-pills-services-tab" tabindex="0">
+                                    <livewire:service-category-selector :productId="$product->id" />
+                                </div>
 
                             </div>
 

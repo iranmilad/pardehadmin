@@ -20,7 +20,7 @@
                     }
                 @endphp
                 <h1>نوع سرویس: {{ $serviceName }}</h1>
-                
+
             @endforeach
 
             @foreach ($serviceDetails as $index => $detail)
@@ -74,13 +74,13 @@
                 <label class="form-label">انتخاب سرویس:</label>
                 <select wire:model="selectedServiceType" class="form-control">
                     <option value="">انتخاب کنید</option>
-                    @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('sewing'))
+                    @if(auth()->user()->hasRole('superAdmin') || auth()->user()->hasRole('admin') || auth()->user()->hasRole('sewing'))
                         <option value="sewing">دوخت</option>
                     @endif
-                    @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('design'))
+                    @if(auth()->user()->hasRole('superAdmin') || auth()->user()->hasRole('admin') || auth()->user()->hasRole('design'))
                         <option value="design">طراحی</option>
                     @endif
-                    @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('installer'))
+                    @if(auth()->user()->hasRole('superAdmin') || auth()->user()->hasRole('admin') || auth()->user()->hasRole('installer'))
                         <option value="installer">نصب</option>
                     @endif
                 </select>

@@ -10,7 +10,7 @@ class ProductAttributeCombination extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'product_id','independent','holo_code', 'price','sale_price','wholesale_price', 'stock_quantity', 'description', 'img'
+        'product_id','independent','holo_code', 'price','sale_price','wholesale_price', 'stock_quantity', 'description', 'img','time_per_unit'
     ];
 
     public function product()
@@ -38,8 +38,6 @@ class ProductAttributeCombination extends Model
         return $this->attributeProperties()->where('property_id', $propertyId)->exists();
     }
 
-
-
     public function selectedProperties()
     {
         $properties = $this->attributeProperties()->with(['property:id,value', 'attribute:id,name'])->get();
@@ -56,6 +54,11 @@ class ProductAttributeCombination extends Model
         }
 
         return collect($result);
+    }
+
+    public function properties()
+    {
+        return $this->belongsToMany(Property::class, 'product_attribute_property', 'combination_id', 'property_id');
     }
 
 

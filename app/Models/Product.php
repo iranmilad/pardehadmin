@@ -20,6 +20,7 @@ class Product extends Model
         'fewspd',
         'fewtak',
         'holo_code',
+        'time_per_unit',
         'type',
         'is_top',
         'is_new',
@@ -88,6 +89,8 @@ class Product extends Model
 
     public function isAvailable(): bool
     {
+        if($this->service) return true;
+
         switch ($this->inventory_display) {
             case 'few':
                 return $this->few > 0;
@@ -98,10 +101,13 @@ class Product extends Model
             default:
                 return false;
         }
+
     }
 
     public function getQuantityAttribute()
     {
+        if($this->service) return true;
+
         switch ($this->inventory_display) {
             case 'few':
                 return $this->few ?? 0;
@@ -305,4 +311,62 @@ class Product extends Model
     {
         return $this->belongsToMany(DiscountCode::class, 'discount_product', 'product_id', 'discount_code_id');
     }
+
+    public function calculateTotalPriceWithAttributes()
+    {
+        $totalPrice = 0;
+        $attributes = $this->attributes()->get();
+
+        foreach ($attributes as $attribute) {
+            $firstItem = $attribute->properties()->first();
+            if ($firstItem) {
+                $combination = $firstItem->attributeCombinations->firstWhere('product_id', $this->id);
+                if ($combination) {
+                    $totalPrice += $combination->price;
+                }
+            }
+        }
+
+        return $totalPrice;
+    }
+
+    public function getCombinationDetails($attributes)
+    {
+        // شروع با تمام ترکیب‌های محصول
+        $combinations = $this->attributeCombinations();
+
+        // فیلتر کردن بر اساس هر ویژگی و خصوصیت انتخاب شده
+        foreach ($attributes as $attributeId => $propertyId) {
+            $combinations = $combinations->whereHas('attributeProperties', function($query) use ($attributeId, $propertyId) {
+                $query->where('attribute_id', $attributeId)
+                      ->where('property_id', $propertyId);
+            });
+        }
+        // برای نمایش کوئری SQL
+        //dd($combinations->toSql(), $combinations->getBindings());
+        // برگرداندن اولین ترکیب پیدا شده که مطابق با ویژگی‌ها باشد
+        return $combinations->first();
+    }
+
+
+    /**
+     * دریافت جزئیات ترکیب مستقل ویژگی.
+     *
+     * @param int $attributeId
+     * @param mixed $selectedValue
+     * @return ProductAttributeCombination|null
+     */
+    public function getIndependentCombinationDetails($attributeId, $selectedValue)
+    {
+
+        // یافتن ترکیب بر اساس ویژگی مستقل و property_id
+        return $this->attributeCombinations()
+            ->whereHas('attributeProperties', function ($query) use ($attributeId, $selectedValue) {
+                $query->where('attribute_id', $attributeId)
+                    ->where('property_id', $selectedValue);
+            })
+            ->first();
+    }
+
+
 }

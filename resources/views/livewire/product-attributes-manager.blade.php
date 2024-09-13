@@ -27,6 +27,13 @@
             <input type="number" class="form-control form-control-solid" id="few" name="few" wire:model="few">
             @error('few') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
+        <div class="mb-5 col-xl-7">
+            <label for="time_per_unit" class="form-label">زمان انجام به ازای هر واحد :</label>
+            <div class="input-group">
+                <input dir="ltr" name="time_per_unit" type="number" wire:model="time_per_unit" class="form-control form-control-solid mb-2 mb-md-0" placeholder="زمان مورد نیاز را وارد کنید" />
+                <span class="input-group-text bg-white ms-0">ساعت</span>
+            </div>
+        </div>
         <div class="mb-3 col-xl-7">
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="type" name="type" wire:model="type">
@@ -37,11 +44,11 @@
             @error('type') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
     </div>
-    
+
     <div class="mt-4">
         <button type="button" class="btn btn-primary" wire:click="save">ذخیره</button>
     </div>
-    
+
     @if (session()->has('message'))
         <div class="mt-3 alert alert-success">
             {{ session('message') }}

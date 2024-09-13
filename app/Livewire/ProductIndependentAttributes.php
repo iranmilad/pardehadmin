@@ -42,6 +42,7 @@ class ProductIndependentAttributes extends Component
                 'wholesale_price' => $combination->wholesale_price,
                 'stock_quantity' => $combination->stock_quantity,
                 'description' => $combination->description,
+                'time_per_unit' => $combination->time_per_unit,
                 'attributes' => $combination->attributeProperties->pluck('property_id', 'attribute_id')->toArray()
             ];
         })->toArray();
@@ -81,14 +82,15 @@ class ProductIndependentAttributes extends Component
             'wholesale_price' => '',
             'stock_quantity' => '',
             'description' => '',
+            'time_per_unit' => '',
             'attributes' => [],
         ];
-        
+
         // Populate attributes with selected independent attribute
         if ($this->addIndependentAttribute) {
             // Find attribute by ID
             $attribute = $this->attributes->firstWhere('id', $this->addIndependentAttribute);
-    
+
             if ($attribute) {
                 // Set default property value to null or default value if available
                 // Example: $newCombination['attributes'][$this->addIndependentAttribute] = $attribute->default_value ?? null;
@@ -102,13 +104,13 @@ class ProductIndependentAttributes extends Component
         log::info($this->addIndependentAttribute);
         // Add the new combination to the combinations array
         $this->combinations[] = $newCombination;
-    
-        
-        
+
+
+
         // Emit event to notify JavaScript (if necessary)
         $this->dispatch('refresh');
     }
-    
+
 
     public function updateIndependentCombination($index)
     {
@@ -126,6 +128,7 @@ class ProductIndependentAttributes extends Component
         $wholesalePrice = $nullifyEmpty($combinationData['wholesale_price']);
         $stockQuantity = $nullifyEmpty($combinationData['stock_quantity']);
         $description = $nullifyEmpty($combinationData['description']);
+        $timePerUnit = $nullifyEmpty($combinationData['time_per_unit']);
 
         // Update or create the combination
         $combination = ProductAttributeCombination::updateOrCreate(
@@ -138,6 +141,7 @@ class ProductIndependentAttributes extends Component
                 'wholesale_price' => $wholesalePrice,
                 'stock_quantity' => $stockQuantity,
                 'description' => $description,
+                'time_per_unit' => $timePerUnit,
                 'independent' => 1,
             ]
         );

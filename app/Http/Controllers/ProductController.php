@@ -222,7 +222,16 @@ class ProductController extends Controller
         $ids = $request->input('checked_row');
 
         if ($action === 'delete') {
-            Product::whereIn('id', $ids)->delete();
+            foreach ($ids as $id) {
+                $product = Product::find($id);
+
+                if ($product) {
+                    $product->images()->delete(); // حذف تمام تصاویر مرتبط با محصول
+                    $product->reviews()->delete();
+                    $product->delete(); // حذف محصول
+                }
+            }
+
             return redirect()->route('products.index')->with('success', 'محصولات انتخابی با موفقیت حذف شدند.');
         }
 

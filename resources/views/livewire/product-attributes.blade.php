@@ -84,6 +84,13 @@
                                 </div>
                             </div>
                             <div class="col-12">
+                                <label for="time_per_unit_{{ $index }}" class="form-label">زمان انجام به ازای هر واحد :</label>
+                                <div class="input-group">
+                                    <input dir="ltr" name="time_per_unit_{{ $index }}" type="number" wire:model.defer="combinations.{{ $index }}.time_per_unit" class="form-control form-control-solid mb-2 mb-md-0" placeholder="زمان مورد نیاز را وارد کنید" />
+                                    <span class="input-group-text bg-white ms-0">ساعت</span>
+                                </div>
+                            </div>
+                            <div class="col-12">
                                 <div class="mb-8">
                                     <label for="description_{{ $index }}" class="form-label">توضیحات</label>
                                     <textarea class="form-control form-control-solid" id="description_{{ $index }}" wire:model.defer="combinations.{{ $index }}.description" rows="4" placeholder="توضیحات ترکیب"></textarea>

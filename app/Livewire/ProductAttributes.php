@@ -29,7 +29,7 @@ class ProductAttributes extends Component
 
         // Map selected attribute IDs for select2 dropdown
         $this->selectedAttributes = $this->product->attributes->where('independent', 0)->pluck('id')->toArray();
-        
+
         // Initialize combinations with current product combinations
         $this->combinations = $this->product->attributeCombinations->where('independent', 0)->map(function ($combination) {
             return [
@@ -41,6 +41,7 @@ class ProductAttributes extends Component
                 'wholesale_price' => $combination->wholesale_price,
                 'stock_quantity' => $combination->stock_quantity,
                 'description' => $combination->description,
+                'time_per_unit' => $combination->time_per_unit,
                 'attributes' => $combination->attributeProperties->pluck('property_id', 'attribute_id')->toArray()
             ];
         })->toArray();
@@ -82,6 +83,7 @@ class ProductAttributes extends Component
             'wholesale_price' => '',
             'stock_quantity' => '',
             'description' => '',
+            'time_per_unit' => '',
             'attributes' => []
         ];
 
@@ -108,6 +110,7 @@ class ProductAttributes extends Component
         $wholesalePrice = $nullifyEmpty($combinationData['wholesale_price']);
         $stockQuantity = $nullifyEmpty($combinationData['stock_quantity']);
         $description = $nullifyEmpty($combinationData['description']);
+        $timePerUnit = $nullifyEmpty($combinationData['time_per_unit']);
 
         // Update or create the combination
         $combination = ProductAttributeCombination::updateOrCreate(
@@ -123,7 +126,9 @@ class ProductAttributes extends Component
                 'sale_price' => $salePrice,
                 'wholesale_price' => $wholesalePrice,
                 'stock_quantity' => $stockQuantity,
-                'description' => $description
+                'description' => $description,
+                'time_per_unit' => $timePerUnit,
+
             ]
         );
 

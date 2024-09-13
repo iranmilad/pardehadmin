@@ -79,4 +79,10 @@ class Category extends Model
     {
         return $this->belongsToMany(DiscountCode::class, 'discount_category', 'category_id', 'discount_code_id');
     }
+
+    public function services()
+    {
+        return $this->belongsToMany(Service::class, 'category_service');
+    }
+
 }

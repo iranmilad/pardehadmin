@@ -15,7 +15,7 @@ class TransportController extends Controller
     public function __construct()
     {
         // تنظیم نام دسترسی مورد نیاز
-        $this->permissionName = 'manage_transport';
+        $this->permissionName = 'manage_transports';
     }
 
     public function index(Request $request)
