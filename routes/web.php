@@ -4,6 +4,7 @@ use App\Models\Page;
 use App\Models\Review;
 use App\Models\Slider;
 use App\Models\PostCategory;
+use App\Traits\AuthorizeAccess;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SmsController;
 use App\Http\Controllers\TagController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\BlockController;
 use App\Http\Controllers\CheckController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CreditController;
 use App\Http\Controllers\ReviewController;
@@ -32,6 +34,7 @@ use App\Http\Controllers\PageViewController;
 use App\Http\Controllers\WorkTimeController;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\CodePieceController;
+use App\Http\Controllers\CustomizeController;
 use App\Http\Controllers\TransportController;
 use App\Http\Controllers\ProductTagController;
 use App\Http\Controllers\ScoreGroupController;
@@ -553,6 +556,30 @@ Route::group(['prefix' => 'track-page-view'], function () {
     Route::get('/hourly-page-views/{date}', [PageViewController::class, 'getHourlyPageViews'])->name('getHourlyPageViews')->middleware('check.permission:manage_page_views,read_own');
 });
 
+Route::group(['prefix' => 'themes'], function () {
+    Route::get('/', [ThemeController::class, 'index'])->name('theme.index')->middleware('check.permission:manage_themes,read_own');
+});
+
+
+Route::group(['prefix' => 'customizes'], function () {
+
+    Route::get('/', [CustomizeController::class, 'index'])->name("customizes.index")->middleware('check.permission:manage_site_customizes,read_own');
+
+    Route::get('/create', [CustomizeController::class, 'create'])->name("customizes.create")->middleware('check.permission:manage_site_customizes,write_own');
+    Route::post('/store', [CustomizeController::class, 'store'])->name("customizes.store")->middleware('check.permission:manage_site_customizes,write_own');
+
+
+    Route::get('/edit/{id}', [CustomizeController::class, 'edit'])->name("customizes.edit")->middleware('check.permission:manage_site_customizes,write_own');
+    Route::put('/update/{id}', [CustomizeController::class, 'update'])->name("customizes.update")->middleware('check.permission:manage_site_customizes,write_own');
+
+    Route::post('/delete', [CustomizeController::class, 'delete'])->name("customizes.delete")->middleware('check.permission:manage_site_customizes,write_own');
+
+    Route::post('/bulk_action', [CustomizeController::class, 'bulk_action'])->name("customizes.bulk_action")->middleware('check.permission:manage_site_customizes,write_own');
+
+});
+
+
+
 
 });
 
@@ -912,9 +939,9 @@ Route::group(['prefix' => 'snippets'], function () {
     })->name("snippet.show");
 });
 
-Route::get('/customize', function () {
-    return view('customize');
-})->name("customize.show");
+// Route::get('/customize', function () {
+//     return view('customize');
+// })->name("customize.show");
 
 // Route::group(['prefix' => 'services'], function () {
 //     Route::get('/service1', function () {
@@ -1020,9 +1047,9 @@ Route::get('/add-request/', function () {
     return view('change-request-add');
 })->name("change-request-add.show");
 
-Route::get('/themes', function () {
-    return view('themes');
-})->name("themes.show");
+// Route::get('/themes', function () {
+//     return view('themes');
+// })->name("themes.show");
 
 Route::get('/custom-css', function () {
     return view('custom-css');

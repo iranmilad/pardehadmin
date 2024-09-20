@@ -10,7 +10,7 @@
             <div class="card card-flush border-2 border-success tw-border-solid">
                 <img class="card-img-top" src="https://files-de.rtl-theme.com/attachments/2023/07/e91ad7104c276488c9494d607fc12681b576edc1848211-590x300.jpg">
                 <div class="card-body">
-                    <h5 class="card-title">قالب شماره 1</h5>
+                    <h5 class="card-title">قالب هما</h5>
                     <div class="w-100 tw-flex tw-items-center tw-justify-between mt-7 tw-flex-row-reverse">
                         <button type="button" name="disable" id="1" class="btn btn-sm btn-danger">غیر فعال کردن</button>
                     </div>
@@ -23,8 +23,8 @@
                 <div class="card-body">
                     <h5 class="card-title">قالب شماره 2</h5>
                     <div class="w-100 tw-flex tw-items-center tw-justify-between mt-7 tw-flex-row-reverse">
-                        <button type="button" name="delete" id="2" class="btn btn-sm btn-danger">حذف</button>
-                        <button type="button" name="enable" id="2" class="btn btn-sm btn-success">فعال کردن</button>
+
+                        <button type="button" name="enable" id="2" class="btn btn-sm btn-success" disabled>فعال کردن</button>
                     </div>
                 </div>
             </div>
@@ -35,8 +35,8 @@
                 <div class="card-body">
                     <h5 class="card-title">قالب شماره 3</h5>
                     <div class="w-100 tw-flex tw-items-center tw-justify-between mt-7 tw-flex-row-reverse">
-                        <button type="submit" name="delete" id="3" class="btn btn-sm btn-danger">حذف</button>
-                        <button type="submit" name="enable" id="3" class="btn btn-sm btn-success">فعال کردن</button>
+
+                        <button type="submit" name="enable" id="3" class="btn btn-sm btn-success" disabled>فعال کردن</button>
                     </div>
                 </div>
             </div>

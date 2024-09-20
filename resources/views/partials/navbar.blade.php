@@ -1071,6 +1071,36 @@
     <!--end:Menu item-->
 
     <!--begin:Menu item-->
+    @if(userHasPermission('manage_themes'))
+        <div class="menu-item">
+            <!--begin:Menu link-->
+            <a href="{{ route('theme.index') }}" class="menu-link {{ Route::is('theme.index') ? 'active' : '' }}">
+                <span class="menu-icon">
+                    <i class="fa-duotone fa-swatchbook"></i>
+                </span>
+                <span class="menu-title">قالب</span>
+            </a>
+            <!--end:Menu link-->
+        </div>
+    @endif
+    <!--end:Menu item-->
+
+    <!--begin:Menu item-->
+    @if(userHasPermission('manage_site_customizes'))
+        <div class="menu-item">
+            <!--begin:Menu link-->
+            <a href="{{ route('customizes.index') }}" class="menu-link {{ Route::is('customizes.index') ? 'active' : '' }}">
+                <span class="menu-icon">
+                    <i class="fa-duotone fa fa-paint-brush"></i>
+                </span>
+                <span class="menu-title">سفارشی سازی سایت</span>
+            </a>
+            <!--end:Menu link-->
+        </div>
+    @endif
+    <!--end:Menu item-->
+
+    <!--begin:Menu item-->
     @if(userHasPermission('manage_settings'))
         <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Request::is('settings*') ? 'show' : '' }}">
             <!--begin:Menu link-->
