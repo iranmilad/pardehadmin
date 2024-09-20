@@ -35,7 +35,7 @@
                                 <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#global_table .form-check-input" value="1" />
                             </div>
                         </th>
-                        <th class="cursor-pointer px-0 text-start">نام منطقه</th>
+                        <th class="cursor-pointer px-0 text-start">روش ارسال</th>
                         <th class="cursor-pointer px-0 text-start">ناحیه ها</th>
                         <th class="cursor-pointer px-0 text-start">روش حمل و نقل</th>
 
@@ -55,9 +55,15 @@
                             <a href="{{ route('transports.edit', ['id' => $transport->id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">{{ $transport->title }}</a>
                         </td>
                         <td>
-                            @foreach($transport->regions as $region)
+                            @if ($transport->regions)
+                                @forelse ($transport->regions as $region)
                                 <a class="badge badge-primary" href="{{ route('transports.edit', ['id' => $transport->id]) }}">{{ $region }}</a>
-                            @endforeach
+                                @empty
+                                <a class="badge badge-primary" href="{{ route('transports.edit', ['id' => $transport->id]) }}">همه نواحی</a>
+                                @endforelse
+                            @else
+                                <a class="badge badge-primary" href="{{ route('transports.edit', ['id' => $transport->id]) }}">همه نواحی</a>
+                            @endif
                         </td>
                         <td>
                             <a class="text-primary" href="{{ route('transports.edit', ['id' => $transport->id]) }}">{{ $transport->cost_type }}</a>

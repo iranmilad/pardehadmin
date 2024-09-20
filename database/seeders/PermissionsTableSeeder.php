@@ -67,6 +67,7 @@ class PermissionsTableSeeder extends Seeder
             ['title' => 'مدیریت پلن‌های اقساط', 'name' => 'manage_installment_plans'],
             ['title' => 'مدیریت گزارش‌های اقساط', 'name' => 'manage_installment_reports'],
             ['title' => 'مدیریت تنظیمات سایت', 'name' => 'manage_settings'],
+            ['title' => 'مدیریت اسلایدرها', 'name' => 'manage_sliders'],
         ];
 
         // درج مجوزها

@@ -27,40 +27,7 @@
                         <!--begin::Tags-->
                         <label class="col-lg-4 col-form-label fw-semibold fs-6">عکس پروفایل</label>
                         <!--end::Tags-->
-                        <!--begin::Col-->
-                        <div class="col-lg-8">
-                            <!--begin::Image input-->
-                            <div class="image-input image-input-outline" data-kt-image-input="true">
-                                <!--begin::نمایش existing avatar-->
-                                <div class="image-input-wrapper w-125px h-125px" style="background-image: url('{{ asset('storage/' . $user->avatar) }}')"></div>
-                                <!--end::نمایش existing avatar-->
-                                <!--begin::Tags-->
-                                <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض آواتار">
-                                    <i class="ki-duotone ki-pencil fs-7">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                    </i>
-                                    <!--begin::Inputs-->
-                                    <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
-                                    <input type="hidden" name="avatar_remove" />
-                                    <!--end::Inputs-->
-                                </label>
-                                <!--end::Tags-->
-                                <!--begin::حذف-->
-                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف آواتار">
-                                    <i class="ki-duotone ki-cross fs-2">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                    </i>
-                                </span>
-                                <!--end::حذف-->
-                            </div>
-                            <!--end::Image input-->
-                            <!--begin::Hint-->
-                            <div class="form-text">فرمت های مجاز : png, jpg, jpeg.</div>
-                            <!--end::Hint-->
-                        </div>
-                        <!--end::Col-->
+                        <x-file-input type="single" :preview="true" name="avatar" :value="$user->avatar" />
                     </div>
                     <!--end::Input group-->
                     <!--begin::Input group-->
@@ -145,6 +112,28 @@
                         </div>
                     </div>
                     <!--end::Input group-->
+
+                    @if(auth()->user()->hasRole('superAdmin'))
+                        <!--begin::Input group-->
+                        <div class="row mb-6">
+                            <label class="col-lg-4 col-form-label required fw-semibold fs-6">نقش</label>
+                            <div class="col-lg-8 col-xl-6">
+                                <select class="form-select form-select-solid form-select-lg" name="role_id" aria-label="Select Role">
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role->id }}" {{ $user->role_id == $role->id ? 'selected' : '' }}>
+                                            {{ $role->display_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <!--end::Input group-->
+                    @endif
+                
+
+
+
+
                 </div>
                 <!--end::کارت body-->
                 <!--begin::Actions-->

@@ -11,56 +11,62 @@
             </div>
         </div>
         <div class="card-body">
-            <form action="{{ isset($category) ? route('categories.update', $category->id) : route('categories.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @if(isset($category))
-                    @method('PUT')
-                @endif
-                <div class="row">
-                    <div class="col-12 col-md">
-                        <div class="mb-3">
-                            <label for="title" class="form-label required">عنوان</label>
-                            <input type="text" class="form-control" id="title" name="title" placeholder="عنوان را وارد کنید" value="{{ old('title', $category->title ?? '') }}">
+            <div class="container">
+                <form action="{{ isset($category) ? route('categories.update', $category->id) : route('categories.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @if(isset($category))
+                        @method('PUT')
+                    @endif
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3">
+                                <label for="title" class="form-label required">عنوان</label>
+                                <input type="text" class="form-control" id="title" name="title" placeholder="عنوان را وارد کنید" value="{{ old('title', $category->title ?? '') }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-12 col-md">
-                        <div class="mb-3">
-                            <label for="alias" class="form-label required">نامک</label>
-                            <input type="text" class="form-control" id="alias" name="alias" placeholder="نامک را وارد کنید" value="{{ old('alias', $category->alias ?? '') }}">
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3">
+                                <label for="alias" class="form-label required">نامک</label>
+                                <input type="text" class="form-control" id="alias" name="alias" placeholder="نامک را وارد کنید" value="{{ old('alias', $category->alias ?? '') }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-12 col-md">
-                        <div class="mb-3">
-                            <label for="img" class="form-label">تصویر</label>
-                            <input class="form-control" type="file" name="img" id="img">
-                        </div>
-                    </div>
-                    <div class="col-12 col-md">
-                        <div class="mb-3">
-                            <label for="parent_id" class="form-label">دسته والد</label>
-                            <select class="form-control" id="parent_id" name="parent_id">
-                                <option value="">بدون دسته والد</option>
-                                @foreach($categories as $parentCategory)
-                                    <option value="{{ $parentCategory->id }}" {{ (old('parent_id') ?? $category->parent_id ?? '') == $parentCategory->id ? 'selected' : '' }}>
-                                        {{ $parentCategory->title }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-12 col-md">
-                        <div class="mb-3">
-                            <label for="description" class="form-label">توضیحات</label>
-                            <input type="text" class="form-control" id="description" name="description" placeholder="توضیحات این دسته را وارد کنید" value="{{ old('description', $category->description ?? '') }}">
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3">
+                                <label for="parent_id" class="form-label">دسته والد</label>
+                                <select class="form-control" id="parent_id" name="parent_id">
+                                    <option value="">بدون دسته والد</option>
+                                    @foreach($categories as $parentCategory)
+                                        <option value="{{ $parentCategory->id }}" {{ (old('parent_id') ?? $category->parent_id ?? '') == $parentCategory->id ? 'selected' : '' }}>
+                                            {{ $parentCategory->title }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <button class="btn btn-success" type="submit">{{ isset($category) ? 'ذخیره تغییرات' : 'ایجاد دسته بندی' }}</button>
-            </form>
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3">
+                                <label for="description" class="form-label">توضیحات</label>
+                                <input type="text" class="form-control" id="description" name="description" placeholder="توضیحات این دسته را وارد کنید" value="{{ old('description', $category->description ?? '') }}">
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3">
+                                <label for="img" class="form-label">تصویر</label>
+                                <x-file-input type="single" :preview="false" name="img" id="img" :value="$category->img" />
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <button class="btn btn-success" type="submit">{{ isset($category) ? 'ذخیره تغییرات' : 'ایجاد دسته بندی' }}</button>
+                </form>
+
+            </div>
         </div>
     </div>
 </div>

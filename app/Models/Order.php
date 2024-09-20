@@ -139,6 +139,7 @@ class Order extends Model
         $items = []; // Initialize cart items array
         $summedAmounts = [];
         $totalDiscount = 0; // Initialize total discount
+        $totalTime = 0; // Initialize total time
         $order = $this;
 
         if ($order) {
@@ -149,7 +150,6 @@ class Order extends Model
 
             // لیست محصولات مجاز و غیر مجاز برای کد تخفیف
             $allowedProducts = $discountCode ? $discountCode->allowedProducts->pluck('id')->toArray() : [];
-
 
             foreach ($cartItems as $cartItem) {
                 $totalAttributePrice = 0;
@@ -163,10 +163,15 @@ class Order extends Model
                     $attributeCombinations = $cartItem->combinations; // دریافت ترکیبات ویژگی‌ها از متد combinations
 
                     $quantity = $cartItem->quantity;
-                    $cartCount += $quantity;
+                    if ($product->minimum_quantity == "quantity") {
+                        $cartCount += $quantity;
+                    } else {
+                        $cartCount += 1;
+                    }
 
                     $attributeNames = [];
                     $options = [];
+                    $timePerUnit = 0; // Initialize time per unit for current item
 
                     foreach ($attributeCombinations as $attributeCombination) {
                         $priceAttr = $attributeCombination->sale_price ?? $attributeCombination->price;
@@ -177,7 +182,14 @@ class Order extends Model
                                 $options[] = [$attributeProperty->attribute->name => $attributeProperty->property->value];
                             }
                         }
+
+                        // جمع زمان هر واحد برای این ترکیب
+                        $timePerUnit += $attributeCombination->time_per_unit ?? 0;
                     }
+
+                    // محاسبه زمان کل برای این آیتم
+                    $timeTotal = $timePerUnit * $quantity;
+                    $totalTime += $timeTotal;
 
                     $totalPrice += $cartItem->total * $quantity;
 
@@ -189,7 +201,6 @@ class Order extends Model
                         if (!empty($allowedProducts) && in_array($product->id, $allowedProducts) || empty($allowedProducts)) {
                             $applyDiscount = true;
                         }
-
 
                         // محاسبه تخفیف بر اساس نوع تخفیف
                         if ($applyDiscount) {
@@ -211,8 +222,7 @@ class Order extends Model
 
                                 case 'fixed_product':
                                     // تخفیف ثابت روی محصولات خاص
-                                    $totalDiscount += $discountCode
-                                    ->discount_amount * $quantity; // تخفیف ثابت برای هر واحد محصول
+                                    $totalDiscount += $discountCode->discount_amount * $quantity; // تخفیف ثابت برای هر واحد محصول
                                     break;
                             }
                         }
@@ -256,6 +266,8 @@ class Order extends Model
                         "sewing" => $cartItem->sewing ?? null,
                         "design" => $cartItem->design ?? null,
                         "total" => $cartItem->total,
+                        "time_per_unit" => $timePerUnit, // زمان هر واحد
+                        "time_total" => $timeTotal, // زمان کل
                     ];
                 }
             }
@@ -285,6 +297,9 @@ class Order extends Model
                     'totalCheckTimeline' => $order->checks,
                     'createdAtDate' => $this->gregorianToJalalian($order->created_at_date),
                     "totalPayed" => number_format($totalPayed), // نمایش مبلغ نهایی قابل پرداخت
+                    'totalTime' => number_format($totalTime), // نمایش زمان کل
+                    'tax' => 0 ,
+                    'time_delivery' => round($totalTime/24)+2,
                 ],
                 "items" => $items,
             ];
@@ -305,6 +320,9 @@ class Order extends Model
                     'totalCheckTimeline' => [],
                     'createdAtDate' => '',
                     "totalPayed" => 0,
+                    'totalTime' => 0, // زمان کل
+                    'tax' => 0 ,
+                    'time_delivery' => 2,
                 ],
                 "items" => [],
             ];
@@ -312,6 +330,7 @@ class Order extends Model
 
         return $orders;
     }
+
 
     public function percentOfFinishedItem()
     {
@@ -368,14 +387,84 @@ class Order extends Model
         return $totalTimeline;
     }
 
-    private function deliveryCost($order){
-        if($order->deliveryType=='home_delivery'){
-            return 250000;
+    private function deliveryCost($order)
+    {
+        if ($order->deliveryType == 'home_delivery') {
+            if ($order->shipping_city && $order->shipping_province) {
+                // دریافت تمامی مناطق حمل‌ونقل
+                $transportRegions = TransportRegion::all();
+
+                // متغیر جمع هزینه نهایی
+                $totalCost = 0;
+
+                // محاسبه هزینه برای هر آیتم موجود در سفارش
+                foreach ($order->orderItems as $orderItem) {
+                    $product = $orderItem->product;
+                    $cartValue = $orderItem->total;
+                    $weight = $product->weight;
+                    $dimensions = [
+                        'length' => $product->length,
+                        'width' => $product->width,
+                        'height' => $product->height,
+                    ];
+
+                    // بررسی تطابق شهر و استان با مناطق موجود
+                    foreach ($transportRegions as $region) {
+                        // اگر regions خالی بود، منظور همه مناطق است
+                        if ($region->regions==[] || in_array($order->shipping_city, $region->regions)) {
+                            // مطابقت نوع هزینه حمل‌ونقل با محصول
+                            if ($region->cost_type == $product->cost_calculation_class) {
+                                switch ($region->cost_type) {
+                                    case 'fixed_rate':
+                                        $totalCost += $region->price; // هزینه ثابت
+                                        break;
+
+                                    case 'weight_based':
+                                        $totalCost += $this->calculateWeightBasedCost($region, $weight); // محاسبه براساس وزن
+                                        break;
+
+                                    case 'volume_based':
+                                        $totalCost += $this->calculateVolumeBasedCost($region, $dimensions); // محاسبه براساس حجم
+                                        break;
+
+                                    case 'value_based':
+                                        $totalCost += $this->calculateValueBasedCost($region, $cartValue); // محاسبه براساس ارزش
+                                        break;
+
+                                    default:
+                                        $totalCost += 0; // اگر نوع حمل‌ونقل مشخص نبود، هزینه صفر
+                                }
+                                // یک منطقه تطابق یافت، ادامه نمی‌دهیم
+                                break;
+                            }
+                        }
+                    }
+                }
+                return $totalCost;
+            }
         }
-        else{
-            return 0;
-        }
+
+        // اگر منطقه‌ای یافت نشود یا اطلاعات نامعتبر باشد، هزینه ارسال صفر برمی‌گردد
+        return 0;
     }
+
+
+    private function calculateWeightBasedCost($region, $weight)
+    {
+        return $region->weight_based_cost * $weight;
+    }
+
+    private function calculateValueBasedCost($region, $cartValue)
+    {
+        return $region->percentage_of_cart_value * $cartValue;
+    }
+
+    private function calculateVolumeBasedCost($region, $dimensions)
+    {
+        $volume = $dimensions['length'] * $dimensions['width'] * $dimensions['height'];
+        return $region->dimension_based_cost * $volume;
+    }
+
 
     public function getTotalChecksCount()
     {

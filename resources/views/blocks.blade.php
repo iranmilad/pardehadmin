@@ -39,7 +39,7 @@
                         </th>
                         <th class="cursor-pointer px-0 min-w-100px text-start">ویجت پایه</th>
                         <th class="px-0 tw-max-w-20 text-start">نوع</th>
-                        <th class="px-0 tw-max-w-20 text-start">کد کوتاه</th>
+                        <th class="px-0 tw-max-w-20 text-start">نام ویجت</th>
                         <th class="px-0 tw-max-w-20 text-start">تاریخ</th>
                         <th class=" text-end">عملیات</th>
                     </tr>
@@ -59,7 +59,7 @@
                             <span class="text-muted">{{ $block->type }}</span>
                         </td>
                         <td>
-                            <span class="badge badge-light fs-6 tw-select-all">[block type="{{ $block->type }}" id="{{ $block->id }}"]</span>
+                            <span class="badge badge-light fs-6 tw-select-all">{{ $block->block }}</span>
                         </td>
                         <td>
                             <span class="text-primary">{{ $block->created_at->format('Y/m/d') }}</span>

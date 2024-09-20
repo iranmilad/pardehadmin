@@ -435,6 +435,22 @@
     <!--end:Menu item-->
 
     <!--begin:Menu item-->
+    @if(userHasPermission('manage_banners'))
+        <div class="menu-item">
+            <!--begin:Menu link-->
+            <a href="{{ route('banners.index') }}" class="menu-link {{ Route::is('banners.index') ? 'active' : '' }}">
+                <span class="menu-icon">
+                    <i class="fa-duotone fa-rectangle-history"></i>
+                </span>
+                <span class="menu-title">بنر ها</span>
+            </a>
+            <!--end:Menu link-->
+        </div>
+    @endif
+    <!--end:Menu item-->
+
+
+    <!--begin:Menu item-->
     @if(userHasPermission('manage_sessions'))
         <div class="menu-item">
             <!--begin:Menu link-->

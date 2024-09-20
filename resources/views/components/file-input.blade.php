@@ -32,13 +32,13 @@
                     <button class="btn btn-sm px-4 btn-success ms-1 choose_file_input" type="button" data-remove-full="true" data-preview="false">
                         <i class="fa-regular fa-arrow-up-from-bracket" style="padding-left: 0;"></i>
                     </button>
-                    <input class="tw-w-full ps-2 border-0 tw-outline-none tw-cursor-pointer form-control" type="text" placeholder="آپلود" name="{{$name}}" value="{{$value}}" readonly >
+                    <input class="tw-w-full ps-2 border-0 tw-outline-none tw-cursor-pointer form-control" type="text" placeholder="آپلود" name="{{$name}}" value="{{$value}}" >
                     <button class="btn btn-sm px-2 remove-image-input" style="display: none;" type="button" data-remove-full="true" data-preview="false">
                         <i class="fa-regular fa-xmark"></i>
                     </button>
                 </div>
             </div>
-        </div>
+
 
         @endif
     @else

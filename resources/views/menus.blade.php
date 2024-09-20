@@ -42,29 +42,32 @@
                 </thead>
                 <tbody>
                     @foreach($menus as $menu)
-                    <tr>
-                        <td>
-                            <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" name="checked_rows[]" value="{{ $menu->id }}" />
-                            </div>
-                        </td>
-                        <td>
-                            <a href="{{ route('menus.edit', ['id' => $menu->id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">{{ $menu->title }}</a>
-                        </td>
-                        <td>
-                            <a href="{{ route('menus.edit', ['id' => $menu->id]) }}">{{ $menu->parentMenu->title ?? null }}</a>
-                        </td>
-                        <td class="text-end">
-                            <a href="{{ route('menus.edit', ['id' => $menu->id]) }}" class="btn btn-light btn-sm">
-                                ویرایش
-                            </a>
-                            <form action="{{ route('menus.delete') }}" method="post" class="d-inline">
-                                @csrf
-                                <input type="hidden" name="id" value="{{ $menu->id }}">
-                                <button type="submit" class="btn btn-danger btn-sm">حذف</button>
-                            </form>
-                        </td>
-                    </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                        <input class="form-check-input" type="checkbox" name="checked_rows[]" value="{{ $menu->id }}" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="{{ route('menus.edit', ['id' => $menu->id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">{{ $menu->title }}</a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('menus.edit', ['id' => $menu->id]) }}">{{ $menu->parentMenu->title ?? null }}</a>
+                                </td>
+                                <td class="text-end">
+                                    <a href="{{ route('menus.edit', ['id' => $menu->id]) }}" class="btn btn-light btn-sm">
+                                        ویرایش
+                                    </a>
+                                    <form action="{{ route('menus.delete') }}" method="post" class="d-inline">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $menu->id }}">
+                                        <button type="submit" class="btn btn-danger btn-sm">حذف</button>
+                                    </form>
+                                </td>
+                            </tr>
+
+
                     @endforeach
                 </tbody>
             </table>

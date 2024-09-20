@@ -1,13 +1,13 @@
 @extends('layouts.primary')
 
-@section('title', 'ویرایش اسلایدر')
+@section('title', 'ویرایش بنر')
 
 
 @section('content')
 <div class="card">
     <div class="card-body">
 
-        <form method="post" enctype="multipart/form-data" action="{{ route('sliders.add', $slider->id) }}">
+        <form method="post" enctype="multipart/form-data" action="{{ route('banners.add', $banner->id) }}">
             @csrf
             @method('PUT')
 

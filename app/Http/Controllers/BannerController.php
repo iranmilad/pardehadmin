@@ -2,41 +2,53 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Slider;
+use App\Models\Banner;
 use App\Models\Widget;
 use App\Models\BlockWidget;
-use App\Models\SliderImage;
+use App\Models\BannerImage;
 use Illuminate\Http\Request;
 use App\Traits\AuthorizeAccess;
 use Illuminate\Support\Facades\Storage;
 
-class SliderController extends Controller
+class BannerController extends Controller
 {
     use AuthorizeAccess;
 
     public function __construct()
     {
         // تنظیم نام دسترسی مورد نیاز
-        $this->permissionName = 'manage_sliders';
+        $this->permissionName = 'manage_banners';
     }
 
     public function index(Request $request)
     {
-        $query = Slider::latest();
+        $query = Banner::latest();
 
         // اعمال فیلتر بر اساس دسترسی‌های کاربر
         $query = $this->applyAccessControl($query);
 
-        $sliders = $query->paginate(10); // دریافت همه‌ی اسلایدرها به صورت صفحه‌بندی شده
+        $banners = $query->paginate(10); // دریافت همه‌ی بنر به صورت صفحه‌بندی شده
 
-        return view('sliders', compact('sliders'));
+        return view('banners.index', compact('banners'));
     }
 
     public function create()
     {
-        $widget = Widget::where("name",'WidgetSliders')->first();
-        return view('sliderAdd',compact('widget'));
+        $widget = Widget::where('name', 'WidgetBanners')->first();
+
+        // استخراج JSON از ستون setup و decode کردن آن
+        $setup = json_decode($widget->setup, true);
+
+        // استخراج type از setup
+        $types = [];
+        if (isset($setup['selection']['i']['type'])) {
+            $template = str_replace("o|",'',$setup['selection']['i']['type']);
+            $types = explode(':', $template); // جدا کردن مقادیر type
+        }
+
+        return view('banners.create', compact('widget', 'types'));
     }
+
 
     public function store(Request $request)
     {
@@ -46,21 +58,21 @@ class SliderController extends Controller
         ]);
 
         $widgetId = $request->input('widget_id');
-        $blockName = "Slider_" . $validatedData['name'];
-        $type = $request->input('type');
+        $blockName = "Banner_" . $validatedData['name'];
+        $type = $request->input('type'); // دریافت نوع ارسال شده از فرم
 
         // آماده‌سازی تنظیمات به عنوان یک آرایه
         $settings = [
             'title' => '',
-            'name' => $blockName,
+            'name' => $validatedData['name'],
             'link' => '',
-            'type' => 'template1',
+            'type' => $type, // استفاده از مقدار type ورودی به جای مقدار ثابت
             'data' => 'selection',
             'images' => [],
         ];
 
-        // ایجاد اسلایدر جدید
-        $slider = Slider::create([
+        // ایجاد بنر جدید
+        $banner = Banner::create([
             'name' => $validatedData['name'],
         ]);
 
@@ -68,21 +80,23 @@ class SliderController extends Controller
         BlockWidget::create([
             'widget_id' => $widgetId,
             'block' => $blockName,
-            'type' => $type,
+            'type' => "selection",
             'settings' => json_encode($settings), // تبدیل آرایه به JSON
         ]);
 
-        // بازگشت به صفحه فهرست اسلایدرها با پیام موفقیت
-        return redirect()->route('sliders.index')->with('success', 'اسلایدر با موفقیت ایجاد شد.');
+        // بازگشت به صفحه فهرست بنر با پیام موفقیت
+        return redirect()->route('banners.index')->with('success', 'بنر با موفقیت ایجاد شد.');
     }
+
+
 
 
 
     public function edit($id)
     {
-        $slider = Slider::findOrFail($id);
+        $banner = Banner::findOrFail($id);
 
-        return view('slider', compact('slider'));
+        return view('banners.edit', compact('banner'));
     }
 
 
@@ -97,42 +111,42 @@ class SliderController extends Controller
             'files.*' => 'nullable|url|max:2048',
         ]);
 
-        // یافتن اسلایدر
-        $slider = Slider::findOrFail($id);
+        // یافتن بنر
+        $banner = Banner::findOrFail($id);
 
         // به‌روزرسانی تصاویر موجود
-        foreach ($slider->images as $key => $sliderImage) {
+        foreach ($banner->images as $key => $bannerImage) {
             // به‌روزرسانی عنوان
             if (isset($validatedData['titles'][$key])) {
-                $sliderImage->title = $validatedData['titles'][$key];
+                $bannerImage->title = $validatedData['titles'][$key];
             }
 
             // به‌روزرسانی توضیحات
             if (isset($validatedData['captions'][$key])) {
-                $sliderImage->caption = $validatedData['captions'][$key];
+                $bannerImage->caption = $validatedData['captions'][$key];
             }
 
             // به‌روزرسانی متن جایگزین
             if (isset($validatedData['alts'][$key])) {
-                $sliderImage->alt = $validatedData['alts'][$key];
+                $bannerImage->alt = $validatedData['alts'][$key];
             }
 
             // به‌روزرسانی لینک
             if (isset($validatedData['links'][$key])) {
-                $sliderImage->link = $validatedData['links'][$key];
+                $bannerImage->link = $validatedData['links'][$key];
             }
 
             // به‌روزرسانی تصویر (URL)
             if ($request->filled('files') && isset($validatedData['files'][$key])) {
-                $sliderImage->image = $validatedData['files'][$key];
+                $bannerImage->image = $validatedData['files'][$key];
             }
 
             // ذخیره تغییرات
-            $sliderImage->save();
+            $bannerImage->save();
         }
 
-        // بازگشت به صفحه فهرست اسلایدرها با پیام موفقیت
-        return redirect()->route('sliders.index')->with('success', 'اسلایدر با موفقیت به‌روزرسانی شد.');
+        // بازگشت به صفحه فهرست بنر با پیام موفقیت
+        return redirect()->route('banners.index')->with('success', 'بنر با موفقیت به‌روزرسانی شد.');
     }
 
 
@@ -147,13 +161,13 @@ class SliderController extends Controller
             'files.*' => 'nullable|url|max:2048', // اعتبارسنجی URL فایل‌ها
         ]);
 
-        // یافتن اسلایدر مورد نظر
-        $slider = Slider::findOrFail($id);
+        // یافتن بنر مورد نظر
+        $banner = Banner::findOrFail($id);
 
         // افزودن تصاویر جدید
         if ($request->filled('files')) {
             foreach ($request->input('files') as $key => $file) {
-                $slider->images()->create([
+                $banner->images()->create([
                     'title' => $validatedData['titles'][$key],
                     'caption' => $validatedData['captions'][$key] ?? null,
                     'alt' => $validatedData['alts'][$key] ?? null,
@@ -163,15 +177,15 @@ class SliderController extends Controller
             }
         }
 
-        // بازگشت به صفحه فهرست اسلایدرها با پیام موفقیت
-        return redirect()->route('sliders.index')->with('success', 'تصاویر جدید با موفقیت به اسلایدر اضافه شدند.');
+        // بازگشت به صفحه فهرست بنر با پیام موفقیت
+        return redirect()->route('banners.index')->with('success', 'تصاویر جدید با موفقیت به بنر اضافه شدند.');
     }
 
 
     public function slideView($id)
     {
-        $slider = Slider::findOrFail($id);
-        return view('sliderCreate',compact("slider"));
+        $banner = Banner::findOrFail($id);
+        return view('banners.add',compact("banner"));
     }
 
     public function storeNewImage(Request $request, $id)
@@ -184,12 +198,12 @@ class SliderController extends Controller
             'file' => 'required|url|max:2048',
         ]);
 
-        $slider = Slider::findOrFail($id);
+        $banner = Banner::findOrFail($id);
 
         if ($request->filled('file')) {
             $imagePath = $request->input('file');
         }
-        $slider->images()->create([
+        $banner->images()->create([
             'title' => $validatedData['title'],
             'caption' => $validatedData['caption'],
             'alt' => $validatedData['alt'],
@@ -197,57 +211,57 @@ class SliderController extends Controller
             'image' => $imagePath,
         ]);
 
-        return redirect()->route('sliders.index')->with('success', 'تصویر جدید به اسلایدر افزوده شد.');
+        return redirect()->route('banners.index')->with('success', 'تصویر جدید به بنر افزوده شد.');
     }
 
     public function deleteImage($image_id)
     {
-        $sliderImage = SliderImage::findOrFail($image_id);
+        $bannerImage = BannerImage::findOrFail($image_id);
 
-        $sliderImage->delete();
+        $bannerImage->delete();
 
         return redirect()->back()->with('success', 'تصویر با موفقیت حذف شد.');
     }
 
     public function delete($id)
     {
-        $slider = Slider::findOrFail($id);
-        $this->authorizeAction($slider);
-        $block = BlockWidget::where("block","Slider_".$slider->name);
-        $slider->delete();
+        $banner = Banner::findOrFail($id);
+        $this->authorizeAction($banner);
+        $block = BlockWidget::where("block","Banner_".$banner->name);
+        $banner->delete();
         $block->delete();
 
-        return redirect()->route('sliders.index')->with('success', 'اسلایدر با موفقیت حذف شد.');
+        return redirect()->route('banners.index')->with('success', 'بنر با موفقیت حذف شد.');
     }
     public function bulk_action(Request $request)
     {
         // اعتبارسنجی داده‌های ورودی
         $validatedData = $request->validate([
             'action' => 'required|in:delete',
-            'slider_ids' => 'required|array', // شناسه‌های اسلایدر باید به صورت آرایه ارسال شوند
+            'banner_ids' => 'required|array', // شناسه‌های بنر باید به صورت آرایه ارسال شوند
         ]);
 
-        $slider_ids = $request->input('slider_ids');
+        $banner_ids = $request->input('banner_ids');
 
         // بررسی اکشن و اجرای عملیات
         switch ($validatedData['action']) {
             case 'delete':
-                // حذف اسلایدرها به همراه ویجت‌های مرتبط
-                foreach ($slider_ids as $slider_id) {
-                    $slider = Slider::findOrFail($slider_id);
-                    $this->authorizeAction($slider); // بررسی دسترسی کاربر
+                // حذف بنر به همراه ویجت‌های مرتبط
+                foreach ($banner_ids as $banner_id) {
+                    $banner = Banner::findOrFail($banner_id);
+                    $this->authorizeAction($banner); // بررسی دسترسی کاربر
 
-                    // حذف اسلایدر و ویجت‌های مرتبط
-                    $block = BlockWidget::where("block", "Slider_" . $slider->name);
-                    $slider->delete();
+                    // حذف بنر و ویجت‌های مرتبط
+                    $block = BlockWidget::where("block", "Banner_" . $banner->name);
+                    $banner->delete();
                     $block->delete();
                 }
-                $message = 'اسلایدرها با موفقیت حذف شدند!';
+                $message = 'بنر با موفقیت حذف شدند!';
                 break;
         }
 
-        // بازگشت به صفحه فهرست اسلایدرها با پیام موفقیت
-        return redirect()->route('sliders.index')->with('success', $message);
+        // بازگشت به صفحه فهرست بنر با پیام موفقیت
+        return redirect()->route('banners.index')->with('success', $message);
     }
 
 

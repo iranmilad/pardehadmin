@@ -55,8 +55,8 @@ class TransportController extends Controller
     {
         $data = $request->validate([
             'title' => 'required|string|max:255',
-            'regions' => 'required|array',
-            'cost' => 'required|string|in:free,local,fixed,percentage,weight,dimension',
+            'regions' => 'nullable|array',
+            'cost' => 'required|string|in:free,local,fixed_rate,value_based,weight_based,volume_based',
             'price' => 'nullable|numeric',
             'percentage_of_cart_value' => 'nullable|numeric',
             'weight_based_cost' => 'nullable|numeric',
@@ -65,6 +65,9 @@ class TransportController extends Controller
 
         $data['cost_type'] = $data['cost'];
         unset($data['cost']);
+
+        // اگر regions ثبت نشده بود، آرایه‌ی خالی ذخیره شود
+        $data['regions'] = $data['regions'] ?? [];
 
         // Check if user has the role 'Transporter'
         if (Auth::user()->hasRole('Transporter')) {
@@ -82,8 +85,8 @@ class TransportController extends Controller
         $this->authorizeAction($transport);
         $data = $request->validate([
             'title' => 'required|string|max:255',
-            'regions' => 'required|array',
-            'cost' => 'required|string|in:free,local,fixed,percentage,weight,dimension',
+            'regions' => 'nullable|array',
+            'cost' => 'required|string|in:free,local,fixed_rate,value_based,weight_based,volume_based',
             'price' => 'nullable|numeric',
             'percentage_of_cart_value' => 'nullable|numeric',
             'weight_based_cost' => 'nullable|numeric',
@@ -93,7 +96,10 @@ class TransportController extends Controller
         $data['cost_type'] = $data['cost'];
         unset($data['cost']);
 
-        // Check if user has the role 'Transporter'
+        // اگر regions ثبت نشده بود، آرایه‌ی خالی ذخیره شود
+        $data['regions'] = $data['regions'] ?? [];
+        
+            // Check if user has the role 'Transporter'
         if (Auth::user()->hasRole('Transporter')) {
             $data['user_id'] = Auth::id();
         } else {

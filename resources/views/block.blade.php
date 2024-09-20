@@ -25,6 +25,13 @@
                     <option selected disabled>یک گزینه انتخاب کنید</option>
                 </select>
             </div>
+            <div class="mb-10">
+                <label for="block" class="required form-label">نام ویجت</label>
+                <input type="text" class="form-control mb-2 mb-md-0" value="{{ $block->block ?? '' }}" name="block">
+            </div>
+
+
+
             {{-- <div class="mb-10">
                 <label for="exampleFormControlInput1" class="required form-label">سلکت 2</label>
                 <select class="form-select form-select-solid" data-placeholder="یک گزینه انتخاب کنید" data-control="select2" data-close-on-select="false" data-allow-clear="true" multiple="multiple">

@@ -14,13 +14,13 @@
             <div class="row mb-6">
                 <label class="col-lg-3 col-form-label fw-semibold fs-6">لوگو</label>
                 <div class="col-lg-8 col-xl-8">
-                    <x-file-input type="single" :preview="true" name="logo" value="" />
+                    <x-file-input type="single" :preview="true" name="settings[logo]" value="{{ $setting->settings['logo'] ?? '' }}" />
                 </div>
             </div>
             <div class="row mb-6">
                 <label class="col-lg-3 col-form-label fw-semibold fs-6">فاوآیکون</label>
                 <div class="col-lg-8 col-xl-8">
-                    <x-file-input type="single" :preview="true" name="settings[favicon]" value="" />
+                    <x-file-input type="single" :preview="true" name="settings[favicon]" value="{{ $setting->settings['favicon'] ?? '' }}" />
                 </div>
             </div>
             <div class="row mb-6">

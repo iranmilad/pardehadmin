@@ -31,13 +31,13 @@ class TransportRegion extends Model
     public function calculateCost($cartValue, $weight, $dimensions)
     {
         switch ($this->cost_type) {
-            case 'fixed':
+            case 'fixed_rate':
                 return $this->price;
-            case 'percentage':
+            case 'value_based':
                 return ($this->percentage_of_cart_value / 100) * $cartValue;
-            case 'weight':
+            case 'weight_based':
                 return $this->weight_based_cost * $weight;
-            case 'dimension':
+            case 'volume_based':
                 $volume = $dimensions['length'] * $dimensions['width'] * $dimensions['height'];
                 return $this->dimension_based_cost * $volume;
             default:

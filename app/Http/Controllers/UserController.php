@@ -53,7 +53,7 @@ class UserController extends Controller
             'national_code' => 'nullable|string|max:10',
             'password' => 'required|string|min:8',
             'role_id' => 'required|exists:roles,id',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'avatar' => 'nullable|max:2048',
         ]);
 
         $user = new User();
@@ -66,8 +66,7 @@ class UserController extends Controller
         $user->role_id = $request->input('role_id');
 
         if ($request->hasFile('avatar')) {
-            $avatarPath = $request->file('avatar')->store('avatars', 'public');
-            $user->avatar = $avatarPath;
+            $user->avatar = $request->input('avatar');
         }
 
         $user->save();
@@ -85,8 +84,14 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $this->authorizeAction($user);
-        return view('user-detail', compact('user'));
+    
+        // دریافت تمامی نقش‌ها
+        $roles = Role::all();
+    
+        // ارسال اطلاعات کاربر و نقش‌ها به نمای
+        return view('user-detail', compact('user', 'roles'));
     }
+    
 
     /**
      * Update the specified user in storage.
@@ -109,17 +114,16 @@ class UserController extends Controller
             'city' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
             'postal_code' => 'nullable|string|max:10',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'role_id' => 'nullable|exists:roles,id',
+            'avatar' => 'nullable|max:2048',
         ]);
+        if ($request->filled('avatar')) {
+            $user->avatar = $request->input('avatar');
+            
+        }
 
-        if ($request->hasFile('avatar')) {
-            // حذف آواتار قبلی
-            if ($user->avatar) {
-                Storage::delete('public/' . $user->avatar);
-            }
-            // ذخیره آواتار جدید
-            $avatarPath = $request->file('avatar')->store('avatars', 'public');
-            $user->avatar = $avatarPath;
+        if ($request->filled('role_id')) {
+            $user->role_id = $request->input('role_id');
         }
 
         $user->first_name = $request->input('first_name');
@@ -131,6 +135,7 @@ class UserController extends Controller
         $user->city = $request->input('city');
         $user->address = $request->input('address');
         $user->postal_code = $request->input('postal_code');
+
 
         $user->save();
 

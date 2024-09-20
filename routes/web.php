@@ -17,6 +17,7 @@ use App\Http\Controllers\BlockController;
 use App\Http\Controllers\CheckController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CreditController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
@@ -413,12 +414,29 @@ Route::group(['prefix' => 'sliders'], function () {
     Route::post('/store', [SliderController::class, 'store'])->name("sliders.store")->middleware('check.permission:manage_sliders,write_own');
     Route::get('/edit/{id}', [SliderController::class, 'edit'])->name("sliders.edit")->middleware('check.permission:manage_sliders,write_own');
     Route::put('/update/{id}', [SliderController::class, 'update'])->name("sliders.update")->middleware('check.permission:manage_sliders,write_own');
-    Route::post('/delete', [SliderController::class, 'delete'])->name("sliders.delete")->middleware('check.permission:manage_sliders,write_own');
+    Route::get('/delete/{id}', [SliderController::class, 'delete'])->name("sliders.delete")->middleware('check.permission:manage_sliders,write_own');
     Route::post('/bulk_action', [SliderController::class, 'bulk_action'])->name("sliders.bulk_action")->middleware('check.permission:manage_sliders,write_own');
     Route::get('/add/{id}', [SliderController::class, 'slideView'])->name("sliders.view")->middleware('check.permission:manage_sliders,write_own');
     Route::put('/add/{id}', [SliderController::class, 'addImage'])->name("sliders.add")->middleware('check.permission:manage_sliders,write_own');
     Route::get('/{image_id}/delete', [SliderController::class, 'deleteImage'])->name('sliders.deleteImage')->middleware('check.permission:manage_sliders,write_own');
+
 });
+
+// Banners Routes
+Route::group(['prefix' => 'banners'], function () {
+    Route::get('/', [BannerController::class, 'index'])->name("banners.index")->middleware('check.permission:manage_banners,read_own');
+    Route::get('/create', [BannerController::class, 'create'])->name("banners.create")->middleware('check.permission:manage_banners,write_own');
+    Route::post('/store', [BannerController::class, 'store'])->name("banners.store")->middleware('check.permission:manage_banners,write_own');
+    Route::get('/edit/{id}', [BannerController::class, 'edit'])->name("banners.edit")->middleware('check.permission:manage_banners,write_own');
+    Route::put('/update/{id}', [BannerController::class, 'update'])->name("banners.update")->middleware('check.permission:manage_banners,write_own');
+    Route::get('/delete/{id}', [BannerController::class, 'delete'])->name("banners.delete")->middleware('check.permission:manage_banners,write_own');
+    Route::post('/bulk_action', [BannerController::class, 'bulk_action'])->name("banners.bulk_action")->middleware('check.permission:manage_banners,write_own');
+    Route::get('/add/{id}', [BannerController::class, 'slideView'])->name("banners.view")->middleware('check.permission:manage_banners,write_own');
+    Route::put('/add/{id}', [BannerController::class, 'addImage'])->name("banners.add")->middleware('check.permission:manage_banners,write_own');
+    Route::get('/{image_id}/delete', [BannerController::class, 'deleteImage'])->name('banners.deleteImage')->middleware('check.permission:manage_banners,write_own');
+
+});
+
 
 // Settings Routes
 Route::group(['prefix' => 'settings'], function () {

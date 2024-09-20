@@ -20,7 +20,7 @@ class MenuController extends Controller
     public function index()
     {
         // ساختن کوئری برای Menu
-        $query = Menu::query();
+        $query = Menu::whereNull('menu_id');
 
         // اعمال فیلتر بر اساس دسترسی‌های کاربر
         $query = $this->applyAccessControl($query);
@@ -50,7 +50,7 @@ class MenuController extends Controller
 
         Menu::create($validatedData);
 
-        return redirect()->route('menu.index')->with('success', 'Menu created successfully.');
+        return redirect()->route('menus.index')->with('success', 'Menu created successfully.');
     }
 
     public function edit($id)

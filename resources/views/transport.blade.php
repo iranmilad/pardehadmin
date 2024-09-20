@@ -11,8 +11,8 @@
     <div class="card mb-10">
         <div class="card-body">
             <div>
-                <label for="title" class="form-label">عنوان منطقه</label>
-                <input type="text" class="form-control form-control-solid" name="title" placeholder="عنوان منطقه را وارد کنید" value="{{ old('title', $transport->title ?? '') }}" />
+                <label for="title" class="form-label">عنوان روش ارسال</label>
+                <input type="text" class="form-control form-control-solid" name="title" placeholder="عنوان روش ارسال را وارد کنید" value="{{ old('title', $transport->title ?? '') }}" />
             </div>
         </div>
     </div>
@@ -46,12 +46,12 @@
                 </label>
             </div>
             <div class="form-check form-check-custom form-check-solid">
-                <input class="form-check-input" type="radio" value="fixed" id="flexRadioDefault3" name="cost" x-model="selectedCost" />
+                <input class="form-check-input" type="radio" value="fixed_rate" id="flexRadioDefault3" name="cost" x-model="selectedCost" />
                 <label class="form-check-label" for="flexRadioDefault3">
                     نرخ ثابت
                 </label>
             </div>
-            <div x-show="selectedCost === 'fixed'">
+            <div x-show="selectedCost === 'fixed_rate'">
                 <div class="mb-5 col-md-6">
                     <label for="price" class="form-label">هزینه :</label>
                     <div class="input-group">
@@ -61,12 +61,12 @@
                 </div>
             </div>
             <div class="form-check form-check-custom form-check-solid">
-                <input class="form-check-input" type="radio" value="percentage" id="flexRadioDefault4" name="cost" x-model="selectedCost" />
+                <input class="form-check-input" type="radio" value="value_based" id="flexRadioDefault4" name="cost" x-model="selectedCost" />
                 <label class="form-check-label" for="flexRadioDefault4">
                     درصد ارزش سبد
                 </label>
             </div>
-            <div x-show="selectedCost === 'percentage'">
+            <div x-show="selectedCost === 'value_based'">
                 <div class="mb-5 col-md-6">
                     <label for="percentage_of_cart_value" class="form-label">درصد :</label>
                     <div class="input-group">
@@ -76,12 +76,12 @@
                 </div>
             </div>
             <div class="form-check form-check-custom form-check-solid">
-                <input class="form-check-input" type="radio" value="weight" id="flexRadioDefault5" name="cost" x-model="selectedCost" />
+                <input class="form-check-input" type="radio" value="weight_based" id="flexRadioDefault5" name="cost" x-model="selectedCost" />
                 <label class="form-check-label" for="flexRadioDefault5">
                     هزینه بر اساس وزن
                 </label>
             </div>
-            <div x-show="selectedCost === 'weight'">
+            <div x-show="selectedCost === 'weight_based'">
                 <div class="mb-5 col-md-6">
                     <label for="weight_based_cost" class="form-label">هزینه بر اساس وزن :</label>
                     <div class="input-group">
@@ -91,12 +91,12 @@
                 </div>
             </div>
             <div class="form-check form-check-custom form-check-solid">
-                <input class="form-check-input" type="radio" value="dimension" id="flexRadioDefault6" name="cost" x-model="selectedCost" />
+                <input class="form-check-input" type="radio" value="volume_based" id="flexRadioDefault6" name="cost" x-model="selectedCost" />
                 <label class="form-check-label" for="flexRadioDefault6">
                     هزینه بر اساس ابعاد
                 </label>
             </div>
-            <div x-show="selectedCost === 'dimension'">
+            <div x-show="selectedCost === 'volume_based'">
                 <div class="mb-5 col-md-6">
                     <label for="dimension_based_cost" class="form-label">هزینه بر اساس ابعاد :</label>
                     <div class="input-group">

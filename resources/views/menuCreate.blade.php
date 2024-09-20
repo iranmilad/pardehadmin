@@ -3,7 +3,7 @@
 @section('title', 'ایجاد منو')
 
 @section('content')
-<form action="{{ route('menus.store') }}" method="post" id="menu-form">
+<form action="{{ route('menus.store') }}" method="post">
     @csrf
     <div class="card">
         <div class="card-header">
@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-md-6">
                     <label class="form-label" for="icon">آیکون</label>
-                    <input name="icon" type="text" class="form-control form-control-solid" placeholder="آیکون را وارد کنید">
+                    <x-file-input type="single" :preview="false" name="icon" />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label" for="show_title">نمایش عنوان</label>

@@ -48,7 +48,7 @@ class BlockController extends Controller
     public function store(Request $request)
     {
         $widgetId = $request->input('widget_id');
-        $blockName = 'block_'.rand(10000,9999);
+        $blockName = $request->input('block');
         $type = $request->input('setup');
         $settings = $request->except('_token', 'widget_id', 'setup');
 
@@ -66,6 +66,7 @@ class BlockController extends Controller
         $block = BlockWidget::findOrFail($id);
         $block->widget_id = $request->input('widget_id');
         $block->type = $request->input('setup');
+        $block->block = $request->input('block');
         $block->settings = json_encode($request->except('_token', '_method', 'widget_id', 'setup'));
         $block->save();
 

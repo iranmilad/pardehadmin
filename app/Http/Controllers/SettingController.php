@@ -38,8 +38,8 @@ class SettingController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'settings.logo' => 'nullable|image',
-            'settings.favicon' => 'nullable|image',
+            'settings.logo' => 'nullable|url',
+            'settings.favicon' => 'nullable|url',
             'settings.site_url' => 'required|url',
             'settings.site_title' => 'required|string',
             'settings.copyright' => 'required|string',
@@ -58,11 +58,11 @@ class SettingController extends Controller
         ]);
 
         // Handle file uploads
-        if ($request->hasFile('settings.logo')) {
-            $data['settings']['logo'] = $request->file('settings.logo')->store('logos');
+        if ($request->filled('settings.logo')) {
+            $data['settings']['logo'] = $request->input('settings.logo');
         }
-        if ($request->hasFile('settings.favicon')) {
-            $data['settings']['favicon'] = $request->file('settings.favicon')->store('favicons');
+        if ($request->filled('settings.favicon')) {
+            $data['settings']['favicon'] = $request->input('settings.favicon');
         }
 
         Setting::create([
@@ -133,8 +133,8 @@ class SettingController extends Controller
     {
 
         $data = $request->validate([
-            'settings.logo' => 'nullable|image',
-            'settings.favicon' => 'nullable|image',
+            'settings.logo' => 'nullable|url',
+            'settings.favicon' => 'nullable|url',
             'settings.site_url' => 'required|url',
             'settings.site_title' => 'required|string',
             'settings.copyright' => 'required|string',
@@ -159,11 +159,12 @@ class SettingController extends Controller
         }
 
         // Handle file uploads
-        if ($request->hasFile('settings.logo')) {
-            $data['settings']['logo'] = $request->file('settings.logo')->store('logos');
+        if ($request->filled('settings.logo')) {
+            $data['settings']['logo'] =  $request->input('settings.logo');
         }
-        if ($request->hasFile('settings.favicon')) {
-            $data['settings']['favicon'] = $request->file('settings.favicon')->store('favicons');
+        if ($request->filled('settings.favicon')) {
+            $data['settings']['favicon'] = $request->input('settings.favicon');
+
         }
 
         $setting->update([

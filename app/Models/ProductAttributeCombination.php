@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ProductAttributeCombination extends Model
 {
@@ -12,6 +13,27 @@ class ProductAttributeCombination extends Model
     protected $fillable = [
         'product_id','independent','holo_code', 'price','sale_price','wholesale_price', 'stock_quantity', 'description', 'img','time_per_unit'
     ];
+
+    /**
+     * Accessor for sale_price.
+     * If the user has the 'wholesale' role, return wholesale_price instead of sale_price.
+     *
+     * @return float|null
+     */
+    public function getSalePriceAttribute()
+    {
+        // Check if the user is logged in and has the 'wholesale' role
+        if (Auth::check() && Auth::user()->hasRole('wholesale')) {
+
+            return $this->wholesale_price ?? $this->attributes['sale_price'];
+        }
+
+        // Otherwise, return the regular sale price
+        return $this->attributes['sale_price'];
+    }
+
+
+
 
     public function product()
     {

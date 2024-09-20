@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\Searchable;
 use App\Models\AttributeItem;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
@@ -47,7 +48,25 @@ class Product extends Model
         'reviews_enabled' => 'boolean',
     ];
 
-    // Define the relationship with the User model
+    /**
+     * Accessor for sale_price.
+     * If the user has the 'wholesale' role, return wholesale_price instead of sale_price.
+     *
+     * @return float|null
+     */
+    public function getSalePriceAttribute()
+    {
+        // Check if the user is logged in and has the 'wholesale' role
+        if (Auth::check() && Auth::user()->hasRole('wholesale')) {
+
+            return $this->wholesale_price ?? $this->attributes['sale_price'];
+        }
+
+        // Otherwise, return the regular sale price
+        return $this->attributes['sale_price'];
+    }
+
+
     public function user()
     {
         return $this->belongsTo(User::class);

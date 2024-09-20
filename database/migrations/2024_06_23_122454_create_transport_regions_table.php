@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->json('regions');
             $table->string('cost_type');
-            $table->unsignedBigInteger('price');
+            $table->unsignedBigInteger('price')->nullable();
             $table->unsignedBigInteger('user_id')->nullable(); // برای نگهداری اطلاعات کاربری که روش حمل را تعریف کرده است
             $table->decimal('percentage_of_cart_value', 5, 2)->nullable(); // درصد ارزش سبد
             $table->unsignedBigInteger('weight_based_cost')->nullable(); // هزینه بر اساس وزن

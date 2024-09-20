@@ -1,16 +1,16 @@
 @extends('layouts.primary')
 
-@section('title', 'اسلایدر ها')
+@section('title', 'بنر ها')
 
 @section('toolbar')
-<a href="{{ route('sliders.create') }}" class="btn btn-primary">اسلایدر جدید</a>
+<a href="{{ route('banners.create') }}" class="btn btn-primary">بنر جدید</a>
 @endsection
 
 @section('content')
 <!-- START:TABLE -->
 <div class="card">
     <div class="card-body">
-        <form class="d-flex align-items-center justify-content-end" action="{{ route('sliders.index') }}" method="get">
+        <form class="d-flex align-items-center justify-content-end" action="{{ route('banners.index') }}" method="get">
             @csrf
             <div class="d-flex align-items-center position-relative my-1">
                 <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6"><span class="path1"></span><span
@@ -20,7 +20,7 @@
                     class="form-control form-control-solid w-250px ps-15" placeholder="جست و جو" />
             </div>
         </form>
-        <form method="post" class="" id="action_form" action="{{ route('sliders.bulk_action') }}">
+        <form method="post" class="" id="action_form" action="{{ route('banners.bulk_action') }}">
             <div class="d-flex tw-items-center tw-justify-start tw-w-full gap-4">
                 <select class="form-select form-select-solid tw-w-max"
                     name="bulk_action" id="bulk_action">
@@ -46,7 +46,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($sliders as $slider)
+                    @foreach ($banners as $slider)
                     <tr>
                         <td>
                             <div class="form-check form-check-sm form-check-custom form-check-solid">
@@ -55,7 +55,7 @@
                             </div>
                         </td>
                         <td>
-                            <a href="{{ route('sliders.edit', ['id' => $slider->id]) }}"
+                            <a href="{{ route('banners.edit', ['id' => $slider->id]) }}"
                                 class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">{{ $slider->name }}</a>
                         </td>
                         <td class="text-end">
@@ -87,7 +87,7 @@
                                 data-kt-menu="true">
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="{{ route('sliders.edit', ['id' => $slider->id]) }}"
+                                    <a href="{{ route('banners.edit', ['id' => $slider->id]) }}"
                                         class="menu-link px-3">
                                         ویرایش
                                     </a>
@@ -95,7 +95,7 @@
                                 <!--end::Menu item-->
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="{{ route('sliders.delete', ['id' => $slider->id]) }}" class="menu-link px-3 text-primary">
+                                    <a href="{{ route('banners.delete', ['id' => $slider->id]) }}" class="menu-link px-3 text-primary">
                                         حذف
                                     </a>
                                 </div>
@@ -110,7 +110,7 @@
         </form>
         <!--end::Group actions-->
         <!--begin::Pagination-->
-        {{ $sliders->links("vendor.pagination.custom-pagination") }}
+        {{ $banners->links("vendor.pagination.custom-pagination") }}
         <!--end::Pagination-->
     </div>
 </div>

@@ -37,7 +37,8 @@
                 </div>
                 <div class="col-md-6">
                     <label class="form-label" for="icon">آیکون</label>
-                    <input name="icon" type="text" class="form-control form-control-solid" value="{{ $menu->icon }}" placeholder="آیکون را وارد کنید">
+                    <x-file-input type="single" :preview="false" name="icon" :value="$menu->icon" />
+
                 </div>
                 <div class="col-md-6">
                     <label class="form-label" for="show_title">نمایش عنوان</label>
@@ -132,8 +133,7 @@
                                                         </div>
                                                         <div class="mb-5">
                                                             <label for="" class="form-label">آیکون</label>
-                                                            <input name="menu[{{1000+$menu->id}}][icon]" type="text" class="form-control"  value="{{$menu->icon}}">
-
+                                                            <x-file-input type="single" :preview="false" name="menu[{{1000+$menu->id}}][icon]" :value="$menu->icon" editabl/>
                                                         </div>
                                                         <div class="mb-5">
                                                             <label for="" class="form-label">نمایش عنوان</label>
