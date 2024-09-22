@@ -24,6 +24,12 @@
                 </div>
             </div>
             <div class="form-group row mb-5">
+                <label for="title" class="col-2 form-label fw-bold">تعداد آیتم ها:</label>
+                <div class="col-10">
+                    <input placeholder="تعداد آیتم ها را وارد کنید" type="number" class="form-control form-control-solid" name="button_text">
+                </div>
+            </div>
+            <div class="form-group row mb-5">
                 <label for="title" class="col-2 form-label fw-bold">لینک دکمه:</label>
                 <div class="col-10">
                     <input placeholder="لینک دکمه را وارد کنید" type="text" class="form-control form-control-solid" name="button_link">
@@ -44,7 +50,24 @@
                     <select name="theme_type" x-model="themeType"  class="form-select form-select-solid">
                         <option value="simple">ساده</option>
                         <option value="onsale">فروش ویژه</option>
+                        <option value="category">دسته بندی ها</option>
                     </select>
+                </div>
+            </div>
+            <div class="form-group row mb-5">
+                <label for="title" class="col-2 form-label fw-bold">مرتب سازی:</label>
+                <div class="col-10">
+                    <select name="theme_type" x-model="themeType"  class="form-select form-select-solid">
+                        <option value="asc">صعودی</option>
+                        <option value="desc">نزولی</option>
+                        <option value="random">تصادفی</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row mb-5" x-show="themeType === 'onsale'" x-cloak>
+                <label for="title" class="col-2 form-label fw-bold">انتخاب محصول:</label>
+                <div class="col-10">
+                    <x-advanced-search type="product" label="" name="products" solid />
                 </div>
             </div>
             <!-- بازه زمانی input field will only be shown when themeType is "onsale" -->
