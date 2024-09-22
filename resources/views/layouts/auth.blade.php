@@ -42,7 +42,7 @@
 						<!--begin::Logo-->
 						<div class="">
 							<a href="/" class="">
-								<img alt="Logo" src="/images/logo.svg" class="h-150px" />
+								<img alt="Logo" src="{{ $setting->settings['logo'] }}" class="h-50px mb-10" />
 							</a>
 						</div>
 						<!--end::Logo-->

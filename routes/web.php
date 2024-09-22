@@ -569,8 +569,8 @@ Route::group(['prefix' => 'customizes'], function () {
     Route::post('/store', [CustomizeController::class, 'store'])->name("customizes.store")->middleware('check.permission:manage_site_customizes,write_own');
 
 
-    Route::get('/edit/{id}', [CustomizeController::class, 'edit'])->name("customizes.edit")->middleware('check.permission:manage_site_customizes,write_own');
-    Route::put('/update/{id}', [CustomizeController::class, 'update'])->name("customizes.update")->middleware('check.permission:manage_site_customizes,write_own');
+    Route::get('/edit', [CustomizeController::class, 'edit'])->name("customizes.edit")->middleware('check.permission:manage_site_customizes,write_own');
+    Route::put('/update', [CustomizeController::class, 'update'])->name("customizes.update")->middleware('check.permission:manage_site_customizes,write_own');
 
     Route::post('/delete', [CustomizeController::class, 'delete'])->name("customizes.delete")->middleware('check.permission:manage_site_customizes,write_own');
 

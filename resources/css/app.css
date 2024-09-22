@@ -516,3 +516,314 @@ input.choose_file_input:disabled{
 .pcr-button{
     border: 1px solid black;
 }
+
+.grid-four {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Two columns: left wider than right */
+    grid-template-rows: repeat(8, 1fr); /* 8 equal rows */
+    gap: 10px;
+
+    padding: 10px;
+}
+
+.grid-four div:nth-child(1),
+.grid-four div:nth-child(2),
+.grid-four div:nth-child(3),
+.grid-four div:nth-child(4) {
+    grid-column: 1 / span 1;
+    border: 2px solid green; /* Green border for left column */
+}
+
+.grid-four div:nth-child(1) {
+    grid-row: 1 / span 2; /* Span two rows */
+}
+
+.grid-four div:nth-child(2) {
+    grid-row: 3 / span 2; /* Span two rows */
+}
+
+.grid-four div:nth-child(3) {
+    grid-row: 5 / span 2; /* Span two rows */
+}
+
+.grid-four div:nth-child(4) {
+    grid-row: 7 / span 2; /* Span two rows */
+}
+
+/* Right column: apply to all children after the fourth one */
+.grid-four div:nth-child(n+5) {
+    grid-column: 2 / span 1; /* Right column */
+    grid-row: auto; /* Each div takes one row */
+}
+
+
+.grid-five {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Two columns: left wider than right */
+    grid-template-rows: repeat(10, 1fr); /* 10 equal rows */
+    gap: 10px;
+
+    padding: 10px;
+}
+
+.grid-five div:nth-child(1),
+.grid-five div:nth-child(2),
+.grid-five div:nth-child(3),
+.grid-five div:nth-child(4),
+.grid-five div:nth-child(5) {
+    grid-column: 1 / span 1;
+    border: 2px solid green; /* Green border for left column */
+}
+
+.grid-five div:nth-child(1) {
+    grid-row: 1 / span 2; /* Span two rows */
+}
+
+.grid-five div:nth-child(2) {
+    grid-row: 3 / span 2; /* Span two rows */
+}
+
+.grid-five div:nth-child(3) {
+    grid-row: 5 / span 2; /* Span two rows */
+}
+
+.grid-five div:nth-child(4) {
+    grid-row: 7 / span 2; /* Span two rows */
+}
+
+.grid-five div:nth-child(5) {
+    grid-row: 9 / span 2; /* Span two rows */
+}
+
+
+/* Right column: apply to all children after the fiveth one */
+.grid-five div:nth-child(n+6) {
+    grid-column: 2 / span 1; /* Right column */
+    grid-row: auto; /* Each div takes one row */
+}
+
+.grid-six {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Two columns: left wider than right */
+    grid-template-rows: repeat(12, 1fr); /* 10 equal rows */
+    gap: 10px;
+
+    padding: 10px;
+}
+
+.grid-six div:nth-child(1),
+.grid-six div:nth-child(2),
+.grid-six div:nth-child(3),
+.grid-six div:nth-child(4),
+.grid-six div:nth-child(5),
+.grid-six div:nth-child(6) {
+    grid-column: 1 / span 1;
+    border: 2px solid green; /* Green border for left column */
+}
+
+.grid-six div:nth-child(1) {
+    grid-row: 1 / span 2; /* Span two rows */
+}
+
+.grid-six div:nth-child(2) {
+    grid-row: 3 / span 2; /* Span two rows */
+}
+
+.grid-six div:nth-child(3) {
+    grid-row: 5 / span 2; /* Span two rows */
+}
+
+.grid-six div:nth-child(4) {
+    grid-row: 7 / span 2; /* Span two rows */
+}
+
+.grid-six div:nth-child(5) {
+    grid-row: 9 / span 2; /* Span two rows */
+}
+
+.grid-six div:nth-child(6) {
+    grid-row: 11 / span 2; /* Span two rows */
+}
+
+/* Right column: apply to all children after the sixth one */
+.grid-six div:nth-child(n+7) {
+    grid-column: 2 / span 1; /* Right column */
+    grid-row: auto; /* Each div takes one row */
+}
+
+.grid-seven {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Two columns: left wider than right */
+    grid-template-rows: repeat(14, 1fr); /* 10 equal rows */
+    gap: 10px;
+
+    padding: 10px;
+}
+
+.grid-seven div:nth-child(1),
+.grid-seven div:nth-child(2),
+.grid-seven div:nth-child(3),
+.grid-seven div:nth-child(4),
+.grid-seven div:nth-child(5),
+.grid-seven div:nth-child(6),
+.grid-seven div:nth-child(7) {
+    grid-column: 1 / span 1;
+    border: 2px solid green; /* Green border for left column */
+}
+
+.grid-seven div:nth-child(1) {
+    grid-row: 1 / span 2; /* Span two rows */
+}
+
+.grid-seven div:nth-child(2) {
+    grid-row: 3 / span 2; /* Span two rows */
+}
+
+.grid-seven div:nth-child(3) {
+    grid-row: 5 / span 2; /* Span two rows */
+}
+
+.grid-seven div:nth-child(4) {
+    grid-row: 7 / span 2; /* Span two rows */
+}
+
+.grid-seven div:nth-child(5) {
+    grid-row: 9 / span 2; /* Span two rows */
+}
+
+.grid-seven div:nth-child(6) {
+    grid-row: 11 / span 2; /* Span two rows */
+}
+
+.grid-seven div:nth-child(7) {
+    grid-row: 13 / span 2; /* Span two rows */
+}
+
+/* Right column: apply to all children after the seventh one */
+.grid-seven div:nth-child(n+8) {
+    grid-column: 2 / span 1; /* Right column */
+    grid-row: auto; /* Each div takes one row */
+}
+
+.grid-eight {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Two columns: left wider than right */
+    grid-template-rows: repeat(16, 1fr); /* 10 equal rows */
+    gap: 10px;
+
+    padding: 10px;
+}
+
+.grid-eight div:nth-child(1),
+.grid-eight div:nth-child(2),
+.grid-eight div:nth-child(3),
+.grid-eight div:nth-child(4),
+.grid-eight div:nth-child(5),
+.grid-eight div:nth-child(6),
+.grid-eight div:nth-child(7),
+.grid-eight div:nth-child(8) {
+    grid-column: 1 / span 1;
+    border: 2px solid green; /* Green border for left column */
+}
+
+.grid-eight div:nth-child(1) {
+    grid-row: 1 / span 2; /* Span two rows */
+}
+
+.grid-eight div:nth-child(2) {
+    grid-row: 3 / span 2; /* Span two rows */
+}
+
+.grid-eight div:nth-child(3) {
+    grid-row: 5 / span 2; /* Span two rows */
+}
+
+.grid-eight div:nth-child(4) {
+    grid-row: 7 / span 2; /* Span two rows */
+}
+
+.grid-eight div:nth-child(5) {
+    grid-row: 9 / span 2; /* Span two rows */
+}
+
+.grid-eight div:nth-child(6) {
+    grid-row: 11 / span 2; /* Span two rows */
+}
+
+.grid-eight div:nth-child(7) {
+    grid-row: 13 / span 2; /* Span two rows */
+}
+
+.grid-eight div:nth-child(8) {
+    grid-row: 15 / span 2; /* Span two rows */
+}
+
+/* Right column: apply to all children after the eightth one */
+.grid-eight div:nth-child(n+9) {
+    grid-column: 2 / span 1; /* Right column */
+    grid-row: auto; /* Each div takes one row */
+}
+
+.grid-nine {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Two columns: left wider than right */
+    grid-template-rows: repeat(18, 1fr); /* 10 equal rows */
+    gap: 10px;
+
+    padding: 10px;
+}
+
+.grid-nine div:nth-child(1),
+.grid-nine div:nth-child(2),
+.grid-nine div:nth-child(3),
+.grid-nine div:nth-child(4),
+.grid-nine div:nth-child(5),
+.grid-nine div:nth-child(6),
+.grid-nine div:nth-child(7),
+.grid-nine div:nth-child(8),
+.grid-nine div:nth-child(9) {
+    grid-column: 1 / span 1;
+    border: 2px solid green; /* Green border for left column */
+}
+
+.grid-nine div:nth-child(1) {
+    grid-row: 1 / span 2; /* Span two rows */
+}
+
+.grid-nine div:nth-child(2) {
+    grid-row: 3 / span 2; /* Span two rows */
+}
+
+.grid-nine div:nth-child(3) {
+    grid-row: 5 / span 2; /* Span two rows */
+}
+
+.grid-nine div:nth-child(4) {
+    grid-row: 7 / span 2; /* Span two rows */
+}
+
+.grid-nine div:nth-child(5) {
+    grid-row: 9 / span 2; /* Span two rows */
+}
+
+.grid-nine div:nth-child(6) {
+    grid-row: 11 / span 2; /* Span two rows */
+}
+
+.grid-nine div:nth-child(7) {
+    grid-row: 13 / span 2; /* Span two rows */
+}
+
+.grid-nine div:nth-child(8) {
+    grid-row: 15 / span 2; /* Span two rows */
+}
+
+.grid-nine div:nth-child(9) {
+    grid-row: 17 / span 2; /* Span two rows */
+}
+
+/* Right column: apply to all children after the nineth one */
+.grid-nine div:nth-child(n+10) {
+    grid-column: 2 / span 1; /* Right column */
+    grid-row: auto; /* Each div takes one row */
+}

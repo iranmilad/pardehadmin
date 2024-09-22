@@ -1093,7 +1093,7 @@
                 <span class="menu-icon">
                     <i class="fa-duotone fa fa-paint-brush"></i>
                 </span>
-                <span class="menu-title">سفارشی سازی سایت</span>
+                <span class="menu-title">راه اندازی</span>
             </a>
             <!--end:Menu link-->
         </div>
