@@ -419,37 +419,55 @@
     @endif
     <!-- end:Menu item -->
 
-    <!--begin:Menu item-->
-    @if(userHasPermission('manage_sliders'))
-        <div class="menu-item">
-            <!--begin:Menu link-->
-            <a href="{{ route('sliders.index') }}" class="menu-link {{ Route::is('sliders.index') ? 'active' : '' }}">
-                <span class="menu-icon">
-                    <i class="fa-duotone fa-rectangle-history"></i>
-                </span>
-                <span class="menu-title">اسلاید ها</span>
-            </a>
-            <!--end:Menu link-->
-        </div>
-    @endif
-    <!--end:Menu item-->
-
-    <!--begin:Menu item-->
-    @if(userHasPermission('manage_banners'))
-        <div class="menu-item">
-            <!--begin:Menu link-->
-            <a href="{{ route('banners.index') }}" class="menu-link {{ Route::is('banners.index') ? 'active' : '' }}">
-                <span class="menu-icon">
-                    <i class="fa-duotone fa-rectangle-history"></i>
-                </span>
-                <span class="menu-title">بنر ها</span>
-            </a>
-            <!--end:Menu link-->
-        </div>
-    @endif
-    <!--end:Menu item-->
-
-
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{ route('slides.show') }}" class="menu-link {{ Route::is('slides.show') ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-rectangle-history"></i>
+			</span>
+			<span class="menu-title">اسلاید ها</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{route('messages.show')}}" class="menu-link {{ Route::is('messages.show') || Route::is('message.show') ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-messages"></i>
+			</span>
+			<span class="menu-title">پیام ها</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+	<!--end:Menu item-->
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{ route('landings.show') }}" class="menu-link {{ Route::is('landings.show') || Route::is('landing.edit.show') || Route::is('landing.create.show') ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-solid fa-rectangle-vertical-history"></i>
+			</span>
+			<span class="menu-title">لندینگ ها</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{ route('loops.show') }}" class="menu-link {{ Route::is('loops.show') || Route::is('loop.edit.show') || Route::is('loop.create.show') ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-solid fa-gallery-thumbnails"></i>
+			</span>
+			<span class="menu-title">حلقه محصولات</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
     <!--begin:Menu item-->
     @if(userHasPermission('manage_sessions'))
         <div class="menu-item">
