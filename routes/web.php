@@ -585,3 +585,36 @@ Route::get('/change-site-category/{id}', function ($id) {
 Route::get('/create-site-category', function () {
     return view('site-category');
 })->name("create-site-category.show");
+
+
+// LANDING
+Route::get('/landings', function () {
+    return view('landings');
+})->name("landings.show");
+
+Route::post('/landings', function () {
+})->name("landings.save");
+
+Route::get('/landing/{id}', function ($id) {
+    return view('landing');
+})->name("landing.edit.show");
+
+Route::get('/create-landing', function () {
+    return view('landing');
+})->name("landing.create.show");
+
+// LOOPS => حلقه و باکس محصولات در صفحه اصلی
+Route::get('/loops', function () {
+    return view('loops');
+})->name("loops.show");
+
+Route::post('/loops', function () {
+})->name("loops.save");
+
+Route::get('/loop/{id}', function ($id) {
+    return view('loop');
+})->name("loop.edit.show");
+
+Route::get('/create-loop', function () {
+    return view('loop');
+})->name("loop.create.show");

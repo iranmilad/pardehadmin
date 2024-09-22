@@ -382,6 +382,30 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
+		<a href="{{ route('landings.show') }}" class="menu-link {{ Route::is('landings.show') || Route::is('landing.edit.show') || Route::is('landing.create.show') ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-solid fa-rectangle-vertical-history"></i>
+			</span>
+			<span class="menu-title">لندینگ ها</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{ route('loops.show') }}" class="menu-link {{ Route::is('loops.show') || Route::is('loop.edit.show') || Route::is('loop.create.show') ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-solid fa-gallery-thumbnails"></i>
+			</span>
+			<span class="menu-title">حلقه محصولات</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
 		<a href="{{route('messages.show')}}" class="menu-link {{ Route::is('messages.show') || Route::is('message.show') ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-messages"></i>
