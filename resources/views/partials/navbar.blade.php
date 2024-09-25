@@ -419,31 +419,35 @@
     @endif
     <!-- end:Menu item -->
 
-	<!--begin:Menu item-->
-	<div class="menu-item">
-		<!--begin:Menu link-->
-		<a href="{{ route('slides.show') }}" class="menu-link {{ Route::is('slides.show') ? 'active' : '' }}">
-			<span class="menu-icon">
-				<i class="fa-duotone fa-rectangle-history"></i>
-			</span>
-			<span class="menu-title">اسلاید ها</span>
-		</a>
-		<!--end:Menu link-->
-	</div>
-	<!--end:Menu item-->
-	<!--begin:Menu item-->
-	<div class="menu-item">
-		<!--begin:Menu link-->
-		<a href="{{route('messages.show')}}" class="menu-link {{ Route::is('messages.show') || Route::is('message.show') ? 'active' : '' }}">
-			<span class="menu-icon">
-				<i class="fa-duotone fa-messages"></i>
-			</span>
-			<span class="menu-title">پیام ها</span>
-		</a>
-		<!--end:Menu link-->
-	</div>
-	<!--end:Menu item-->
-	<!--end:Menu item-->
+    <!--begin:Menu item-->
+    @if(userHasPermission('manage_sliders'))
+        <div class="menu-item">
+            <!--begin:Menu link-->
+            <a href="{{ route('sliders.index') }}" class="menu-link {{ Route::is('sliders.index') ? 'active' : '' }}">
+                <span class="menu-icon">
+                    <i class="fa-duotone fa-rectangle-history"></i>
+                </span>
+                <span class="menu-title">اسلاید ها</span>
+            </a>
+            <!--end:Menu link-->
+        </div>
+    @endif
+    <!--end:Menu item-->
+    <!--begin:Menu item-->
+    @if(userHasPermission('manage_sessions'))
+        <div class="menu-item">
+            <!--begin:Menu link-->
+            <a href="{{ route('sessions.index') }}" class="menu-link {{ Route::is('sessions.show') || Route::is('message.show') ? 'active' : '' }}">
+                <span class="menu-icon">
+                    <i class="fa-duotone fa-messages"></i>
+                </span>
+                <span class="menu-title">پیام ها</span>
+            </a>
+            <!--end:Menu link-->
+        </div>
+    @endif
+    <!--end:Menu item-->
+
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
