@@ -463,7 +463,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{ route('loops.show') }}" class="menu-link {{ Route::is('loops.show') || Route::is('loop.edit.show') || Route::is('loop.create.show') ? 'active' : '' }}">
+		<a href="{{ route('products-loop.index') }}" class="menu-link {{ Route::is('products-loop.*') ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-solid fa-gallery-thumbnails"></i>
 			</span>

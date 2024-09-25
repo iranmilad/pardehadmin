@@ -489,11 +489,14 @@
             <!-- Step 4 -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingFour">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                        <span class="badge bg-light badge-circle badge-lg me-2" id="badge4">4</span>
-                        انتخاب ساختار
-                       
-                    </button>
+                    
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            <span class="badge bg-light badge-circle badge-lg me-2" id="badge4">4</span>
+                            انتخاب ساختار
+                            
+                        </button>
+
+
                 </h2>
                 <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
 
@@ -501,7 +504,10 @@
                         <!-- Content for Step 8 -->
                         <div class="flex-column" data-kt-stepper-element="content">
                             <div class="mb-10">
-                                <label for="" class="form-label">ساختار صفحه خانه</label>
+                                <div class="d-flex justify-content-between">
+                                    <label for="" class="form-label">ساختار صفحه خانه</label>
+                                    <a class="btn btn-warning" style="float: left;" href="{{ route("customizes.reset") }}">Reset</a>  
+                                </div>
                                 <div class="row g-5" data-kt-buttons="true" data-kt-buttons-target=".form-check-image, .form-check-input">
                                     <!-- start::Col -->
                                     <div class="col-6 col-md-3">
@@ -711,11 +717,17 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                
                             </div>
+                            
                         </div>
-                    </div>                  
+
+                        
+                    </div>   
+                                 
                 </div>
+
+                
             </div>
 
             {{-- <!-- Step 5 -->

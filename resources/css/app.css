@@ -713,7 +713,7 @@ input.choose_file_input:disabled{
 .grid-eight {
     display: grid;
     grid-template-columns: 2fr 1fr; /* Two columns: left wider than right */
-    grid-template-rows: repeat(16, 1fr); /* 10 equal rows */
+    grid-template-rows: repeat(50, 1fr); /* 10 equal rows */
     gap: 10px;
 
     padding: 10px;
@@ -772,7 +772,7 @@ input.choose_file_input:disabled{
 .grid-nine {
     display: grid;
     grid-template-columns: 2fr 1fr; /* Two columns: left wider than right */
-    grid-template-rows: repeat(18, 1fr); /* 10 equal rows */
+    grid-template-rows: repeat(50, 1fr); /* 10 equal rows */
     gap: 10px;
 
     padding: 10px;

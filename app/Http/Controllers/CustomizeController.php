@@ -187,6 +187,11 @@ class CustomizeController extends Controller
         return redirect()->back()->with('success', 'تنظیمات با موفقیت ذخیره شد');
     }
     
-    
+    public function reset(){
+        $setting = Setting::where("group","grid")->first();
+        
+        $setting->delete();
+        return redirect()->back()->with('success', 'ساختار با موفقیت بازیابی شد');
+    }
     
 }

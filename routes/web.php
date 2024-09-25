@@ -10,7 +10,7 @@ use App\Http\Controllers\SmsController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LoopController;
+use App\Http\Controllers\ProductsLoopController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
@@ -576,22 +576,22 @@ Route::group(['prefix' => 'customizes'], function () {
     Route::post('/delete', [CustomizeController::class, 'delete'])->name("customizes.delete")->middleware('check.permission:manage_site_customizes,write_own');
 
     Route::post('/bulk_action', [CustomizeController::class, 'bulk_action'])->name("customizes.bulk_action")->middleware('check.permission:manage_site_customizes,write_own');
-
+    Route::get('/reset', [CustomizeController::class, 'reset'])->name("customizes.reset")->middleware('check.permission:manage_site_customizes,write_own');
 });
 
-Route::group(['prefix' => 'loops'], function () {
+Route::group(['prefix' => 'products-loop'], function () {
 
-    Route::get('/', [LoopController::class, 'index'])->name("loops.index");
+    Route::get('/', [ProductsLoopController::class, 'index'])->name("products-loop.index");
 
-    Route::get('/create', [LoopController::class, 'create'])->name("loops.create");
-    Route::post('/store', [LoopController::class, 'store'])->name("loops.store");
+    Route::get('/create', [ProductsLoopController::class, 'create'])->name("products-loop.create");
+    Route::post('/store', [ProductsLoopController::class, 'store'])->name("products-loop.store");
 
-    Route::get('/edit/{id}', [LoopController::class, 'edit'])->name("loops.edit");
-    Route::put('/update/{id}', [LoopController::class, 'update'])->name("loops.update");
+    Route::get('/edit/{id}', [ProductsLoopController::class, 'edit'])->name("products-loop.edit");
+    Route::put('/update/{id}', [ProductsLoopController::class, 'update'])->name("products-loop.update");
 
-    Route::post('/delete', [LoopController::class, 'delete'])->name("loops.delete");
+    Route::get('/delete/{id}', [ProductsLoopController::class, 'delete'])->name("products-loop.delete");
 
-    Route::post('/bulk_action', [LoopController::class, 'bulk_action'])->name("loops.bulk_action");
+    Route::post('/bulk_action', [ProductsLoopController::class, 'bulk_action'])->name("products-loop.bulk_action");
 
 });
 
@@ -1100,18 +1100,18 @@ Route::get('/create-landing', function () {
     return view('landing');
 })->name("landing.create.show");
 
-// LOOPS => حلقه و باکس محصولات در صفحه اصلی
-Route::get('/loops', function () {
-    return view('loops');
-})->name("loops.show");
+// products-loop => حلقه و باکس محصولات در صفحه اصلی
+// Route::get('/products-loop', function () {
+//     return view('products-loop');
+// })->name("products-loop.show");
 
-Route::post('/loops', function () {
-})->name("loops.save");
+// Route::post('/products-loop', function () {
+// })->name("products-loop.save");
 
-Route::get('/loop/{id}', function ($id) {
-    return view('loop');
-})->name("loop.edit.show");
+// Route::get('/loop/{id}', function ($id) {
+//     return view('loop');
+// })->name("loop.edit.show");
 
-Route::get('/create-loop', function () {
-    return view('loop');
-})->name("loop.create.show");
+// Route::get('/create-loop', function () {
+//     return view('loop');
+// })->name("loop.create.show");
