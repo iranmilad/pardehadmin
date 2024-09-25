@@ -417,6 +417,11 @@ a.token {
     box-shadow: 0 0 10px rgba(231, 76, 60, 0.7) !important;
 }
 
+.indexSortable.active .card{
+    padding: 20px;
+    border: 2px #ccc dashed;
+}
+
 .first-grid {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;

@@ -400,15 +400,63 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+Sortable.mount(new Swap());
+
 document.addEventListener("DOMContentLoaded", () => {
     let elm = document.querySelectorAll(".swapSortable");
-    Sortable.mount(new Swap());
     elm.forEach((item) => {
         new Sortable(item, {
             swap: true, // Enable swap plugin
             swapClass: "highlight", // The class applied to the hovered swap item
             animation: 150,
         });
+    });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    let elm = document.querySelectorAll(".indexSortable");
+    elm.forEach((item) => {
+        window['indexSortable'] = new Sortable(item, {
+            swap: true, // Enable swap plugin
+            swapClass: "highlight", // The class applied to the hovered swap item
+            animation: 150,
+            disabled: true,
+            onEnd: function(evt) {
+                // شیء جدید برای نگهداری مقادیر مرتب‌شده
+                var sortedData = {'index_sort': []};
+                let sortValue = [];
+                // دریافت ورودی‌های مخفی مرتب‌شده
+                var hiddenInputs = $(evt.to).find('input[type="hidden"]');
+                
+                hiddenInputs.each(function(index, element) {
+                    // گرفتن نام و مقدار هر ورودی
+                    var inputName = $(element).attr('name');
+                    var inputValue = $(element).val();
+        
+                    // قرار دادن نام و مقدار در شیء sortedData
+                    sortValue.push(inputValue);
+                });
+                sortedData.index_sort = sortValue;
+        
+                // تبدیل شیء به رشته JSON و قرار دادن در فیلد مخفی
+                $('#indexSortableValue').val(JSON.stringify(sortedData));
+        
+                // نمایش شیء مرتب‌شده در کنسول
+                console.log(sortedData);
+            }
+        });
+    });
+});
+
+$(document).ready(function() {
+    // وقتی روی دکمه مرتب کردن کلیک شد
+    $('#sortButton').on('click', function() {
+        // دکمه مرتب کردن را مخفی کن
+        $(this).hide();
+        window['indexSortable'].option("disabled", false);
+        // دکمه‌های ذخیره و لغو را نمایش بده
+        $('#actionButtons').removeClass('d-none').addClass('d-flex');
+        $(".indexSortable").addClass('active')
     });
 });
 

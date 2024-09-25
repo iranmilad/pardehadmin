@@ -2,10 +2,33 @@
 
 @section('title', 'پیشخوان')
 
+@section("toolbar")
+<form action="">
+    @csrf
+    <input id="indexSortableValue" type="hidden" />
+
+    <!-- دکمه مرتب کردن -->
+    <button type="button" class="btn btn-primary" id="sortButton">
+        مرتب کردن
+    </button>
+    
+    <!-- دکمه‌های ذخیره و لغو -->
+    <div class="d-none align-items-center tw-gap-2" id="actionButtons" style="display: none;">
+        <button type="submit" class="btn btn-success">ذخیره</button>
+        <a class="btn btn-danger" href="{{ route('index') }}">لغو</a>
+    </div>
+</form>
+
+
+
+@endsection
+
+
 @section('content')
-<div class="row g-5 g-xl-10 ">
+<div class="row g-5 g-xl-10 indexSortable">
     <!--begin::Col-->
     <div class="col-xl-6 tw-h-auto">
+        <input name="index_sort[1]" type="hidden" value="1" />
         <div class="card tw-h-full">
             <div class="card-header">
                 <h3 class="card-title">
@@ -47,6 +70,7 @@
     <!--end::Col-->
     <!--begin::Col-->
     <div class="col-xl-6">
+        <input name="index_sort[3]" type="hidden" value="3" />
         <!--begin::جداول widget 16-->
         <div class="card card-flush h-xl-100">
             <!--begin::Header-->
@@ -122,6 +146,7 @@
     <!--end::Col-->
     <!--begin::Col-->
     <div class="col-xl-6">
+        <input name="index_sort[4]" type="hidden" value="4" />
         <!--begin::Chart widget 36-->
         <div class="card card-flush dashboard-card-chart overflow-hidden h-lg-100">
             <!--begin::Header-->
@@ -164,6 +189,7 @@
 
     <!--begin::Col-->
     <div class="col-xl-6">
+        <input name="index_sort[5]" type="hidden" value="5" />
         <!--begin::جداول widget 16-->
         <div class="card card-flush h-xl-100">
             <!--begin::Header-->
