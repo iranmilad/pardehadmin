@@ -25,7 +25,7 @@ class ProductAttributesManager extends Component
         $this->sale_price = $product->sale_price;
         $this->wholesale_price = $product->wholesale_price;
         $this->few = $product->few;
-        $this->type = $product->type ? true : false; // Convert to boolean
+        $this->type = $product->type=='variation' ? true : false; // Convert to boolean
         $this->time_per_unit = $product->time_per_unit;
     }
 
@@ -42,7 +42,7 @@ class ProductAttributesManager extends Component
             'sale_price' => 'nullable|numeric|min:0',
             'wholesale_price' => 'nullable|numeric|min:0',
             'few' => 'nullable|numeric|min:0',
-            'type' => 'boolean',
+            'type' => 'nullable|boolean',
             'time_per_unit' => 'nullable|numeric|min:0',
         ]);
     
@@ -52,7 +52,7 @@ class ProductAttributesManager extends Component
         $this->product->sale_price = $this->sale_price ?: null;
         $this->product->wholesale_price = $this->wholesale_price ?: null;
         $this->product->few = $this->few ?: null;
-        $this->product->type = $this->type ?: false; // در صورتی که نوع محصول false باشد.
+        $this->product->type =$this->type ? 'variation': 'simple'; 
         $this->product->time_per_unit = $this->time_per_unit ?: null;
     
         $this->product->save();

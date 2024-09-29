@@ -93,8 +93,8 @@ class SliderController extends Controller
             'titles.*' => 'required|max:255',
             'captions.*' => 'nullable',
             'alts.*' => 'nullable',
-            'links.*' => 'nullable|url|max:255',
-            'files.*' => 'nullable|url|max:2048',
+            'links.*' => 'nullable|string|max:255',
+            'files.*' => 'nullable|string|max:2048',
         ]);
 
         // یافتن اسلایدر

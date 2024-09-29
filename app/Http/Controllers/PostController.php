@@ -96,13 +96,10 @@ class PostController extends Controller
         }
 
         // مدیریت فایل تصویر
-        if ($request->hasFile('thumbnail')) {
-            $file = $request->file('thumbnail');
-            $fileName = $file->getClientOriginalName();
-            $file->storeAs('public/uploads', $fileName); // ذخیره فایل در مسیر مورد نظر، مانند storage/app/uploads
-            $file->move(public_path('uploads'), $fileName);
-            $fileName =  str_replace('/',"\\",$fileName) ;
-            $post->update(['image' => "/". 'uploads/'.$fileName]);
+        if ($request->has('thumbnail')) {
+        
+            $file = $request->input('thumbnail');
+            $post->update(['image' => $file]);
         }
 
         return redirect()->route('post.index')->with('success', 'پست با موفقیت ایجاد شد');
@@ -150,14 +147,12 @@ class PostController extends Controller
             $post->categories()->sync($request->input('categories'));
         }
 
-        if ($request->hasFile('thumbnail')) {
+        if ($request->has('thumbnail')) {
 
-            $file = $request->file('thumbnail');
-            $fileName = $file->getClientOriginalName();
-            $file->storeAs('public/uploads', $fileName); // ذخیره فایل در مسیر مورد نظر، مانند storage/app/uploads
-            $file->move(public_path('uploads'), $fileName);
+            $file = $request->input('thumbnail');
 
-            $post->update(['image' => "/". 'uploads/'.$fileName]);
+
+            $post->update(['image' => $file]);
         }
 
         return redirect()->route('post.index')->with('success', 'پست با موفقیت به‌روزرسانی شد');

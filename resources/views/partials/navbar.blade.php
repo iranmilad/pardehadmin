@@ -315,7 +315,7 @@
     @endif
     <!--end:Menu item-->
 	<!--begin:Menu item-->
-	<div class="menu-item">
+	<div class="menu-item d-none">
 		<!--begin:Menu link-->
 		<a href="{{route('site-categories.show')}}" class="menu-link {{Route::is('site-categories.show') || Route::is('change-site-category.show') || Route::is('create-site-category.show')  ? 'active' : ''}}">
 			<span class="menu-icon">
@@ -447,7 +447,7 @@
         </div>
     @endif
     <!--end:Menu item-->
-
+    @if(userHasPermission('manage_landing'))
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
@@ -460,6 +460,8 @@
 		<!--end:Menu link-->
 	</div>
 	<!--end:Menu item-->
+    @endif
+
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->

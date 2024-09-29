@@ -40,7 +40,7 @@
                             </div>
                             <select class="form-select form-select-solid tw-w-max" name="service" id="service">
                                 <option value="0" {{ isset($product) && $product->service == 0 ? 'selected' : '' }}>محصول </option>
-                                <option value="1" {{ isset($product) && $product->service == 1 ? 'selected' : '' }}>خدمت</option>
+                                <option value="1" {{ isset($product) && $product->service == 1 ? 'selected' : '' }} disabled>خدمت</option>
                             </select>
                         </div>
                         <div class="card-body">
@@ -49,9 +49,9 @@
                                 <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">انبار</button>
                                 <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">حمل و نقل</button>
                                 <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-relation" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">متغیر های وابسته</button>
-                                <button class="nav-link" id="v-pills-norelation-tab" data-bs-toggle="pill" data-bs-target="#v-pills-norelation" type="button" role="tab" aria-controls="v-pills-norelation" aria-selected="false">متغیر های مستقل</button>
-                                <button class="nav-link" id="v-pills-installments-tab" data-bs-toggle="pill" data-bs-target="#v-pills-installments" type="button" role="tab" aria-controls="v-pills-installments" aria-selected="false">پرداخت اقساطی</button>
-                                <button class="nav-link" id="v-pills-services-tab" data-bs-toggle="pill" data-bs-target="#v-pills-services" type="button" role="tab" aria-controls="v-pills-services" aria-selected="false">سرویس مکمل</button>
+                                <button class="nav-link d-none" id="v-pills-norelation-tab" data-bs-toggle="pill" data-bs-target="#v-pills-norelation" type="button" role="tab" aria-controls="v-pills-norelation" aria-selected="false">متغیر های مستقل</button>
+                                <button class="nav-link d-none" id="v-pills-installments-tab" data-bs-toggle="pill" data-bs-target="#v-pills-installments" type="button" role="tab" aria-controls="v-pills-installments" aria-selected="false">پرداخت اقساطی</button>
+                                <button class="nav-link d-none" id="v-pills-services-tab" data-bs-toggle="pill" data-bs-target="#v-pills-services" type="button" role="tab" aria-controls="v-pills-services" aria-selected="false">سرویس مکمل</button>
 
                             </div>
                             <div class="tab-content mt-6 border-top pt-6" id="v-pills-tabContent">

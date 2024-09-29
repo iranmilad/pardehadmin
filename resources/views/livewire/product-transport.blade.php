@@ -38,7 +38,7 @@
         <label class="form-label">نوع حمل و نقل نهایی</label>
         <select class="form-select form-select-solid" wire:model="transport_type">
             <option value="domestic" selected>داخلی</option>
-            <option value="distribution_network">شبکه توزیع</option>
+            <option value="distribution_network" disabled>شبکه توزیع</option>
         </select>
         @error('transport_type') <span class="text-danger">{{ $message }}</span> @enderror
     </div>

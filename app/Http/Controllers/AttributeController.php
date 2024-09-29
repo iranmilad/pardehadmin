@@ -71,8 +71,9 @@ class AttributeController extends Controller
             'display_type' => 'required|string|max:50',
             'img' => 'nullable|string|max:255',
             'guide_link' => 'nullable|string|max:255',
+            'independent' => 'nullable|boolean',
         ]);
-
+        
         $attribute = Attribute::findOrFail($id);
         $attribute->update($validated);
         return redirect()->route('attributes.edit',$id)->with('success', 'ویژگی با موفقیت به روز رسانی شد.');

@@ -48,13 +48,16 @@
                         <div class="mb-3">
                             <label for="display_type" class="form-label">نوع ویژگی</label>
                             <select class="form-control" id="display_type" name="display_type" required>
-                                <option value="value" {{ isset($attribute) && $attribute->display_type == 'value' ? 'selected' : '' }}>مقداری</option>
                                 <option value="color" {{ isset($attribute) && $attribute->display_type == 'color' ? 'selected' : '' }}>رنگ</option>
-                                <option value="size" {{ isset($attribute) && $attribute->display_type == 'size' ? 'selected' : '' }}>سایز</option>
-                                <option value="material" {{ isset($attribute) && $attribute->display_type == 'material' ? 'selected' : '' }}>جنس</option>
-                                <option value="model" {{ isset($attribute) && $attribute->display_type == 'model' ? 'selected' : '' }}>مدل</option>
-                                <option value="priceModel" {{ isset($attribute) && $attribute->display_type == 'priceModel' ? 'selected' : '' }}>مدل قیمت دار</option>
                                 <option value="options" {{ isset($attribute) && $attribute->display_type == 'options' ? 'selected' : '' }}>انتخابی</option>
+                                @if (isset($pro))
+                                    <option value="value" {{ isset($attribute) && $attribute->display_type == 'value' ? 'selected' : '' }}>مقداری</option>
+                                    <option value="size" {{ isset($attribute) && $attribute->display_type == 'size' ? 'selected' : '' }}>سایز</option>
+                                    <option value="material" {{ isset($attribute) && $attribute->display_type == 'material' ? 'selected' : '' }}>جنس</option>
+                                    <option value="model" {{ isset($attribute) && $attribute->display_type == 'model' ? 'selected' : '' }}>مدل</option>
+                                    <option value="priceModel" {{ isset($attribute) && $attribute->display_type == 'priceModel' ? 'selected' : '' }}>مدل قیمت دار</option>
+                                        
+                                @endif
                             </select>
                         </div>
                     </div>
@@ -77,8 +80,8 @@
                         <div class="mb-3">
                             <label for="independent" class="form-label">ویژگی مستقل</label>
                             <select class="form-control" id="independent" name="independent" required>
-                                <option value="1" {{ isset($attribute) && $attribute->independent == 1 ? 'selected' : '' }}>بله</option>
                                 <option value="0" {{ isset($attribute) && $attribute->independent == 0 ? 'selected' : '' }}>خیر</option>
+                                <option class="disabled" value="1" {{ isset($attribute) && $attribute->independent == 1 ? 'selected' : '' }}>بله</option>
                             </select>
                         </div>
                     </div>
