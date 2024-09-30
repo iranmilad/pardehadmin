@@ -63,8 +63,9 @@ return [
         ],
         'uploads' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/storage/uploads'),
-            'url' => '/storage',
+            //'root' => storage_path('app/public/storage/uploads'),
+            'root' => base_path('../public_html/storage'),
+            'url' => env('Host_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,
         ],
