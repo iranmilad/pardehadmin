@@ -42,6 +42,7 @@ import "./messages-dashboard";
 import "./file-uploader";
 import { KT_File_Input } from "./file-input";
 import "./ckeditor/bundle";
+import "./form";
 
 KTUtil.onDOMContentLoaded(function () {
     PostsTable()?.init();

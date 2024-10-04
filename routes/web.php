@@ -618,3 +618,48 @@ Route::get('/loop/{id}', function ($id) {
 Route::get('/create-loop', function () {
     return view('loop');
 })->name("loop.create.show");
+
+
+Route::group(['prefix' => 'drivers'], function () {
+    Route::get('/list/', function () {
+        return view('drivers');
+    })->name("drivers.show");
+
+    Route::get('/driver/{id}', function ($id) {
+        return view('driver');
+    })->name("driver.edit.show");
+
+    Route::get('/driver-create', function ($id) {
+        return view('driver');
+    })->name("driver.create.show");
+});
+
+Route::group(['prefix' => 'forms'], function () {
+    Route::get('/list/', function () {
+        return view('forms');
+    })->name("forms.show");
+
+    Route::get('/form/{id}', function ($id) {
+        return view('form');
+    })->name("form.edit.show");
+
+    Route::get('/create', function () {
+        return view('form');
+    })->name("form.create.show");
+
+    Route::get('/messages', function () {
+        return view('forms-messages');
+    })->name("form.messages.show");
+
+    Route::get('/message/{id}', function ($id) {
+        return view('forms-message');
+    })->name("form.message.show");
+
+    Route::get('/settings', function () {
+        return view('forms-settings');
+    })->name("form.settings.show");
+});
+
+Route::get('/newsletter', function () {
+    return view('newsletter');
+})->name("newsletter.show");

@@ -19,8 +19,15 @@
                 <div class="mb-10">
                     <label for="title" class="required form-label">عنوان</label>
                     <input type="text" id="title" class="form-control" placeholder="عنوان را وارد کنید" />
+                    <a class="text-primary nav-link tw-w-max" href="#link_edit" data-bs-toggle="collapse">آدرس لینک</a>
                 </div>
-                <div class="mb-2">
+                <div class="collapse" id="link_edit">
+                    <div>
+                        <label for="link">آدرس محصول</label>
+                        <input type="text" name="link" id="link" class="form-control" placeholder="آدرس محصول را وارد کنید" />
+                    </div>
+                </div>
+                <div class="mb-2 mt-10">
                     <label class="form-label ">محتوای صفحه</label>
                     <div class="row row-editor">
                         <div class="editor-container">

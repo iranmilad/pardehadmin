@@ -32,17 +32,37 @@
                             <label for="" class="form-label">توضیحات سایت</label>
                             <textarea name="site[description]" class="form-control"></textarea>
                         </div>
-                        <div class="row">
-                            <div class="col-3">
+                        <div class="row mb-10">
+                            <div class="col-6 col-md-3">
                                 <div>
                                     <label for="" class="form-label">لوگو</label>
                                     <x-file-input type="single" :preview="true" name="pic" />
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-6 col-md-3">
                                 <div>
                                     <label class="form-label">فاوآیکون</label>
                                     <x-file-input type="single" :preview="true" name="favicon" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-10">
+                            <div x-data="{ isChecked: false }">
+                                <div class="form-check mb-5">
+                                    <input class="form-check-input" type="checkbox" value="" x-model="isChecked" />
+                                    <label class="form-check-label">
+                                        شبکه های اجتماعی شناور
+                                    </label>
+                                </div>
+                                <div x-show="isChecked">
+                                    <label class="form-label">دکمه اشتراک گذاری</label>
+                                    <select class="form-select" name="" id="" multiple data-control="select2" data-hide-search="true">
+                                        <option value="instagram">اینستاگرام</option>
+                                        <option value="telegram">تلگرام</option>
+                                        <option value="whatsapp">واتس‌اپ</option>
+                                        <option value="linkedin">لینکدین</option>
+                                        <option value="x">اکس(توییتر)</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -64,74 +84,156 @@
                     <!-- Content for Step 2 -->
                     <div class="flex-column" data-kt-stepper-element="content">
                         <div class="row">
-                            <div class="col-3">
+                            <div class="col-12 col-md-3">
                                 <div class="mb-10">
                                     <label for="" class="form-label">رنگ اصلی</label>
                                     <input type="hidden" name="color['primary']" value="#AB0000">
                                     <div class="color-picker"></div>
                                 </div>
                             </div>
-                            <div class="col-3">
-                                <div class="mb-10">
-                                    <label for="" class="form-label">رنگ پس‌زمینه</label>
-                                    <input type="hidden" name="color['bg-background']" value="#fff">
-                                    <div class="color-picker"></div>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="mb-10">
-                                    <label for="" class="form-label">رنگ پس‌زمینه هدر</label>
-                                    <input type="hidden" name="color['header-bg']" value="#EBEDF06B">
-                                    <div class="color-picker"></div>
-                                </div>
-                            </div>
-                            <div class="col-3">
+                            <div class="col-12 col-md-3">
                                 <div class="mb-10">
                                     <label for="" class="form-label">رنگ عناوین</label>
                                     <input type="hidden" name="color['title']" value="#1e293b">
                                     <div class="color-picker"></div>
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-12 col-md-3">
                                 <div class="mb-10">
                                     <label for="" class="form-label">رنگ دکمه ی باکس محصول</label>
                                     <input type="hidden" name="color['product-card']" value="#10b981">
                                     <div class="color-picker"></div>
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-12 col-md-3">
                                 <div class="mb-10">
                                     <label for="" class="form-label">رنگ هاور دکمه ی باکس محصول</label>
                                     <input type="hidden" name="color['product-card-hover']" value="#1e293b">
                                     <div class="color-picker"></div>
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-12 col-md-3">
                                 <div class="mb-10">
                                     <label for="" class="form-label">رنگ نشان تخفیف ها</label>
                                     <input type="hidden" name="color['sale-badge']" value="#ef4444">
                                     <div class="color-picker"></div>
                                 </div>
                             </div>
-                            <div class="col-3">
-                                <div class="mb-10">
+                            <div class="col-12 col-md-3">
+                                <div x-data="{ selected: 'single' }" class="mb-10 w-75">
+                                    <label for="" class="form-label">رنگ پس‌زمینه</label>
+                                    <select x-model="selected" class="form-select">
+                                        <option value="single">تک رنگ</option>
+                                        <option value="gradient">گرادینت</option>
+                                    </select>
+
+                                    <!-- Gradient input, only visible if 'gradient' is selected -->
+                                    <input
+                                        x-show="selected === 'gradient'"
+
+                                        class="form-control mt-4"
+                                        placeholder="کد گرادینت سی اس اس"
+                                        type="text">
+
+                                    <!-- Color picker, only visible if 'single' is selected -->
+                                    <div x-show="selected === 'single'" class="mt-4">
+                                        <input type="hidden" name="color['bg-background']" value="#fff">
+                                        <input type="color" class="color-picker form-control" value="#fff">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div x-data="{ selected: 'single' }" class="mb-10 w-75">
+                                    <label for="" class="form-label">رنگ پس‌زمینه هدر</label>
+                                    <select x-model="selected" class="form-select">
+                                        <option value="single">تک رنگ</option>
+                                        <option value="gradient">گرادینت</option>
+                                    </select>
+
+                                    <!-- Gradient input, only visible if 'gradient' is selected -->
+                                    <input
+                                        x-show="selected === 'gradient'"
+
+                                        class="form-control mt-4"
+                                        placeholder="کد گرادینت سی اس اس"
+                                        type="text">
+
+                                    <!-- Color picker, only visible if 'single' is selected -->
+                                    <div x-show="selected === 'single'" class="mt-4">
+                                        <input type="hidden" name="color['header-bg']" value="#EBEDF06B">
+                                        <input type="color" class="color-picker form-control" value="#EBEDF06B">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div x-data="{ selected: 'single' }" class="mb-10 w-75">
                                     <label for="" class="form-label">رنگ باکس وبلاگ در صفحه اصلی</label>
-                                    <input type="hidden" name="color['blog-box-bg']" value="#fbbf24">
-                                    <div class="color-picker"></div>
+                                    <select x-model="selected" class="form-select">
+                                        <option value="single">تک رنگ</option>
+                                        <option value="gradient">گرادینت</option>
+                                    </select>
+
+                                    <!-- Gradient input, only visible if 'gradient' is selected -->
+                                    <input
+                                        x-show="selected === 'gradient'"
+
+                                        class="form-control mt-4"
+                                        placeholder="کد گرادینت سی اس اس"
+                                        type="text">
+
+                                    <!-- Color picker, only visible if 'single' is selected -->
+                                    <div x-show="selected === 'single'" class="mt-4">
+                                        <input type="hidden" name="color['blog-box-bg']" value="#fbbf24">
+                                        <input type="color" class="color-picker form-control" value="#fbbf24">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-3">
-                                <div class="mb-10">
+                            <div class="col-12 col-md-3">
+                                <div x-data="{ selected: 'single' }" class="mb-10 w-75">
                                     <label for="" class="form-label">رنگ پس‌زمینه فروش ویژه</label>
-                                    <input type="hidden" name="color['footer']" value="#ff3a4e">
-                                    <div class="color-picker"></div>
+                                    <select x-model="selected" class="form-select">
+                                        <option value="single">تک رنگ</option>
+                                        <option value="gradient">گرادینت</option>
+                                    </select>
+
+                                    <!-- Gradient input, only visible if 'gradient' is selected -->
+                                    <input
+                                        x-show="selected === 'gradient'"
+
+                                        class="form-control mt-4"
+                                        placeholder="کد گرادینت سی اس اس"
+                                        type="text">
+
+                                    <!-- Color picker, only visible if 'single' is selected -->
+                                    <div x-show="selected === 'single'" class="mt-4">
+                                        <input type="hidden" name="color['footer']" value="#ff3a4e">
+                                        <input type="color" class="color-picker form-control" value="#ff3a4e">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-3">
-                                <div class="mb-10">
+                            <div class="col-12 col-md-3">
+                                <div x-data="{ selected: 'single' }" class="mb-10 w-75">
                                     <label for="" class="form-label">رنگ پس‌زمینه فوتر</label>
-                                    <input type="hidden" name="color['best-suggestion']" value="#1e293b">
-                                    <div class="color-picker"></div>
+                                    <select x-model="selected" class="form-select">
+                                        <option value="single">تک رنگ</option>
+                                        <option value="gradient">گرادینت</option>
+                                    </select>
+
+                                    <!-- Gradient input, only visible if 'gradient' is selected -->
+                                    <input
+                                        x-show="selected === 'gradient'"
+
+                                        class="form-control mt-4"
+                                        placeholder="کد گرادینت سی اس اس"
+                                        type="text">
+
+                                    <!-- Color picker, only visible if 'single' is selected -->
+                                    <div x-show="selected === 'single'" class="mt-4">
+                                        <input type="hidden" name="color['best-suggestion']" value="#1e293b">
+                                        <input type="color" class="color-picker form-control" value="#1e293b">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -290,7 +392,7 @@
             <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <!-- Content for Step 4 -->
-                    <div class="flex-column" data-kt-stepper-element="content">
+                    <div class="flex-column mb-5" data-kt-stepper-element="content">
                         <!--begin::Input group-->
                         <div class="fv-row mb-4">
                             <!--begin::Label-->
@@ -324,6 +426,20 @@
                                 <span>ویدیو</span>
                                 <input type="hidden" name="option[tab]" value="video">
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Content for Step 4 -->
+                    <div class="flex-column" data-kt-stepper-element="content">
+                        <div>
+                            <label class="form-label">دکمه اشتراک گذاری</label>
+                            <select class="form-select" name="" id="" multiple data-control="select2" data-hide-search="true">
+                                <option value="instagram">اینستاگرام</option>
+                                <option value="telegram">تلگرام</option>
+                                <option value="whatsapp">واتس‌اپ</option>
+                                <option value="linkedin">لینکدین</option>
+                                <option value="x">اکس(توییتر)</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -675,6 +791,89 @@
             </div>
         </div>
 
+        <!-- Step 9 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingEight">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                    <span class="badge bg-light badge-circle badge-lg me-2" id="badge9">9</span>
+                    سوالات متداول
+                </button>
+            </h2>
+            <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <!-- Content for Step 8 -->
+                    <div class="other_repeater">
+                        <!--begin::Form group-->
+                        <div class="form-group">
+                            <!-- data-repeater-list must be unique -->
+                            <!-- data-repeater-list must be unique -->
+                            <!-- data-repeater-list must be unique -->
+                            <!-- data-repeater-list must be unique -->
+                            <!-- data-repeater-list must be unique -->
+                            <div data-repeater-list="options_repeater">
+                                <div class="mt-3 border-bottom pb-2" data-repeater-item>
+                                    <div class="form-group row">
+                                        <div class="col-12 col-md">
+                                            <label class="form-label">عنوان</label>
+                                            <input name="option[name]" type="text" class="form-control mb-2 mb-md-0" placeholder="عنوان را وارد کنید" value="" />
+                                        </div>
+                                        <div class="col-12 col-md">
+                                            <label class="form-label">متن:</label>
+                                            <textarea name="option[text]" type="text" class="form-control mb-2 mb-md-0" placeholder="متن را وارد کنید" value="1month"></textarea>
+                                        </div>
+                                        <div class="col-12 col-md">
+                                            <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-8">
+                                                <i class="ki-duotone ki-trash fs-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                                                حذف
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Form group-->
+
+                        <!--begin::Form group-->
+                        <div class="form-group mt-5">
+                            <a href="javascript:;" data-repeater-create class="btn btn-primary btn-sm">
+                                افزودن
+                                <i class="ki-duotone ki-plus fs-3 pe-0"></i>
+                            </a>
+                        </div>
+                        <!--end::Form group-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 10 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingEight">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+                    <span class="badge bg-light badge-circle badge-lg me-2" id="badge10">10</span>
+                    حلقه محصولات مرتبط
+                </button>
+            </h2>
+            <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <!-- Content for Step 8 -->
+                    <div class="form-check form-switch form-check-custom form-check-solid mb-5">
+                        <input class="form-check-input" type="checkbox" value="" name="related_product_product" />
+                        <label class="form-check-label" >
+                            نمایش در صفحه محصول
+                        </label>
+                    </div>
+
+                    <div class="form-check form-switch form-check-custom form-check-solid mb-5">
+                        <input class="form-check-input" type="checkbox" checked value="" name="related_product_basket" />
+                        <label class="form-check-label" >
+                            نمایش در سبد خرید
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- Actions -->
@@ -823,6 +1022,19 @@
             parent.val(color.toHEXA().toString())
             instance.hide();
         });
-    })
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        $(".other_repeater").repeater({
+            initEmpty: false,
+            show: function() {
+                $(this).slideDown();
+            },
+
+            hide: function(deleteElement) {
+                $(this).slideUp(deleteElement);
+            }
+        });
+    });
 </script>
 @endsection

@@ -136,7 +136,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{route('imagemarkers.show')}}" class="menu-link {{ Route::is('imagemarkers.show')   ? 'active' : '' }}">
+		<a href="{{route('imagemarkers.show')}}" class="menu-link {{ Route::is('imagemarkers.show') || Route::is('imagemarker.show')   ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-image"></i>
 			</span>
@@ -158,6 +158,70 @@
 		<!--end:Menu link-->
 	</div>
 	<!--end:Menu item-->
+
+	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('forms*') ? 'show' : ''}}">
+		<!--begin:Menu link-->
+		<span class="menu-link">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-solid fa-block-quote"></i>
+			</span>
+			<span class="menu-title">فرم ساز</span>
+			<span class="menu-arrow"></span>
+		</span>
+		<!--end:Menu link-->
+		<!--begin:Menu sub-->
+		<div class="menu-sub menu-sub-accordion">
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link {{ Route::is('forms.show') || Route::is('form.edit.show')  ? 'active' : '' }}" href="{{ route('forms.show') }}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">همه ی فرم ها </span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link {{ Route::is('form.create.show')  ? 'active' : '' }}" href="{{ route('form.create.show') }}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">افزودن فرم جدید</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link {{ Route::is('form.messages.show') || Route::is('form.message.show')  ? 'active' : '' }}" href="{{ route('form.messages.show') }}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">پیام ها</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link {{ Route::is('form.settings.show') ? 'active' : '' }}" href="{{ route('form.settings.show') }}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">تنظیمات</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+		</div>
+		<!--end:Menu sub-->
+	</div>
 
 	<!--begin:Menu item-->
 	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('products*') ? 'show' : ''}}">
@@ -315,6 +379,18 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
+		<a href="{{route('newsletter.show')}}" class="menu-link {{ Route::is('newsletter.show') ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-solid fa-newspaper"></i>
+			</span>
+			<span class="menu-title">خبرنامه</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
 		<a href="{{route('transports.show')}}" class="menu-link {{ Route::is('transports.show')  ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-truck-fast"></i>
@@ -450,6 +526,19 @@
 				<i class="fa-duotone fa-solid fa-list-check"></i>
 			</span>
 			<span class="menu-title">کار ها</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{route('drivers.show')}}" class="menu-link {{Request::is('drivers*') ? 'active' : ''}}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-solid fa-cars"></i>
+			</span>
+			<span class="menu-title">رانندگان</span>
 		</a>
 		<!--end:Menu link-->
 	</div>

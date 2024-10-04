@@ -24,12 +24,6 @@
                 </div>
             </div>
             <div class="form-group row mb-5">
-                <label for="title" class="col-2 form-label fw-bold">تعداد آیتم ها:</label>
-                <div class="col-10">
-                    <input placeholder="تعداد آیتم ها را وارد کنید" type="number" class="form-control form-control-solid" name="button_text">
-                </div>
-            </div>
-            <div class="form-group row mb-5">
                 <label for="title" class="col-2 form-label fw-bold">لینک دکمه:</label>
                 <div class="col-10">
                     <input placeholder="لینک دکمه را وارد کنید" type="text" class="form-control form-control-solid" name="button_link">
@@ -64,10 +58,16 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group row mb-5" x-show="themeType === 'onsale'" x-cloak>
+            <div class="form-group row mb-5">
                 <label for="title" class="col-2 form-label fw-bold">انتخاب محصول:</label>
                 <div class="col-10">
-                    <x-advanced-search type="product" label="" name="products" solid />
+                    <x-advanced-search type="product" label="" name="products" solid multiple />
+                </div>
+            </div>
+            <div class="form-group row mb-5">
+                <label for="title" class="col-2 form-label fw-bold">انتخاب دسته بندی:</label>
+                <div class="col-10">
+                    <x-advanced-search type="category" label="" name="category" solid multiple />
                 </div>
             </div>
             <!-- بازه زمانی input field will only be shown when themeType is "onsale" -->
