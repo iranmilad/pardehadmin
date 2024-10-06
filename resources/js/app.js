@@ -25,6 +25,7 @@ import {
     ReportsTable,
     GlobalTable,
     CustomerGroupTable,
+    KanbanConfig
 } from "./pages";
 // import "./pages/attribute";
 // import "./create-fast-category";
@@ -43,6 +44,7 @@ import "./file-uploader";
 import { KT_File_Input } from "./file-input";
 import "./ckeditor/bundle";
 import "./form";
+import { generateBoards } from "./pages/kanban";
 
 KTUtil.onDOMContentLoaded(function () {
     PostsTable()?.init();
@@ -68,7 +70,9 @@ KTUtil.onDOMContentLoaded(function () {
     ReportsTable()?.init();
     GlobalTable()?.init();
     CustomerGroupTable()?.init();
+    KanbanConfig()?.init();
     KT_File_Input();
+    generateBoards();
 });
 
 window["KT_File_Input"] = KT_File_Input;

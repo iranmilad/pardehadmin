@@ -238,3 +238,40 @@ export const FormItemSettings = ({ id, type, title, value, required }) => {
         </>
     );
 };
+
+export function GenerateKanbanCard({ data }) {
+    const { id, title, assigneeName, startDate, endDate } = data;
+    return (
+        <div data-id={id} class="kanban-card">
+            <span class="kanban-card-title">{title}</span>
+            <div class="kanban-card-details">
+                {assigneeName && (
+                    <div class="kanban-card-assignee">
+                        <div>
+                            <span>انجام دهنده</span>
+                        </div>
+                        <div class="kanban-card-assignee-name">
+                            {assigneeName}
+                        </div>
+                    </div>
+                )}
+                <div class="kanban-card-dates">
+                    {startDate && (
+                        <div class="kanban-card-date">
+                            <div>تاریخ شروع</div>
+                            <span class="kanban-card-date-info">
+                                {startDate}
+                            </span>
+                        </div>
+                    )}
+                    {endDate && (
+                        <div class="kanban-card-date">
+                            <div>تاریخ پایان</div>
+                            <span class="kanban-card-date-info">{endDate}</span>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+}

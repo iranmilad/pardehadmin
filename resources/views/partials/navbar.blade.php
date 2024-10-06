@@ -508,6 +508,19 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
+		<a href="{{route('tasks-kanban.show')}}" class="menu-link {{ Route::is('tasks-kanban.show') ? 'active' : '' }}">
+			<span class="menu-icon">
+			<i class="fa-duotone fa-solid fa-clipboard-list"></i>
+			</span>
+			<span class="menu-title">مدیریت کارها</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
 		<a href="{{route('worktimes.show')}}" class="menu-link {{ Route::is('worktimes.show') ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-timer"></i>

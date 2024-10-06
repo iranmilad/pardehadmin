@@ -393,8 +393,8 @@ a.token {
     padding: 10px;
 }
 
-@media only screen and (min-width: 1200px){
-    .third-grid{
+@media only screen and (min-width: 1200px) {
+    .third-grid {
         height: 500px;
     }
 }
@@ -574,4 +574,82 @@ input.choose_file_input:disabled {
     gap: 10px;
     overflow: hidden !important;
     user-select: none;
+}
+
+.kanban-board {
+    background-color: #f6f8fa;
+    border-radius: 8px;
+    border: 1px solid #d0d7de;
+}
+
+.kanban-drag{
+    max-height: 700px;
+    overflow-y: auto;
+}
+
+.kanban-item {
+    padding: 0;
+    line-height: 1.3;
+    background-color: transparent;
+    border: none !important;
+}
+
+/* Kanban Card Container */
+.kanban-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Kanban Card Title */
+.kanban-card-title {
+    font-weight: bold;
+    font-size: 1.25rem; /* equivalent to fs-4 */
+    border-bottom: 2px solid #eee;
+    padding-bottom: 8px;
+}
+
+/* Kanban Card Details */
+.kanban-card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Assignee Info */
+.kanban-card-assignee {
+    font-size: 0.875rem; /* equivalent to tw-text-sm */
+    font-weight: bold;
+}
+
+.kanban-card-assignee-name {
+    color: #94a3b8; /* equivalent to tw-text-slate-400 */
+}
+
+/* Date Information */
+.kanban-card-dates {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+}
+
+.kanban-card-date {
+    font-weight: bold;
+}
+
+.kanban-card-date-info {
+    color: #94a3b8;
+}
+
+.kanban-container{
+    width: 100%;
+    flex-wrap: nowrap !important;
+    overflow-y: auto;
+    overflow-x: auto;
 }

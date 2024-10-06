@@ -530,6 +530,10 @@ Route::group(['prefix' => 'tasks'], function () {
     Route::get('/task/{id}', function ($id) {
         return view('task');
     })->name("task.edit.show");
+
+    Route::get('/kanban', function () {
+        return view('task-kanban');
+    })->name("tasks-kanban.show");
 });
 
 Route::group(['prefix' => 'workflows'], function () {

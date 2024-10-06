@@ -138,7 +138,7 @@ Route::get("/imgdot/{id}", function ($id) {
     return response()->json(['html' => $html]);
 });
 
-Route::post('/custom-css',function(){
+Route::post('/custom-css', function () {
     // REQUEST => ID
     $css = "body{
     background-color: red;
@@ -188,6 +188,139 @@ Route::get('/product-options/{id}', function ($id) {
             'name' => 'count',
             'type' => 'input',
         ]
+    ];
+
+    return response()->json($response);
+});
+
+Route::get('/tasks', function () {
+    $response = [
+        [
+            'id' => "nkjkln56342",
+            "title" => "شروع نشده",
+            "color" => '#6b7280',
+            "items" => [
+                [
+                    "id" => "1111",
+                    "title" => "ارسال برای خریدار",
+                    "assigneeName" => "فرهاد باقری",
+                    "startDate" => "01/01/1403",
+                    "endDate" => "30/01/1403",
+                ],
+                [
+                    "id" => "2222",
+                    "title" => "طراحی دوخت",
+                    "assigneeName" => "فرهاد باقری",
+                    "startDate" => "01/01/1403",
+                    "endDate" => "30/01/1403",
+                ]
+            ]
+        ],
+        [
+            'id' => "sb7df9asd",
+            "title" => "درحال انجام",
+            "color" => '#2196F3',
+            "items" => [
+                [
+                    "id" => "3333",
+                    "title" => "خرید پارچه",
+                    "assigneeName" => "فرهاد باقری",
+                    "startDate" => "01/01/1403",
+                    "endDate" => "30/01/1403",
+                ],
+                [
+                    "id" => "4544",
+                    "title" => "ارسال برای نصاب",
+                    "assigneeName" => "فرهاد باقری",
+                    "startDate" => "01/01/1403",
+                    "endDate" => "30/01/1403",
+                ]
+            ]
+        ],
+        [
+            'id' => "fdgmndfg2",
+            "title" => "درحال انجام",
+            "color" => '#009688',
+            "items" => [
+                [
+                    "id" => "5555",
+                    "title" => "خرید پارچه",
+                    "assigneeName" => "فرهاد باقری",
+                    "startDate" => "01/01/1403",
+                    "endDate" => "30/01/1403",
+                ],
+                [
+                    "id" => "6666",
+                    "title" => "ارسال برای نصاب",
+                    "assigneeName" => "فرهاد باقری",
+                    "startDate" => "01/01/1403",
+                    "endDate" => "30/01/1403",
+                ]
+            ]
+        ],
+    ];
+
+    return response()->json(array("boards" => $response));
+});
+
+Route::get('/tasks/status', function () {
+    $arr = [
+        [
+            'id' => "nkjkln56342",
+            "title" => "شروع نشده"
+        ],
+        [
+            'id' => "sb7df9asd",
+            "title" => "درحال انجام"
+        ],
+        [
+            'id' => "fdgmndfg2",
+            "title" => "اتمام یافته"
+        ],
+    ];
+
+    return response()->json($arr);
+});
+
+Route::post('/tasks/add', function () {
+
+    // $request = [
+    //     'id' => '',
+    //     'title' => '',
+    //     'assigneeName' => '',
+    //     'startDate' => '',
+    //     'endDate' => ''
+    //     'board' => 'inprogress'
+    // ];
+
+
+    $arr = [
+        [
+            'id' => "nkjkln56342",
+            "title" => "شروع نشده"
+        ],
+        [
+            'id' => "sb7df9asd",
+            "title" => "درحال انجام"
+        ],
+        [
+            'id' => "fdgmndfg2",
+            "title" => "اتمام یافته"
+        ],
+    ];
+
+    return response()->json($arr);
+});
+
+Route::get('/task/{id}', function ($id) {
+
+    $response = [
+        'id' => '3333',
+        'title' => 'ارسال برای مشتری',
+        'assigneeName' => 'فرهاد باقری',
+        'startDate' => '1403-01-01', // Y - M -D
+        'endDate' => "1403-01-30", // Y - M -D
+        'board' => 'doing'
     ];
 
     return response()->json($response);

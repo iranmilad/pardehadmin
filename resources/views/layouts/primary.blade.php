@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Vite;
     <link rel="stylesheet" href="{{asset('plugins/global/plugins.bundle.rtl.css')}}">
     <link rel="stylesheet" href="{{asset('css/flatpickr.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/flatpickr-custom.css')}}">
+    @yield('css')
     @vite(['resources/css/app.css'])
 </head>
 
