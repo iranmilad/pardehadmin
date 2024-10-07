@@ -242,7 +242,7 @@ export const FormItemSettings = ({ id, type, title, value, required }) => {
 export function GenerateKanbanCard({ data }) {
     const { id, title, assigneeName, startDate, endDate } = data;
     return (
-        <div data-id={id} class="kanban-card">
+        <div class="kanban-card"> {/* Add the data-eid attribute here */}
             <span class="kanban-card-title">{title}</span>
             <div class="kanban-card-details">
                 {assigneeName && (
@@ -275,3 +275,4 @@ export function GenerateKanbanCard({ data }) {
         </div>
     );
 }
+

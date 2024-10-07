@@ -239,7 +239,7 @@ Route::get('/tasks', function () {
         ],
         [
             'id' => "fdgmndfg2",
-            "title" => "درحال انجام",
+            "title" => "اتمام یافته",
             "color" => '#009688',
             "items" => [
                 [
@@ -293,23 +293,21 @@ Route::post('/tasks/add', function () {
     //     'board' => 'inprogress'
     // ];
 
+    return response()->json();
+});
 
-    $arr = [
-        [
-            'id' => "nkjkln56342",
-            "title" => "شروع نشده"
-        ],
-        [
-            'id' => "sb7df9asd",
-            "title" => "درحال انجام"
-        ],
-        [
-            'id' => "fdgmndfg2",
-            "title" => "اتمام یافته"
-        ],
-    ];
+Route::post('/tasks/update', function () {
 
-    return response()->json($arr);
+    // $request = [
+    //     'id' => '',
+    //     'title' => '',
+    //     'assigneeName' => '',
+    //     'startDate' => '',
+    //     'endDate' => ''
+    //     'board' => 'inprogress'
+    // ];
+
+    return response()->json();
 });
 
 Route::get('/task/{id}', function ($id) {
@@ -320,8 +318,71 @@ Route::get('/task/{id}', function ($id) {
         'assigneeName' => 'فرهاد باقری',
         'startDate' => '1403-01-01', // Y - M -D
         'endDate' => "1403-01-30", // Y - M -D
-        'board' => 'doing'
+        'board' => 'sb7df9asd'
     ];
 
     return response()->json($response);
+});
+
+Route::post('/tasks/update-kanban', function () {
+
+    // $request = [
+    //     'id' => '',
+    //     'title' => '',
+    //     'color' => '',
+    //     'position' => ''
+    // ];
+
+    return response()->json();
+});
+
+Route::post('/tasks/create-kanban', function () {
+
+    // $request = [
+    //     'id' => '',
+    //     'title' => '',
+    //     'color' => '',
+    //     'position' => ''
+    // ];
+
+    return response()->json();
+});
+
+Route::post('/tasks/update-card', function () {
+
+    // $request = [
+    //     'id' => '',
+    //     'title' => '',
+    //     'assigneeName' => '',
+    //     'startDate' => '',
+    //     'endDate' => ''
+    //     'board' => ''
+    //     'position' => ''
+    // ];
+
+    return response()->json();
+});
+
+Route::post('/tasks/remove-card', function () {
+
+    // $request = [
+    //     'id' => '',
+    //     'title' => '',
+    //     'assigneeName' => '',
+    //     'startDate' => '',
+    //     'endDate' => ''
+    //     'board' => ''
+    //     'position' => ''
+    // ];
+
+    return response()->json();
+});
+
+Route::post('/tasks/remove', function () {
+
+    // $request = [
+    //     'id' => '',
+    // ];
+
+    return response()->json();
 });

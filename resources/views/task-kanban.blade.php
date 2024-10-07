@@ -9,8 +9,8 @@
 
 @section("toolbar")
 <div>
-    <button class="btn btn-primary" id="addNewTask">افزودن کار</button>
-    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#boardModal">افزودن وضعیت</button>
+    <button class="btn btn-primary" type="button" id="addNewTask">افزودن کار</button>
+    <button class="btn btn-info" type="button" id="addNewBoardModal">افزودن وضعیت</button>
 </div>
 @endsection
 
@@ -35,9 +35,9 @@
                 <div class="mb-3">
                     <label for="message-text" class="col-form-label">وضعیت :</label>
                     <select class="form-select" name="" id="boards-status">
-                        <option value="nostatus">انجام نشده</option>
-                        <option value="doing">در حال انجام</option>
-                        <option value="done">اتمام</option>
+                        <option value="nkjkln56342">شروع نشده</option>
+                        <option value="sb7df9asd">در حال انجام</option>
+                        <option value="fdgmndfg2">اتمام یافته</option>
                     </select>
                 </div>
 
@@ -56,8 +56,9 @@
                     <x-advanced-search type="user" label="" name="user" single />
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" id="save_edit_modal">ذخیره</button>
+            <div class="modal-footer d-flex align-items-center justify-content-between">
+                <button type="submit" class="btn btn-success" id="save_edit_modal">ذخیره</button>
+                <button class="btn btn-danger" type="button" id="removeKanbanItem">حذف</button>
             </div>
         </form>
     </div>
@@ -82,9 +83,11 @@
                     <input type="hidden" id="boardColor" value="#AB0000">
                     <div class="color-picker"></div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" id="addNewBoard" class="btn btn-success">افزودن</button>
-                </div>
+            </div>
+            <div class="modal-footer d-flex align-items-center justify-content-between">
+                <button type="button" id="addNewBoard" class="btn btn-success">افزودن</button>
+                <button class="btn btn-danger" type="button" id="removeKanban">حذف</button>
+            </div>
         </form>
     </div>
 </div>
@@ -158,7 +161,8 @@
                 }
             }
 
-            new Pickr(pickerConfig).on("save", (color, instance) => {
+            let colorpicker = window['boardColor'] = new Pickr(pickerConfig);
+            colorpicker.on("save", (color, instance) => {
                 $(this).val(color.toHEXA().toString())
                 parent.val(color.toHEXA().toString())
                 instance.hide();

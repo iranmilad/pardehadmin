@@ -508,7 +508,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{route('tasks-kanban.show')}}" class="menu-link {{ Route::is('tasks-kanban.show') ? 'active' : '' }}">
+		<a href="{{route('tasks.kanban.show')}}" class="menu-link {{ Route::is('tasks.kanban.show') ? 'active' : '' }}">
 			<span class="menu-icon">
 			<i class="fa-duotone fa-solid fa-clipboard-list"></i>
 			</span>
@@ -534,7 +534,7 @@
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{route('tasks.show')}}" class="menu-link {{Request::is('tasks*') ? 'active' : ''}}">
+		<a href="{{route('tasks.show')}}" class="menu-link {{ Route::is('tasks.show') || Route::is('task.edit.show') ? 'active' : ''}}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-solid fa-list-check"></i>
 			</span>

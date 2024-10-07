@@ -582,6 +582,10 @@ input.choose_file_input:disabled {
     border: 1px solid #d0d7de;
 }
 
+.kanban-board-header{
+    cursor: pointer;
+}
+
 .kanban-drag{
     max-height: 700px;
     overflow-y: auto;

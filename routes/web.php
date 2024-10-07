@@ -523,6 +523,11 @@ Route::group(['prefix' => 'scores'], function () {
 });
 
 Route::group(['prefix' => 'tasks'], function () {
+
+    Route::get('/kanban', function () {
+        return view('task-kanban');
+    })->name("tasks.kanban.show");
+    
     Route::get('/list', function () {
         return view('tasks');
     })->name("tasks.show");
@@ -531,9 +536,7 @@ Route::group(['prefix' => 'tasks'], function () {
         return view('task');
     })->name("task.edit.show");
 
-    Route::get('/kanban', function () {
-        return view('task-kanban');
-    })->name("tasks-kanban.show");
+
 });
 
 Route::group(['prefix' => 'workflows'], function () {
