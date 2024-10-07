@@ -193,6 +193,7 @@ Route::get('/product-options/{id}', function ($id) {
     return response()->json($response);
 });
 
+// برای دریافت کار ها
 Route::get('/tasks', function () {
     $response = [
         [
@@ -263,6 +264,7 @@ Route::get('/tasks', function () {
     return response()->json(array("boards" => $response));
 });
 
+// برای دریافت وضعیت ها
 Route::get('/tasks/status', function () {
     $arr = [
         [
@@ -282,6 +284,7 @@ Route::get('/tasks/status', function () {
     return response()->json($arr);
 });
 
+// برای اضافه کردن کار
 Route::post('/tasks/add', function () {
 
     // $request = [
@@ -296,6 +299,7 @@ Route::post('/tasks/add', function () {
     return response()->json();
 });
 
+// برای بروزرسانی کار
 Route::post('/tasks/update', function () {
 
     // $request = [
@@ -310,6 +314,7 @@ Route::post('/tasks/update', function () {
     return response()->json();
 });
 
+// برای دریافت مشخصات کار
 Route::get('/task/{id}', function ($id) {
 
     $response = [
@@ -324,6 +329,7 @@ Route::get('/task/{id}', function ($id) {
     return response()->json($response);
 });
 
+// برای آپدیت کردن وضعیت
 Route::post('/tasks/update-kanban', function () {
 
     // $request = [
@@ -336,6 +342,7 @@ Route::post('/tasks/update-kanban', function () {
     return response()->json();
 });
 
+// ساخت وضعیت
 Route::post('/tasks/create-kanban', function () {
 
     // $request = [
@@ -348,6 +355,7 @@ Route::post('/tasks/create-kanban', function () {
     return response()->json();
 });
 
+// اپدیت کردن کار
 Route::post('/tasks/update-card', function () {
 
     // $request = [
@@ -363,21 +371,17 @@ Route::post('/tasks/update-card', function () {
     return response()->json();
 });
 
+// حذف کردن وضعیت
 Route::post('/tasks/remove-card', function () {
 
     // $request = [
     //     'id' => '',
-    //     'title' => '',
-    //     'assigneeName' => '',
-    //     'startDate' => '',
-    //     'endDate' => ''
-    //     'board' => ''
-    //     'position' => ''
     // ];
 
     return response()->json();
 });
 
+// حذف کردن کار
 Route::post('/tasks/remove', function () {
 
     // $request = [
