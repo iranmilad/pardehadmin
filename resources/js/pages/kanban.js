@@ -10,27 +10,35 @@ var selectKanbanMode = "create";
 let mode = "create";
 let cardMode = "create";
 
-var detailModal = new bootstrap.Modal("#editModal", {
-    keyboard: false,
-});
+if (document.getElementById("#editModal")) {
+    var detailModal = new bootstrap.Modal("#editModal", {
+        keyboard: false,
+    });
+}
 
-var boardModal = new bootstrap.Modal("#boardModal", {
-    keyboard: false,
-});
+if (document.getElementById("#boardModal")) {
+    var boardModal = new bootstrap.Modal("#boardModal", {
+        keyboard: false,
+    });
+}
 
-let detailModalBlock = new KTBlockUI(
-    document.querySelector("#editModal .modal-body"),
-    {
-        overlayClass: "tw-bg-transparent",
-    }
-);
+if (document.getElementById("#editModal")) {
+    var detailModalBlock = new KTBlockUI(
+        document.querySelector("#editModal .modal-body"),
+        {
+            overlayClass: "tw-bg-transparent",
+        }
+    );
+}
 
-let boardModalBlock = new KTBlockUI(
-    document.querySelector("#boardModal .modal-body"),
-    {
-        overlayClass: "tw-bg-transparent",
-    }
-);
+if (document.getElementById("#boardModal")) {
+    var boardModalBlock = new KTBlockUI(
+        document.querySelector("#boardModal .modal-body"),
+        {
+            overlayClass: "tw-bg-transparent",
+        }
+    );
+}
 
 let bodyBlock = new KTBlockUI(document.querySelector("body"), {
     overlayClass: "tw-bg-transparent",
@@ -41,104 +49,116 @@ var kanban = null; // Declare kanban globally
 export var KanbanConfig = function (boards = []) {
     // Private functions
     var exampleBasic = function () {
-        window["kanban"] = kanban = new jKanban({
-            element: "#kanban",
-            gutter: "20px",
-            widthBoard: "350px",
-            dragendEl: function (el) {
-                const cardId = $(el).find('.kanban-card').data("id"); // Get the ID of the dragged card
-                const boardId = $(el).closest(".kanban-board").data("id"); // Get the ID of the board the card belongs to
-                const allCardsInBoard = $(el)
-                    .closest(".kanban-board")
-                    .find(".kanban-card"); // Get all cards in the current board
-                    
+        if (document.getElementById("#boardModal")) {
+            window["kanban"] = kanban = new jKanban({
+                element: "#kanban",
+                gutter: "20px",
+                widthBoard: "350px",
+                dragendEl: function (el) {
+                    const cardId = $(el).find(".kanban-card").data("id"); // Get the ID of the dragged card
+                    const boardId = $(el).closest(".kanban-board").data("id"); // Get the ID of the board the card belongs to
+                    const allCardsInBoard = $(el)
+                        .closest(".kanban-board")
+                        .find(".kanban-card"); // Get all cards in the current board
 
-                // Calculate the new position of the card
-                const newPosition =
-                    Array.from(allCardsInBoard).findIndex(
+                    // Calculate the new position of the card
+                    const newPosition = Array.from(allCardsInBoard).findIndex(
                         (card) => $(card).data("id") === cardId
                     ); // 1-based index
 
-                // Prepare the data for the AJAX request
-                const requestData = {
-                    id: cardId,
-                    board: boardId,
-                    position: newPosition, // New position of the card in the board
-                };
+                    // Prepare the data for the AJAX request
+                    const requestData = {
+                        id: cardId,
+                        board: boardId,
+                        position: newPosition, // New position of the card in the board
+                    };
 
+                    // Send the POST request to update the card position
+                    $.ajax({
+                        url: "/api/tasks/update-card", // The API endpoint
+                        type: "POST",
+                        data: JSON.stringify(requestData), // Convert the request data to JSON
+                        contentType: "application/json", // Set the content type to JSON
+                        error: function (error) {
+                            window["Alarm"]({
+                                msg: "مشکلی پیش آمده",
+                                type: "error",
+                            });
+                        },
+                    });
+                },
 
+                dragendBoard: function (el) {
+                    const boardId = $(el).data("id"); // Get the ID of the dragged board
+                    const allBoards = $("#kanban .kanban-board"); // Get all boards
+                    const newPosition =
+                        allBoards
+                            .toArray()
+                            .findIndex(
+                                (board) => $(board).data("id") === boardId
+                            ) + 1; // Calculate the new position (1-based)
 
-                // Send the POST request to update the card position
-                $.ajax({
-                    url: "/api/tasks/update-card", // The API endpoint
-                    type: "POST",
-                    data: JSON.stringify(requestData), // Convert the request data to JSON
-                    contentType: "application/json", // Set the content type to JSON
-                    error: function (error) {
-                        window['Alarm']({msg: "مشکلی پیش آمده",type:"error"})
-                    },
-                });
-            },
+                    // Prepare the data for the AJAX request
+                    const requestData = {
+                        id: boardId,
+                        position: newPosition, // New position
+                    };
 
-            dragendBoard: function (el) {
-                const boardId = $(el).data("id"); // Get the ID of the dragged board
-                const allBoards = $("#kanban .kanban-board"); // Get all boards
-                const newPosition =
-                    allBoards
-                        .toArray()
-                        .findIndex((board) => $(board).data("id") === boardId) +
-                    1; // Calculate the new position (1-based)
-
-                // Prepare the data for the AJAX request
-                const requestData = {
-                    id: boardId,
-                    position: newPosition, // New position
-                };
-
-                // Send the POST request to update the Kanban position
-                $.ajax({
-                    url: "/api/tasks/update-kanban", // The API endpoint
-                    type: "POST",
-                    data: JSON.stringify(requestData), // Convert the request data to JSON
-                    contentType: "application/json", // Set the content type to JSON
-                    success: function (response) {},
-                    error: (error) => window['Alarm']({msg: "مشکلی پیش آمده",type:"error"}) ,
-                });
-            },
-            click: function (el) {
-                let id = $(el).data("eid");
-                selectKanbanItem = id;
-                $.ajax({
-                    url: `/api/task/${id}`,
-                    beforeSend: () => detailModalBlock.block(),
-                    success: (res) => {
-                        $("#editModalTitle").val(res.title);
-                        $("#boards-status").val(res.board); // Board status (nostatus, doing, done)
-                        window["detail_modal_start_date"].setDate(
-                            res.startDate
-                        );
-                        window["detail_modal_end_date"].setDate(res.endDate);
-                        var newOption = new Option(
-                            res.assigneeName,
-                            res.assigneeName,
-                            false,
-                            false
-                        );
-                        // Append it to the select
-                        $("select.advanced_search")
-                            .append(newOption)
-                            .trigger("change");
-                        detailModalBlock.release();
-                        $("#save_edit_modal").html("ذخیره")
-                        cardMode = "update";
-                        $("#removeKanbanItem").show();
-                        detailModal.show();
-                    },
-                    error: () => window['Alarm']({msg: "مشکلی پیش آمده",type:"error"})
-                });
-            },
-            boards,
-        });
+                    // Send the POST request to update the Kanban position
+                    $.ajax({
+                        url: "/api/tasks/update-kanban", // The API endpoint
+                        type: "POST",
+                        data: JSON.stringify(requestData), // Convert the request data to JSON
+                        contentType: "application/json", // Set the content type to JSON
+                        success: function (response) {},
+                        error: (error) =>
+                            window["Alarm"]({
+                                msg: "مشکلی پیش آمده",
+                                type: "error",
+                            }),
+                    });
+                },
+                click: function (el) {
+                    let id = $(el).data("eid");
+                    selectKanbanItem = id;
+                    $.ajax({
+                        url: `/api/task/${id}`,
+                        beforeSend: () => detailModalBlock.block(),
+                        success: (res) => {
+                            $("#editModalTitle").val(res.title);
+                            $("#boards-status").val(res.board); // Board status (nostatus, doing, done)
+                            window["detail_modal_start_date"].setDate(
+                                res.startDate
+                            );
+                            window["detail_modal_end_date"].setDate(
+                                res.endDate
+                            );
+                            var newOption = new Option(
+                                res.assigneeName,
+                                res.assigneeName,
+                                false,
+                                false
+                            );
+                            // Append it to the select
+                            $("select.advanced_search")
+                                .append(newOption)
+                                .trigger("change");
+                            detailModalBlock.release();
+                            $("#save_edit_modal").html("ذخیره");
+                            cardMode = "update";
+                            $("#removeKanbanItem").show();
+                            detailModal.show();
+                        },
+                        error: () =>
+                            window["Alarm"]({
+                                msg: "مشکلی پیش آمده",
+                                type: "error",
+                            }),
+                    });
+                },
+                boards,
+            });
+        }
     };
 
     return {
@@ -153,20 +173,30 @@ $("#addNewBoard").on("click", function () {
     const title = $("#boardTitle").val(); // Get the board title from input
     const color = $("#boardColor").val(); // Get the board color from input
 
-    console.log(selectKanbanMode);
-
     if (!title || !color) return; // Exit early if title or color is missing
 
-    let boardId = selectKanbanMode === "create" ? `board_${new Date().getTime()}` : selectKanban; // Set board ID based on mode
+    let boardId =
+        selectKanbanMode === "create"
+            ? `board_${new Date().getTime()}`
+            : selectKanban; // Set board ID based on mode
     const requestData = {
         id: boardId,
         title: title,
         color: color,
-        position: (selectKanbanMode === "create" ? $("#kanban .kanban-board").length + 1 : $("#kanban .kanban-board").toArray().findIndex(board => $(board).data("id") === boardId) + 1)
+        position:
+            selectKanbanMode === "create"
+                ? $("#kanban .kanban-board").length + 1
+                : $("#kanban .kanban-board")
+                      .toArray()
+                      .findIndex((board) => $(board).data("id") === boardId) +
+                  1,
     };
 
     // Determine the API endpoint based on the mode
-    const apiUrl = selectKanbanMode === "create" ? "/api/tasks/create-kanban" : "/api/tasks/update-kanban";
+    const apiUrl =
+        selectKanbanMode === "create"
+            ? "/api/tasks/create-kanban"
+            : "/api/tasks/update-kanban";
 
     // AJAX request for creating or updating the board
     $.ajax({
@@ -177,21 +207,32 @@ $("#addNewBoard").on("click", function () {
         beforeSend: () => boardModalBlock.block(),
         success: function () {
             if (selectKanbanMode === "create") {
-                window["kanban"].addBoards([{ id: boardId, title: `<i class="fa-solid fa-circle me-5" style="color:${color};"></i><span>${title}</span>`, item: [] }]);
+                window["kanban"].addBoards([
+                    {
+                        id: boardId,
+                        title: `<i class="fa-solid fa-circle me-5" style="color:${color};"></i><span>${title}</span>`,
+                        item: [],
+                    },
+                ]);
             } else {
-                const boardElement = $(`#kanban .kanban-board[data-id='${boardId}']`);
-                boardElement.find(".kanban-title-board").html(`<i class="fa-solid fa-circle me-5" style="color:${color};"></i><span>${title}</span>`);
+                const boardElement = $(
+                    `#kanban .kanban-board[data-id='${boardId}']`
+                );
+                boardElement
+                    .find(".kanban-title-board")
+                    .html(
+                        `<i class="fa-solid fa-circle me-5" style="color:${color};"></i><span>${title}</span>`
+                    );
             }
             boardModalBlock.release();
             boardModal.hide();
         },
         error: function () {
             boardModalBlock.release();
-            window['Alarm']({ msg: "مشکلی پیش آمده", type: "error" });
+            window["Alarm"]({ msg: "مشکلی پیش آمده", type: "error" });
         },
     });
 });
-
 
 $("#addNewTask").on("click", function () {
     mode = "create";
@@ -206,10 +247,10 @@ $("#addNewTask").on("click", function () {
             });
             $("#editModal #boards-status").html(items);
         },
-        error: () => window['Alarm']({msg: "مشکلی پیش آمده",type:"error"})
+        error: () => window["Alarm"]({ msg: "مشکلی پیش آمده", type: "error" }),
     });
-    $("#save_edit_modal").html("افزودن")
-    cardMode = "create"
+    $("#save_edit_modal").html("افزودن");
+    cardMode = "create";
     $("#removeKanbanItem").hide();
     detailModal.show();
 });
@@ -277,11 +318,12 @@ $("#save_edit_modal").on("click", function (e) {
 
             // Find the appropriate Kanban board and card element
             const currentCardElement = $(`.kanban-card[data-id='${dataId}']`);
-            const currentBoardId = currentCardElement.closest(".kanban-board").data("id");
+            const currentBoardId = currentCardElement
+                .closest(".kanban-board")
+                .data("id");
             if (currentBoardId !== nextBoardId) {
                 // If the card is in a different board, remove it from the old board
                 window["kanban"].removeElement(`${dataId}`); // Make sure dataId matches the card's ID
-
 
                 // Add the card to the new board
                 window["kanban"].addElement(nextBoardId, {
@@ -290,7 +332,7 @@ $("#save_edit_modal").on("click", function (e) {
                 });
             } else {
                 // If the card is in the same board, just replace its content
-                window["kanban"].replaceElement(dataId,newCardHtml);
+                window["kanban"].replaceElement(dataId, newCardHtml);
             }
 
             detailModalBlock.release();
@@ -300,57 +342,57 @@ $("#save_edit_modal").on("click", function (e) {
         },
         error: () => {
             detailModalBlock.release(),
-            window["Alarm"]({ msg: "مشکلی پیش آمده", type: "error" });
+                window["Alarm"]({ msg: "مشکلی پیش آمده", type: "error" });
         },
     });
 });
-
-
 
 $(".close_edit_modal").on("click", function () {
     detailModal.hide();
 });
 
 export function generateBoards() {
-    $.ajax({
-        url: "/api/tasks",
-        beforeSend: () => bodyBlock.block(),
-        success: (res) => {
-            bodyBlock.release();
-            let boards = [];
-            res.boards.map((item) => {
-                const title = `<i class="fa-solid fa-circle me-5" style="color:${item.color};"></i><span>${item.title} <i class="fa-solid fa-gear"></i></span>`;
-                const id = item.id;
-                let items = [];
-                item.items.map((it) =>
-                    items.push({
-                        id: it.id,
-                        title: render(
-                            createElement(GenerateKanbanCard, {
-                                data: {
-                                    id: it.id,
-                                    title: it.title,
-                                    assigneeName: it.assigneeName,
-                                    startDate: it.startDate,
-                                    endDate: it.endDate,
-                                },
-                            })
-                        ),
-                    })
-                );
-                boards.push({
-                    id,
-                    title,
-                    item: items,
+    if (document.getElementById("#addBoards")) {
+        $.ajax({
+            url: "/api/tasks",
+            beforeSend: () => bodyBlock.block(),
+            success: (res) => {
+                bodyBlock.release();
+                let boards = [];
+                res.boards.map((item) => {
+                    const title = `<i class="fa-solid fa-circle me-5" style="color:${item.color};"></i><span>${item.title} <i class="fa-solid fa-gear"></i></span>`;
+                    const id = item.id;
+                    let items = [];
+                    item.items.map((it) =>
+                        items.push({
+                            id: it.id,
+                            title: render(
+                                createElement(GenerateKanbanCard, {
+                                    data: {
+                                        id: it.id,
+                                        title: it.title,
+                                        assigneeName: it.assigneeName,
+                                        startDate: it.startDate,
+                                        endDate: it.endDate,
+                                    },
+                                })
+                            ),
+                        })
+                    );
+                    boards.push({
+                        id,
+                        title,
+                        item: items,
+                    });
                 });
-            });
 
-            window["kanban"].addBoards(boards);
-        },
-        error: (error) => {
-            window['Alarm']({msg: "مشکلی پیش آمده",type:"error"})
-        }
-    });
+                window["kanban"].addBoards(boards);
+            },
+            error: (error) => {
+                window["Alarm"]({ msg: "مشکلی پیش آمده", type: "error" });
+            },
+        });
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -361,7 +403,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Add the new click listener
         $("header.kanban-board-header").on("click", function () {
-            $("#addNewBoard").html("بروزرسانی")
+            $("#addNewBoard").html("بروزرسانی");
             $("#removeKanban").show();
             const id = $(this).parent().data("id"); // Get the board ID
             boardModal.show(); // Show the board modal
@@ -406,49 +448,49 @@ document.addEventListener("DOMContentLoaded", function () {
     updateClickListener();
 });
 
-$("#addNewBoardModal").on("click",function(){
+$("#addNewBoardModal").on("click", function () {
     $("#addNewBoard").html("افزودن");
     $("#removeKanban").hide();
     selectKanbanMode = "create";
     boardModal.show();
-})
+});
 
-$("#removeKanbanItem").on("click",function(){
+$("#removeKanbanItem").on("click", function () {
     $.ajax({
-        url:'/api/tasks/remove',
+        url: "/api/tasks/remove",
         data: {
-            id: `${selectKanbanItem}`
+            id: `${selectKanbanItem}`,
         },
-        method: 'POST',
+        method: "POST",
         beforeSend: () => detailModalBlock.block(),
         success: (res) => {
             detailModalBlock.release();
             detailModal.hide();
-            window['kanban'].removeElement(`${selectKanbanItem}`)
+            window["kanban"].removeElement(`${selectKanbanItem}`);
         },
         error: () => {
             detailModalBlock.release();
-            window['Alarm']({msg: "مشکلی پیش آمده",type:"error"})
-        }
-    })
-})
-
-$("#removeKanban").on("click",function(){
-    $.ajax({
-        url:'/api/tasks/remove-card',
-        data: {
-            id: `${selectKanban}`
+            window["Alarm"]({ msg: "مشکلی پیش آمده", type: "error" });
         },
-        method: 'POST',
+    });
+});
+
+$("#removeKanban").on("click", function () {
+    $.ajax({
+        url: "/api/tasks/remove-card",
+        data: {
+            id: `${selectKanban}`,
+        },
+        method: "POST",
         beforeSend: () => boardModalBlock.block(),
         success: (res) => {
             boardModalBlock.release();
             boardModal.hide();
-            window['kanban'].removeBoard(selectKanban)
+            window["kanban"].removeBoard(selectKanban);
         },
         error: () => {
             boardModalBlock.release();
-            window['Alarm']({msg: "مشکلی پیش آمده",type:"error"})
-        }
-    })
-})
+            window["Alarm"]({ msg: "مشکلی پیش آمده", type: "error" });
+        },
+    });
+});

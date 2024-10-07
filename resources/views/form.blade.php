@@ -77,6 +77,18 @@
                     <i class="fas fa-font"></i>
                     <div class="form-item-text">متن</div>
                 </div>
+
+                <!-- Form Item Box: captcha -->
+                <div class="form-item" data-type="captcha" draggable="true" title="heading">
+                    <i class="fa-solid fa-shield-check"></i>
+                    <div class="form-item-text">کپچا</div>
+                </div>
+
+                <!-- Form Item Box: captcha -->
+                <div class="form-item" data-type="html" draggable="true" title="heading">
+                    <i class="fa-solid fa-code"></i>
+                    <div class="form-item-text">HTML</div>
+                </div>
             </div>
 
         </div>
@@ -121,4 +133,9 @@
     </div>
 </div>
 
+@endsection
+
+@section('script-before')
+<script src="{{ asset('/js/ace.js') }}"></script>
+<script src="{{ asset('/js/theme-clouds.js') }}"></script>
 @endsection

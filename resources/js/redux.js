@@ -35,7 +35,7 @@ const formElementsSlice = createSlice({
             state.formElements = state.formElements.filter(
                 (el) => el.id !== action.payload
             ); // Filter out the element by ID
-            resortState(state);
+            // resortState(state);
         },
         updateDetail: (state, action) => {
             const index = state.formElements.findIndex(
@@ -70,7 +70,6 @@ const formElementsSlice = createSlice({
                 }
             });
             resortState(state);
-            console.log(state.formElements)
         },
     },
 });
@@ -107,6 +106,4 @@ function resortState(state) {
 
   // Update the form-elements field with the new sorted state
   document.getElementById("form-elements").value = JSON.stringify(newState);
-
-  console.log(newState)
 }

@@ -1,5 +1,5 @@
 import { h, createElement, hydrate } from "preact";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { modal, saveChanges, removeElement, addFormElement } from "./form";
 
 export const Messages = ({ messages }) => {
@@ -117,7 +117,7 @@ const Repeater = ({ items, onChange }) => (
 
 // FormItemSettings Component
 export const FormItemSettings = ({ id, type, title, value, required }) => {
-    const [items, setItem] = useState(value || []);
+    const [items, setItem] = useState(value);
     const [newTitle, setNewTitle] = useState(title || "");
     const [newRequired, setNewRequired] = useState(required || false);
 
@@ -136,12 +136,27 @@ export const FormItemSettings = ({ id, type, title, value, required }) => {
         setNewRequired(value);
     };
 
+    useEffect(() => {
+        if (type === "html") {
+            var editor = ace.edit("code-editor");
+            editor.setTheme("ace/theme/clouds");
+            // editor change
+            editor.getSession().on("change", function () {
+                var code = editor.getValue();
+                onChange(code);
+            });
+        }
+    }, []);
+
+
     return (
         <>
             <div className="modal-body">
                 <div className="row">
                     {type !== "image" &&
                     type !== "text" &&
+                    type !== "captcha" &&
+                    type !== "html" &&
                     type !== "hidden" ? (
                         <div className="col-12 mb-5">
                             <label htmlFor="">عنوان</label>
@@ -186,8 +201,21 @@ export const FormItemSettings = ({ id, type, title, value, required }) => {
                             }}
                         />
                     ) : null}
+                    {type === "captcha" ? (
+                        <span>این فیلد تنظیمات ندارد</span>
+                    ) : null}
+                    {type === "html" ? (
+                        <div className="mb-2">
+                            <label className="form-label ">ویرایشگر کد</label>
+                            <div id="code-editor" style="height: 300px">
+                                {items}
+                            </div>
+                        </div>
+                    ) : null}
                     {type !== "image" &&
                     type !== "text" &&
+                    type !== "captcha" &&
+                    type !== "html" &&
                     type !== "hidden" ? (
                         <div className="col-12 mb-5">
                             <div className="form-check form-check-custom form-check-solid">
@@ -242,7 +270,9 @@ export const FormItemSettings = ({ id, type, title, value, required }) => {
 export function GenerateKanbanCard({ data }) {
     const { id, title, assigneeName, startDate, endDate } = data;
     return (
-        <div class="kanban-card"> {/* Add the data-eid attribute here */}
+        <div class="kanban-card">
+            {" "}
+            {/* Add the data-eid attribute here */}
             <span class="kanban-card-title">{title}</span>
             <div class="kanban-card-details">
                 {assigneeName && (
@@ -275,4 +305,3 @@ export function GenerateKanbanCard({ data }) {
         </div>
     );
 }
-

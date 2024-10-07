@@ -50,6 +50,36 @@ var getIconForType = (window["getIconForType"] = (type) => {
     }
 });
 
+var generateFirstTitle = (type) => {
+    switch (type) {
+        case 'input':
+            return 'متن تک خطی'; // Single line text
+        case 'checkbox':
+            return 'چک باکس'; // Checkbox
+        case 'radio':
+            return 'دکمه رادیویی'; // Radio button
+        case 'select':
+            return 'کشویی'; // Select dropdown
+        case 'textarea':
+            return 'متن چند خطی'; // Multi-line text
+        case 'number':
+            return 'عدد'; // Number
+        case 'file-upload':
+            return 'آپلود فایل'; // File upload
+        case 'image':
+            return 'تصویر'; // Image
+        case 'text':
+            return 'متن'; // Text
+        case 'captcha':
+            return 'کپچا'; // Captcha
+        case 'html':
+            return 'HTML'; // HTML
+        default:
+            return 'نوع نامشخص'; // Unknown type
+    }
+};
+
+
 export var modal = document.querySelector("#editModal")
     ? new bootstrap.Modal(document.getElementById("editModal"))
     : null;
@@ -167,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .addEventListener("drop", function (event) {
                 event.preventDefault();
                 var type = event.dataTransfer.getData("text/plain");
-                addFormElement(type);
+                addFormElement(type,generateFirstTitle(type));
             });
     }
 
@@ -264,6 +294,13 @@ export var addFormElement = (
     if (type === "select" || type === "radio" || type === "checkbox") {
         if (value.length === 0) {
             formElement.value = [];
+        } else {
+            formElement.value = value;
+        }
+    }
+    else{
+        if (value.length === 0) {
+            formElement.value = "";
         } else {
             formElement.value = value;
         }
