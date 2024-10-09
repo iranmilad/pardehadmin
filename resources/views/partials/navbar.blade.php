@@ -320,8 +320,33 @@
 				<!--end:Menu link-->
 			</div>
 			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link {{ Route::is('compare-settings.show')  ? 'active' : '' }}" href="{{route('compare-settings.show')}}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">تنظیمات مقایسه</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
 		</div>
 		<!--end:Menu sub-->
+	</div>
+	<!--end:Menu item-->
+
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{route('store-managements.show')}}" class="menu-link {{ Route::is('store-managements.show') || Route::is('store-management.show') ? 'active' : ''}}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-solid fa-warehouse-full"></i>
+			</span>
+			<span class="menu-title">مدیریت انبار</span>
+		</a>
+		<!--end:Menu link-->
 	</div>
 	<!--end:Menu item-->
 
@@ -510,7 +535,7 @@
 		<!--begin:Menu link-->
 		<a href="{{route('tasks.kanban.show')}}" class="menu-link {{ Route::is('tasks.kanban.show') ? 'active' : '' }}">
 			<span class="menu-icon">
-			<i class="fa-duotone fa-solid fa-clipboard-list"></i>
+				<i class="fa-duotone fa-solid fa-clipboard-list"></i>
 			</span>
 			<span class="menu-title">مدیریت کارها</span>
 		</a>

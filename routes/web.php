@@ -262,6 +262,10 @@ Route::group(['prefix' => 'products'], function () {
     Route::get('/settings', function () {
         return view('products-settings');
     })->name("products.settings.show");
+
+    Route::get('/compare-settings', function () {
+        return view('compare-settings');
+    })->name("compare-settings.show");
 });
 
 Route::group(['prefix' => 'reports'], function () {
@@ -670,3 +674,15 @@ Route::group(['prefix' => 'forms'], function () {
 Route::get('/newsletter', function () {
     return view('newsletter');
 })->name("newsletter.show");
+
+
+// مدیریت انبار
+
+Route::get('/store-managements', function () {
+    return view('store-managements');
+})->name("store-managements.show");
+
+Route::get('/store-management/{id}', function ($id) {
+    return view('store-management');
+})->name("store-management.show");
+

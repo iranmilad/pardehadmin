@@ -206,6 +206,7 @@ use Illuminate\Support\Facades\Vite;
                 window["shortCodeEditorAdder"](val);
             });
         });
+        
     </script>
     @vite("resources/js/app.js")
     @yield('scripts')

@@ -25,7 +25,7 @@ import {
     ReportsTable,
     GlobalTable,
     CustomerGroupTable,
-    KanbanConfig
+    KanbanConfig,
 } from "./pages";
 // import "./pages/attribute";
 // import "./create-fast-category";
@@ -70,12 +70,14 @@ KTUtil.onDOMContentLoaded(function () {
     ReportsTable()?.init();
     GlobalTable()?.init();
     CustomerGroupTable()?.init();
-    KanbanConfig()?.init();
     KT_File_Input();
-    generateBoards();
+    if (document.getElementById("boardModal")) {
+        KanbanConfig()?.init();
+        generateBoards();
+    }
 });
 
-const Alarm = window['Alarm'] = ({
+const Alarm = (window["Alarm"] = ({
     msg,
     title,
     closeButton = true,
@@ -116,7 +118,7 @@ const Alarm = window['Alarm'] = ({
     if (type === "info") toastr.info(msg, title);
     if (type === "warning") toastr.warning(msg, title);
     if (type === "error") toastr.error(msg, title);
-}
+});
 
 window["KT_File_Input"] = KT_File_Input;
 if ($("#shortCodeListModal").length > 0) {
@@ -464,47 +466,47 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
     let elm = document.querySelectorAll(".indexSortable");
     elm.forEach((item) => {
-        window['indexSortable'] = new Sortable(item, {
+        window["indexSortable"] = new Sortable(item, {
             swap: true, // Enable swap plugin
             swapClass: "highlight", // The class applied to the hovered swap item
             animation: 150,
             disabled: true,
-            onEnd: function(evt) {
+            onEnd: function (evt) {
                 // شیء جدید برای نگهداری مقادیر مرتب‌شده
-                var sortedData = {'index_sort': []};
+                var sortedData = { index_sort: [] };
                 let sortValue = [];
                 // دریافت ورودی‌های مخفی مرتب‌شده
                 var hiddenInputs = $(evt.to).find('input[type="hidden"]');
-                
-                hiddenInputs.each(function(index, element) {
+
+                hiddenInputs.each(function (index, element) {
                     // گرفتن نام و مقدار هر ورودی
-                    var inputName = $(element).attr('name');
+                    var inputName = $(element).attr("name");
                     var inputValue = $(element).val();
-        
+
                     // قرار دادن نام و مقدار در شیء sortedData
                     sortValue.push(inputValue);
                 });
                 sortedData.index_sort = sortValue;
-        
+
                 // تبدیل شیء به رشته JSON و قرار دادن در فیلد مخفی
-                $('#indexSortableValue').val(JSON.stringify(sortedData));
-        
+                $("#indexSortableValue").val(JSON.stringify(sortedData));
+
                 // نمایش شیء مرتب‌شده در کنسول
                 console.log(sortedData);
-            }
+            },
         });
     });
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
     // وقتی روی دکمه مرتب کردن کلیک شد
-    $('#sortButton').on('click', function() {
+    $("#sortButton").on("click", function () {
         // دکمه مرتب کردن را مخفی کن
         $(this).hide();
-        window['indexSortable'].option("disabled", false);
+        window["indexSortable"].option("disabled", false);
         // دکمه‌های ذخیره و لغو را نمایش بده
-        $('#actionButtons').removeClass('d-none').addClass('d-flex');
-        $(".indexSortable").addClass('active')
+        $("#actionButtons").removeClass("d-none").addClass("d-flex");
+        $(".indexSortable").addClass("active");
     });
 });
 
@@ -518,3 +520,55 @@ $(document).ready(function() {
 //         })
 //     }
 // })
+
+$(document).ready(function () {
+    // Initialize Sortable.js
+    const compareSettingsContainer = document.getElementById('compare-settings-fields');
+
+    // Create Sortable instance
+    const sortableInstance = new Sortable(compareSettingsContainer, {
+        animation: 150,
+        ghostClass: 'sortable-ghost',
+        handle: '.drag-handle', // Set the handle class for sorting
+        onEnd: function (evt) {
+            console.log('Item moved from ' + evt.oldIndex + ' to ' + evt.newIndex);
+        }
+    });
+
+    // Event listener for the 'افزودن' button
+    $('.btn-success').on('click', function () {
+        // Get the selected value and text from the dropdown
+        const selectedValue = $('#compare-settings-fields-controller').val();
+        const selectedText = $('#compare-settings-fields-controller option:selected').text(); // Get the selected text
+
+        // Check if a value is selected
+        if (selectedValue) {
+            // Create a new div for the selected value with a drag handle
+            const newDiv = $(`
+                <div class="p-4 tw-bg-gray-200 d-flex align-items-center justify-content-between">
+                    <input type="hidden" name="sortable[box][]" value="${selectedValue}" />
+                    <span class="drag-handle ms-2" style="cursor: grab;">
+                        <i class="fa-solid fa-arrows-up-down-left-right"></i>
+                    </span>
+                    <div>
+                        <span>${selectedText}</span>
+                        <button type="button" class="btn p-0 tw-text-xs ms-2 remove-sortable-trash">
+                            <i class="tw-text-red-500 fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                    <div></div>
+                </div>
+            `);
+
+            // Append the new div to the compare settings fields
+            $(compareSettingsContainer).append(newDiv);
+        } else {
+            alert('لطفاً یک گزینه را انتخاب کنید.'); // Alert if no option is selected
+        }
+    });
+
+    // Event delegation for removing sortable items
+    $(compareSettingsContainer).on('click', '.remove-sortable-trash', function () {
+        $(this).parent().parent().remove(); // Remove the closest div
+    });
+});

@@ -859,17 +859,117 @@
                     <!-- Content for Step 8 -->
                     <div class="form-check form-switch form-check-custom form-check-solid mb-5">
                         <input class="form-check-input" type="checkbox" value="" name="related_product_product" />
-                        <label class="form-check-label" >
+                        <label class="form-check-label">
                             نمایش در صفحه محصول
                         </label>
                     </div>
 
                     <div class="form-check form-switch form-check-custom form-check-solid mb-5">
                         <input class="form-check-input" type="checkbox" checked value="" name="related_product_basket" />
-                        <label class="form-check-label" >
+                        <label class="form-check-label">
                             نمایش در سبد خرید
                         </label>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 11 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingEleven">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
+                    <span class="badge bg-light badge-circle badge-lg me-2" id="badge3">11</span>
+                    تنظیمات سایت
+                </button>
+            </h2>
+            <div id="collapseEleven" class="accordion-collapse collapse" aria-labelledby="headingEleven" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <!-- Content for Step 3 -->
+                    <div class="flex-column" data-kt-stepper-element="content">
+                        <label class="form-label" for="flexSwitchDefault">
+                            بکشید و رها کنید
+                        </label>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-lg-2">
+                            <div class="d-flex tw-flex-col tw-gap-y-2 tw-border-2 tw-border-slate-200 tw-border-dashed p-2" id="copyable_sortable">
+                                <div class="p-4 tw-bg-gray-200 d-flex align-items-center justify-content-center">
+                                    <input type="hidden" name="sortable[box]" />
+                                    باکس
+                                    <button class="btn p-0 tw-text-xs ms-2 remove-sortable-trash"><i class="tw-text-red-500 fa-solid fa-trash"></i></button>
+                                </div>
+                                <div class="p-4 tw-bg-gray-200 d-flex align-items-center justify-content-center">
+                                    <input type="hidden" name="sortable[box]" />
+                                    متن
+                                    <button class="btn p-0 tw-text-xs ms-2 remove-sortable-trash"><i class="tw-text-red-500 fa-solid fa-trash"></i></button>
+
+                                </div>
+                                <div class="p-4 tw-bg-gray-200 d-flex align-items-center justify-content-center">
+                                    <input type="hidden" name="sortable[box]" />
+                                    تصویر
+                                    <button class="btn p-0 tw-text-xs ms-2 remove-sortable-trash"><i class="tw-text-red-500 fa-solid fa-trash"></i></button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-10">
+                            <div class="d-flex tw-flex-col tw-gap-y-5 tw-border-2 tw-border-slate-200 tw-border-dashed p-2" id="copyable_sortable_place"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 12 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwelve">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwelve" aria-expanded="false" aria-controls="collapseTwelve">
+                    <span class="badge bg-light badge-circle badge-lg me-2" id="badge3">12</span>
+                    مشخصات فردی
+                </button>
+            </h2>
+            <div id="collapseTwelve" class="accordion-collapse collapse" aria-labelledby="headingTwelve" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">نام</label>
+                        <div class="col-lg-8 col-xl-6">
+                            <input type="text" name="first_name" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="نام را وارد کنید" value="" />
+                        </div>
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">نام خانوادگی</label>
+                        <div class="col-lg-8 col-xl-6">
+                            <input type="text" name="last_name" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="نام خانوداگی را وارد کنید" value="" />
+                        </div>
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">شماره تلفن</label>
+                        <div class="col-lg-8 col-xl-6">
+                            <input type="text" name="mobile" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="شماره تلفن را وارد کنید" value="" />
+                        </div>
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-semibold fs-6">ایمیل</label>
+                        <div class="col-lg-8 col-xl-6">
+                            <input type="text" name="email" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="ایمیل را وارد کنید" value="" />
+                        </div>
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-semibold fs-6">کد ملی</label>
+                        <div class="col-lg-8 col-xl-6">
+                            <input type="text" name="mobile" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="کد ملی را وارد کنید" value="" />
+                        </div>
+                    </div>
+                    <!--end::Input group-->
                 </div>
             </div>
         </div>
