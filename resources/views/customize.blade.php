@@ -45,6 +45,24 @@
                                     <x-file-input type="single" :preview="true" name="favicon" value="" />
                                 </div>
                             </div>
+                            <div class="col-6 col-md-3">
+                                <div>
+                                    <label class="form-label">نماد اعتماد الکترونیک</label>
+                                    <x-file-input type="single" :preview="true" name="enamad" value="" />
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div>
+                                    <label class="form-label">نشان ملی ثبت</label>
+                                    <x-file-input type="single" :preview="true" name="samandehi" value="" />
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div>
+                                    <label class="form-label">پرداخت زرین پال</label>
+                                    <x-file-input type="single" :preview="true" name="zarinpal" value="" />
+                                </div>
+                            </div>
                         </div>
                         <div class="mb-10">
                             <div x-data="{ isChecked: false }">
@@ -970,6 +988,34 @@
                         </div>
                     </div>
                     <!--end::Input group-->
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 13 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThirteen">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen">
+                    <span class="badge bg-light badge-circle badge-lg me-2" id="badge3">13</span>
+                    فیلد های ثبت نام
+                </button>
+            </h2>
+            <div id="collapseThirteen" class="accordion-collapse collapse" aria-labelledby="headingThirteen" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="">
+                        <label class="form-label">فیلد ها را انتخاب کنید</label>
+                        <select name="fields" id="fields" class="form-select">
+                            <option value="" disabled selected>-- لطفا یک گزینه انتخاب کنید --</option>
+                            <option value="first_name">نام</option>
+                            <option value="last_name">نام خانوادگی</option>
+                            <option value="email">ایمیل</option>
+                            <option value="phone">شماره تلفن</option>
+                            <option value="address">آدرس</option>
+                            <option value="birthday">تاریخ تولد</option>
+                            <option value="gender">جنسیت</option>
+                        </select>
+                    </div>
+
                 </div>
             </div>
         </div>
