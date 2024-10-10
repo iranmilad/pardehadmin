@@ -48,6 +48,7 @@
                     <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">حمل و نقل</button>
                     <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-relation" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">متغیر های وابسته</button>
                     <button class="nav-link" id="v-pills-norelation-tab" data-bs-toggle="pill" data-bs-target="#v-pills-norelation" type="button" role="tab" aria-controls="v-pills-norelation" aria-selected="false">متغیر های غیر وابسته</button>
+                    <button class="nav-link" id="v-pills-features-tab" data-bs-toggle="pill" data-bs-target="#v-pills-features" type="button" role="tab" aria-controls="v-pills-features" aria-selected="false">خصوصیت ها</button>
                     <button class="nav-link" id="v-pills-installments-tab" data-bs-toggle="pill" data-bs-target="#v-pills-installments" type="button" role="tab" aria-controls="v-pills-norelation" aria-selected="false">پرداخت اقساطی</button>
                     <button class="nav-link" id="v-pills-service-tab" data-bs-toggle="pill" data-bs-target="#v-pills-service" type="button" role="tab" aria-controls="v-pills-norelation" aria-selected="false">خدمت</button>
                 </div>
@@ -443,6 +444,50 @@
                             </div>
                         </div>
                     </div>
+                    <div class="tab-pane fade" id="v-pills-features" role="tabpanel" aria-labelledby="v-pills-disabled-tab" tabindex="0">
+                        <div class="row">
+                            <div class="other_repeater">
+                                <!--begin::Form group-->
+                                <div class="form-group">
+                                    <!-- data-repeater-list must be unique -->
+                                    <!-- data-repeater-list must be unique -->
+                                    <!-- data-repeater-list must be unique -->
+                                    <!-- data-repeater-list must be unique -->
+                                    <!-- data-repeater-list must be unique -->
+                                    <div data-repeater-list="options_repeater">
+                                        <div class="mt-3" data-repeater-item>
+                                            <div class="form-group row">
+                                                <div class="col-12 col-md">
+                                                    <label class="form-label required">عنوان:</label>
+                                                    <input name="option[name]" type="text" class="form-control mb-2 mb-md-0" placeholder="عنوان را وارد کنید" value="قابل شست‌وشو" />
+                                                </div>
+                                                <div class="col-12 col-md">
+                                                    <label class="form-label required">مقدار:</label>
+                                                    <input name="option[value]" type="text" class="form-control mb-2 mb-md-0" placeholder="مقدار را وارد کنید" value="بله" />
+                                                </div>
+                                                <div class="col-12 col-md">
+                                                    <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-8">
+                                                        <i class="ki-duotone ki-trash fs-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                                                        حذف
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end::Form group-->
+
+                                <!--begin::Form group-->
+                                <div class="form-group mt-5">
+                                    <a href="javascript:;" data-repeater-create class="btn btn-primary btn-sm">
+                                        افزودن
+                                        <i class="ki-duotone ki-plus fs-3 pe-0"></i>
+                                    </a>
+                                </div>
+                                <!--end::Form group-->
+                            </div>
+                        </div>
+                    </div>
                     <div class="tab-pane fade" id="v-pills-installments" role="tabpanel" aria-labelledby="v-pills-disabled-tab" tabindex="0">
                         <div class="row">
                             <div class="mb-5 col-xl-7">
@@ -734,6 +779,20 @@
                 }
             });
         })
+    })
+    document.addEventListener("DOMContentLoaded", function() {
+
+        $(".other_repeater").repeater({
+            initEmpty: false,
+            show: function() {
+                $(this).slideDown();
+                window['KT_File_Input']();
+            },
+
+            hide: function(deleteElement) {
+                $(this).slideUp(deleteElement);
+            }
+        });
     })
 </script>
 @endsection

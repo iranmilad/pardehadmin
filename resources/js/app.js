@@ -490,9 +490,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // تبدیل شیء به رشته JSON و قرار دادن در فیلد مخفی
                 $("#indexSortableValue").val(JSON.stringify(sortedData));
-
-                // نمایش شیء مرتب‌شده در کنسول
-                console.log(sortedData);
             },
         });
     });
@@ -523,23 +520,24 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     // Initialize Sortable.js
-    const compareSettingsContainer = document.getElementById('compare-settings-fields');
+    const compareSettingsContainer = document.getElementById(
+        "compare-settings-fields"
+    );
 
     // Create Sortable instance
     const sortableInstance = new Sortable(compareSettingsContainer, {
         animation: 150,
-        ghostClass: 'sortable-ghost',
-        handle: '.drag-handle', // Set the handle class for sorting
-        onEnd: function (evt) {
-            console.log('Item moved from ' + evt.oldIndex + ' to ' + evt.newIndex);
-        }
+        ghostClass: "sortable-ghost",
+        handle: ".drag-handle", // Set the handle class for sorting
     });
 
     // Event listener for the 'افزودن' button
-    $('.btn-success').on('click', function () {
+    $(".btn-success").on("click", function () {
         // Get the selected value and text from the dropdown
-        const selectedValue = $('#compare-settings-fields-controller').val();
-        const selectedText = $('#compare-settings-fields-controller option:selected').text(); // Get the selected text
+        const selectedValue = $("#compare-settings-fields-controller").val();
+        const selectedText = $(
+            "#compare-settings-fields-controller option:selected"
+        ).text(); // Get the selected text
 
         // Check if a value is selected
         if (selectedValue) {
@@ -563,12 +561,47 @@ $(document).ready(function () {
             // Append the new div to the compare settings fields
             $(compareSettingsContainer).append(newDiv);
         } else {
-            alert('لطفاً یک گزینه را انتخاب کنید.'); // Alert if no option is selected
+            alert("لطفاً یک گزینه را انتخاب کنید."); // Alert if no option is selected
         }
     });
 
     // Event delegation for removing sortable items
-    $(compareSettingsContainer).on('click', '.remove-sortable-trash', function () {
-        $(this).parent().parent().remove(); // Remove the closest div
+    $(compareSettingsContainer).on(
+        "click",
+        ".remove-sortable-trash",
+        function () {
+            $(this).parent().parent().remove(); // Remove the closest div
+        }
+    );
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Make the original container sortable
+    new Sortable(document.getElementById("copyable_sortable"), {
+        group: {
+            name: "shared",
+            pull: "clone", // Allow clone instead of move
+            put: false, // Prevent items from being added here
+        },
+        animation: 150,
+        sort: false, // Do not allow sorting inside the original container
+    });
+
+    // Make the destination container sortable and allow copied elements
+    new Sortable(document.getElementById("copyable_sortable_place"), {
+        group: {
+            name: "shared",
+            pull: false, // Items can only be added here, not pulled from here
+            put: true, // Allow items to be added here
+        },
+        animation: 150,
+        onAdd: function (evt) {
+            // Optional: Add delete button functionality for copied items
+            evt.item
+                .querySelector("button.remove-sortable-trash")
+                .addEventListener("click", function () {
+                    evt.item.remove();
+                });
+        },
     });
 });

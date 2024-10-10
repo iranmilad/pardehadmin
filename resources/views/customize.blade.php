@@ -879,7 +879,7 @@
             <h2 class="accordion-header" id="headingEleven">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
                     <span class="badge bg-light badge-circle badge-lg me-2" id="badge3">11</span>
-                    تنظیمات سایت
+                    تنظیمات مرتب سازی
                 </button>
             </h2>
             <div id="collapseEleven" class="accordion-collapse collapse" aria-labelledby="headingEleven" data-bs-parent="#accordionExample">
