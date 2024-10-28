@@ -34,8 +34,12 @@
             <div id="filter_collapse" class="collapse">
                 <div class="d-flex align-items-end flex-wrap w-100 gap-10">
                     <div>
-                        <label class="form-label" for="">بازه زمانی</label>
-                        <input class="form-control form-control-solid" id="filter_date" type="text" placeholder="انتخاب کنید">
+                        <label class="form-label" for="">از تاریخ</label>
+                        <input class="form-control form-control-solid" name="from_date" data-jdp type="text" placeholder="انتخاب کنید">
+                    </div>
+                    <div>
+                        <label class="form-label" for="">تا تاریخ</label>
+                        <input class="form-control form-control-solid" name="to_date" data-jdp type="text" placeholder="انتخاب کنید">
                     </div>
                     <div>
                         <label class="form-label" for="">فرم ها</label>
@@ -107,20 +111,11 @@
 
 @section('script-before')
 <script src="{{asset('plugins/custom/datatables/datatables.bundle.js')}}"></script>
-<script src="{{asset('plugins/flatpicker_fa.js')}}"></script>
-<script src="{{asset('plugins/jdate.min.js')}}"></script>
+<script src="{{asset('plugins/jalalidatepicker.min.js')}}"></script>
 @endsection
 
 @section("scripts")
 <script>
-  window.Date = window.JDate;
-  flatpickr = $("#filter_date").flatpickr({
-    disableMobile: "true",
-    altInput: true,
-    altFormat: "Y-m-d",
-    dateFormat: "Y-m-d",
-    locale: "fa",
-    mode: "range"
-  })
+jalaliDatepicker.startWatch();
 </script>
 @endsection

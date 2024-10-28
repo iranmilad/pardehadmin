@@ -198,11 +198,11 @@
                                                 <div class="row mb-8">
                                                     <div class="col-12 col-lg-6">
                                                         <label class="form-label" for="">تاریخ شروع فروش ویژه</label>
-                                                        <input type="text" class="form-control form-control-solid first_time">
+                                                        <input type="text" class="form-control form-control-solid" data-jdp>
                                                     </div>
                                                     <div class="col-12 col-lg-6">
                                                         <label class="form-label" for="">تاریخ پایان فروش ویژه</label>
-                                                        <input type="text" class="form-control form-control-solid second_time">
+                                                        <input type="text" class="form-control form-control-solid" data-jdp>
                                                     </div>
                                                 </div>
                                             </div>
@@ -355,11 +355,11 @@
                                                 <div class="row mb-8">
                                                     <div class="col-12 col-lg-6">
                                                         <label class="form-label" for="">تاریخ شروع فروش ویژه</label>
-                                                        <input type="text" class="form-control form-control-solid first_time">
+                                                        <input type="text" class="form-control form-control-solid first_time" data-jdp>
                                                     </div>
                                                     <div class="col-12 col-lg-6">
                                                         <label class="form-label" for="">تاریخ پایان فروش ویژه</label>
-                                                        <input type="text" class="form-control form-control-solid second_time">
+                                                        <input type="text" class="form-control form-control-solid second_time" data-jdp>
                                                     </div>
                                                 </div>
                                             </div>
@@ -733,13 +733,11 @@
 
 @section("script-before")
 <script src="{{asset('plugins/custom/formrepeater/formrepeater.bundle.js')}}"></script>
-<script src="{{asset('plugins/flatpicker_fa.js')}}"></script>
-<script src="{{asset('plugins/jdate.min.js')}}"></script>
+<script src="{{asset('plugins/jalalidatepicker.min.js')}}"></script>
 @endsection
 
 @section("scripts")
 <script>
-    window.Date = window.JDate;
     $('.images-repeater').repeater({
         initEmpty: false,
 
@@ -751,13 +749,7 @@
             $(this).slideUp(deleteElement);
         }
     });
-    flatpickr = $(".first_time,.second_time").flatpickr({
-        disableMobile: "true",
-        altInput: true,
-        altFormat: "Y-m-d",
-        dateFormat: "Y-m-d",
-        locale: "fa",
-    })
+    jalaliDatepicker.startWatch();
 
     // FOR REMOVE BUTTON CONFIRM
     document.addEventListener("DOMContentLoaded", () => {

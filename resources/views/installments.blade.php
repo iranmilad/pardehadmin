@@ -34,7 +34,7 @@
                 <div class="d-flex align-items-end flex-wrap w-100 gap-10">
                     <div>
                         <label class="form-label" for="">تاریخ سررسید</label>
-                        <input type="text" name="date" placeholder="انتخاب تاریخ" class="form-control form-control-solid" id="filter_date">
+                        <input type="text" name="date" placeholder="انتخاب تاریخ" class="form-control form-control-solid" data-jdp>
                     </div>
                     <div>
                         <label class="form-label" for="">نوع پرداخت</label>
@@ -125,22 +125,12 @@
 
 @section('script-before')
 <script src="{{asset('plugins/custom/datatables/datatables.bundle.js')}}"></script>
-<script src="{{asset('plugins/flatpicker_fa.js')}}"></script>
-<script src="{{asset('plugins/jdate.min.js')}}"></script>
+<script src="{{asset('plugins/jalalidatepicker.min.js')}}"></script>
 @endsection
 
 @section("scripts")
 <script>
-    window.Date = window.JDate;
-
-    flatpickr = $("#filter_date").flatpickr({
-        disableMobile: "true",
-        altInput: true,
-        altFormat: "Y-m-d",
-        dateFormat: "Y-m-d",
-        locale: "fa",
-        mode: "range"
-    })
+jalaliDatepicker.startWatch();
 </script>
 
 @endsection

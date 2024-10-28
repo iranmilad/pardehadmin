@@ -74,7 +74,7 @@
             <div class="form-group row mb-5" x-show="themeType === 'onsale'" x-cloak>
                 <label for="title" class="col-2 form-label fw-bold">انتخاب بازه زمانی:</label>
                 <div class="col-10">
-                    <input class="form-control form-control-solid date_time" type="text">
+                    <input class="form-control form-control-solid " data-jdp type="text">
                 </div>
             </div>
             <div class="form-group row mb-5">
@@ -95,22 +95,11 @@
 @endsection
 
 @section("script-before")
-<script src="{{asset('plugins/flatpicker_fa.js')}}"></script>
-<script src="{{asset('plugins/jdate.min.js')}}"></script>
+<script src="{{asset('plugins/jalalidatepicker.min.js')}}"></script>
 @endsection
 
 @section("scripts")
 <script>
-    window.Date = window.JDate;
-    flatpickr = $(".date_time").flatpickr({
-        mode: "range",
-        disableMobile: "true",
-        altInput: true,
-        altFormat: "Y-m-d",
-        dateFormat: "Y-m-d",
-        locale: "fa",
-        enableTime: false,
-        monthSelectorType: "static"
-    });
+    jalaliDatepicker.startWatch();
 </script>
 @endsection

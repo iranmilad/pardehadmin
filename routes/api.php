@@ -321,8 +321,8 @@ Route::get('/task/{id}', function ($id) {
         'id' => '3333',
         'title' => 'ارسال برای مشتری',
         'assigneeName' => 'فرهاد باقری',
-        'startDate' => '1403-01-01', // Y - M -D
-        'endDate' => "1403-01-30", // Y - M -D
+        'startDate' => '1403/01/01', // Y - M -D
+        'endDate' => "1403/01/30", // Y - M -D
         'board' => 'sb7df9asd'
     ];
 

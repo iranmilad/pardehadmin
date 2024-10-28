@@ -10,28 +10,22 @@ var selectKanbanMode = "create";
 let mode = "create";
 let cardMode = "create";
 
-if (document.getElementById("#editModal")) {
+if($("#kanban").length > 0) {
     var detailModal = new bootstrap.Modal("#editModal", {
         keyboard: false,
     });
-}
-
-if (document.getElementById("#boardModal")) {
+    
     var boardModal = new bootstrap.Modal("#boardModal", {
         keyboard: false,
     });
-}
-
-if (document.getElementById("#editModal")) {
+    
     var detailModalBlock = new KTBlockUI(
         document.querySelector("#editModal .modal-body"),
         {
             overlayClass: "tw-bg-transparent",
         }
     );
-}
-
-if (document.getElementById("#boardModal")) {
+    
     var boardModalBlock = new KTBlockUI(
         document.querySelector("#boardModal .modal-body"),
         {
@@ -39,6 +33,8 @@ if (document.getElementById("#boardModal")) {
         }
     );
 }
+
+
 
 let bodyBlock = new KTBlockUI(document.querySelector("body"), {
     overlayClass: "tw-bg-transparent",
@@ -125,10 +121,8 @@ export var KanbanConfig = function (boards = []) {
                     success: (res) => {
                         $("#editModalTitle").val(res.title);
                         $("#boards-status").val(res.board); // Board status (nostatus, doing, done)
-                        window["detail_modal_start_date"].setDate(
-                            res.startDate
-                        );
-                        window["detail_modal_end_date"].setDate(res.endDate);
+                        $("#startDate").val(res.startDate);
+                        $("#endDate").val(res.endDate);
                         var newOption = new Option(
                             res.assigneeName,
                             res.assigneeName,

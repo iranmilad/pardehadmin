@@ -25,7 +25,7 @@
                 <!--begin::Toolbar-->
                 <div class="card-toolbar">
                     <!--begin::Menu-->
-                    <input placeholder="انتخاب تاریخ" class="form-select form-control-sm form-select-solid" name="" id="date_picker1">
+                    <input placeholder="انتخاب تاریخ" class="form-select form-control-sm form-select-solid" name="" data-jdp>
                     <!--end::Menu-->
                 </div>
                 <!--end::Toolbar-->
@@ -56,7 +56,7 @@
                 <!--begin::Toolbar-->
                 <div class="card-toolbar">
                     <!--begin::Menu-->
-                    <input placeholder="انتخاب تاریخ" class="form-select form-control-sm form-select-solid" name="" id="date_picker2">
+                    <input placeholder="انتخاب تاریخ" class="form-select form-control-sm form-select-solid" name="" data-jdp>
                     <!--end::Menu-->
                 </div>
                 <!--end::Toolbar-->
@@ -87,7 +87,7 @@
                 <!--begin::Toolbar-->
                 <div class="card-toolbar">
                     <!--begin::Menu-->
-                    <input placeholder="انتخاب تاریخ" class="form-select form-control-sm form-select-solid" name="" id="date_picker3">
+                    <input placeholder="انتخاب تاریخ" class="form-select form-control-sm form-select-solid" name="" data-jdp>
                     <!--end::Menu-->
                 </div>
                 <!--end::Toolbar-->
@@ -118,7 +118,7 @@
                 <!--begin::Toolbar-->
                 <div class="card-toolbar">
                     <!--begin::Menu-->
-                    <input placeholder="انتخاب تاریخ" class="form-select form-control-sm form-select-solid" name="" id="date_picker4">
+                    <input placeholder="انتخاب تاریخ" class="form-select form-control-sm form-select-solid" name="" data-jdp>
                     <!--end::Menu-->
                 </div>
                 <!--end::Toolbar-->
@@ -168,7 +168,7 @@
                 <div class="d-flex align-items-end flex-wrap w-100 gap-10">
                     <div>
                         <label class="form-label" for="">بازه زمانی</label>
-                        <input class="form-control form-control-solid" id="filter_date" type="text" placeholder="انتخاب کنید">
+                        <input class="form-control form-control-solid" data-jdp type="text" placeholder="انتخاب کنید">
                     </div>
                     <div>
                         <label class="form-label" for="">وضعیت</label>
@@ -301,74 +301,12 @@
 @endsection
 
 @section("script-before")
-<script src="{{asset('plugins/flatpicker_fa.js')}}"></script>
-<script src="{{asset('plugins/jdate.min.js')}}"></script>
+<script src="{{asset('plugins/jalalidatepicker.min.js')}}"></script>
 @endsection
 
 @section("scripts")
 <script>
-    window.Date = window.JDate;
-
-    flatpickr = $("#filter_date").flatpickr({
-        disableMobile: "true",
-        altInput: true,
-        altFormat: "Y-m-d",
-        dateFormat: "Y-m-d",
-        locale: "fa",
-        mode: "range"
-    })
-
-    $("#date_picker1").flatpickr({
-        disableMobile: "true",
-        altInput: true,
-        altFormat: "Y-m-d",
-        dateFormat: "Y-m-d",
-        locale: "fa",
-        defaultDate: ["today", "today"],
-        mode: "range",
-        onChange: function(selectedDates, dateStr, instance) {
-            // DO LIVEWIRE
-        }
-    })
-
-    $("#date_picker2").flatpickr({
-        disableMobile: "true",
-        altInput: true,
-        altFormat: "Y-m-d",
-        dateFormat: "Y-m-d",
-        locale: "fa",
-        defaultDate: ["today", "today"],
-        mode: "range",
-        onChange: function(selectedDates, dateStr, instance) {
-            // DO LIVEWIRE
-        }
-    })
-
-    $("#date_picker3").flatpickr({
-        disableMobile: "true",
-        altInput: true,
-        altFormat: "Y-m-d",
-        dateFormat: "Y-m-d",
-        locale: "fa",
-        defaultDate: ["today", "today"],
-        mode: "range",
-        onChange: function(selectedDates, dateStr, instance) {
-            // DO LIVEWIRE
-        }
-    })
-
-    $("#date_picker4").flatpickr({
-        disableMobile: "true",
-        altInput: true,
-        altFormat: "Y-m-d",
-        dateFormat: "Y-m-d",
-        locale: "fa",
-        defaultDate: ["today", "today"],
-        mode: "range",
-        onChange: function(selectedDates, dateStr, instance) {
-            // DO LIVEWIRE
-        }
-    })
+    jalaliDatepicker.startWatch();
 
     function generateTime() {
         var time = [];

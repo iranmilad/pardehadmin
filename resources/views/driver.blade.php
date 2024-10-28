@@ -106,7 +106,7 @@
                 <label class="form-label" for="">تاریخ تحویل</label>
             </div>
             <div class="col-md-4">
-                <input type="text" class="form-control form-control-solid date_time">
+                <input type="text" class="form-control form-control-solid" data-jdp>
             </div>
         </div>
 
@@ -316,21 +316,11 @@
 @endsection
 
 @section("script-before")
-<script src="{{asset('plugins/flatpicker_fa.js')}}"></script>
-<script src="{{asset('plugins/jdate.min.js')}}"></script>
+<script src="{{asset('plugins/jalalidatepicker.min.js')}}"></script>
 @endsection
 
 @section("scripts")
 <script>
-    window.Date = window.JDate;
-    flatpickr = $(".date_time").flatpickr({
-        disableMobile: "true",
-        altInput: true,
-        altFormat: "Y-m-d",
-        dateFormat: "Y-m-d",
-        locale: "fa",
-        enableTime: false,
-        monthSelectorType: "static"
-    });
+  jalaliDatepicker.startWatch();
 </script>
 @endsection

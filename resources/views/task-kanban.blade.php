@@ -43,12 +43,12 @@
 
                 <div class="mb-3">
                     <label for="message-text" class="col-form-label">تاریخ شروع :</label>
-                    <input class="form-control date_picker" id="startDate" type="text">
+                    <input class="form-control date_picker" id="startDate" type="text" data-jdp>
                 </div>
 
                 <div class="mb-3">
                     <label for="message-text" class="col-form-label">تاریخ پایان :</label>
-                    <input class="form-control date_picker" id="endDate" type="text">
+                    <input class="form-control date_picker" id="endDate" type="text" data-jdp>
                 </div>
 
                 <div class="mb-3">
@@ -95,34 +95,13 @@
 
 @section("script-before")
 <script src="{{asset('plugins/custom/jkanban/jkanban.bundle.js')}}"></script>
-<script src="{{asset('plugins/flatpicker_fa.js')}}"></script>
-<script src="{{asset('plugins/jdate.min.js')}}"></script>
+<script src="{{asset('plugins/jalalidatepicker.min.js')}}"></script>
 <script src="{{asset('plugins/custom/pickr/pickr.es5.min.js')}}"></script>
 @endsection
 
 @section("scripts")
 <script>
-    window.Date = window.JDate;
-    window['detail_modal_start_date'] = $("#startDate").flatpickr({
-        disableMobile: "true",
-        altInput: true,
-        altFormat: "Y-m-d",
-        dateFormat: "Y-m-d",
-        locale: "fa",
-        enableTime: false,
-        time_24hr: false,
-        monthSelectorType: "static"
-    });
-    window['detail_modal_end_date'] = $("#endDate").flatpickr({
-        disableMobile: "true",
-        altInput: true,
-        altFormat: "Y-m-d",
-        dateFormat: "Y-m-d",
-        locale: "fa",
-        enableTime: false,
-        time_24hr: false,
-        monthSelectorType: "static"
-    });
+    jalaliDatepicker.startWatch();
     document.addEventListener("DOMContentLoaded", function() {
         // Initialize color picker
         $(".color-picker").each(function(i) {

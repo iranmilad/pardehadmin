@@ -45,11 +45,11 @@
                         </div>
                         <div class="mb-10">
                             <label for="discount_code" class="form-label">تاریخ شروع</label>
-                            <input type="text" id="discount_expire_start" class="form-control" placeholder="تاریخ انقضا را انتخاب کنید" />
+                            <input type="text"  data-jdp class="form-control" placeholder="تاریخ انقضا را انتخاب کنید" />
                         </div>
                         <div class="mb-10">
                             <label for="discount_code" class="form-label">تاریخ پایان</label>
-                            <input type="text" id="discount_expire_end" class="form-control" placeholder="تاریخ انقضا را انتخاب کنید" />
+                            <input type="text"  data-jdp class="form-control" placeholder="تاریخ انقضا را انتخاب کنید" />
                         </div>
                     </div>
                     <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-2-tab">
@@ -141,21 +141,13 @@
 @endsection
 
 @section("script-before")
-<script src="{{asset('plugins/flatpicker_fa.js')}}"></script>
-<script src="{{asset('plugins/jdate.min.js')}}"></script>
+<script src="{{asset('plugins/jalalidatepicker.min.js')}}"></script>
 @endsection
 
 @section("scripts")
 <script>
-    window.Date = window.JDate;
 
-    flatpickr = $("#discount_expire_start,#discount_expire_end").flatpickr({
-        disableMobile: "true",
-        altInput: true,
-        altFormat: "Y-m-d",
-        dateFormat: "Y-m-d",
-        locale: "fa",
-    })
+    jalaliDatepicker.startWatch();
 
     $(document).ready(function() {
         new Tagify(document.getElementById('allowed_phone_number'));
