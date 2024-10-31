@@ -111,13 +111,13 @@
                     <div class="row mb-6">
                         <label class="col-lg-3 col-form-label fw-semibold fs-6">تاریخ شروع تعمیرات</label>
                         <div class="col-lg-8 col-xl-8">
-                            <input type="date" name="settings[maintenance_start]" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 form-date" placeholder="تاریخ شروع تعمیرات را وارد کنید" value="{{ $setting->settings['maintenance_start'] ?? '' }}" />
+                            <input name="settings[maintenance_start]" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 " data-jdp placeholder="تاریخ شروع تعمیرات را وارد کنید" value="{{ $setting->settings['maintenance_start'] ?? '' }}" />
                         </div>
                     </div>
                     <div class="row mb-6">
                         <label class="col-lg-3 col-form-label fw-semibold fs-6">تاریخ پایان تعمیرات</label>
                         <div class="col-lg-8 col-xl-8">
-                            <input type="date" name="settings[maintenance_end]" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 form-date" placeholder="تاریخ پایان تعمیرات را وارد کنید" value="{{ $setting->settings['maintenance_end'] ?? '' }}" />
+                            <input name="settings[maintenance_end]" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 " data-jdp placeholder="تاریخ پایان تعمیرات را وارد کنید" value="{{ $setting->settings['maintenance_end'] ?? '' }}" />
                         </div>
                     </div>
                 </div>
@@ -130,8 +130,7 @@
 @endsection
 
 @section('script-before')
-<script src="{{ asset('plugins/flatpicker_fa.js') }}"></script>
-<script src="{{ asset('plugins/jdate.min.js') }}"></script>
+<script src="{{asset('plugins/jalalidatepicker.min.js')}}"></script>
 <script>
     function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -155,15 +154,9 @@
 
 @section("scripts")
 <script>
-    window.Date = window.JDate;
-    $('.form-date').flatpickr({
-        disableMobile: "true",
-        altInput: true,
-        altFormat: "Y-m-d H:i",
-        dateFormat: "Y-m-d H:i",
-        enableTime: true,
-        time_24hr: true,
-        locale: "fa",
+    jalaliDatepicker.startWatch({
+        time: true,
+        hasSecond: false
     });
 </script>
 @endsection

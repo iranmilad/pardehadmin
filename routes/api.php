@@ -113,7 +113,7 @@ Route::get('/checkproduct/{id}', function (Request $request) {
 //     return response()->json(['html' => $html]);
 // });
 
-Route::post('/custom-css',function(){
+Route::post('/custom-css', function () {
     // REQUEST => ID
     $css = "body{
     background-color: red;
@@ -172,5 +172,200 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/file/upload', [FileController::class,'upload'])->name('api.dashboard.upload');
     Route::delete('/file/remove', [FileController::class,'remove'])->name('api.dashboard.remove');
 });
+// برای دریافت کار ها
+Route::get('/tasks', function () {
+    $response = [
+        [
+            'id' => "nkjkln56342",
+            "title" => "شروع نشده",
+            "color" => '#6b7280',
+            "items" => [
+                [
+                    "id" => "1111",
+                    "title" => "ارسال برای خریدار",
+                    "assigneeName" => "فرهاد باقری",
+                    "startDate" => "01/01/1403",
+                    "endDate" => "30/01/1403",
+                ],
+                [
+                    "id" => "2222",
+                    "title" => "طراحی دوخت",
+                    "assigneeName" => "فرهاد باقری",
+                    "startDate" => "01/01/1403",
+                    "endDate" => "30/01/1403",
+                ]
+            ]
+        ],
+        [
+            'id' => "sb7df9asd",
+            "title" => "درحال انجام",
+            "color" => '#2196F3',
+            "items" => [
+                [
+                    "id" => "3333",
+                    "title" => "خرید پارچه",
+                    "assigneeName" => "فرهاد باقری",
+                    "startDate" => "01/01/1403",
+                    "endDate" => "30/01/1403",
+                ],
+                [
+                    "id" => "4544",
+                    "title" => "ارسال برای نصاب",
+                    "assigneeName" => "فرهاد باقری",
+                    "startDate" => "01/01/1403",
+                    "endDate" => "30/01/1403",
+                ]
+            ]
+        ],
+        [
+            'id' => "fdgmndfg2",
+            "title" => "اتمام یافته",
+            "color" => '#009688',
+            "items" => [
+                [
+                    "id" => "5555",
+                    "title" => "خرید پارچه",
+                    "assigneeName" => "فرهاد باقری",
+                    "startDate" => "01/01/1403",
+                    "endDate" => "30/01/1403",
+                ],
+                [
+                    "id" => "6666",
+                    "title" => "ارسال برای نصاب",
+                    "assigneeName" => "فرهاد باقری",
+                    "startDate" => "01/01/1403",
+                    "endDate" => "30/01/1403",
+                ]
+            ]
+        ],
+    ];
 
+    return response()->json(array("boards" => $response));
+});
 
+// برای دریافت وضعیت ها
+Route::get('/tasks/status', function () {
+    $arr = [
+        [
+            'id' => "nkjkln56342",
+            "title" => "شروع نشده"
+        ],
+        [
+            'id' => "sb7df9asd",
+            "title" => "درحال انجام"
+        ],
+        [
+            'id' => "fdgmndfg2",
+            "title" => "اتمام یافته"
+        ],
+    ];
+
+    return response()->json($arr);
+});
+
+// برای اضافه کردن کار
+Route::post('/tasks/add', function () {
+
+    // $request = [
+    //     'id' => '',
+    //     'title' => '',
+    //     'assigneeName' => '',
+    //     'startDate' => '',
+    //     'endDate' => ''
+    //     'board' => 'inprogress'
+    // ];
+
+    return response()->json();
+});
+
+// برای بروزرسانی کار
+Route::post('/tasks/update', function () {
+
+    // $request = [
+    //     'id' => '',
+    //     'title' => '',
+    //     'assigneeName' => '',
+    //     'startDate' => '',
+    //     'endDate' => ''
+    //     'board' => 'inprogress'
+    // ];
+
+    return response()->json();
+});
+
+// برای دریافت مشخصات کار
+Route::get('/task/{id}', function ($id) {
+
+    $response = [
+        'id' => '3333',
+        'title' => 'ارسال برای مشتری',
+        'assigneeName' => 'فرهاد باقری',
+        'startDate' => '1403/01/01', // Y - M -D
+        'endDate' => "1403/01/30", // Y - M -D
+        'board' => 'sb7df9asd'
+    ];
+
+    return response()->json($response);
+});
+
+// برای آپدیت کردن وضعیت
+Route::post('/tasks/update-kanban', function () {
+
+    // $request = [
+    //     'id' => '',
+    //     'title' => '',
+    //     'color' => '',
+    //     'position' => ''
+    // ];
+
+    return response()->json();
+});
+
+// ساخت وضعیت
+Route::post('/tasks/create-kanban', function () {
+
+    // $request = [
+    //     'id' => '',
+    //     'title' => '',
+    //     'color' => '',
+    //     'position' => ''
+    // ];
+
+    return response()->json();
+});
+
+// اپدیت کردن کار
+Route::post('/tasks/update-card', function () {
+
+    // $request = [
+    //     'id' => '',
+    //     'title' => '',
+    //     'assigneeName' => '',
+    //     'startDate' => '',
+    //     'endDate' => ''
+    //     'board' => ''
+    //     'position' => ''
+    // ];
+
+    return response()->json();
+});
+
+// حذف کردن وضعیت
+Route::post('/tasks/remove-card', function () {
+
+    // $request = [
+    //     'id' => '',
+    // ];
+
+    return response()->json();
+});
+
+// حذف کردن کار
+Route::post('/tasks/remove', function () {
+
+    // $request = [
+    //     'id' => '',
+    // ];
+
+    return response()->json();
+});

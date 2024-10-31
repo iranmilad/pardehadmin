@@ -13,6 +13,10 @@ function GlobalTable() {
             data: randomString,
         })
     }
+    let order = [[1,"asc"]]
+    if($("#global_table").hasClass("nocheckbox")){
+        order = [[0,"asc"]]
+    }
 
     let initTable = function () {
         let table;
@@ -30,7 +34,7 @@ function GlobalTable() {
                     className: "text-end",
                 },
             ],
-            order: [[1, "asc"]],
+            order,
             paging: false,
             searching: false,
         });

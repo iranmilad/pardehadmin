@@ -25,6 +25,7 @@ import {
     ReportsTable,
     GlobalTable,
     CustomerGroupTable,
+    KanbanConfig,
 } from "./pages";
 // import "./pages/attribute";
 // import "./create-fast-category";
@@ -42,6 +43,8 @@ import "./messages-dashboard";
 import "./file-uploader";
 import { KT_File_Input } from "./file-input";
 import "./ckeditor/bundle";
+import "./form";
+import { generateBoards } from "./pages/kanban";
 
 KTUtil.onDOMContentLoaded(function () {
     PostsTable()?.init();
@@ -68,6 +71,53 @@ KTUtil.onDOMContentLoaded(function () {
     GlobalTable()?.init();
     CustomerGroupTable()?.init();
     KT_File_Input();
+    if (document.getElementById("boardModal")) {
+        KanbanConfig()?.init();
+        generateBoards();
+    }
+});
+
+const Alarm = (window["Alarm"] = ({
+    msg,
+    title,
+    closeButton = true,
+    debug = false,
+    newestOnTop = false,
+    progressBar = false,
+    positionClass = "toastr-bottom-right",
+    preventDuplicates = true,
+    onclick = null,
+    showDuration = "300",
+    hideDuration = "1000",
+    timeOut = "5000",
+    extendedTimeOut = "1000",
+    showEasing = "swing",
+    hideEasing = "linear",
+    showMethod = "fadeIn",
+    hideMethod = "fadeOut",
+    type = "success",
+}) => {
+    toastr.options = {
+        closeButton: eval(closeButton),
+        debug: eval(debug),
+        newestOnTop: eval(newestOnTop),
+        progressBar: eval(progressBar),
+        positionClass,
+        preventDuplicates: eval(preventDuplicates),
+        onclick: eval(onclick),
+        showDuration,
+        hideDuration,
+        timeOut,
+        extendedTimeOut,
+        showEasing,
+        hideEasing,
+        showMethod,
+        hideMethod,
+    };
+    if (type === "success") toastr.success(msg, title);
+    if (type === "info") toastr.info(msg, title);
+    if (type === "warning") toastr.warning(msg, title);
+    if (type === "error") toastr.error(msg, title);
 });
 
 window["KT_File_Input"] = KT_File_Input;
@@ -416,47 +466,44 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
     let elm = document.querySelectorAll(".indexSortable");
     elm.forEach((item) => {
-        window['indexSortable'] = new Sortable(item, {
+        window["indexSortable"] = new Sortable(item, {
             swap: true, // Enable swap plugin
             swapClass: "highlight", // The class applied to the hovered swap item
             animation: 150,
             disabled: true,
-            onEnd: function(evt) {
+            onEnd: function (evt) {
                 // شیء جدید برای نگهداری مقادیر مرتب‌شده
-                var sortedData = {'index_sort': []};
+                var sortedData = { index_sort: [] };
                 let sortValue = [];
                 // دریافت ورودی‌های مخفی مرتب‌شده
                 var hiddenInputs = $(evt.to).find('input[type="hidden"]');
-                
-                hiddenInputs.each(function(index, element) {
+
+                hiddenInputs.each(function (index, element) {
                     // گرفتن نام و مقدار هر ورودی
-                    var inputName = $(element).attr('name');
+                    var inputName = $(element).attr("name");
                     var inputValue = $(element).val();
-        
+
                     // قرار دادن نام و مقدار در شیء sortedData
                     sortValue.push(inputValue);
                 });
                 sortedData.index_sort = sortValue;
-        
+
                 // تبدیل شیء به رشته JSON و قرار دادن در فیلد مخفی
-                $('#indexSortableValue').val(JSON.stringify(sortedData));
-        
-                // نمایش شیء مرتب‌شده در کنسول
-                console.log(sortedData);
-            }
+                $("#indexSortableValue").val(JSON.stringify(sortedData));
+            },
         });
     });
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
     // وقتی روی دکمه مرتب کردن کلیک شد
-    $('#sortButton').on('click', function() {
+    $("#sortButton").on("click", function () {
         // دکمه مرتب کردن را مخفی کن
         $(this).hide();
-        window['indexSortable'].option("disabled", false);
+        window["indexSortable"].option("disabled", false);
         // دکمه‌های ذخیره و لغو را نمایش بده
-        $('#actionButtons').removeClass('d-none').addClass('d-flex');
-        $(".indexSortable").addClass('active')
+        $("#actionButtons").removeClass("d-none").addClass("d-flex");
+        $(".indexSortable").addClass("active");
     });
 });
 
@@ -470,3 +517,91 @@ $(document).ready(function() {
 //         })
 //     }
 // })
+
+$(document).ready(function () {
+    // Initialize Sortable.js
+    const compareSettingsContainer = document.getElementById(
+        "compare-settings-fields"
+    );
+
+    // Create Sortable instance
+    const sortableInstance = new Sortable(compareSettingsContainer, {
+        animation: 150,
+        ghostClass: "sortable-ghost",
+        handle: ".drag-handle", // Set the handle class for sorting
+    });
+
+    // Event listener for the 'افزودن' button
+    $(".btn-success").on("click", function () {
+        // Get the selected value and text from the dropdown
+        const selectedValue = $("#compare-settings-fields-controller").val();
+        const selectedText = $(
+            "#compare-settings-fields-controller option:selected"
+        ).text(); // Get the selected text
+
+        // Check if a value is selected
+        if (selectedValue) {
+            // Create a new div for the selected value with a drag handle
+            const newDiv = $(`
+                <div class="p-4 tw-bg-gray-200 d-flex align-items-center justify-content-between">
+                    <input type="hidden" name="sortable[box][]" value="${selectedValue}" />
+                    <span class="drag-handle ms-2" style="cursor: grab;">
+                        <i class="fa-solid fa-arrows-up-down-left-right"></i>
+                    </span>
+                    <div>
+                        <span>${selectedText}</span>
+                        <button type="button" class="btn p-0 tw-text-xs ms-2 remove-sortable-trash">
+                            <i class="tw-text-red-500 fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                    <div></div>
+                </div>
+            `);
+
+            // Append the new div to the compare settings fields
+            $(compareSettingsContainer).append(newDiv);
+        } else {
+            alert("لطفاً یک گزینه را انتخاب کنید."); // Alert if no option is selected
+        }
+    });
+
+    // Event delegation for removing sortable items
+    $(compareSettingsContainer).on(
+        "click",
+        ".remove-sortable-trash",
+        function () {
+            $(this).parent().parent().remove(); // Remove the closest div
+        }
+    );
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Make the original container sortable
+    new Sortable(document.getElementById("copyable_sortable"), {
+        group: {
+            name: "shared",
+            pull: "clone", // Allow clone instead of move
+            put: false, // Prevent items from being added here
+        },
+        animation: 150,
+        sort: false, // Do not allow sorting inside the original container
+    });
+
+    // Make the destination container sortable and allow copied elements
+    new Sortable(document.getElementById("copyable_sortable_place"), {
+        group: {
+            name: "shared",
+            pull: false, // Items can only be added here, not pulled from here
+            put: true, // Allow items to be added here
+        },
+        animation: 150,
+        onAdd: function (evt) {
+            // Optional: Add delete button functionality for copied items
+            evt.item
+                .querySelector("button.remove-sortable-trash")
+                .addEventListener("click", function () {
+                    evt.item.remove();
+                });
+        },
+    });
+});

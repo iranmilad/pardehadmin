@@ -727,6 +727,10 @@ Route::get('/changepass', function () {
 
 //     Route::post('/settings', function () {
 //     })->name("settings.save");
+
+//     Route::get('/compare-settings', function () {
+//        return view('compare-settings');
+//     })->name("compare-settings.show");
 // });
 
 
@@ -1035,6 +1039,11 @@ Route::get('/test', function () {
 
 
 Route::group(['prefix' => 'tasks'], function () {
+
+    Route::get('/kanban', function () {
+        return view('task-kanban');
+    })->name("tasks.kanban.show");
+
     Route::get('/list', function () {
         return view('tasks');
     })->name("tasks.show");
@@ -1042,6 +1051,8 @@ Route::group(['prefix' => 'tasks'], function () {
     Route::get('/task/{id}', function ($id) {
         return view('task');
     })->name("task.edit.show");
+
+
 });
 
 Route::group(['prefix' => 'workflows'], function () {
@@ -1123,10 +1134,67 @@ Route::get('/create-site-category', function () {
 // Route::post('/products-loop', function () {
 // })->name("products-loop.save");
 
-// Route::get('/loop/{id}', function ($id) {
-//     return view('loop');
-// })->name("loop.edit.show");
+Route::get('/loop/{id}', function ($id) {
+     return view('loop');
+})->name("loop.edit.show");
 
-// Route::get('/create-loop', function () {
-//     return view('loop');
-// })->name("loop.create.show");
+Route::get('/create-loop', function () {
+    return view('loop');
+})->name("loop.create.show");
+
+
+Route::group(['prefix' => 'drivers'], function () {
+    Route::get('/list/', function () {
+        return view('drivers');
+    })->name("drivers.show");
+
+    Route::get('/driver/{id}', function ($id) {
+        return view('driver');
+    })->name("driver.edit.show");
+
+    Route::get('/driver-create', function ($id) {
+        return view('driver');
+    })->name("driver.create.show");
+});
+
+Route::group(['prefix' => 'forms'], function () {
+    Route::get('/list/', function () {
+        return view('forms');
+    })->name("forms.show");
+
+    Route::get('/form/{id}', function ($id) {
+        return view('form');
+    })->name("form.edit.show");
+
+    Route::get('/create', function () {
+        return view('form');
+    })->name("form.create.show");
+
+    Route::get('/messages', function () {
+        return view('forms-messages');
+    })->name("form.messages.show");
+
+    Route::get('/message/{id}', function ($id) {
+        return view('forms-message');
+    })->name("form.message.show");
+
+    Route::get('/settings', function () {
+        return view('forms-settings');
+    })->name("form.settings.show");
+});
+
+Route::get('/newsletter', function () {
+    return view('newsletter');
+})->name("newsletter.show");
+
+
+// مدیریت انبار
+
+Route::get('/store-managements', function () {
+    return view('store-managements');
+})->name("store-managements.show");
+
+Route::get('/store-management/{id}', function ($id) {
+    return view('store-management');
+})->name("store-management.show");
+

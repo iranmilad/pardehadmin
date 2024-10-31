@@ -15,7 +15,7 @@ body,
     font-feature-settings: "ss02";
 }
 
-.ck-button__label{
+.ck-button__label {
     font-family: "IRANSansX", sans-serif !important;
 }
 
@@ -389,8 +389,14 @@ a.token {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(2, 1fr); /* Two equal rows */
     gap: 10px;
-    height: 500px;
+    height: 300px;
     padding: 10px;
+}
+
+@media only screen and (min-width: 1200px) {
+    .third-grid {
+        height: 500px;
+    }
 }
 
 .third-grid div:nth-child(1) {
@@ -415,9 +421,10 @@ a.token {
     animation: borderAnimation 1s infinite;
     @apply tw-border-brand-500 tw-shadow-sm !important;
     box-shadow: 0 0 10px rgba(231, 76, 60, 0.7) !important;
+    background: transparent;
 }
 
-.indexSortable.active .card{
+.indexSortable.active .card {
     padding: 20px;
     border: 2px #ccc dashed;
 }
@@ -444,12 +451,12 @@ a.token {
     height: 600px !important;
 }
 
-input.choose_file_input:disabled{
+input.choose_file_input:disabled {
     background: white;
     cursor: pointer;
 }
 
-.remove_choose_file{
+.remove_choose_file {
     height: 100%;
     background: white;
     outline: none;
@@ -457,7 +464,7 @@ input.choose_file_input:disabled{
     @apply tw-text-red-500;
 }
 
-.select2-dropdown.select2-dropdown--below{
+.select2-dropdown.select2-dropdown--below {
     z-index: 999999999;
 }
 
@@ -468,18 +475,18 @@ input.choose_file_input:disabled{
     padding: 20px;
     padding-right: 0;
     column-gap: 100px;
-    justify-content: start;
+    justify-content: flex-start;
     overflow: auto;
 }
 .leader_box {
     position: relative;
     width: 200px;
     height: 200px;
-    border: 2px solid theme('colors.gray.300');
+    border: 2px solid theme("colors.gray.300");
     padding: 10px;
     background-color: white; /* White background for boxes */
     border-radius: 10px; /* Rounded corners */
-    @apply tw-shadow
+    @apply tw-shadow;
 }
 .leader_top-dots,
 .leader_bottom-dots {
@@ -506,9 +513,9 @@ input.choose_file_input:disabled{
 .leader_dot-container {
     display: flex;
     align-items: center;
-    justify-content: start; /* Align text to the right */
+    justify-content: flex-start; /* Align text to the right */
 }
-.leader_top-dots .leader_dot-container{
+.leader_top-dots .leader_dot-container {
     justify-content: end;
 }
 .leader_dot-text {
@@ -518,7 +525,7 @@ input.choose_file_input:disabled{
     margin-right: 10px;
 }
 
-.pcr-button{
+.pcr-button {
     border: 1px solid black;
 }
 
@@ -831,4 +838,157 @@ input.choose_file_input:disabled{
 .grid-nine div:nth-child(n+10) {
     grid-column: 2 / span 1; /* Right column */
     grid-row: auto; /* Each div takes one row */
+}
+
+
+.form-item {
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: grab;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    @apply tw-col-span-1 tw-border-solid tw-border tw-border-slate-300 hover:tw-border-brand-500 tw-bg-white;
+}
+
+.form-item i {
+    font-size: 18px;
+    color: #333;
+}
+
+.form-items-container {
+    max-height: 90vh;
+    overflow-y: auto;
+    @apply tw-grid tw-grid-cols-2 tw-gap-3;
+}
+
+.form-item-text {
+    font-size: 14px;
+    color: #333;
+}
+
+.grid-stack {
+    min-height: 400px;
+    direction: rtl;
+    @apply tw-border-dashed tw-border-2 tw-border-slate-300;
+}
+
+.grid-stack-item-content {
+    @apply tw-border-solid tw-border tw-border-slate-400 tw-bg-slate-100 tw-rounded-md;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 20px;
+    gap: 10px;
+    overflow: hidden !important;
+    user-select: none;
+}
+
+.kanban-board {
+    background-color: #f6f8fa;
+    border-radius: 8px;
+    border: 1px solid #d0d7de;
+}
+
+.kanban-board-header{
+    cursor: pointer;
+}
+
+.kanban-drag{
+    max-height: 700px;
+    overflow-y: auto;
+}
+
+.kanban-item {
+    padding: 0;
+    line-height: 1.3;
+    background-color: transparent;
+    border: none !important;
+}
+
+/* Kanban Card Container */
+.kanban-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Kanban Card Title */
+.kanban-card-title {
+    font-weight: bold;
+    font-size: 1.25rem; /* equivalent to fs-4 */
+    border-bottom: 2px solid #eee;
+    padding-bottom: 8px;
+}
+
+/* Kanban Card Details */
+.kanban-card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Assignee Info */
+.kanban-card-assignee {
+    font-size: 0.875rem; /* equivalent to tw-text-sm */
+    font-weight: bold;
+}
+
+.kanban-card-assignee-name {
+    color: #94a3b8; /* equivalent to tw-text-slate-400 */
+}
+
+/* Date Information */
+.kanban-card-dates {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+}
+
+.kanban-card-date {
+    font-weight: bold;
+}
+
+.kanban-card-date-info {
+    color: #94a3b8;
+}
+
+.kanban-container{
+    width: 100%;
+    flex-wrap: nowrap !important;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+body.fullscreen #kt_app_sidebar , body.fullscreen #kt_app_header{
+    display: none;
+}
+
+body.fullscreen #kt_app_wrapper{
+    margin-top: 0 !important;
+    margin-right: 0 !important;
+}
+
+body.fullscreen #kt_app_toolbar_container {
+    justify-content: center;
+}
+
+/* Hide the trash icon in the original sortable area (col-lg-2) */
+#copyable_sortable .remove-sortable-trash {
+    display: none;
+}
+
+/* Show the trash icon for items cloned/moved to the new container (col-lg-10) */
+#copyable_sortable_place .remove-sortable-trash {
+    display: inline-block;
 }

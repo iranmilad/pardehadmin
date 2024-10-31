@@ -35,11 +35,11 @@
                         </div>
                         <div class="col-12 col-md-6 col-lg-4">
                             <label class="form-label required" for="">تاریخ سر رسید</label>
-                            <input type="text" class="form-control date_picker">
+                            <input type="text" class="form-control " data-jdp>
                         </div>
                         <div class="col-12 col-md-6 col-lg-4">
                             <label class="form-label" for="">تاریخ پرداخت</label>
-                            <input type="text" class="form-control date_picker">
+                            <input type="text" class="form-control " data-jdp>
                         </div>
                         <div class="col-12 col-md-6 col-lg-4">
                             <div>
@@ -68,26 +68,11 @@
 @endsection
 
 @section('script-before')
-<script src="{{asset('plugins/flatpicker_fa.js')}}"></script>
-<script src="{{asset('plugins/jalali-moment.browser.js')}}"></script>
+<script src="{{asset('plugins/jalalidatepicker.min.js')}}"></script>
 @endsection
 
 @section("scripts")
 <script>
-    flatpickr = $(".date_picker").flatpickr({
-        disableMobile: "true",
-        altInput: true,
-        dateFormat: "YYYY-MM-DD",
-        altFormat: "DD-MM-YYYY",
-        locale: "fa",
-        parseDate: (datestr, format) => {
-            return moment(datestr, format, true).toDate();
-        },
-        formatDate: (date, format, locale) => {
-            // locale can also be used
-            console.log(format)
-            return moment(date).locale('fa').format(format);
-        }
-    })
+    jalaliDatepicker.startWatch();
 </script>
 @endsection

@@ -45,7 +45,7 @@
                         </div>
                         <div class="card-body">
                             <div class="nav nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                
+
                                 <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">انبار</button>
                                 <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">حمل و نقل</button>
                                 <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-relation" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">متغیر های وابسته</button>
@@ -55,11 +55,11 @@
 
                             </div>
                             <div class="tab-content mt-6 border-top pt-6" id="v-pills-tabContent">
-                                
+
                                 <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
                                     <livewire:product-attributes-manager :product="$product" />
                                 </div>
-                              
+
                                 <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
                                     <livewire:product-transport :product="$product" />
                                 </div>
@@ -68,6 +68,50 @@
                                 </div>
                                 <div class="tab-pane fade" id="v-pills-norelation" role="tabpanel" aria-labelledby="v-pills-norelation-tab" tabindex="0">
                                     <livewire:product-independent-attributes :id="$product->id" />
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-features" role="tabpanel" aria-labelledby="v-pills-disabled-tab" tabindex="0">
+                                    <div class="row">
+                                        <div class="other_repeater">
+                                            <!--begin::Form group-->
+                                            <div class="form-group">
+                                                <!-- data-repeater-list must be unique -->
+                                                <!-- data-repeater-list must be unique -->
+                                                <!-- data-repeater-list must be unique -->
+                                                <!-- data-repeater-list must be unique -->
+                                                <!-- data-repeater-list must be unique -->
+                                                <div data-repeater-list="options_repeater">
+                                                    <div class="mt-3" data-repeater-item>
+                                                        <div class="form-group row">
+                                                            <div class="col-12 col-md">
+                                                                <label class="form-label required">عنوان:</label>
+                                                                <input name="option[name]" type="text" class="form-control mb-2 mb-md-0" placeholder="عنوان را وارد کنید" value="قابل شست‌وشو" />
+                                                            </div>
+                                                            <div class="col-12 col-md">
+                                                                <label class="form-label required">مقدار:</label>
+                                                                <input name="option[value]" type="text" class="form-control mb-2 mb-md-0" placeholder="مقدار را وارد کنید" value="بله" />
+                                                            </div>
+                                                            <div class="col-12 col-md">
+                                                                <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-8">
+                                                                    <i class="ki-duotone ki-trash fs-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                                                                    حذف
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--end::Form group-->
+
+                                            <!--begin::Form group-->
+                                            <div class="form-group mt-5">
+                                                <a href="javascript:;" data-repeater-create class="btn btn-primary btn-sm">
+                                                    افزودن
+                                                    <i class="ki-duotone ki-plus fs-3 pe-0"></i>
+                                                </a>
+                                            </div>
+                                            <!--end::Form group-->
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="tab-pane fade" id="v-pills-installments" role="tabpanel" aria-labelledby="v-pills-installments-tab" tabindex="0">
                                     <livewire:product-credit-plan :product="$product" />
@@ -275,8 +319,7 @@
 @section("script-before")
 
 <script src="{{asset('plugins/custom/formrepeater/formrepeater.bundle.js')}}"></script>
-<script src="{{asset('plugins/flatpicker_fa.js')}}"></script>
-<script src="{{asset('plugins/jdate.min.js')}}"></script>
+<script src="{{asset('plugins/jalalidatepicker.min.js')}}"></script>
 @endsection
 
 @section("scripts")
@@ -284,7 +327,6 @@
 
 
 <script>
-    window.Date = window.JDate;
     $('.images-repeater').repeater({
         initEmpty: false,
 
@@ -296,13 +338,7 @@
             $(this).slideUp(deleteElement);
         }
     });
-    flatpickr = $(".first_time,.second_time").flatpickr({
-        disableMobile: "true",
-        altInput: true,
-        altFormat: "Y-m-d",
-        dateFormat: "Y-m-d",
-        locale: "fa",
-    })
+    jalaliDatepicker.startWatch();
 
     // FOR REMOVE BUTTON CONFIRM
     document.addEventListener("DOMContentLoaded", () => {

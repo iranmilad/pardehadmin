@@ -33,7 +33,7 @@
                     @endif
                     <div class="col-12 col-md-4">
                         <label class="form-label required">تاریخ :</label>
-                        <input name="date" type="text" class="form-control mb-2 mb-md-0 time_picker" placeholder="تاریخ را وارد کنید" />
+                        <input name="date" type="text" class="form-control mb-2 mb-md-0 " data-jdp placeholder="تاریخ را وارد کنید" />
                     </div>
                     <div class="col-12 col-md-4">
                         <label class="form-label required">زمان مورد نیاز :</label>
@@ -88,22 +88,13 @@
 
 @section('script-before')
 <script src="{{asset('plugins/custom/formrepeater/formrepeater.bundle.js')}}"></script>
-<script src="{{asset('plugins/flatpicker_fa.js')}}"></script>
-<script src="{{asset('plugins/jdate.min.js')}}"></script>
+<script src="{{asset('plugins/jalalidatepicker.min.js')}}"></script>
 @endsection
 
 @section("scripts")
 
 <script>
-    window.Date = window.JDate;
-    $(".time_picker").flatpickr({
-        disableMobile: "true",
-        altInput: true,
-        altFormat: "Y-m-d",
-        dateFormat: "Y-m-d",
-        locale: "fa",
-        mode: "range"
-    })
+    jalaliDatepicker.startWatch();
 </script>
 
 @endsection

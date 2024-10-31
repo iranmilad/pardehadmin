@@ -52,7 +52,7 @@
                     </div>
                     <div>
                         <label class="form-label" for="filter_date">تاریخ</label>
-                        <input class="form-control form-control-solid" placeholder="انتخاب تاریخ" name="date" id="filter_date">
+                        <input class="form-control form-control-solid" placeholder="انتخاب تاریخ" name="date" data-jdp>
                     </div>
                     <button type="submit" name="filter" class="btn btn-primary tw-h-max">اجرا</button>
                 </div>
@@ -174,8 +174,7 @@
 
 @section('script-before')
 <script src="{{asset('plugins/custom/datatables/datatables.bundle.js')}}"></script>
-<script src="{{asset('plugins/flatpicker_fa.js')}}"></script>
-<script src="{{asset('plugins/jdate.min.js')}}"></script>
+<script src="{{asset('plugins/jalalidatepicker.min.js')}}"></script>
 <script>
     // if someone can remove sessions set TRUE OR FALSE;
     // in js/pages/sessions initTable we check it
@@ -185,14 +184,6 @@
 
 @section("scripts")
 <script>
-    window.Date = window.JDate;
-
-    flatpickr = $("#filter_date").flatpickr({
-        disableMobile: "true",
-        altInput: true,
-        altFormat: "Y-m-d",
-        dateFormat: "Y-m-d",
-        locale: "fa",
-    })
+    jalaliDatepicker.startWatch();
 </script>
 @endsection

@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Vite;
     <link rel="stylesheet" href="{{asset('css/flatpickr.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/flatpickr-custom.css')}}">
     <link rel="shortcut icon" href="{{ $setting->settings['favicon'] }}" />
+    <link rel="stylesheet" href="{{asset('css/jalalidatepicker.min.css')}}">
+    @yield('css')
     @vite(['resources/css/app.css'])
 </head>
 
@@ -232,6 +234,7 @@ use Illuminate\Support\Facades\Vite;
                 window["shortCodeEditorAdder"](val);
             });
         });
+
     </script>
     @vite("resources/js/app.js")
     @yield('scripts')

@@ -23,7 +23,7 @@
             <div class="col-lg">
                 <div class="mb-5">
                     <label class="form-label" for="date_time">تاریخ و زمان ایجاد</label>
-                    <input class="form-control form-control-solid" type="text" id="date_time" value="{{ $order->created_at }}" readonly>
+                    <input class="form-control form-control-solid" type="text" data-jdp id="date_time" value="{{ $order->created_at }}" readonly>
                 </div>
                 <div class="mb-5">
                     <label class="form-label" for="status">وضعیت</label>
@@ -610,28 +610,15 @@
 @endsection
 
 @section("script-before")
-<script src="{{asset('plugins/flatpicker_fa.js')}}"></script>
-<script src="{{asset('plugins/jdate.min.js')}}"></script>
+<script src="{{asset('plugins/jalalidatepicker.min.js')}}"></script>
 @endsection
 
 
 @section("scripts")
 <script>
-    window.Date = window.JDate;
-    flatpickr = $("#date_time").flatpickr({
-        disableMobile: "true",
-        altInput: true,
-        altFormat: "H:i Y-m-d",
-        dateFormat: "H:i Y-m-d",
-        locale: "fa",
-        enableTime: true,
-        time_24hr: true,
-        monthSelectorType: "static"
+    jalaliDatepicker.startWatch({
+        time: true,
+        hasSecond: false
     });
-
-    function toggleDetails(id) {
-        const element = document.getElementById(id);
-        element.style.display = (element.style.display === 'none') ? 'table-row' : 'none';
-    }
 </script>
 @endsection

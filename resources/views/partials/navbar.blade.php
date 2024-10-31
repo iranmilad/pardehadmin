@@ -182,6 +182,70 @@
     @endif
     <!--end:Menu item-->
 
+	<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('forms*') ? 'show' : ''}}">
+		<!--begin:Menu link-->
+		<span class="menu-link">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-solid fa-block-quote"></i>
+			</span>
+			<span class="menu-title">فرم ساز</span>
+			<span class="menu-arrow"></span>
+		</span>
+		<!--end:Menu link-->
+		<!--begin:Menu sub-->
+		<div class="menu-sub menu-sub-accordion">
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link {{ Route::is('forms.show') || Route::is('form.edit.show')  ? 'active' : '' }}" href="{{ route('forms.show') }}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">همه ی فرم ها </span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link {{ Route::is('form.create.show')  ? 'active' : '' }}" href="{{ route('form.create.show') }}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">افزودن فرم جدید</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link {{ Route::is('form.messages.show') || Route::is('form.message.show')  ? 'active' : '' }}" href="{{ route('form.messages.show') }}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">پیام ها</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div class="menu-item">
+				<!--begin:Menu link-->
+				<a class="menu-link {{ Route::is('form.settings.show') ? 'active' : '' }}" href="{{ route('form.settings.show') }}">
+					<span class="menu-bullet">
+						<span class="bullet bullet-dot"></span>
+					</span>
+					<span class="menu-title">تنظیمات</span>
+				</a>
+				<!--end:Menu link-->
+			</div>
+			<!--end:Menu item-->
+		</div>
+		<!--end:Menu sub-->
+	</div>
+
     <!--begin:Menu item-->
     @if(userHasPermission('manage_products'))
         <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('products*') ? 'show' : ''}}">
@@ -354,6 +418,18 @@
             <!--end:Menu link-->
         </div>
     @endif
+	<!--end:Menu item-->
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{route('newsletter.show')}}" class="menu-link {{ Route::is('newsletter.show') ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-solid fa-newspaper"></i>
+			</span>
+			<span class="menu-title">خبرنامه</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
     <!--end:Menu item-->
 
     <!--begin:Menu item-->
@@ -504,6 +580,19 @@
     @endif
     <!--end:Menu item-->
 
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{route('tasks.kanban.show')}}" class="menu-link {{ Route::is('tasks.kanban.show') ? 'active' : '' }}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-solid fa-clipboard-list"></i>
+			</span>
+			<span class="menu-title">مدیریت کارها</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
+
     <!--begin:Menu item-->
     @if(userHasPermission('manage_worktimes'))
         <div class="menu-item">
@@ -523,7 +612,7 @@
     @if(userHasPermission('manage_tasks'))
         <div class="menu-item">
             <!--begin:Menu link-->
-            <a href="{{ route('tasks.show') }}" class="menu-link {{ Request::is('tasks*') ? 'active' : '' }}">
+            <a href="{{ route('tasks.show') }}" class="menu-link {{  Route::is('tasks.show') || Route::is('task.edit.show') ? 'active' : '' }}">
                 <span class="menu-icon">
                     <i class="fa-duotone fa-solid fa-list-check"></i>
                 </span>
@@ -533,6 +622,19 @@
         </div>
     @endif
     <!--end:Menu item-->
+
+	<!--begin:Menu item-->
+	<div class="menu-item">
+		<!--begin:Menu link-->
+		<a href="{{route('drivers.show')}}" class="menu-link {{Request::is('drivers*') ? 'active' : ''}}">
+			<span class="menu-icon">
+				<i class="fa-duotone fa-solid fa-cars"></i>
+			</span>
+			<span class="menu-title">رانندگان</span>
+		</a>
+		<!--end:Menu link-->
+	</div>
+	<!--end:Menu item-->
 
     <!--begin:Menu item-->
     @if(userHasPermission('manage_users'))

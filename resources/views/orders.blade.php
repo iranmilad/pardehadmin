@@ -38,8 +38,12 @@
       <div id="filter_collapse" class="collapse">
         <div class="d-flex align-items-end flex-wrap w-100 gap-10">
           <div>
-            <label class="form-label" for="filter_date">بازه زمانی</label>
-            <input class="form-control form-control-solid" id="filter_date" name="date_range" type="text" placeholder="انتخاب کنید">
+            <label class="form-label" for="filter_date">از تاریخ</label>
+            <input class="form-control form-control-solid" name="from_date" name="date_range" data-jdp type="text">
+          </div>
+          <div>
+            <label class="form-label" for="">تا تاریخ</label>
+            <input class="form-control form-control-solid" name="to_date" data-jdp type="text">
           </div>
           <div>
             <label class="form-label" for="filter_status">وضعیت</label>
@@ -120,22 +124,11 @@
 
 @section('script-before')
 <script src="{{asset('plugins/custom/datatables/datatables.bundle.js')}}"></script>
-<script src="{{asset('plugins/custom/select2/select2.full.min.js')}}"></script>
+<script src="{{asset('plugins/jalalidatepicker.min.js')}}"></script>
+@endsection
+
+@section("scripts")
 <script>
-  $(document).ready(function() {
-    $('#filter_date').daterangepicker({
-      locale: {
-        format: 'YYYY/MM/DD'
-      }
-    });
-
-    $('#filter_status').select2({
-      placeholder: 'انتخاب وضعیت'
-    });
-
-    $('#filter_payment').select2({
-      placeholder: 'انتخاب نوع پرداختی'
-    });
-  });
+  jalaliDatepicker.startWatch();
 </script>
 @endsection

@@ -129,7 +129,7 @@
                                         <div class="color-picker" data-color="{{ $style->settings['primary'] ?? '#2f415d' }}"></div>
                                     </div>
                                 </div>
-                
+
                                 <!-- رنگ پس‌زمینه -->
                                 <div class="col-3">
                                     <div class="mb-10">
@@ -138,7 +138,7 @@
                                         <div class="color-picker" data-color="{{ $style->settings['bg-background'] ?? '#fff' }}"></div>
                                     </div>
                                 </div>
-                
+
                                 <!-- رنگ پس‌زمینه هدر -->
                                 <div class="col-3">
                                     <div class="mb-10">
@@ -147,7 +147,7 @@
                                         <div class="color-picker" data-color="{{ $style->settings['header-bg'] ?? '#f8f8fa' }}"></div>
                                     </div>
                                 </div>
-                
+
                                 <!-- رنگ عناوین -->
                                 <div class="col-3">
                                     <div class="mb-10">
@@ -156,7 +156,7 @@
                                         <div class="color-picker" data-color="{{ $style->settings['header-color'] ?? '#000' }}"></div>
                                     </div>
                                 </div>
-                
+
                                 <!-- رنگ دوم (فوتر) -->
                                 <div class="col-3">
                                     <div class="mb-10">
@@ -180,7 +180,7 @@
                                         <div class="form-check-wrapper">
                                             <img src="/images/iransans.png" />
                                         </div>
-                
+
                                         <div class="form-check form-check-custom form-check-solid">
                                             <input class="form-check-input" type="radio" {{ ($style->settings['font']=='iransans') ? 'checked' : '' }} value="iransans" name="style[font]" />
                                             <div class="form-check-label">
@@ -196,7 +196,7 @@
                                         <div class="form-check-wrapper">
                                             <img src="/images/iranyekan.png" />
                                         </div>
-                
+
                                         <div class="form-check form-check-custom form-check-solid">
                                             <input class="form-check-input" type="radio" {{ ($style->settings['font']=="iranyekan") ? 'checked' : '' }} value="iranyekan" name="style[font]" />
                                             <div class="form-check-label">
@@ -212,7 +212,7 @@
                                         <div class="form-check-wrapper">
                                             <img src="/images/dana.png" />
                                         </div>
-                
+
                                         <div class="form-check form-check-custom form-check-solid">
                                             <input class="form-check-input" type="radio" {{ ($style->settings['font']=="dana") ? 'checked' : '' }} value="dana" name="style[font]" />
                                             <div class="form-check-label">
@@ -228,7 +228,7 @@
                                         <div class="form-check-wrapper">
                                             <img src="/images/vazir.png" />
                                         </div>
-                
+
                                         <div class="form-check form-check-custom form-check-solid">
                                             <input class="form-check-input" type="radio" {{ ($style->settings['font']=="vazir") ? 'checked' : '' }} value="vazir" name="style[font]" />
                                             <div class="form-check-label">
@@ -242,7 +242,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
 
             <!-- Step 3 -->
@@ -251,7 +251,7 @@
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                         <span class="badge bg-light badge-circle badge-lg me-2" id="badge3">3</span>
                         هدر و فوتر
-                        
+
                     </button>
                 </h2>
                 <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
@@ -481,7 +481,7 @@
 
 
                         </div>
-                    </div>                     
+                    </div>
 
                 </div>
             </div>
@@ -489,11 +489,11 @@
             <!-- Step 4 -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingFour">
-                    
+
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                             <span class="badge bg-light badge-circle badge-lg me-2" id="badge4">4</span>
                             انتخاب ساختار
-                            
+
                         </button>
 
 
@@ -506,7 +506,7 @@
                             <div class="mb-10">
                                 <div class="d-flex justify-content-between">
                                     <label for="" class="form-label">ساختار صفحه خانه</label>
-                                    <a class="btn btn-warning" style="float: left;" href="{{ route("customizes.reset") }}">Reset</a>  
+                                    <a class="btn btn-warning" style="float: left;" href="{{ route("customizes.reset") }}">Reset</a>
                                 </div>
                                 <div class="row g-5" data-kt-buttons="true" data-kt-buttons-target=".form-check-image, .form-check-input">
                                     <!-- start::Col -->
@@ -594,23 +594,23 @@
                                 </div>
                             </div>
                             <div>
-                                <div class="accordion" id="gridAccordion">  
+                                <div class="accordion" id="gridAccordion">
                                     <div id="grid4" class="collapse" data-bs-parent="#gridAccordion">
                                         <div  class="swapSortable grid-four">
-        
+
                                             @foreach($grid->settings['sequence'] as $sequence)
                                                     @php
                                                         // پیدا کردن بلاک مرتبط با $sequence
                                                         $block = $widgets->flatMap(function ($widget) {
                                                             return $widget->blocks;
                                                         })->firstWhere('id', $sequence);
-        
+
                                                         // مقدار block->block را به دست می‌آوریم
                                                         $value = $block ? $block->block : 'Unknown Block';
                                                     @endphp
                                                 <div>
-                                                    {{ $value }} 
-                                                    <input type="hidden" name="grid[sequence][4][]" value="{{ $sequence }}" /> 
+                                                    {{ $value }}
+                                                    <input type="hidden" name="grid[sequence][4][]" value="{{ $sequence }}" />
                                                 </div>
                                             @endforeach
                                         </div>
@@ -624,13 +624,13 @@
                                                         $block = $widgets->flatMap(function ($widget) {
                                                             return $widget->blocks;
                                                         })->firstWhere('id', $sequence);
-        
+
                                                         // مقدار block->block را به دست می‌آوریم
                                                         $value = $block ? $block->block : 'Unknown Block';
                                                     @endphp
                                                 <div>
-                                                    {{ $value }} 
-                                                    <input type="hidden" name="grid[sequence][5][]" value="{{ $sequence }}" /> 
+                                                    {{ $value }}
+                                                    <input type="hidden" name="grid[sequence][5][]" value="{{ $sequence }}" />
                                                 </div>
                                             @endforeach
                                         </div>
@@ -644,13 +644,13 @@
                                                         $block = $widgets->flatMap(function ($widget) {
                                                             return $widget->blocks;
                                                         })->firstWhere('id', $sequence);
-        
+
                                                         // مقدار block->block را به دست می‌آوریم
                                                         $value = $block ? $block->block : 'Unknown Block';
                                                     @endphp
                                                 <div>
-                                                    {{ $value }} 
-                                                    <input type="hidden" name="grid[sequence][6][]" value="{{ $sequence }}" /> 
+                                                    {{ $value }}
+                                                    <input type="hidden" name="grid[sequence][6][]" value="{{ $sequence }}" />
                                                 </div>
                                             @endforeach
                                         </div>
@@ -665,18 +665,18 @@
                                                         $block = $widgets->flatMap(function ($widget) {
                                                             return $widget->blocks;
                                                         })->firstWhere('id', $sequence);
-        
+
                                                         // مقدار block->block را به دست می‌آوریم
                                                         $value = $block ? $block->block : 'Unknown Block';
                                                     @endphp
                                                 <div>
-                                                    {{ $value }} 
-                                                    <input type="hidden" name="grid[sequence][7][]" value="{{ $sequence }}" /> 
+                                                    {{ $value }}
+                                                    <input type="hidden" name="grid[sequence][7][]" value="{{ $sequence }}" />
                                                 </div>
                                             @endforeach
                                         </div>
                                     </div>
-                                    <div id="grid8" class="collapse" data-bs-parent="#gridAccordion">                                        
+                                    <div id="grid8" class="collapse" data-bs-parent="#gridAccordion">
                                         <div id="grid8" class="swapSortable grid-eight">
 
                                             @foreach($grid->settings['sequence'] as $sequence)
@@ -685,13 +685,13 @@
                                                         $block = $widgets->flatMap(function ($widget) {
                                                             return $widget->blocks;
                                                         })->firstWhere('id', $sequence);
-        
+
                                                         // مقدار block->block را به دست می‌آوریم
                                                         $value = $block ? $block->block : 'Unknown Block';
                                                     @endphp
                                                 <div>
-                                                    {{ $value }} 
-                                                    <input type="hidden" name="grid[sequence][8][]" value="{{ $sequence }}" /> 
+                                                    {{ $value }}
+                                                    <input type="hidden" name="grid[sequence][8][]" value="{{ $sequence }}" />
                                                 </div>
                                             @endforeach
                                         </div>
@@ -705,29 +705,29 @@
                                                         $block = $widgets->flatMap(function ($widget) {
                                                             return $widget->blocks;
                                                         })->firstWhere('id', $sequence);
-        
+
                                                         // مقدار block->block را به دست می‌آوریم
                                                         $value = $block ? $block->block : 'Unknown Block';
                                                     @endphp
                                                 <div>
-                                                    {{ $value }} 
-                                                    <input type="hidden" name="grid[sequence][9][]" value="{{ $sequence }}" /> 
+                                                    {{ $value }}
+                                                    <input type="hidden" name="grid[sequence][9][]" value="{{ $sequence }}" />
                                                 </div>
                                             @endforeach
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
-                            
+
                         </div>
 
-                        
-                    </div>   
-                                 
+
+                    </div>
+
                 </div>
 
-                
+
             </div>
 
             {{-- <!-- Step 5 -->
@@ -899,9 +899,9 @@
                     </div>
                 </div>
             </div> --}}
-            
+
         </div>
-        
+
         <!-- Actions -->
         <div class="d-flex justify-content-between mt-3">
             <button id="prevBtn" class="btn btn-secondary" style="display: none;">برگشت</button>
@@ -1049,6 +1049,20 @@
             parent.val(color.toHEXA().toString())
             instance.hide();
         });
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        $(".other_repeater").repeater({
+            initEmpty: false,
+            show: function() {
+                $(this).slideDown();
+            },
+
+            hide: function(deleteElement) {
+                $(this).slideUp(deleteElement);
+            }
+        });
+    });
     })
 
 

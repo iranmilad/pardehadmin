@@ -127,7 +127,7 @@
                                         </div>
                                         <div class="col-12 col-md">
                                             <label class="form-label required" for="">تاریخ:</label>
-                                            <input class="form-control mb-2 mb-md-0 form-date" type="text" name="checks[][due_date]" placeholder="تاریخ را انتخاب کنید" value="" required>
+                                            <input class="form-control mb-2 mb-md-0 form-date" type="text" data-jdp name="checks[][due_date]" placeholder="تاریخ را انتخاب کنید" value="" required>
                                         </div>
                                         <div class="col-12 col-md">
                                             <label class="form-label required">وضعیت:</label>
@@ -169,35 +169,21 @@
 @endsection
 
 @section('script-before')
-<script src="{{ asset('plugins/custom/formrepeater/formrepeater.bundle.js') }}"></script>
-<script src="{{ asset('plugins/flatpicker_fa.js') }}"></script>
-<script src="{{ asset('plugins/jdate.min.js') }}"></script>
+<script src="{{asset('plugins/custom/formrepeater/formrepeater.bundle.js')}}"></script>
+<script src="{{asset('plugins/jalalidatepicker.min.js')}}"></script>
 @endsection
 
 @section("scripts")
 <script>
-    window.Date = window.JDate;
     document.addEventListener("DOMContentLoaded", function() {
         $(".check_repeater").repeater({
             initEmpty: false,
             ready: function() {
-                $('.form-date').flatpickr({
-                    disableMobile: "true",
-                    altInput: true,
-                    altFormat: "Y-m-d",
-                    dateFormat: "Y-m-d",
-                    locale: "fa",
-                });
+                jalaliDatepicker.startWatch();
             },
             show: function() {
                 $(this).slideDown();
-                $(this).parent().find('.form-date').flatpickr({
-                    disableMobile: "true",
-                    altInput: true,
-                    altFormat: "Y-m-d",
-                    dateFormat: "Y-m-d",
-                    locale: "fa",
-                });
+                jalaliDatepicker.startWatch();
             },
             hide: function(deleteElement) {
                 $(this).slideUp(deleteElement);

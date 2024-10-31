@@ -21,6 +21,7 @@ import SnippetsTable from "./snippets";
 import ReportsTable from "./reports";
 import GlobalTable from "./globalTable";
 import CustomerGroupTable from "./customer_group_table";
+import { KanbanConfig } from "./kanban";
 
 export {
     PostCategoryTable,
@@ -45,5 +46,6 @@ export {
     SnippetsTable,
     ReportsTable,
     GlobalTable,
-    CustomerGroupTable
+    CustomerGroupTable,
+    KanbanConfig
 };
