@@ -36,6 +36,7 @@ class ProductAttributes extends Component
                 'id' => $combination->id,
                 'combination_number' => $combination->id,
                 'holo_code' => $combination->holo_code,
+                'sku' => $combination->sku,
                 'price' => $combination->price,
                 'sale_price' => $combination->sale_price,
                 'wholesale_price' => $combination->wholesale_price,
@@ -78,6 +79,7 @@ class ProductAttributes extends Component
             'id' => null,
             'combination_number' => $lastCombinationId + 1,
             'holo_code' => '',
+            'sku' => '',
             'price' => '',
             'sale_price' => '',
             'wholesale_price' => '',
@@ -105,6 +107,7 @@ class ProductAttributes extends Component
 
         // Ensure all fields have a value or a default value, with proper type casting
         $holoCode = $nullifyEmpty($combinationData['holo_code']);
+        $sku = $nullifyEmpty($combinationData['sku']);
         $price = $nullifyEmpty($combinationData['price']);
         $salePrice = $nullifyEmpty($combinationData['sale_price']);
         $wholesalePrice = $nullifyEmpty($combinationData['wholesale_price']);
@@ -122,6 +125,7 @@ class ProductAttributes extends Component
                 'independent' => 0,
                 'product_id' => $this->product->id,
                 'holo_code' => $holoCode,
+                'sku' => $sku,
                 'price' => $price,
                 'sale_price' => $salePrice,
                 'wholesale_price' => $wholesalePrice,

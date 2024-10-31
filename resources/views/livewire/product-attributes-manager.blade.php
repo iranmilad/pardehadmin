@@ -3,7 +3,12 @@
 <div>
     <div class="row">
         <div class="mb-5 col-xl-7">
-            <label for="holo_code" class="form-label">شناسه محصول</label>
+            <label for="sku" class="form-label">شناسه محصول</label>
+            <input type="text" class="form-control form-control-solid" id="sku" wire:model="sku">
+            @error('sku') <span class="text-danger">{{ $message }}</span> @enderror
+        </div>
+        <div class="mb-5 col-xl-7">
+            <label for="holo_code" class="form-label">کد هلو محصول</label>
             <input type="text" class="form-control form-control-solid" id="holo_code" wire:model="holo_code">
             @error('holo_code') <span class="text-danger">{{ $message }}</span> @enderror
         </div>

@@ -55,10 +55,17 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="mb-8">
-                                    <label for="holo_code_{{ $index }}" class="form-label">شناسه محصول</label>
+                                    <label for="sku_{{ $index }}" class="form-label">شناسه محصول</label>
+                                    <input type="text" class="form-control form-control-solid" id="sku_{{ $index }}" wire:model.defer="combinations.{{ $index }}.sku" placeholder="">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-8">
+                                    <label for="holo_code_{{ $index }}" class="form-label">شناسه هلو</label>
                                     <input type="text" class="form-control form-control-solid" id="holo_code_{{ $index }}" wire:model.defer="combinations.{{ $index }}.holo_code" placeholder="">
                                 </div>
                             </div>
+
                             <div class="col-12 col-lg-6">
                                 <div class="mb-8">
                                     <label for="price_{{ $index }}" class="form-label">قیمت اصلی</label>

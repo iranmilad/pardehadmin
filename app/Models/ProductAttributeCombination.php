@@ -11,7 +11,7 @@ class ProductAttributeCombination extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'product_id','independent','holo_code', 'price','sale_price','wholesale_price', 'stock_quantity', 'description', 'img','time_per_unit'
+        'product_id','independent','holo_code', 'price','sale_price','wholesale_price', 'stock_quantity', 'description', 'img','time_per_unit','sku'
     ];
 
     /**

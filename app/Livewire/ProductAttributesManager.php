@@ -10,6 +10,7 @@ class ProductAttributesManager extends Component
 {
     public Product $product;
     public $holo_code;
+    public $sku;
     public $price;
     public $sale_price;
     public $wholesale_price;
@@ -21,6 +22,7 @@ class ProductAttributesManager extends Component
     {
         $this->product = $product;
         $this->holo_code = $product->holo_code;
+        $this->sku = $product->sku;
         $this->price = $product->price;
         $this->sale_price = $product->sale_price;
         $this->wholesale_price = $product->wholesale_price;
@@ -38,6 +40,7 @@ class ProductAttributesManager extends Component
     {
         $this->validate([
             'holo_code' => 'nullable|string|max:255',
+            'sku' => 'nullable|string|max:12',
             'price' => 'required|numeric|min:0',
             'sale_price' => 'nullable|numeric|min:0',
             'wholesale_price' => 'nullable|numeric|min:0',
@@ -45,19 +48,20 @@ class ProductAttributesManager extends Component
             'type' => 'nullable|boolean',
             'time_per_unit' => 'nullable|numeric|min:0',
         ]);
-    
+
         // تنظیم مقادیر محصول
         $this->product->holo_code = $this->holo_code ?: null;
+        $this->product->sku = $this->sku ?: null;
         $this->product->price = $this->price;
         $this->product->sale_price = $this->sale_price ?: null;
         $this->product->wholesale_price = $this->wholesale_price ?: null;
         $this->product->few = $this->few ?: null;
-        $this->product->type =$this->type ? 'variation': 'simple'; 
+        $this->product->type =$this->type ? 'variation': 'simple';
         $this->product->time_per_unit = $this->time_per_unit ?: null;
-    
+
         $this->product->save();
-    
+
         session()->flash('message', 'اطلاعات محصول با موفقیت ذخیره شدند.');
     }
-    
+
 }

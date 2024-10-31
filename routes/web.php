@@ -10,7 +10,6 @@ use App\Http\Controllers\SmsController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProductsLoopController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
@@ -27,6 +26,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GatewayController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CategoryController;
@@ -43,6 +43,7 @@ use App\Http\Controllers\SmsSettingController;
 use App\Http\Controllers\HoloSettingController;
 use App\Http\Controllers\ImageMarkerController;
 use App\Http\Controllers\InstallmentController;
+use App\Http\Controllers\ProductsLoopController;
 use App\Http\Controllers\SubAttributeController;
 use App\Http\Controllers\Admin\SessionController;
 use App\Http\Controllers\AttributeItemController;
@@ -595,7 +596,21 @@ Route::group(['prefix' => 'products-loop'], function () {
 
 });
 
+Route::group(['prefix' => 'landings'], function () {
 
+    Route::get('/', [LandingController::class, 'index'])->name("landings.index");
+
+    Route::get('/create', [LandingController::class, 'create'])->name("landings.create");
+    Route::post('/store', [LandingController::class, 'store'])->name("landings.store");
+
+    Route::get('/edit/{id}', [LandingController::class, 'edit'])->name("landings.edit");
+    Route::put('/update/{id}', [LandingController::class, 'update'])->name("landings.update");
+
+    Route::post('/delete', [LandingController::class, 'delete'])->name("landings.delete");
+
+    Route::post('/bulk_action', [LandingController::class, 'bulk_action'])->name("landings.bulk_action");
+
+});
 
 });
 
@@ -1085,20 +1100,20 @@ Route::get('/create-site-category', function () {
 
 
 // LANDING
-Route::get('/landings', function () {
-    return view('landings');
-})->name("landings.show");
+// Route::get('/landings', function () {
+//     return view('landings');
+// })->name("landings.show");
 
-Route::post('/landings', function () {
-})->name("landings.save");
+// Route::post('/landings', function () {
+// })->name("landings.save");
 
-Route::get('/landing/{id}', function ($id) {
-    return view('landing');
-})->name("landing.edit.show");
+// Route::get('/landing/{id}', function ($id) {
+//     return view('landing');
+// })->name("landing.edit.show");
 
-Route::get('/create-landing', function () {
-    return view('landing');
-})->name("landing.create.show");
+// Route::get('/create-landing', function () {
+//     return view('landing');
+// })->name("landing.create.show");
 
 // products-loop => حلقه و باکس محصولات در صفحه اصلی
 // Route::get('/products-loop', function () {

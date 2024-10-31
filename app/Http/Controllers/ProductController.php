@@ -33,10 +33,13 @@ class ProductController extends Controller
         $query = $this->applyAccessControl($query);
 
         // فیلتر کردن براساس جستجو
-        $searchQuery = $request->input('s');
-        if ($searchQuery) {
-            $query->where('title', 'LIKE', "%{$searchQuery}%");
-        }
+        $search = $request->input('s');
+        if ($search) {
+            $query->where('title', 'LIKE', "%{$search}%")
+            ->orWhere('id', 'LIKE', "%{$search}%")
+            ->orWhere('sku', 'LIKE', "%{$search}%")
+            ->orWhere('holo_code', 'LIKE', "%{$search}%");
+        };
 
         // صفحه‌بندی نتایج
         $products = $query->paginate(6);

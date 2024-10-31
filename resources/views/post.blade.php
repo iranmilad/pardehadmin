@@ -173,8 +173,13 @@
             <!--end::کارت header-->
             <!--begin::کارت body-->
             <div class="card-body text-center pt-0">
+                @if (isset($post))
                 <!--begin::Image input-->
                 <x-file-input type="single" :preview="true" name="thumbnail" :value="$post->image" />
+                @else
+                <x-file-input type="single" :preview="true" name="thumbnail"/>
+
+                @endif
                 <!--begin::توضیحات-->
                 <div class="text-muted fs-7">تصویر شاخص را انتخاب کنید</div>
                 <!--end::توضیحات-->

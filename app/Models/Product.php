@@ -21,6 +21,7 @@ class Product extends Model
         'fewspd',
         'fewtak',
         'holo_code',
+        'sku',
         'time_per_unit',
         'type',
         'is_top',

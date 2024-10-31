@@ -447,11 +447,26 @@
         </div>
     @endif
     <!--end:Menu item-->
+    @if(userHasPermission('manage_banners'))
+    <div class="menu-item">
+        <!--begin:Menu link-->
+        <a href="{{ route('banners.index') }}" class="menu-link {{ Route::is('banners.index') ? 'active' : '' }}">
+            <span class="menu-icon">
+                <i class="fa-duotone fa-rectangle-history"></i>
+            </span>
+            <span class="menu-title">بنر ها</span>
+        </a>
+        <!--end:Menu link-->
+    </div>
+    @endif
+
+
+
     @if(userHasPermission('manage_landing'))
 	<!--begin:Menu item-->
 	<div class="menu-item">
 		<!--begin:Menu link-->
-		<a href="{{ route('landings.show') }}" class="menu-link {{ Route::is('landings.show') || Route::is('landing.edit.show') || Route::is('landing.create.show') ? 'active' : '' }}">
+		<a href="{{ route('landings.index') }}" class="menu-link {{ Route::is('landings.index') || Route::is('landings.edit') || Route::is('landings.create') ? 'active' : '' }}">
 			<span class="menu-icon">
 				<i class="fa-duotone fa-solid fa-rectangle-vertical-history"></i>
 			</span>
