@@ -40,8 +40,8 @@ use Illuminate\Support\Facades\Vite;
                     <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
                         <!--begin::Logo image-->
                         <a href="{{route('index')}}">
-                            <img alt="Logo" src="{{ $setting->settings['logo'] }}" class="app-sidebar-logo-default" />
-                            <img alt="Logo" src="{{ $setting->settings['logo'] }}" class="app-sidebar-logo-minimize" />
+                            <img alt="Logo" src="{{ $setting->settings['logo'] }}" class="app-sidebar-logo-default" width="150" height="120"/>
+                            <img alt="Logo" src="{{ $setting->settings['logo'] }}" class="app-sidebar-logo-minimize" width="50" height="60"/>
                         </a>
                         <div id="kt_app_sidebar_toggle" class="app-sidebar-toggle btn btn-icon btn-shadow btn-sm btn-color-muted btn-active-color-primary body-bg h-30px w-30px position-absolute top-50 start-100 translate-middle rotate" data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body" data-kt-toggle-name="app-sidebar-minimize">
                             <i class="ki-duotone ki-double-left fs-2 rotate-180">
