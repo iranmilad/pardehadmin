@@ -16,19 +16,21 @@
                 <div class="mb-10">
                     <label for="title" class="required form-label">عنوان</label>
                     <input type="text" id="title" name="title" class="form-control" placeholder="عنوان را وارد کنید" value="{{ old('title', isset($post) ? $post->title : '') }}" />
-                    <a class="text-primary nav-link tw-w-max" href="#link_edit" data-bs-toggle="collapse">آدرس لینک</a>
+                    @if(isset($post))
+                        <a class="text-primary nav-link tw-w-max mt-1" href="#link_edit" data-bs-toggle="collapse">آدرس لینک</a>
+                    @endif
                 </div>
                 <div class="collapse" id="link_edit">
                     <div>
-                        <label for="link">آدرس محصول</label>
-                        <input type="text" name="link" id="link" class="form-control" placeholder="آدرس محصول را وارد کنید" />
+                        <label for="link">آدرس slug</label>
+                        <input type="text" name="slug" id="slug" class="form-control" placeholder="آدرس محصول را وارد کنید"  value="{{ old('slug', isset($post) ? $post->slug : '') }}" oninput="this.value = this.value.replace(/\s+/g, '-')" />
                     </div>
                 </div>
                 <div class="mb-2 mt-10">
                     <label class="form-label ">توضیحات کوتاه</label>
                     <div class="row row-editor">
                         <div class="editor-container">
-                            <div id="editor" class="editor tw-max-h-96 tw-overflow-auto"></div>
+                            <textarea id="summary" name="summary" class="editor tw-max-h-96 tw-overflow-auto">{{ old('summary', isset($post) ? $post->summary : '') }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -36,7 +38,7 @@
                     <label class="form-label ">توضیحات</label>
                     <div class="row row-editor">
                         <div class="editor-container">
-                            <textarea id="editor" name="content" class="editor tw-max-h-96 tw-overflow-auto">{{ old('content', isset($post) ? $post->content : '') }}</textarea>
+                            <textarea id="content" name="content" class="editor tw-max-h-96 tw-overflow-auto">{{ old('content', isset($post) ? $post->content : '') }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -79,7 +81,9 @@
             <div class="card-footer text-end">
                 <div class="d-flex align-items-center justify-content-between flex-wrap">
                     <!-- post id -->
-                    <button type="submit" name="remove-post" value="1" class="btn btn-sm btn-danger" id="remove-button">حذف</button>
+                    @if(Route::is('post.edit'))
+                        <a type="button" name="remove-post" value="1" class="btn btn-sm btn-danger" id="remove-button" href="{{ route('post.delete',$post->id)}}" >حذف</a>
+                    @endif
                     <button class="btn btn-sm btn-success">ذخیره تغییرات</button>
                 </div>
             </div>
@@ -208,33 +212,5 @@
 @endsection
 
 @section("script-before")
-
-{{-- <script>
-    CKEDITOR.replace( 'editor', {filebrowserImageBrowseUrl: '/file-manager/ckeditor'});
-  </script>
-<script>
-
-    var input = document.querySelector("#post-type-tags");
-
-    let post_types_tags = new Tagify(input, {
-        dropdown: {
-            enabled: 0,
-            closeOnSelect: false,
-            pattern: /^.{1,70}/,
-        },
-    });
-
-    document.querySelector('form').addEventListener('submit', function (e) {
-        // Get the tags as array of values
-        let tags = post_types_tags.value.map(tag => tag.value);
-        // Create hidden input with the JSON string of tags
-        let hiddenInput = document.createElement('input');
-        hiddenInput.type = 'hidden';
-        hiddenInput.name = 'tags';
-        hiddenInput.value = JSON.stringify(tags);
-        this.appendChild(hiddenInput);
-    });
-</script> --}}
-
 
 @endsection

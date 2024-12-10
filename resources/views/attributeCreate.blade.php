@@ -56,7 +56,7 @@
                                     <option value="material" {{ isset($attribute) && $attribute->display_type == 'material' ? 'selected' : '' }}>جنس</option>
                                     <option value="model" {{ isset($attribute) && $attribute->display_type == 'model' ? 'selected' : '' }}>مدل</option>
                                     <option value="priceModel" {{ isset($attribute) && $attribute->display_type == 'priceModel' ? 'selected' : '' }}>مدل قیمت دار</option>
-                                        
+
                                 @endif
                             </select>
                         </div>
@@ -71,8 +71,8 @@
                         <div class="mb-3">
                             <label for="countable" class="form-label">قابل شمارش</label>
                             <select class="form-control" id="countable" name="countable" required>
-                                <option value="1" {{ isset($attribute) && $attribute->countable == 1 ? 'selected' : '' }}>بله</option>
                                 <option value="0" {{ isset($attribute) && $attribute->countable == 0 ? 'selected' : '' }}>خیر</option>
+                                <option value="1" {{ isset($attribute) && $attribute->countable == 1 ? 'selected' : '' }}>بله</option>
                             </select>
                         </div>
                     </div>

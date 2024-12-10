@@ -7,8 +7,9 @@ use Illuminate\Support\Str;
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
 use App\Traits\AuthorizeAccess;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+
 
 class PostController extends Controller
 {
@@ -58,6 +59,7 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
+            'summary'=> 'nullable|string|max:255',
             'published' => 'required|boolean',
             'comments_enabled' => 'boolean',
             'categories' => 'required|array', // اعتبارسنجی برای فیلد categories به عنوان آرایه
@@ -97,7 +99,7 @@ class PostController extends Controller
 
         // مدیریت فایل تصویر
         if ($request->has('thumbnail')) {
-        
+
             $file = $request->input('thumbnail');
             $post->update(['image' => $file]);
         }
@@ -105,16 +107,23 @@ class PostController extends Controller
         return redirect()->route('post.index')->with('success', 'پست با موفقیت ایجاد شد');
     }
 
-
     public function update(Request $request, $id)
     {
         //dd($request);
+        // یافتن پست با استفاده از شناسه
         $post = Post::findOrFail($id);
 
+        // بررسی مجوز و تایید دسترسی کاربر
         $this->authorizeAction($post);
 
+        // اعتبارسنجی داده‌های ورودی
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
+            'slug' => [
+                'required',
+                Rule::unique('posts', 'slug')->ignore($id), // جلوگیری از خطای تکراری بودن در صورتی که slug تغییر نکرده باشد
+            ],
+            'summary'=> 'nullable|string|max:255',
             'content' => 'required',
             'published' => 'required|boolean',
             'comments_enabled' => 'boolean',
@@ -123,40 +132,58 @@ class PostController extends Controller
             'tags' => 'sometimes|string',  // اعتبارسنجی برای فیلد tags به صورت رشته
         ]);
 
-        // در صورت عدم وجود، مقدار پیش‌فرض برای comments_enabled را به false تنظیم کنید
+        // تنظیم مقدار پیش‌فرض برای comments_enabled در صورت عدم وجود
         if (!$request->has('comments_enabled')) {
             $validatedData['comments_enabled'] = false;
         }
 
+
+        // به‌روزرسانی پست با داده‌های معتبر شده
         $post->update($validatedData);
 
+        // به‌روزرسانی تگ‌ها
         if ($request->has('tags')) {
             $tags = json_decode($request->input('tags'), true)[0];
-            //dd($tags);
 
             // تبدیل نام تگ‌ها به IDها و ایجاد تگ جدید در صورت عدم وجود
             $tagIds = collect($tags)->map(function ($tagName) {
-                $tag = Tag::firstOrCreate(['name' => $tagName,'description'=>$tagName,'type'=>'blog']);
+                $tag = Tag::firstOrCreate(['name' => $tagName, 'description' => $tagName, 'type' => 'blog']);
                 return $tag->id;
             });
 
             $post->tags()->sync($tagIds);
         }
 
+        // به‌روزرسانی دسته‌بندی‌ها
         if ($request->has('categories')) {
             $post->categories()->sync($request->input('categories'));
         }
 
+        // به‌روزرسانی تصویر بندانگشتی
         if ($request->has('thumbnail')) {
-
             $file = $request->input('thumbnail');
-
-
             $post->update(['image' => $file]);
         }
 
+        // بازگرداندن به صفحه فهرست پست‌ها با پیام موفقیت
         return redirect()->route('post.index')->with('success', 'پست با موفقیت به‌روزرسانی شد');
     }
 
+    public function delete($id)
+    {
+        $post = Post::find($id);
+        $this->authorizeAction($post);
+        $post->delete();
+        return redirect()->route('post.index')->with('success', 'پست با موفقیت حذف شد');
+    }
+
+    public function bulk_action(Request $request)
+    {
+        // اجرای عملیات گروهی روی صفحات
+        if ($request->action == 'delete') {
+            Post::whereIn('id', $request->checked_rows)->delete();
+            return redirect()->route('post.index')->with('success', 'پست با موفقیت حذف شدند');
+        }
+    }
 
 }

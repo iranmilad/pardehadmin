@@ -62,7 +62,7 @@
                                     <a href="{{route('driver.edit.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">ارسال به شیراز</a>
                                 </td>
                                 <td>
-                                    <a href="{{route('order.show',['id' => 1])}}" class="text-primary fs-6 fw-bolder mb-1">#123</a>
+                                    <a href="{{route('orders.edit',['id' => 1])}}" class="text-primary fs-6 fw-bolder mb-1">#123</a>
                                 </td>
                                 <td>
                                     <a class="badge badge-info" href="{{route('driver.edit.show',['id' => 1])}}">در حال انجام</a>
@@ -70,7 +70,7 @@
                                     <a class="badge badge-secondary" href="{{route('driver.edit.show',['id' => 1])}}">شروع نشده</a>
                                 </td>
                                 <td>
-                                    <a href="{{route('user.profile',['id' => 1])}}">فرهاد باقری</a>
+                                    <a href="{{route('users.profile',['id' => 1])}}">فرهاد باقری</a>
                                 </td>
                                 <td class="text-end">
                                     <a href="{{route('driver.edit.show',['id' => 1])}}" class="btn btn-light btn-sm">
@@ -141,7 +141,7 @@
                                     <a href="{{route('task.edit.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">طراحی طرح</a>
                                 </td>
                                 <td>
-                                    <a href="{{route('order.show',['id' => 1])}}" class="text-primary fs-6 fw-bolder mb-1">#789</a>
+                                    <a href="{{route('orders.edit',['id' => 1])}}" class="text-primary fs-6 fw-bolder mb-1">#789</a>
                                 </td>
                                 <td>
                                     <a class="badge badge-info" href="{{route('task.edit.show',['id' => 1])}}">در حال انجام</a>
@@ -149,7 +149,7 @@
                                     <a class="badge badge-secondary" href="{{route('task.edit.show',['id' => 1])}}">شروع نشده</a>
                                 </td>
                                 <td>
-                                    <a href="{{route('user.profile',['id' => 1])}}">کوروش منصوری</a>
+                                    <a href="{{route('users.profile',['id' => 1])}}">کوروش منصوری</a>
                                 </td>
                                 <td class="text-end">
                                     <a href="{{route('task.edit.show',['id' => 1])}}" class="btn btn-light btn-sm">
@@ -220,7 +220,7 @@
                                     <a href="{{route('task.edit.show',['id' => 1])}}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">نصب</a>
                                 </td>
                                 <td>
-                                    <a href="{{route('order.show',['id' => 1])}}" class="text-primary fs-6 fw-bolder mb-1">#789</a>
+                                    <a href="{{route('orders.edit',['id' => 1])}}" class="text-primary fs-6 fw-bolder mb-1">#789</a>
                                 </td>
                                 <td>
                                     <a class="badge badge-info" href="{{route('task.edit.show',['id' => 1])}}">در حال انجام</a>
@@ -228,7 +228,7 @@
                                     <a class="badge badge-secondary" href="{{route('task.edit.show',['id' => 1])}}">شروع نشده</a>
                                 </td>
                                 <td>
-                                    <a href="{{route('user.profile',['id' => 1])}}">کوروش منصوری</a>
+                                    <a href="{{route('users.profile',['id' => 1])}}">کوروش منصوری</a>
                                 </td>
                                 <td class="text-end">
                                     <a href="{{route('task.edit.show',['id' => 1])}}" class="btn btn-light btn-sm">

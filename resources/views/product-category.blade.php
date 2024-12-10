@@ -27,7 +27,7 @@
                         <div class="col-12 col-md-6">
                             <div class="mb-3">
                                 <label for="alias" class="form-label required">نامک</label>
-                                <input type="text" class="form-control" id="alias" name="alias" placeholder="نامک را وارد کنید" value="{{ old('alias', $category->alias ?? '') }}">
+                                <input type="text" class="form-control" id="alias" name="alias" placeholder="نامک را وارد کنید" value="{{ old('alias', $category->alias ?? '') }}" oninput="this.value = this.value.replace(/\s+/g, '-')">
                             </div>
                         </div>
 
@@ -55,8 +55,11 @@
                         <div class="col-12 col-md-6">
                             <div class="mb-3">
                                 <label for="img" class="form-label">تصویر</label>
-                                <x-file-input type="single" :preview="false" name="img" id="img" :value="$category->img" />
-
+                                @if(isset($product))
+                                    <x-file-input type="single" :preview="false" name="img" id="img" :value="$category->img" />
+                                @else
+                                    <x-file-input type="single" :preview="true" name="img" id="img" />
+                                @endif
                             </div>
                         </div>
 

@@ -77,7 +77,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/store', [PostController::class, 'store'])->name("post.store")->middleware('check.permission:manage_posts,write_own');
         Route::get('/edit/{id}', [PostController::class, 'edit'])->name("post.edit")->middleware('check.permission:manage_posts,write_own');
         Route::put('/update/{id}', [PostController::class, 'update'])->name("post.update")->middleware('check.permission:manage_posts,write_own');
-        Route::post('/delete', [PostController::class, 'delete'])->name("post.delete")->middleware('check.permission:manage_posts,write_own');
+        Route::get('/delete/{id}', [PostController::class, 'delete'])->name("post.delete")->middleware('check.permission:manage_posts,write_own');
     });
 
 
@@ -123,7 +123,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/store', [PageController::class, 'store'])->name("pages.store")->middleware('check.permission:manage_pages,write_own');
         Route::get('/edit/{id}', [PageController::class, 'edit'])->name("pages.edit")->middleware('check.permission:manage_pages,write_own');
         Route::put('/update/{id}', [PageController::class, 'update'])->name("pages.update")->middleware('check.permission:manage_pages,write_own');
-        Route::post('/delete', [PageController::class, 'delete'])->name("pages.delete")->middleware('check.permission:manage_pages,write_own');
+        Route::get('/delete/{id}', [PageController::class, 'delete'])->name("pages.delete")->middleware('check.permission:manage_pages,write_own');
         Route::post('/bulk_action', [PageController::class, 'bulk_action'])->name("pages.bulk_action")->middleware('check.permission:manage_pages,write_own');
     });
 

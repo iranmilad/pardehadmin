@@ -6,7 +6,8 @@
 
 @section('content')
 
-<form action="">
+<form action="{{ route('orders.store') }}" method="POST">
+    @csrf
     <div class="card mb-10">
         <div class="card-header">
             <div class="card-title">
@@ -18,16 +19,17 @@
                 <div class="col-lg">
                     <div class="mb-5">
                         <label class="form-label" for="">تاریخ و زمان ایجاد</label>
-                        <input class="form-control form-control-solid" type="text" data-jdp>
+                        <input class="form-control form-control-solid" type="text" data-jdp name="created_at">
                     </div>
                 </div>
                 <div class="col-lg">
                     <div class="mb-5">
                         <label class="form-label" for="">وضعیت</label>
-                        <select multiple class="form-select form-select-solid" data-placeholder="انتخاب وضعیت" data-control="select2" name="" id="">
-                            <option value="1">در انتظار بررسی</option>
-                            <option value="2">درحال بررسی</option>
-                            <option value="3">انجام شده</option>
+                        <select multiple class="form-select form-select-solid" data-placeholder="انتخاب وضعیت" data-control="select2" name="status" id="status">
+                            <option value="basket">در سبد مشتری</option>
+                            <option value="pending">در انتظار بررسی</option>
+                            <option value="processing">درحال بررسی</option>
+                            <option value="complete">انجام شده</option>
                         </select>
                     </div>
                 </div>
@@ -40,227 +42,6 @@
         </div>
     </div>
 
-    <div class="card mb-10">
-        <div class="card-header">
-            <div class="card-title">
-                <h4>صورت حساب</h4>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="row g-5">
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">نام</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">نام خانوادگی</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">شماره تلفن</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">آدرس ایمیل</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">کد ملی</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">کشور</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">استان</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">شهر</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">آدرس</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">کد پستی 10 رقمی ( انگلیسی وارد کنید )</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div>
-                        <label for="" class="form-label">یادداشت سفارش</label>
-                        <textarea class="form-control form-control-solid"></textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="card mb-10">
-        <div class="card-header">
-            <div class="card-title">
-                <h4>حمل و نقل</h4>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="row g-5">
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">نام</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">نام خانوادگی</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">شماره تلفن</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">آدرس ایمیل</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">کد ملی</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">کشور</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">استان</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">شهر</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">آدرس</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <label for="" class="form-label">کد پستی 10 رقمی ( انگلیسی وارد کنید )</label>
-                        <input class="form-control form-control-solid" type="text">
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div>
-                        <label for="" class="form-label">یادداشت سفارش</label>
-                        <textarea class="form-control form-control-solid"></textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- PRODUCTS PATTERN -->
-    <div class="card mb-10">
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">
-                    <h4>محصولات</h4>
-                </div>
-            </div>
-            <div class="card-body">
-                <!-- CHILDREN -->
-                <div class="row">
-                    <div class="other_repeater">
-                        <!--begin::Form group-->
-                        <div class="form-group">
-                            <!-- data-repeater-list must be unique -->
-                            <!-- data-repeater-list must be unique -->
-                            <!-- data-repeater-list must be unique -->
-                            <!-- data-repeater-list must be unique -->
-                            <!-- data-repeater-list must be unique -->
-                            <div data-repeater-list="products_repeater">
-                                <div class="mt-3 tw-border-0 tw-border-b-2 tw-border-dashed tw-border-b-gray-200 pb-5" data-repeater-item>
-                                    <div class="form-group row">
-                                        <div class="col-12 col-md-9">
-                                            <x-advanced-search type="product" label="محصول" name="option[product]" solid classes="order_create_product" />
-                                        </div>
-                                        <div class="col-12 col-md-3">
-                                            <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-8">
-                                                <i class="ki-duotone ki-trash fs-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
-                                                حذف
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--end::Form group-->
-
-                        <!--begin::Form group-->
-                        <div class="form-group mt-5">
-                            <a href="javascript:;" data-repeater-create class="btn btn-primary btn-sm">
-                                افزودن
-                                <i class="ki-duotone ki-plus fs-3 pe-0"></i>
-                            </a>
-                        </div>
-                        <!--end::Form group-->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- PRODUCTS PATTERN -->
-
-    <div class="card">
-        <div class="card-body">
-            <div class="mb-5">
-                <label for="" class="form-label">کد تخفیف</label>
-                <input class="form-control form-control-solid" name="coupon" id="" rows="10" placeholder="کد تخفیف را وارد کنید">
-            </div>
-            <div>
-                <label for="" class="form-label">یادداشت (اختیاری)</label>
-                <textarea class="form-control form-control-solid" name="note" id="" rows="10" placeholder="یادداشت رو وارد کنید"></textarea>
-            </div>
-        </div>
-    </div>
     <div class="mt-10">
         <button class="btn btn-success" type="submit">ذخیره</button>
     </div>

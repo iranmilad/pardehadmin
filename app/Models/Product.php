@@ -142,7 +142,7 @@ class Product extends Model
 
     public function getLinkAttribute()
     {
-        return ("/product/".$this->id);
+        return (env("Host_URL")."/product/".$this->id);
     }
 
     public function hasMinimumQuantity(): bool

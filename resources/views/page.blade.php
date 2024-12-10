@@ -15,22 +15,21 @@
                 <div class="mb-10">
                     <label for="title" class="required form-label">عنوان</label>
                     <input type="text" id="title" name="title" class="form-control" placeholder="عنوان را وارد کنید" value="{{ old('title', $page->title ?? '') }}" />
-                    <a class="text-primary nav-link tw-w-max" href="#link_edit" data-bs-toggle="collapse">آدرس لینک</a>
+                    @if(isset($page))
+                        <a class="text-primary nav-link tw-w-max mt-1" href="#link_edit" data-bs-toggle="collapse">آدرس لینک</a>
+                    @endif
                 </div>
                 <div class="collapse" id="link_edit">
                     <div>
-                        <label for="link">آدرس محصول</label>
-                        <input type="text" name="link" id="link" class="form-control" placeholder="آدرس محصول را وارد کنید" />
+                        <label for="slug">آدرس صفحه</label>
+                        <input type="text" name="slug" id="slug" class="form-control" placeholder="آدرس صفحه را وارد کنید" value="{{ old('slug', $page->slug ?? '') }}" oninput="this.value = this.value.replace(/\s+/g, '-')" />
                     </div>
                 </div>
                 <div class="mb-2 mt-10">
                     <label class="form-label">محتوای صفحه</label>
                     <div class="row row-editor">
                         <div class="editor-container">
-                            <div id="editor" class="editor tw-max-h-96 tw-overflow-auto">
-                                {{ old('content', $page->content ?? '') }}
-                            </div>
-                            <textarea name="content" class="d-none">{{ old('content', $page->content ?? '') }}</textarea>
+                            <textarea id="content" name="content" class="editor tw-max-h-96 tw-overflow-auto">{{ old('content', isset($page) ? $page->content : '') }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -42,10 +41,7 @@
                     <label class="form-label">کلمات کلیدی</label>
                     <input type="text" name="keywords" class="form-control" value="{{ old('keywords', $page->keywords ?? '') }}" />
                 </div>
-                <div class="mb-2">
-                    <label class="form-label">آدرس URL</label>
-                    <input type="text" name="url" class="form-control" value="{{ old('url', $page->url ?? '') }}" />
-                </div>
+
             </div>
         </div>
     </div>
@@ -78,7 +74,7 @@
                 <div class="d-flex align-items-center justify-content-between flex-wrap">
                     <!-- post id -->
                     @if(Route::is('pages.edit'))
-                        <button type="submit" name="remove-post" value="1" class="btn btn-sm btn-danger" id="remove-button">حذف</button>
+                        <a type="button" name="remove-post" value="1" class="btn btn-sm btn-danger" id="remove-button" href="{{ route('pages.delete',$page->id)}}" >حذف</a>
                     @endif
                     <button type="submit" class="btn btn-sm btn-success">ذخیره تغییرات</button>
                 </div>
@@ -91,25 +87,3 @@
 <x-short-code-editor />
 @endsection
 
-@section('script-after')
-<script>
-    // Initialize CKEditor
-    ClassicEditor
-        .create(document.querySelector('#editor'))
-        .then(editor => {
-            // Assign the editor to a variable
-            window.editor = editor;
-        })
-        .catch(error => {
-            console.error(error);
-        });
-
-    // Add an event listener to the form to update the hidden input before submitting
-    document.querySelector('form').addEventListener('submit', function (e) {
-        // Get the editor data
-        const editorData = window.editor.getData();
-        // Set the hidden textarea value to the editor data
-        document.querySelector('textarea[name="content"]').value = editorData;
-    });
-</script>
-@endsection

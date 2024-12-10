@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Page;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Traits\AuthorizeAccess;
+use Illuminate\Validation\Rule;
 
 class PageController extends Controller
 {
@@ -16,16 +18,19 @@ class PageController extends Controller
         $this->permissionName = 'manage_pages';
     }
 
-    public function index()
+    public function index(Request $request)
     {
         // ساختن کوئری برای Page
-        $query = Page::with('user')->orderBy('created_at', 'desc');
+        $query = Page::with('user');
 
         // اعمال فیلتر بر اساس دسترسی‌های کاربر
         $query = $this->applyAccessControl($query);
-
+        $search = $request->input('s');
+        if ($search) {
+            $query->where('title', 'LIKE', "%{$search}%");
+        };
         // صفحه‌بندی نتایج
-        $pages = $query->paginate(10);
+        $pages = $query->orderBy("created_at","desc")->paginate(10);
 
         return view('pages', compact('pages'));
     }
@@ -44,13 +49,14 @@ class PageController extends Controller
             'content' => 'required|string',
             'summary' => 'nullable|string|max:255',
             'keywords' => 'nullable|string|max:255',
-            'url' => 'nullable|string|max:255|unique:pages,url',
+
             'status' => 'required|in:published,inactive',
             'comments_enabled' => 'boolean'
         ]);
 
         $validatedData['user_id'] = auth()->id(); // تنظیم شناسه کاربر برای صفحه جدید
-
+        $validatedData['slug'] = Str::slug($validatedData['title']);
+        $validatedData['url'] = "/".Str::slug($validatedData['title']);
         Page::create($validatedData);
 
         return redirect()->route('pages.index')->with('success', 'صفحه با موفقیت ایجاد شد');
@@ -65,26 +71,37 @@ class PageController extends Controller
 
     public function update(Request $request, $id)
     {
-        //dd($request);
+        // پیدا کردن صفحه و بررسی دسترسی
         $page = Page::findOrFail($id);
         $this->authorizeAction($page);
+
+        // اعتبارسنجی داده‌ها
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
+            'slug' => [
+                'required',
+                Rule::unique('pages', 'slug')->ignore($id), // جلوگیری از تکراری بودن در صورت عدم تغییر
+            ],
             'content' => 'required|string',
             'summary' => 'nullable|string|max:255',
             'keywords' => 'nullable|string|max:255',
-            'url' => 'nullable|string|max:255|unique:pages,url,' . $page->id,
             'status' => 'required|in:published,inactive',
         ]);
 
+        // تولید slug و URL به شکل امن و استاندارد
+
+        $validatedData['url'] = "/" . $validatedData['slug'];
+
+        // به‌روزرسانی صفحه
         $page->update($validatedData);
 
+        // بازگشت به صفحه فهرست صفحات با پیام موفقیت
         return redirect()->route('pages.index')->with('success', 'صفحه با موفقیت به‌روزرسانی شد');
     }
 
-    public function delete(Request $request)
+    public function delete($id)
     {
-        $page = Page::find($request->id);
+        $page = Page::find($id);
         $this->authorizeAction($page);
         $page->delete();
         return redirect()->route('pages.index')->with('success', 'صفحه با موفقیت حذف شد');

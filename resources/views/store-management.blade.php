@@ -14,7 +14,7 @@
             <div class="form-group row mb-10">
                 <label for="title" class="col-12 col-lg-2 form-label fw-bold">عنوان:</label>
                 <div class="col-12 col-lg-8">
-                    <a href="{{route('product.edit.show',['id' => 1])}}">پرده مخمل</a>
+                    <a href="{{route('products.edit',['id' => 1])}}">پرده مخمل</a>
                 </div>
             </div>
 

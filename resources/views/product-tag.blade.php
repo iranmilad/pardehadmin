@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="card-body">
-            <form action="{{ isset($tag) ? route('products.tags.update', $tag->id) : route('products.tags.store') }}" method="POST">
+            <form action="{{ isset($tag) ? route('products.tags.update', $tag->id) : route('products.tags.store') }}" method="post">
                 @csrf
                 @if(isset($tag))
                     @method('PUT')
@@ -26,13 +26,22 @@
                     <div class="col-12 col-md">
                         <div class="mb-3">
                             <label for="slug" class="form-label required">نامک</label>
-                            <input type="text" class="form-control" id="slug" name="slug" placeholder="نامک را وارد کنید" value="{{ old('slug', $tag->slug ?? '') }}">
+                            <input type="text" class="form-control" id="slug" name="slug" placeholder="نامک را وارد کنید" value="{{ old('slug', $tag->slug ?? '') }}" oninput="this.value = this.value.replace(/\s+/g, '-')">
                         </div>
                     </div>
+
                     <div class="col-12 col-md">
                         <div class="mb-3">
+
+
                             <label for="type" class="form-label required">گروه برچسب</label>
-                            <input type="text" class="form-control" id="type" name="type" placeholder="گروه برچسب را وارد کنید" value="{{ old('type', $tag->type ?? '') }}">
+                            <select class="form-select mb-2" id="type" name="type" placeholder="گروه برچسب را وارد کنید">
+                                <option value="blog" {{ old('type', isset($tag) ? $tag->type : 0) == "blog" ? 'selected' : '' }}>بلاگ</option>
+                                <option value="ability" {{ old('type', isset($tag) ? $tag->type : 0) == "ability" ? 'selected' : '' }}>عملکرد محصول</option>
+                                <option value="function" {{ old('type', isset($tag) ? $tag->type : 0) == "function" ? 'selected' : '' }}>کاربری محصول</option>
+                                <option value="future" {{ old('type', isset($tag) ? $tag->type : 0) == "future" ? 'selected' : '' }}>ویژگی محصول</option>
+                            </select>
+                            {{-- <input type="text" class="form-control" id="type" name="type"  value="{{ old('type', $tag->type ?? '') }}"> --}}
                         </div>
                     </div>
                 </div>

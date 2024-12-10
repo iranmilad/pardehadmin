@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Traits\AuthorizeAccess;
+use App\Models\UserDiscountCode;
 use App\Models\Order; // جایگزینی با مدل مناسب برای سبد خرید در صورت لزوم
 
 class CartController extends Controller
@@ -64,12 +65,23 @@ class CartController extends Controller
 
     private function saveOrder(Order $order, Request $request)
     {
+        // ذخیره اطلاعات کاربر و قیمت
         $order->user_id = $request->input('user');
-        $order->discount_code = $request->input('discount_code', null);
         $order->discount_percentage = $request->input('discount_percentage', 0);
         $order->total_price = $request->input('total_price', 0);
         $order->save();
 
+        // ذخیره یا آپدیت کد تخفیف برای کاربر
+        $discountCodeId = $request->input('discount_code');
+        if ($discountCodeId) {
+            // بررسی وجود تخفیف برای این کاربر و ذخیره‌سازی آن
+            UserDiscountCode::updateOrCreate(
+                ['user_id' => $order->user_id, 'discount_code_id' => $discountCodeId],
+                ['user_id' => $order->user_id, 'discount_code_id' => $discountCodeId]
+            );
+        }
+
+        // حذف آیتم‌های قبلی و اضافه‌کردن آیتم‌های جدید به سفارش
         $order->orderItems()->delete();
         foreach ($request->input('products_repeater') as $productInput) {
             $order->orderItems()->create([
@@ -78,6 +90,8 @@ class CartController extends Controller
             ]);
         }
     }
+
+
     public function delete(Request $request)
     {
         // حذف سبد خریدهای انتخاب شده

@@ -42,7 +42,7 @@ class ProductController extends Controller
         };
 
         // صفحه‌بندی نتایج
-        $products = $query->paginate(6);
+        $products = $query->orderBy("created_at","desc")->paginate(10);
 
         return view('products', compact('products'));
     }
@@ -66,6 +66,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'nullable|numeric',
             'sale_price' => 'nullable|numeric',
+            'img' => 'nullable|string',
             'gallery' => 'nullable|array',
             'gallery.*' => 'nullable|string',
             'video_path' => 'nullable|string',
@@ -209,9 +210,8 @@ class ProductController extends Controller
         $product = Product::findOrFail($request->input('id'));
         $this->authorizeAction($product);
 
-        if ($product->img) {
-            \Storage::delete('public/' . $product->img);
-        }
+        $product->images()->delete(); // حذف تمام تصاویر مرتبط با محصول
+        $product->reviews()->delete();
 
         $product->delete();
 
@@ -289,11 +289,8 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $this->authorizeAction($product);
 
-        // حذف تمام تصاویر گالری محصول
-        foreach ($product->images as $image) {
-            Storage::delete('public/' . $image->url);
-            $image->delete();
-        }
+        $product->images()->delete();
+
 
         return redirect()->route('products.edit',$product->id)->with('success', 'تمام تصاویر محصول با موفقیت حذف شدند.');
     }
@@ -303,7 +300,7 @@ class ProductController extends Controller
         $this->authorizeAction($product);
 
         if ($product->img) {
-            \Storage::delete('public/' . $product->img);
+
             $product->img = null;
             $product->save();
         }

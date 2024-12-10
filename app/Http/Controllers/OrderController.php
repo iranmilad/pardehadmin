@@ -6,7 +6,10 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Morilog\Jalali\Jalalian;
 use App\Traits\AuthorizeAccess;
+use App\Rules\IranianNationalCode;
+use Illuminate\Validation\ValidationException;
 
 
 class OrderController extends Controller
@@ -47,22 +50,51 @@ class OrderController extends Controller
         return view('order-create');
     }
 
-    // ذخیره سفارش جدید
+
     public function store(Request $request)
     {
         // اعتبارسنجی داده‌ها
         $validated = $request->validate([
-            'customer_name' => 'required|string|max:255',
-            'customer_email' => 'required|email|max:255',
-            // افزودن سایر فیلدهای مورد نیاز برای سفارش
+            'status' => 'required|string|in:basket,pending,processing,complete',
+            'created_at' => 'required|string', // اعتبارسنجی رشته تاریخ
         ]);
 
-        // ایجاد سفارش جدید
-        $order = Order::create($validated);
+        // گرفتن کاربر وارد شده
+        $user = auth()->user();
+
+        // تبدیل تاریخ شمسی به میلادی
+        try {
+            $createdAtJalali = $request->input('created_at');
+            $createdAtGregorian = Jalalian::fromFormat('Y/m/d H:i', $createdAtJalali)->toCarbon();
+        } catch (\Exception $e) {
+            throw ValidationException::withMessages(['created_at' => 'فرمت تاریخ وارد شده نادرست است.']);
+        }
+
+        // ایجاد سفارش جدید با استفاده از اطلاعات کاربر
+        $order = new Order();
+        $order->user_id = $user->id;
+        $order->status = $request->input('status');
+        $order->created_at = $createdAtGregorian;
+
+        // پر کردن فیلدهای مربوط به آدرس، کد پستی و تلفن از اطلاعات کاربر
+        $order->customer_name = $user->first_name . ' ' . $user->last_name;
+        $order->customer_email = $user->email;
+        $order->customer_phone_number = $user->mobile;
+        $order->is_self_delivery = 1;
+        $order->shipping_country = $user->country;
+        $order->shipping_province = $user->province;
+        $order->shipping_city = $user->city;
+        $order->shipping_address = $user->address;
+        $order->shipping_postal_code = $user->postal_code;
+        $order->shipping_phone = $user->phone;
+
+        // ذخیره‌سازی سفارش جدید
+        $order->save();
 
         // هدایت به لیست سفارش‌ها با پیام موفقیت
         return redirect()->route('orders.index')->with('success', 'سفارش با موفقیت ایجاد شد.');
     }
+
 
     // نمایش فرم ویرایش سفارش
     public function edit($id)
@@ -80,6 +112,7 @@ class OrderController extends Controller
         $validated = $request->validate([
             'customer_name' => 'required|string|max:255',
             'customer_email' => 'required|email|max:255',
+            'national_code' => ['nullable', 'string', new IranianNationalCode()],
             // افزودن سایر فیلدهای مورد نیاز برای سفارش
         ]);
 

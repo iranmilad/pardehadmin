@@ -580,15 +580,15 @@
                                 <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#products_table .form-check-input" value="1" />
                             </div>
                         </th>
-                        <th class="cursor-pointer px-0 min-w-175px text-start">تصویر</th>
-                        <th class="cursor-pointer px-0 min-w-175px text-start">عنوان</th>
-                        <th class="cursor-pointer px-0 min-w-175px text-start">شناسه محصول</th>
-                        <th class="cursor-pointer px-0 min-w-175px text-start">انبار</th>
-                        <th class="cursor-pointer px-0 min-w-175px text-start">قیمت</th>
-                        <th class="cursor-pointer px-0 min-w-175px text-start">دسته ها</th>
-                        <th class="cursor-pointer px-0 min-w-175px text-start">برچسب ها</th>
+                        <th class="cursor-pointer px-0 col-1 col-md-1 text-start">تصویر</th>
+                        <th class="cursor-pointer px-0 col-3 col-md-2 text-start">عنوان</th>
+                        <th class="cursor-pointer px-0 col-1 col-md-1 text-start">شناسه</th>
+                        <th class="cursor-pointer px-0 col-1 col-md-1 text-start d-none d-sm-table-cell">انبار</th> <!-- مخفی در موبایل -->
+                        <th class="cursor-pointer px-0 col-2 col-md-1 text-start d-none d-sm-table-cell">قیمت</th> <!-- مخفی در موبایل -->
+                        <th class="cursor-pointer px-0 col-0 col-md-1 text-start d-none d-md-table-cell d-lg-none">دسته‌ها</th> <!-- مخفی در تبلت و مانیتورهای زیر 15 اینچ -->
+                        <th class="cursor-pointer px-0 col-0 col-md-1 text-start d-none d-md-table-cell d-lg-none">برچسب‌ها</th> <!-- مخفی در تبلت و مانیتورهای زیر 15 اینچ -->
+                        <th class="col-4 col-md-4 text-center justify-content-between">عملیات</th>
 
-                        <th class="min-w-400px text-center  justify-content-between">عملیات</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -600,29 +600,38 @@
                             </div>
                         </td>
                         <td class="text-start">
-                            <a href="{{ route('products.edit', $product->id) }}">
-                                <img  src="{{ asset($product->img) }}" class="img-fluid" alt="{{ $product->title }}" style="max-width: 100px;">
+                            <a href="{{ $product->link }}">
+                                <img src="{{ asset($product->img) }}" class="img-fluid" alt="{{ $product->title }}">
                             </a>
                         </td>
-                        <td class="text-start"> <a href="{{ route('products.edit', $product->id) }}">{{ $product->title }}</a> </td>
-                        <td class="text-start">{{ $product->id }}</td>
-                        <td class="text-start">{{ $product->inventoryMessage() }}</td>
-                        <td class="text-start">{{ number_format($product->price) }} تومان</td>
                         <td class="text-start">
+                            <a href="{{ route('products.edit', $product->id) }}">{{ $product->title }}</a>
+                        </td>
+                        <td class="text-start">{{ $product->id }}</td>
+
+                        <!-- موجودی، نمایش فقط در سایزهای تبلت و بزرگتر -->
+                        <td class="text-start d-none d-sm-table-cell">{{ $product->inventoryMessage() }}</td>
+
+                        <!-- قیمت، نمایش فقط در سایزهای تبلت و بزرگتر -->
+                        <td class="text-start d-none d-sm-table-cell">{{ number_format($product->price) }} تومان</td>
+
+                        <!-- دسته‌ها، مخفی در موبایل و نمایش فقط در سایزهای بزرگتر از 15 اینچ -->
+                        <td class="text-start d-none d-md-table-cell d-lg-none">
                             @foreach($product->categories as $category)
                                 <span class="badge badge-light-primary">{{ $category->title }}</span>
                             @endforeach
                         </td>
-                        <td class="text-start">
+
+                        <!-- برچسب‌ها، مخفی در موبایل و نمایش فقط در سایزهای بزرگتر از 15 اینچ -->
+                        <td class="text-start d-none d-md-table-cell d-lg-none">
                             @foreach($product->tags as $tag)
                                 <span class="badge badge-light-primary">{{ $tag->name }}</span>
                             @endforeach
                         </td>
 
                         <td class="text-end">
-                            <div class="btn btn-group-sm">
+                            <div class="btn-group-sm">
                                 <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary btn-sm">ویرایش</a>
-                                <a href="product/{{ $product->id }}" class="btn btn-primary btn-sm">مشاهده</a>
                                 <form action="{{ route('products.delete') }}" method="POST" style="display:inline-block;">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $product->id }}">
@@ -633,6 +642,7 @@
                     </tr>
                     @endforeach
                 </tbody>
+
             </table>
         </form>
 

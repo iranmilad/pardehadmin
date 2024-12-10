@@ -23,7 +23,14 @@ class TagController extends Controller
         // اعمال فیلتر بر اساس دسترسی‌های کاربر
         $query = $this->applyAccessControl($query);
 
-        $tags = $query->paginate(10);
+        $search = $request->input('s');
+        if ($search) {
+            $query->where('name', 'LIKE', "%{$search}%")
+            ->orWhere('type', 'LIKE', "%{$search}%");
+        };
+
+
+        $tags = $query->orderBy("created_at","desc")->paginate(10);
 
         return view('post-tags', compact('tags'));
     }
