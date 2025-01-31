@@ -5,12 +5,13 @@ use function Laravel\Prompts\search;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\ShopController;
 use App\Http\Controllers\API\SiteController;
 use App\Http\Controllers\PageViewController;
 use App\Http\Controllers\Api\OrderController;
-use App\Http\Controllers\Admin\FileController;
 
+use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\API\SellerController;
 use App\Http\Controllers\API\ProductController;
@@ -416,6 +417,7 @@ Route::group([
     Route::post('/orders', [OrderController::class, 'index'])->middleware('auth:api');
     Route::post('/orders/{id}', [OrderController::class, 'getOrderResponse'])->middleware('auth:api');
     Route::post('/order-confirm/{id}', [OrderController::class, 'confirmOrder'])->middleware('auth:api');
+    Route::post('/cart/update', [CartController::class, 'update'])->middleware('auth:api');
     
     Route::get('/bootstrap', [SiteController::class, 'bootstrap']);
     Route::get('/home', [SiteController::class, 'home']);
