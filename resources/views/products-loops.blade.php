@@ -57,7 +57,7 @@
                         <td>
                             <span class="badge badge-primary">{{ $block->type }}</span>
                         </td>
-                        <td>{{ json_decode($block->settings)->count ?? 0 }}</td>
+                        <td>{{ $block->settings->count ?? 0 }}</td>
                         <td class="text-end">
                             <a href="#" class="btn btn-light btn-active-light-info btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                 عملیات
