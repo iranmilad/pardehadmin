@@ -205,9 +205,9 @@ class ProductController extends Controller
     }
 
     // حذف محصول
-    public function delete(Request $request)
+    public function delete($id)
     {
-        $product = Product::findOrFail($request->input('id'));
+        $product = Product::findOrFail($id);
         $this->authorizeAction($product);
 
         $product->images()->delete(); // حذف تمام تصاویر مرتبط با محصول

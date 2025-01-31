@@ -20,7 +20,8 @@ class LandingController extends Controller
 
     public function index(Request $request)
     {
-        $query =Landing::latest();
+        $widget = Widget::where('name', 'WidgetLanding')->first();
+        $query = BlockWidget::where('widget_id', $widget->id)->latest();
         $query = $this->applyAccessControl($query);
         $landings = $query->paginate(10); // می‌توانید تعداد آیتم‌ها در هر صفحه را تغییر دهید
 
@@ -96,14 +97,14 @@ class LandingController extends Controller
             'image' => $data['image'],
 
         ];
-        Landing::create($data);
+
 
         // ذخیره ویجت با تنظیمات JSON
         BlockWidget::create([
             'widget_id' => $widgetId,
             'block' => $blockName,
             'type' => 'image',
-            'settings' => json_encode($settings), // تبدیل آرایه به JSON
+            'settings' => $settings, // تبدیل آرایه به JSON
         ]);
 
         return redirect()->route('landings.index')->with('success', 'لندینگ جدید ایجاد شد.');
@@ -111,19 +112,32 @@ class LandingController extends Controller
 
     public function edit($id)
     {
-        $landing = Landing::findOrFail($id);
-        return view('landings.edit', compact('landing'));
+        $landing = BlockWidget::findOrFail($id);
+        $widget = Widget::where('name', 'WidgetLanding')->first();
+
+        //$landing = json_decode($block->settings, true);
+
+        // استخراج JSON از ستون setup و decode کردن آن
+        $setup = json_decode($widget->setup, true);
+
+        // استخراج type از setup
+        $styles = [];
+        if (isset($setup['image']['i']['style'])) {
+            $template = str_replace("o|",'',$setup['image']['i']['style']);
+            $styles = explode(':', $template); // جدا کردن مقادیر type
+        }
+        return view('landings.edit', compact('landing', 'styles'));
     }
 
     public function update(Request $request, $id)
     {
         // پیدا کردن لندینگ با استفاده از شناسه
-        $landing = Landing::findOrFail($id);
+        $landing = BlockWidget::findOrFail($id);
 
         // اعتبارسنجی ورودی‌ها
         $data = $request->validate([
             'title' => 'required|string|max:255',
-            'name' => 'nullable|string|max:255',
+            'block' => 'nullable|string|max:255',
             'direction' => 'required|in:rtl,ltr',
             'link' => 'nullable|string|max:255',
             'description' => 'nullable|string',
@@ -142,24 +156,23 @@ class LandingController extends Controller
         if ($request->filled('file')) {
             $data['image'] = $request->input('file');
         }
+        else{
+            $data['image'] = $landing->settings->image ?? null;
+        }
 
-        // به‌روزرسانی لندینگ با داده‌های جدید
-        $landing->update($data);
-
-        $widgetId = $request->input('widget_id');
-        $blockName = "لندینگ " . ($data['name'] ?? $landing->name);
+        $blockName =$data['block'] ?? "لندینگ " . ($data['title'] ?? $landing->title);
         $style = $data['style'];
 
         // تنظیمات برای ذخیره در ویجت
         $settings = [
             'title' => $data['title'],
             'name' => $blockName,
-            'link' => $data['link'],
-            'description' => $data['description'],
-            'btnLink1' => $data['btnLink1'],
-            'cap1' => $data['cap1'],
-            'btnLink2' => $data['btnLink2'],
-            'cap2' => $data['cap2'],
+            'link' => $data['link'] ?? null,
+            'description' => $data['description'] ?? null,
+            'btnLink1' => $data['btnLink1'] ?? null,
+            'cap1' => $data['cap1'] ?? null,
+            'btnLink2' => $data['btnLink2'] ?? null,
+            'cap2' => $data['cap2'] ?? null,
             'direction' => $data['direction'],
             'style' => $style,
             'type' => 'image',
@@ -167,10 +180,10 @@ class LandingController extends Controller
         ];
 
         // به‌روزرسانی ویجت
-        BlockWidget::where('widget_id', $widgetId)->update([
+        $landing->update([
             'block' => $blockName,
             'type' => 'image',
-            'settings' => json_encode($settings),
+            'settings' => $settings,
         ]);
 
         // بازگرداندن به صفحه فهرست لندینگ‌ها با پیام موفقیت

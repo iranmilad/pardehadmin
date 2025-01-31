@@ -18,7 +18,9 @@
                     <select class="form-select form-select-solid" name="menu_id" id="menu_id">
                         <option value="">بدون والد</option>
                         @foreach($parentMenus as $parentMenu)
-                            <option value="{{ $parentMenu->id }}">{{ $parentMenu->title }}</option>
+                            <option value="{{ $parentMenu->id }}">
+                                {{ $parentMenu->hierarchical_title }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -33,6 +35,14 @@
                 <div class="col-md-6">
                     <label class="form-label" for="alias">نام مستعار</label>
                     <input name="alias" type="text" class="form-control form-control-solid" placeholder="نام مستعار را وارد کنید" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="type">نوع نمایش</label>
+                    <select class="form-select form-select-solid" name="type" id="type">
+                        <option value="menu_category" selected>ساده</option>
+                        <option value="portfolio">سبد</option>
+                        <option value="features_menu">ویژگی</option>
+                    </select>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label" for="icon">آیکون</label>

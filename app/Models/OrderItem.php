@@ -97,4 +97,10 @@ class OrderItem extends Model
 
         return null;
     }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+     
 }

@@ -5,12 +5,15 @@ namespace App\Models;
 use App\Models\Article;
 use Morilog\Jalali\Jalalian;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
- class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable;
+     use HasFactory, Notifiable;
+
 	//use SoftDeletes;
     protected $fillable = [
         'password',
@@ -39,6 +42,16 @@ use Illuminate\Notifications\Notifiable;
         'check_payment_active' => 'boolean',
         'credit_payment_active' => 'boolean',
     ];
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 
     // Define the relationship with the Product model
     public function products()
@@ -150,9 +163,6 @@ use Illuminate\Notifications\Notifiable;
         return $this->hasMany(Message::class, 'recipient_id');
     }
 
-
-
-
     public function calculateAvailableCredit()
     {
 
@@ -203,12 +213,10 @@ use Illuminate\Notifications\Notifiable;
         return $this->orders()->where('status', 'canceled')->count();
     }
 
-
     public function lastPaidPayment()
     {
         return $this->credits()->where('payment_status', 'paid')->latest('due_date')->first();
     }
-
 
     public function nextUnpaidPaymentDueDate()
     {
@@ -379,9 +387,6 @@ use Illuminate\Notifications\Notifiable;
         return $total;
     }
 
-
-
-
     public function getOrdersByStatus($status)
     {
         return $this->basket($status);
@@ -417,13 +422,11 @@ use Illuminate\Notifications\Notifiable;
         return $this->getOrdersByStatus('reject');
     }
 
-
     public function existsProductReview($productId)
     {
         // Check if a review exists for the given user_id and product_id
         return $this->reviews()->where('product_id', $productId)->exists();
     }
-
 
     /**
      * Convert date from Gregorian to Jalali (Shamsi).
@@ -441,7 +444,6 @@ use Illuminate\Notifications\Notifiable;
         // Format the date as desired
         return $jalaliDate->format('Y/m/d');
     }
-
 
     private function calculateDueDates(array $summedAmounts): array
     {
@@ -464,7 +466,6 @@ use Illuminate\Notifications\Notifiable;
 
         return $totalTimeline;
     }
-
 
     private function deliveryCost($order){
         if($order->deliveryType=='home_delivery'){
@@ -594,6 +595,22 @@ use Illuminate\Notifications\Notifiable;
     {
         return $this->hasPermission($permissionName, 'write_own');
     }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function suppliers()
+    {
+        return $this->hasMany(Supplier::class);
+    }
+
+    public function supplierReviews()
+    {
+        return $this->hasMany(SupplierReview::class);
+    }
+
 
 
 }

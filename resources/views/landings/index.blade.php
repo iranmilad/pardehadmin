@@ -50,8 +50,8 @@
                         </td>
                         <td>
                             <a href="{{ route('landings.edit', ['id' => $landing->id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">
-                                <img class="tw-size-16 tw-rounded-md" src="{{ $landing->image }}" alt="{{ $landing->title }}">
-                                <span class="ms-6">{{ $landing->title }}</span>
+                                <img class="tw-size-16 tw-rounded-md" src="{{ $landing->settings->image }}" alt="{{ $landing->settings->title }}">
+                                <span class="ms-6">{{ $landing->settings->name }}</span>
                             </a>
                         </td>
                         <td class="text-end">

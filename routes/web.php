@@ -187,7 +187,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/store', [ProductController::class, 'store'])->name("products.store")->middleware('check.permission:manage_products,write_own');
         Route::get('/edit/{id}', [ProductController::class, 'edit'])->name("products.edit")->middleware('check.permission:manage_products,write_own');
         Route::put('/update/{id}', [ProductController::class, 'update'])->name("products.update")->middleware('check.permission:manage_products,write_own');
-        Route::post('/delete', [ProductController::class, 'delete'])->name("products.delete")->middleware('check.permission:manage_products,write_own');
+        Route::get('/delete/{id}', [ProductController::class, 'delete'])->name("products.delete")->middleware('check.permission:manage_products,write_own');
         Route::post('/bulk_action', [ProductController::class, 'bulk_action'])->name("products.bulk_action")->middleware('check.permission:manage_products,write_own');
         Route::post('/update-attributes', [ProductController::class, 'updateAttributes'])->middleware('check.permission:manage_products,write_own');
         Route::get('/settings', [ProductController::class, 'settings'])->name("products.settings")->middleware('check.permission:manage_products,read_own');
@@ -457,11 +457,16 @@ Route::group(['prefix' => 'settings'], function () {
 Route::group(['prefix' => 'services'], function () {
     Route::get('/create', [SettingController::class, 'create'])->name("services.create")->middleware('check.permission:manage_services,write_own');
     Route::post('/store', [SettingController::class, 'store'])->name("services.store")->middleware('check.permission:manage_services,write_own');
-    Route::get('/holo', [HoloSettingController::class, 'edit'])->name('settings.holo.edit')->middleware('check.permission:manage_services,write_own');
-    Route::post('/holo', [HoloSettingController::class, 'update'])->name('settings.holo.update')->middleware('check.permission:manage_services,write_own');
-    Route::get('/sms', [SettingController::class, 'editSms'])->name("services.sms.edit")->middleware('check.permission:manage_services,write_own');
-    Route::post('/update/sms', [SettingController::class, 'updateSms'])->name("services.update.sms")->middleware('check.permission:manage_services,write_own');
-    Route::put('/update/sms', [SettingController::class, 'storeSms'])->name("services.store.sms")->middleware('check.permission:manage_services,write_own');
+    Route::get('/holo', [HoloSettingController::class, 'edit'])->name('settings.holo.edit')->middleware('check.permission:manage_third_party_services,write_own');
+    Route::post('/holo', [HoloSettingController::class, 'update'])->name('settings.holo.update')->middleware('check.permission:manage_third_party_services,write_own');
+    Route::get('/holo/getAttribute', [HoloSettingController::class, 'getAttribute'])->name('settings.holo.getAttribute')->middleware('check.permission:manage_third_party_services,write_own');
+    Route::get('/holo/getCategory', [HoloSettingController::class, 'getCategory'])->name('settings.holo.getCategory')->middleware('check.permission:manage_third_party_services,write_own');
+    Route::get('/holo/import-products', [HoloSettingController::class, 'importAllProducts'])->name('settings.holo.importAllProducts')->middleware('check.permission:manage_third_party_services,write_own');
+    Route::get('/holo/update-products', [HoloSettingController::class, 'updateAllProducts'])->name('settings.holo.updateAllProducts')->middleware('check.permission:manage_third_party_services,write_own');
+
+    Route::get('/sms', [SettingController::class, 'editSms'])->name("services.sms.edit")->middleware('check.permission:manage_third_party_services,write_own');
+    Route::post('/update/sms', [SettingController::class, 'updateSms'])->name("services.update.sms")->middleware('check.permission:manage_third_party_services,write_own');
+    Route::put('/update/sms', [SettingController::class, 'storeSms'])->name("services.store.sms")->middleware('check.permission:manage_third_party_services,write_own');
     Route::post('/delete', [SettingController::class, 'delete'])->name("services.delete")->middleware('check.permission:manage_services,write_own');
     Route::post('/bulk_action', [SettingController::class, 'bulk_action'])->name("services.bulk_action")->middleware('check.permission:manage_services,write_own');
 });

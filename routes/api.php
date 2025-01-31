@@ -1,12 +1,30 @@
 <?php
 
 use Illuminate\Http\Request;
+use function Laravel\Prompts\search;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\ShopController;
+use App\Http\Controllers\API\SiteController;
 use App\Http\Controllers\PageViewController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Admin\FileController;
+
+use App\Http\Controllers\Api\SearchController;
+use App\Http\Controllers\API\SellerController;
+use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\ImageMarkerController;
+use App\Http\Controllers\API\FavoriteController;
 use App\Http\Controllers\Admin\SessionController;
+use App\Http\Controllers\API\FastOrderController;
+use App\Http\Controllers\API\Holo\WebhookController;
+use App\Http\Controllers\API\SellerProductController;
+use App\Http\Controllers\API\SessionMessageController;
+use App\Http\Controllers\API\SupplierReviewController;
+use App\Http\Controllers\API\RelatedProductsController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -369,3 +387,50 @@ Route::post('/tasks/remove', function () {
 
     return response()->json();
 });
+
+Route::group([
+    'middleware' => 'api',
+], function ($router) {
+
+    Route::post('/auth/login', [AuthController::class, 'verifyOtp']);
+    Route::post('/auth/sms', [AuthController::class, 'sendOtp']);
+    Route::post('/auth/register', [AuthController::class, 'register']);
+    Route::post('/auth/verifyregister', [AuthController::class, 'verifyregister']);
+    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
+    Route::post('/refresh', [AuthController::class, 'refresh'])->middleware('auth:api');
+
+    Route::post('/edit-account', [ProfileController::class, 'edit'])->middleware('auth:api');
+    Route::get('/edit-account', [ProfileController::class, 'show'])->middleware('auth:api');
+
+
+    Route::get('/favorites', [FavoriteController::class, 'index'])->middleware('auth:api');
+    Route::post('/favorites/delete', [FavoriteController::class, 'destroy'])->middleware('auth:api');
+    Route::post('/favorites', [FavoriteController::class, 'store'])->middleware('auth:api');
+
+    Route::post('/tickets', [SessionMessageController::class, 'getUserActiveSessions'])->middleware('auth:api');
+    Route::get('/tickets/{id}', [SessionMessageController::class, 'getSessionDetails'])->middleware('auth:api');
+    Route::post('/tickets/send', [SessionMessageController::class, 'sendMessage'])->middleware('auth:api');
+
+    Route::get('/product/related', [RelatedProductsController::class, 'showRelatedProducts'])->middleware('auth:api');
+
+    Route::post('/orders', [OrderController::class, 'index'])->middleware('auth:api');
+    Route::post('/orders/{id}', [OrderController::class, 'getOrderResponse'])->middleware('auth:api');
+    Route::post('/order-confirm/{id}', [OrderController::class, 'confirmOrder'])->middleware('auth:api');
+    
+    Route::get('/bootstrap', [SiteController::class, 'bootstrap']);
+    Route::get('/home', [SiteController::class, 'home']);
+    Route::get('/search', [SearchController::class, 'search']);
+    Route::get('/product/{id}', [ProductController ::class, 'show']);
+    Route::get('/seller/{id}', [SellerController::class, 'getSellerInfo']);
+    Route::post('/seller/{id}/products', [SellerProductController::class, 'getSellerProducts']);
+    Route::post('/seller/{id}/comments', [SupplierReviewController::class, 'getSupplierComments']);
+    Route::post('/shop', [ShopController::class, 'getProducts']);
+    Route::post('/fastorder', [FastOrderController::class, 'getFastOrderProducts']);
+
+
+});
+Route::post('/webhook', [WebhookController::class, 'handleWebhook']);
+
+
+
+

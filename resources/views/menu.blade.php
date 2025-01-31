@@ -19,7 +19,9 @@
                     <select class="form-select form-select-solid" name="menu_id" id="menu_id">
                         <option value="">بدون والد</option>
                         @foreach($parentMenus as $parentMenu)
-                            <option value="{{ $parentMenu->id }}" {{ $menu->menu_id == $parentMenu->id ? 'selected' : '' }}>{{ $parentMenu->title }}</option>
+                            <option value="{{ $parentMenu->id }}" {{ $menu->menu_id == $parentMenu->id ? 'selected' : '' }}>
+                                {{ $parentMenu->hierarchical_title }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -35,6 +37,17 @@
                     <label class="form-label" for="alias">نام مستعار</label>
                     <input name="alias" type="text" class="form-control form-control-solid" value="{{ $menu->alias }}" placeholder="نام مستعار را وارد کنید" required>
                 </div>
+
+                <div class="col-md-6">
+                    <label class="form-label" for="type">نوع نمایش</label>
+                    <select class="form-select form-select-solid" name="type" id="type">
+                        <option value="menu_category" {{ $menu->type == "menu_category" ? 'selected' : '' }}>ساده</option>
+                        <option value="portfolio" {{ $menu->type == "portfolio" ? 'selected' : '' }}>سبد</option>
+                        <option value="features_menu" {{ $menu->type == "features_menu" ? 'selected' : '' }}>ویژگی</option>
+                    </select>
+                </div>
+
+
                 <div class="col-md-6">
                     <label class="form-label" for="icon">آیکون</label>
                     <x-file-input type="single" :preview="false" name="icon" :value="$menu->icon" />
@@ -119,6 +132,7 @@
                                                 </h2>
                                                 <div id="collapseOne{{1000+$menu->id}}" class="accordion-collapse collapse" data-bs-parent="#accordionExample{{1000+$menu->id}}">
                                                     <div class="accordion-body">
+                                                        <input type="hidden" name="menu[{{1000+$menu->id}}][id]"  value="{{$menu->id}}">
                                                         <div class="mb-5">
                                                             <label for="" class="form-label">عنوان</label>
                                                             <input name="menu[{{1000+$menu->id}}][title]" type="text" class="form-control" value="{{$menu->title}}">
@@ -142,8 +156,16 @@
                                                                 <option value="0" {{ $menu->show_title==false ? 'selected' : ''}}>خیر</option>
                                                             </select>
                                                         </div>
-                                                        <button class="btn btn-sm btn-danger remove-accordion">حذف</button>
+                                                        <div class="content-between d-flex justify-content-between">
+                                                            @if (count($menu->childMenus)>0)
+                                                                <a href="{{ route('menus.edit', ['id' => $menu->id]) }}" class="btn btn-sm btn-success">زیر منو</a>
+                                                            @endif
+                                                            <button class="btn btn-sm btn-danger remove-accordion">حذف</button>
+                                                        </div>
                                                     </div>
+
+
+
                                                 </div>
                                             </div>
                                         </div>

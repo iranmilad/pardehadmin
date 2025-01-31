@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Brand extends Model
 {
     protected $fillable = [
-        'title', 'alias'
+        'title', 'alias', 'image'
     ];
 
     public function products()

@@ -86,6 +86,28 @@ class CategoryController extends Controller
         return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
     }
 
+    public function bulk_action(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (!is_array($ids) || empty($ids)) {
+            return redirect()->route('categories.index')->with('error', 'No categories selected for deletion.');
+        }
+
+        foreach ($ids as $id) {
+            $category = Category::find($id);
+
+            if ($category) {
+                // حذف تمام زیرمجموعه‌ها
+                $category->subcategories()->delete();
+                // حذف دسته‌بندی والد
+                $category->delete();
+            }
+        }
+
+        return redirect()->route('categories.index')->with('success', 'Selected categories and their subcategories deleted successfully.');
+    }
+
+
     private function saveSubcategories(Request $request, Category $category)
     {
         $subcategories = $request->input('subcategories', []);

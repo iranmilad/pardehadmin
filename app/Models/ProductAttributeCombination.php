@@ -83,6 +83,10 @@ class ProductAttributeCombination extends Model
         return $this->belongsToMany(Property::class, 'product_attribute_property', 'combination_id', 'property_id');
     }
 
+    public function suppliers()
+    {
+        return $this->belongsToMany(Supplier::class, 'product_supplier', 'combination_id', 'supplier_id');
+    }
 
 
 }

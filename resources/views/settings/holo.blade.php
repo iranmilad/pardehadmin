@@ -14,38 +14,83 @@
         </div>
         <div class="card-body">
             <div class="mb-10">
-                <label for="username" class="required form-label">نام کاربری</label>
-                <input type="text" name="username" class="form-control form-control-solid" placeholder="" value="{{ old('username', $setting->settings['username']) }}" />
+                <label for="publicKey" class="required form-label">کلید عمومی</label>
+                <input type="text" name="publicKey" class="form-control form-control-solid" placeholder="" value="{{ old('publicKey', $setting->settings['publicKey'] ?? '') }}" />
             </div>
             <div class="mb-10">
-                <label for="password" class="required form-label">رمز عبور</label>
-                <input type="password" name="password" class="form-control form-control-solid" placeholder="" value="{{ old('password', $setting->settings['password']) }}" />
+                <label for="privateKey" class="required form-label"> کلید خصوصی</label>
+                <input type="privateKey" name="privateKey" class="form-control form-control-solid" placeholder="" value="{{ old('privateKey', $setting->settings['privateKey'] ?? '') }}" />
             </div>
             <div class="mb-10">
-                <label for="license_code" class="required form-label">کد لایسنس</label>
-                <input type="text" name="license_code" class="form-control form-control-solid" placeholder="" value="{{ old('license_code', $setting->settings['license_code']) }}" />
+                <label for="serial" class="required form-label"> سریال</label>
+                <input type="text" name="serial" class="form-control form-control-solid" placeholder="" value="{{ old('serial', $setting->settings['serial'] ?? '') }}" />
             </div>
             <div class="mb-10">
                 <label for="service_name" class="required form-label">نام سرویس</label>
-                <input type="text" name="service_name" class="form-control form-control-solid" placeholder="" value="{{ old('service_name', $setting->settings['service_name']) }}" />
+                <input type="text" name="service_name" class="form-control form-control-solid" placeholder="" value="{{ old('service_name', $setting->settings['service_name'] ?? '') }}" />
             </div>
             <div class="mb-10">
                 <label for="service_status" class="form-label">وضعیت سرویس</label>
                 <select name="service_status" class="form-select form-select-solid">
-                    <option value="1" @selected(old('service_status', $setting->settings['service_status']) == 1)>فعال</option>
-                    <option value="2" @selected(old('service_status', $setting->settings['service_status']) == 2)>غیر فعال</option>
+                    <option value="1" @selected(old('service_status', $setting->settings['service_status'] ?? '') == 1)>فعال</option>
+                    <option value="0" @selected(old('service_status', $setting->settings['service_status'] ?? '') == 0)>غیر فعال</option>
                 </select>
             </div>
             <div class="mb-10">
-                <label for="status" class="form-label">وضعیت</label>
-                <select name="status" class="form-select form-select-solid">
-                    <option value="1" @selected(old('status', $setting->settings['status']) == 1)>فعال</option>
-                    <option value="2" @selected(old('status', $setting->settings['status']) == 2)>غیر فعال</option>
+                <label for="update_product_stock" class="form-label">به روز رسانی موجودی</label>
+                <select name="update_product_stock" class="form-select form-select-solid">
+                    <option value="1" @selected(old('update_product_stock', $setting->settings['update_product_stock'] ?? '') == 1)>فعال</option>
+                    <option value="0" @selected(old('update_product_stock', $setting->settings['update_product_stock'] ?? '') == 0)>غیر فعال</option>
                 </select>
             </div>
+
+            <div class="mb-10">
+                <label for="update_product_price" class="form-label">به روز رسانی قیمت</label>
+                <select name="update_product_price" class="form-select form-select-solid">
+                    <option value="1" @selected(old('update_product_price', $setting->settings['update_product_price'] ?? '') == 1)>فعال</option>
+                    <option value="0" @selected(old('update_product_price', $setting->settings['update_product_price'] ?? '') == 0)>غیر فعال</option>
+                </select>
+            </div>
+            <div class="mb-10">
+                <label for="update_product_name" class="form-label">به روز رسانی نام محصول</label>
+                <select name="update_product_name" class="form-select form-select-solid">
+                    <option value="1" @selected(old('update_product_name', $setting->settings['update_product_name'] ?? '') == 1)>فعال</option>
+                    <option value="0" @selected(old('update_product_name', $setting->settings['update_product_name'] ?? '') == 0)>غیر فعال</option>
+                </select>
+            </div>
+
+            <div class="mb-10">
+                <label for="insert_new_product" class="form-label">درج محصول جدید</label>
+                <select name="insert_new_product" class="form-select form-select-solid">
+                    <option value="1" @selected(old('insert_new_product', $setting->settings['insert_new_product'] ?? '') == 1)>فعال</option>
+                    <option value="0" @selected(old('insert_new_product', $setting->settings['insert_new_product'] ?? '') == 0)>غیر فعال</option>
+                </select>
+            </div>
+
+
+
+
+
         </div>
     </div>
 
+    <div class="card mt-5 mb-5 mb-xl-10">
+        <div class="card-header">
+            <h4 class="card-title">
+                عملیات برنامه ریزی شده
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="mb-10">
+
+                <a href="{{ route('settings.holo.getAttribute') }}" class="btn btn-info">دریافت ویژگی ها</a>
+                <a href="{{ route('settings.holo.getCategory') }}" class="btn btn-info">دریافت دسته بندی ها</a>
+                <a href="{{ route('settings.holo.importAllProducts') }}" class="btn btn-danger">دریافت همه کالاها</a>
+                <a href="{{ route('settings.holo.updateAllProducts') }}" class="btn btn-success">به روزرسانی همه کالاها</a>
+
+            </div>
+        </div>
+    </div>
 
     <div class="card mt-5 mb-5 mb-xl-10">
         <div class="card-header border-0">

@@ -86,7 +86,7 @@
           <tr>
             <td>
               <div class="form-check form-check-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" name="selected_orders[]" value="{{ $order->id }}" />
+                <input class="form-check-input" type="checkbox" name="ids[]" value="{{ $order->id }}" />
               </div>
             </td>
             <td>
@@ -115,7 +115,7 @@
     <!--end::Group actions-->
 
     <ul class="pagination">
-      {{ $orders->links() }}
+      {{ $orders->links("vendor.pagination.custom-pagination") }}
     </ul>
   </div>
 </div>

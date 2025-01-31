@@ -17,6 +17,11 @@ class BlockWidget extends Model
         'type',
         'settings'
     ];
+    //settings alawse convert to object
+
+    protected $casts = [
+        'settings' => 'object',
+    ];
 
     // تعریف رابطه با مدل Widget
     public function widget()

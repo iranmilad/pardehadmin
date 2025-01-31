@@ -632,11 +632,7 @@
                         <td class="text-end">
                             <div class="btn-group-sm">
                                 <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary btn-sm">ویرایش</a>
-                                <form action="{{ route('products.delete') }}" method="POST" style="display:inline-block;">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{ $product->id }}">
-                                    <button type="submit" class="btn btn-danger btn-sm">حذف</button>
-                                </form>
+                                <a href="{{ route('products.delete', $product->id) }}" class="btn btn-danger btn-sm">حذف</a>
                             </div>
                         </td>
                     </tr>

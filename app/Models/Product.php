@@ -67,7 +67,6 @@ class Product extends Model
         return $this->attributes['sale_price'];
     }
 
-
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -314,12 +313,10 @@ class Product extends Model
         return $jalaliDate->format('Y/m/d');
     }
 
-
     public function attributeCombinations()
     {
         return $this->hasMany(ProductAttributeCombination::class);
     }
-
 
     public function getCombinations()
     {
@@ -388,5 +385,33 @@ class Product extends Model
             ->first();
     }
 
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function getDiscountedPriceAttribute()
+    {
+        return $this->regular_price * (1 - $this->discount / 100);
+    }
+
+    // در مدل Product
+    public function suppliers()
+    {
+        return $this->belongsToMany(Supplier::class, 'product_supplier', 'product_id', 'supplier_id')
+            ->withPivot('combination_id');
+    }
+
+    public function priceHistories()
+    {
+        return $this->hasMany(ProductPriceHistory::class)
+            ->latest() // ترتیب نزولی بر اساس تاریخ
+            ->take(12); // گرفتن 12 رکورد آخر
+    }
+    
+    public function productSuppliers()
+    {
+        return $this->hasMany(ProductSupplier::class);
+    }    
 
 }

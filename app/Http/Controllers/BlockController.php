@@ -56,7 +56,7 @@ class BlockController extends Controller
             'widget_id' => $widgetId,
             'block' => $blockName,
             'type' => $type,
-            'settings' => json_encode($settings)
+            'settings' => $settings
         ]);
         return redirect()->route('blocks.index')->with('success', 'بلاک جدید با موفقیت ایجاد شد.');
     }
@@ -67,7 +67,7 @@ class BlockController extends Controller
         $block->widget_id = $request->input('widget_id');
         $block->type = $request->input('setup');
         $block->block = $request->input('block');
-        $block->settings = json_encode($request->except('_token', '_method', 'widget_id', 'setup'));
+        $block->settings = $request->except('_token', '_method', 'widget_id', 'setup');
         $block->save();
 
 

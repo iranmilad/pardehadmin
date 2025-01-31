@@ -6,6 +6,7 @@ use Morilog\Jalali\Jalalian;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
+use App\Events\OrderCreated;
 
 class Order extends Model
 {
@@ -36,6 +37,16 @@ class Order extends Model
         'discount_code_id',
         'deliveryType',
     ];
+
+    protected static function booted()
+    {
+        parent::booted();
+        static::created(function ($order) {
+
+            OrderCreated::dispatch($order);
+        });
+    }
+
 
     public function user()
     {
@@ -268,6 +279,7 @@ class Order extends Model
                         "total" => $cartItem->total,
                         "time_per_unit" => $timePerUnit, // زمان هر واحد
                         "time_total" => $timeTotal, // زمان کل
+                        "supplier" => $cartItem->supplier, //
                     ];
                 }
             }
