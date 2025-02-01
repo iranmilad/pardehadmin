@@ -110,7 +110,7 @@ class ProductsLoopController extends Controller
         $blockWidget = BlockWidget::findOrFail($id);
     
         // استخراج تنظیمات و تبدیل JSON به شیء
-        $setting = json_decode($blockWidget->settings);
+        $setting = $blockWidget->settings;
     
         // بررسی اینکه آیا تنظیمات وجود دارد و شامل 'category' است
         $category = null;
