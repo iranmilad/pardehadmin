@@ -74,24 +74,24 @@ class HoloSettingController extends Controller
 
     public function getAttribute(Request $request)
     {
-        app('App\Http\Controllers\API\ProductAttributeController')->fetchAndStoreAttributes($request);
+        app('App\Http\Controllers\API\Holo\ProductAttributeController')->fetchAndStoreAttributes($request);
         return redirect()->route('settings.holo.edit')->with('success', 'درخواست ارسال شد.');
     }
 
     public function getCategory(Request $request)
     {
-        app('App\Http\Controllers\API\CategoryController')->fetchAndStoreCategories($request);
+        app('App\Http\Controllers\API\Holo\CategoryController')->fetchAndStoreCategories($request);
         return redirect()->route('settings.holo.edit')->with('success', 'درخواست ارسال شد.');
     }
     public function importAllProducts(Request $request)
     {
-        app('App\Http\Controllers\API\ProductImportController')->importAllProducts($request);
+        app('App\Http\Controllers\API\Holo\ProductImportController')->importAllProducts($request);
         return redirect()->route('settings.holo.edit')->with('success', 'درخواست ارسال شد.');
     }
 
     public function updateAllProducts(Request $request)
     {
-        app('App\Http\Controllers\API\ProductUpdateController')->updateAllProducts($request);
+        app('App\Http\Controllers\API\Holo\ProductUpdateController')->updateAllProducts($request);
         return redirect()->route('settings.holo.edit')->with('success', 'درخواست ارسال شد.');
     }
 }
