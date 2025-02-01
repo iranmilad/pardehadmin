@@ -3,7 +3,7 @@
         @if($preview === true)
         <div class="image-input image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
             <!--begin::نمایش existing avatar-->
-            <div class="image-input-wrapper w-150px h-150px" @if($value and $value !=="" ) style="background-image: url('{{ asset($value) }}')" @endif></div>
+            <div class="image-input-wrapper w-150px h-150px" @if(isset($value) and $value !=="" ) style="background-image: url('{{ asset($value) }}')" @endif></div>
 
             <!--end::نمایش existing avatar-->
             <!--begin::Tags-->
