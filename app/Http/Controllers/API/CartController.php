@@ -165,6 +165,7 @@ class CartController extends Controller
             $cartItems[] = [
                 'productId' => $item->product_id,
                 'attributes' => !empty($item->optionsFull) ? $item->optionsFull : null,
+                'combinationsID' => $item->combination,
                 'seller' => $item->supplier ? $item->supplier->id : null,
                 'count' => $item->quantity,
             ];
