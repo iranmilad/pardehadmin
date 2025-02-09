@@ -152,28 +152,42 @@ class CartController extends Controller
 
         if (!$order) {
             return response()->json([
-                'message' => 'سبد خرید شما خالی است',
-                'cart' => []
+                'message' => 'اطلاعات تماس خالی است',
+                'cartinfo' => []
             ]);
         }
 
-        $cartItems = [];
-        $items = $order->basket()->items;
-        foreach ($items as $item) {
+        $cartInfo =[
+            "is_self_delivery" =>(bool) $order->is_self_delivery,
+            "user_info" =>[
+                'user_name' => $user->first_name . ' ' . $user->last_name,
+                'user_mobile' => $user->mobile,
+                'user_email' => $user->email,
+                'user_country' => $user->country,
+                'user_province' => $user->province,
+                'user_address' => $user->address,
+                'user_postal_code' => $user->postal_code,
+                'user_phone' => $user->phone,
+                'user_national_code' => $user->national_code,
+            ],
+            "delivery_location" =>[
+                'customer_name' => $order->customer_name,
+                'customer_email' => $order->customer_email,
+                'customer_phone_number' => $order->customer_phone_number,
+                'shipping_country' => $order->shipping_country,
+                'shipping_province' => $order->shipping_province,
+                'shipping_city' => $order->shipping_city,
+                'shipping_address' => $order->shipping_address,
+                'shipping_postal_code' => $order->shipping_postal_code,
+                'shipping_phone' => $order->shipping_phone,
+                'shipping_note' => $order->shipping_note,
 
-
-            $cartItems[] = [
-                'productId' => $item->product_id,
-                'attributes' => !empty($item->optionsFull) ? $item->optionsFull : null,
-                'combinationsID' => $item->combination,
-                'seller' => $item->supplier ? $item->supplier->id : null,
-                'count' => $item->quantity,
-            ];
-        }
+            ]
+        ];
 
         return response()->json([
             'message' => 'ok',
-            'cart' => $cartItems
+            'cartinfo' => $cartInfo
         ]);
     }
 
