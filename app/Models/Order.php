@@ -172,7 +172,7 @@ class Order extends Model
                 if ($product) {
                     $review = $order->user->existsProductReview($product->id);
                     $attributeCombinations = $cartItem->combinations; // دریافت ترکیبات ویژگی‌ها از متد combinations
-
+                    $attributeCombinationsID = $attributeCombinations[0]->id ?? null;
                     $quantity = $cartItem->quantity;
                     if ($product->minimum_quantity == "quantity") {
                         $cartCount += $quantity;
@@ -183,9 +183,11 @@ class Order extends Model
                     $attributeNames = [];
                     $options = [];
                     $optionsFull = [];
+
                     $timePerUnit = 0; // Initialize time per unit for current item
 
                     foreach ($attributeCombinations as $attributeCombination) {
+
                         $priceAttr = $attributeCombination->sale_price ?? $attributeCombination->price;
                         $totalAttributePrice += $priceAttr;
                         foreach ($attributeCombination->attributeProperties as $attributeProperty) {
@@ -273,6 +275,7 @@ class Order extends Model
                         'options' => $options,
                         "optionsFull" => $optionsFull,
                         "quantity" => $quantity,
+                        "combination"=> $attributeCombinationsID,
                         "attribute" => $attributeNames,
                         "credit" => $credit,
                         "service" => $product->service,
