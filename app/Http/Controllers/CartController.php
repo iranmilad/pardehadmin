@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DiscountCode;
 use Illuminate\Http\Request;
 use App\Traits\AuthorizeAccess;
 use App\Models\UserDiscountCode;
@@ -65,19 +66,22 @@ class CartController extends Controller
 
     private function saveOrder(Order $order, Request $request)
     {
+        $discountCode = $request->input('discount_code', null);
+        //user discount model for search discount_code
+        if($discountCode)
+            $discount = DiscountCode::where('code', $discountCode)->first();
+
         // ذخیره اطلاعات کاربر و قیمت
         $order->user_id = $request->input('user');
-        $order->discount_percentage = $request->input('discount_percentage', 0);
-        $order->total_price = $request->input('total_price', 0);
+        $order->discount_code_id = $discount->id ?? null;
         $order->save();
 
-        // ذخیره یا آپدیت کد تخفیف برای کاربر
-        $discountCodeId = $request->input('discount_code');
-        if ($discountCodeId) {
+
+        if ($discountCode) {
             // بررسی وجود تخفیف برای این کاربر و ذخیره‌سازی آن
             UserDiscountCode::updateOrCreate(
-                ['user_id' => $order->user_id, 'discount_code_id' => $discountCodeId],
-                ['user_id' => $order->user_id, 'discount_code_id' => $discountCodeId]
+                ['user_id' => $order->user_id, 'discount_code_id' => $discount->id],
+                ['user_id' => $order->user_id, 'discount_code_id' => $discount->id]
             );
         }
 

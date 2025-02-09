@@ -182,6 +182,7 @@ class Order extends Model
 
                     $attributeNames = [];
                     $options = [];
+                    $optionsID = [];
                     $timePerUnit = 0; // Initialize time per unit for current item
 
                     foreach ($attributeCombinations as $attributeCombination) {
@@ -191,6 +192,12 @@ class Order extends Model
                             if (!is_null($attributeProperty->attribute->name)) {
                                 $attributeNames[] = $attributeProperty->attribute->name;
                                 $options[] = [$attributeProperty->attribute->name => $attributeProperty->property->value];
+                                $optionsFull[] = [
+                                    "attributeID"=>$attributeProperty->attribute->id,
+                                    "propertyID"=>$attributeProperty->property->id,
+                                    "propertyName"=>$attributeProperty->property->value,
+                                    "attributeName"=>$attributeProperty->attribute->name,
+                                ];
                             }
                         }
 
@@ -264,6 +271,7 @@ class Order extends Model
                         "review" => $review,
                         "status" => $cartItem->status,
                         'options' => $options,
+                        "optionsFull" => $optionsFull,
                         "quantity" => $quantity,
                         "attribute" => $attributeNames,
                         "credit" => $credit,

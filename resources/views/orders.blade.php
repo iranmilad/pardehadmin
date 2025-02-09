@@ -98,7 +98,7 @@
             <td>
               <a class="badge badge-warning" href="{{route('orders.edit', ['id' => $order->id])}}">{{ $order->status }}</a>
             </td>
-            <td>{{ number_format($order->total) }} تومان</td>
+            <td>{{ $order->basket()->cart->total }} تومان</td>
             <td>
               <a class="badge badge-primary" href="{{route('orders.edit', ['id' => $order->id])}}">{{ $order->payment_method }}</a>
             </td>

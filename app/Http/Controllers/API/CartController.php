@@ -84,12 +84,12 @@ class CartController extends Controller
             ]);
         }
         $cartItems = [];
-    
+
         foreach ($order->basket()->items as $item) {
             $attributes = [];
-            
+
             // استخراج ویژگیها از ترکیبات محصول
-  
+
             $cartItems[] = [
                 'productId' => $item->product_id,
                 'attributes' => $item->combinations->id ?? null,
@@ -97,11 +97,82 @@ class CartController extends Controller
                 'count' => $item->quantity,
             ];
         }
-    
+
         // ساخت پاسخ نهایی
         return response()->json([
             'message' => 'ok',
             'cart' => $cartItems
         ]);
     }
+
+    public function index()
+    {
+        $user = Auth::user();
+
+        // دریافت سفارش در وضعیت 'basket'
+        $order = Order::where('user_id', $user->id)
+            ->where('status', 'basket')
+            ->first();
+
+        if (!$order) {
+            return response()->json([
+                'message' => 'سبد خرید شما خالی است',
+                'cart' => []
+            ]);
+        }
+
+        $cartItems = [];
+        $items = $order->basket()->items;
+        foreach ($items as $item) {
+
+
+            $cartItems[] = [
+                'productId' => $item->product_id,
+                'attributes' => !empty($item->optionsFull) ? $item->optionsFull : null,
+                'seller' => $item->supplier ? $item->supplier->id : null,
+                'count' => $item->quantity,
+            ];
+        }
+
+        return response()->json([
+            'message' => 'ok',
+            'cart' => $cartItems
+        ]);
+    }
+
+
+    public function cartInfo(){
+        $user = Auth::user();
+
+        // دریافت سفارش در وضعیت 'basket'
+        $order = Order::where('user_id', $user->id)
+            ->where('status', 'basket')
+            ->first();
+
+        if (!$order) {
+            return response()->json([
+                'message' => 'سبد خرید شما خالی است',
+                'cart' => []
+            ]);
+        }
+
+        $cartItems = [];
+        $items = $order->basket()->items;
+        foreach ($items as $item) {
+
+
+            $cartItems[] = [
+                'productId' => $item->product_id,
+                'attributes' => !empty($item->optionsFull) ? $item->optionsFull : null,
+                'seller' => $item->supplier ? $item->supplier->id : null,
+                'count' => $item->quantity,
+            ];
+        }
+
+        return response()->json([
+            'message' => 'ok',
+            'cart' => $cartItems
+        ]);
+    }
+
 }

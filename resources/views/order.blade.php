@@ -102,7 +102,7 @@
                     <td>
                         <a href="{{ route('products.edit', ['id' => $item->product_id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">
                             <img class="tw-size-16 tw-rounded-md" src="{{ $item->product->img }}" alt="">
-                            <span>{{ $item->name }}</span>
+                            <span>{{ $item->product->title }}</span>
                         </a>
                     </td>
                     <td>
@@ -620,5 +620,13 @@
         time: true,
         hasSecond: false
     });
+
+    function toggleDetails(id) {
+        const element = document.getElementById(id);
+        element.style.display = (element.style.display === 'none') ? 'table-row' : 'none';
+    }
+
+
 </script>
 @endsection
+

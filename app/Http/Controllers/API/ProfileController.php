@@ -32,6 +32,8 @@ class ProfileController extends Controller
             'id' => $user->id,
             'name' => $user->first_name,
             'familyName' => $user->last_name,
+            'userType' => $user->role->title,
+            'userTypeLabel' => $user->role->display_name,
             'nationalCode' => $user->national_code,
             'mobile' => $user->mobile,
             'birthday' => $this->gregorianToJalalian($user->birthday), // Assuming 'birthday' exists

@@ -219,6 +219,8 @@ class AuthController extends BaseController
             'id' => $user->id,
             'name' => $user->first_name,
             'familyName' => $user->last_name,
+            'userTypeLabel' => $user->role->display_name,
+            'userType' => $user->role->title,
             'nationalCode' => $user->national_code,
             'mobile' => $user->mobile,
             'birthday' => $user->birthday ?? null, // پیش‌فرض اگر تاریخ تولد ثبت نشده باشد
