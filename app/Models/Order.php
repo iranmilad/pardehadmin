@@ -182,7 +182,7 @@ class Order extends Model
 
                     $attributeNames = [];
                     $options = [];
-                    $optionsID = [];
+                    $optionsFull = [];
                     $timePerUnit = 0; // Initialize time per unit for current item
 
                     foreach ($attributeCombinations as $attributeCombination) {
