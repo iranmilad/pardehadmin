@@ -185,7 +185,13 @@ class SiteController extends Controller
                 "featured_products" => [],
             ]
         ];
-
+        $responseData['data']['featured_promo']['type']="featured_promo";
+        $responseData['data']['categories']['type']="categories";
+        $responseData['data']['banners']['type']="banners";
+        $responseData['data']['trendProducts']['type']="trendProducts";
+        $responseData['data']['productGrid']['type']="productGrid";
+        $responseData['data']['brands']['type']="brands";
+        $responseData['data']['featured_products']['type']="featured_products";
 
         foreach ($widgetProducts as $blockWidget) {
 
@@ -198,7 +204,7 @@ class SiteController extends Controller
                 if ($category) {
                     $products = $category->products()->inRandomOrder()->take($count)->get();
                     foreach ($products as $product) {
-                        $responseData['data']['featured_promo'][] = [
+                        $responseData['data']['featured_promo']['data'][] = [
                             "id" => $product->id,
                             "title" => $product->title,
                             "slug" => $product->id,
@@ -216,7 +222,7 @@ class SiteController extends Controller
                 if ($category) {
                     $products = $category->products()->inRandomOrder()->take($count)->get();
                     foreach ($products as $product) {
-                        $responseData['data']['featured_products'][] = [
+                        $responseData['data']['featured_products']['data'][] = [
                             "id" => $product->id,
                             "title" => $product->title,
                             "slug" => $product->id,
@@ -241,7 +247,7 @@ class SiteController extends Controller
                     $menus = Menu::where(['alias'=>$options->alias,])->first();
 
                     foreach ($menus->childMenus as $menu) {
-                        $responseData['data']['categories'][] = [
+                        $responseData['data']['categories']['data'][] = [
                             "image"=>$menu->icon,
                             "title"=>$menu->title,
                             "url"=>$menu->link,
@@ -255,17 +261,17 @@ class SiteController extends Controller
                     $menus = Menu::where(['alias'=>$options->alias,])->first();
 
                     foreach ($menus->childMenus as $menu) {
-                        $responseData['data']['trendProducts'][0][] = [
+                        $responseData['data']['trendProducts']['data'][0][] = [
                             "image"=>$menu->icon,
                             "title"=>$menu->title,
                             "url"=>$menu->link,
                         ];
-                        $responseData['data']['trendProducts'][1][] = [
+                        $responseData['data']['trendProducts']['data'][1][] = [
                             "image"=>$menu->icon,
                             "title"=>$menu->title,
                             "url"=>$menu->link,
                         ];
-                        $responseData['data']['trendProducts'][2][] = [
+                        $responseData['data']['trendProducts']['data'][2][] = [
                             "image"=>$menu->icon,
                             "title"=>$menu->title,
                             "url"=>$menu->link,
@@ -286,7 +292,7 @@ class SiteController extends Controller
                             "url"=>$menu->link,
                         ];
                     }
-                    $responseData['data']['brands']=["title"=>$options->title,"children"=>$list];
+                    $responseData['data']['brands']['data']=["title"=>$options->title,"children"=>$list];
 
                 }
             }
@@ -303,10 +309,10 @@ class SiteController extends Controller
                             "url"=>$menu->link,
                         ];
                     }
-                    $responseData['data']['productGrid'][]=["title"=>$options->title,"children"=>$list];
-                    $responseData['data']['productGrid'][]=["title"=>$options->title,"children"=>$list];
-                    $responseData['data']['productGrid'][]=["title"=>$options->title,"children"=>$list];
-                    $responseData['data']['productGrid'][]=["title"=>$options->title,"children"=>$list];
+                    $responseData['data']['productGrid']['data'][]=["title"=>$options->title,"children"=>$list];
+                    $responseData['data']['productGrid']['data'][]=["title"=>$options->title,"children"=>$list];
+                    $responseData['data']['productGrid']['data'][]=["title"=>$options->title,"children"=>$list];
+                    $responseData['data']['productGrid']['data'][]=["title"=>$options->title,"children"=>$list];
 
                 }
             }
@@ -326,7 +332,7 @@ class SiteController extends Controller
                         foreach ($banners as $banner) {
 
                             foreach ($banner->images as $banner) {
-                                $responseData['data']['banners'][] = [
+                                $responseData['data']['banners']['data'][] = [
                                     "image"=>$banner->image,
                                     "url"=>$banner->link,
                                 ];
@@ -354,7 +360,7 @@ class SiteController extends Controller
                     foreach ($sliders as $slider) {
 
                         foreach ($slider->images as $slider) {
-                            $responseData['data']['sliders'][] = [
+                            $responseData['data']['sliders']['data'][] = [
                                 "image"=>$slider->image,
                                 "url"=>$slider->link,
                             ];
@@ -367,7 +373,7 @@ class SiteController extends Controller
             }
         }
 
-
+        $responseData["data"]= array_values($responseData["data"]);
         return response()->json($responseData);
 
 

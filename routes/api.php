@@ -12,6 +12,7 @@ use App\Http\Controllers\PageViewController;
 use App\Http\Controllers\Api\OrderController;
 
 use App\Http\Controllers\Admin\FileController;
+use App\Http\Controllers\API\CouponController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\API\SellerController;
 use App\Http\Controllers\API\PaymentController;
@@ -421,8 +422,9 @@ Route::group([
     Route::post('/cart/update', [CartController::class, 'update'])->middleware('auth:api');
     Route::get('/cart', [CartController::class, 'index'])->middleware('auth:api');
     Route::get('/cartinfo', [CartController::class, 'cartInfo'])->middleware('auth:api');
-    Route::get('/payment', [PaymentController::class, 'index']);
+    Route::post('/submitcoupon', [CouponController::class, 'submit'])->middleware('auth:api');
 
+    Route::get('/payment', [PaymentController::class, 'index']);
     Route::get('/bootstrap', [SiteController::class, 'bootstrap']);
     Route::get('/home', [SiteController::class, 'home']);
     Route::get('/search', [SearchController::class, 'search']);
