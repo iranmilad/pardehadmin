@@ -123,15 +123,27 @@ class CartController extends Controller
 
         $cartItems = [];
         $items = $order->basket()->items;
-        foreach ($items as $item) {
 
+        foreach ($items as $item) {
+            $options=[];
+            foreach($item->options as $key=>$value){
+                $options[]= array_values($value)[0];
+            }
 
             $cartItems[] = [
+                "id" => $item->id,
                 'productId' => $item->product_id,
-                'attributes' => !empty($item->optionsFull) ? $item->optionsFull : null,
+                'name' => $item->name,
+                'image' => $item->img,
+                'attributes' =>$options,
                 'combinationsID' => $item->combination,
-                'seller' => $item->supplier ? $item->supplier->id : null,
+                'seller' => ($item->supplier!=null) ? $item->supplier : null,
                 'count' => $item->quantity,
+                'price' => [
+                    "regularPrice" => $item->price,
+                    "discountedPrice" => $item->sale_price,
+                    "discountPercent" => $item->discountPercentage,
+                ]
             ];
         }
 

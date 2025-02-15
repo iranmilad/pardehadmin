@@ -23,4 +23,10 @@ class OrderItemCombination extends Model
     {
         return $this->belongsTo(ProductAttributeCombination::class);
     }
+
+    public function suppliers()
+    {
+        return $this->hasMany(Supplier::class, 'product_combination_id');
+    }
+
 }

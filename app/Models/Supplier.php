@@ -28,9 +28,13 @@ class Supplier extends Model
         'rating',
         'holo_sku',
         'product_combinations',
+        'is_special',
+        'special_time',
     ];
 
-
+    protected $casts = [
+        'is_special' => 'boolean',
+    ];
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -58,6 +62,9 @@ class Supplier extends Model
         return $this->reviews()->avg('rating');
     }
 
-
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 
 }

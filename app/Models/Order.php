@@ -261,6 +261,16 @@ class Order extends Model
 
                     $availableCreditPlan += $credit->totalCredit;
 
+                    $supplier = $cartItem->supplier;
+                    if($supplier)
+                        $supplier = [
+                            "id" => $supplier->id,
+                            "label" => $supplier->name,
+                        ];
+                    else
+                        $supplier = null;
+
+
                     $items[] = (object)[
                         "id" => $cartItem->id,
                         "product_id" => $product->id,
@@ -290,7 +300,7 @@ class Order extends Model
                         "total" => $cartItem->total,
                         "time_per_unit" => $timePerUnit, // زمان هر واحد
                         "time_total" => $timeTotal, // زمان کل
-                        "supplier" => $cartItem->supplier, //
+                        "supplier" => $supplier, //
                     ];
                 }
             }
@@ -595,4 +605,8 @@ class Order extends Model
         ];
     }
 
+    public function suppliers()
+    {
+        return $this->hasManyThrough(Supplier::class, OrderItem::class, 'order_id', 'id', 'id', 'supplier_id')->distinct();
+    }
 }
