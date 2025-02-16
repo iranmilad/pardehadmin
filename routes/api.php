@@ -420,9 +420,13 @@ Route::group([
     Route::post('/orders/{id}', [OrderController::class, 'getOrderResponse'])->middleware('auth:api');
     Route::post('/order-confirm/{id}', [OrderController::class, 'confirmOrder'])->middleware('auth:api');
     Route::post('/cart/update', [CartController::class, 'update'])->middleware('auth:api');
+    Route::post('/cart/remove', [CartController::class, 'cartRemove'])->middleware('auth:api');
     Route::get('/cart', [CartController::class, 'index'])->middleware('auth:api');
     Route::get('/cartinfo', [CartController::class, 'cartInfo'])->middleware('auth:api');
-    Route::post('/submitcoupon', [CouponController::class, 'submit'])->middleware('auth:api');
+
+
+
+    Route::post('/submitcoupon', [CouponController::class, 'submitCoupon'])->middleware('auth:api');
 
     Route::get('/payment', [PaymentController::class, 'index']);
     Route::get('/bootstrap', [SiteController::class, 'bootstrap']);

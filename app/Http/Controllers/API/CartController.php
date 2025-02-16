@@ -153,7 +153,6 @@ class CartController extends Controller
         ]);
     }
 
-
     public function cartInfo(){
         $user = Auth::user();
 
@@ -202,5 +201,88 @@ class CartController extends Controller
             'cartinfo' => $cartInfo
         ]);
     }
+
+    public function cartRemove(Request $request)
+    {
+        $request->validate([
+            'productId' => 'required|integer',
+            'combinationsID' => 'nullable|integer',
+            'sellerId' => 'nullable|integer',
+        ]);
+
+        $user = Auth::user();
+
+        // دریافت سفارش در وضعیت 'basket'
+        $order = Order::where('user_id', $user->id)
+            ->where('status', 'basket')
+            ->first();
+
+        if (!$order) {
+            return response()->json([
+                'message' => 'سبد خرید شما خالی است',
+            ], 404);
+        }
+
+        // بررسی وجود محصول
+        $product = Product::find($request->productId);
+        if (!$product) {
+            return response()->json([
+                'message' => 'آیتم مورد نظر یافت نشد',
+            ], 404);
+        }
+
+        // بررسی وجود فروشنده (در صورت ارسال)
+        $supplier = null;
+        if ($request->filled('sellerId')) {
+            $supplier = Supplier::find($request->sellerId);
+            if (!$supplier) {
+                return response()->json([
+                    'message' => 'آیتم مورد نظر یافت نشد',
+                ], 404);
+            }
+        }
+
+        // پیدا کردن آیتم در سبد خرید
+        $orderItemQuery = OrderItem::where('order_id', $order->id)
+            ->where('product_id', $product->id);
+
+        if ($supplier) {
+            $orderItemQuery->where('supplier_id', $supplier->id);
+        }
+
+        $orderItem = $orderItemQuery->first();
+        if (!$orderItem) {
+            return response()->json([
+                'message' => 'آیتم مورد نظر یافت نشد',
+            ], 404);
+        }
+
+        // بررسی ترکیب محصول (در صورت ارسال)
+        if ($request->filled('combinationsID')) {
+            $combination = OrderItemCombination::where('order_item_id', $orderItem->id)
+                ->where('combination_id', $request->combinationsID)
+                ->first();
+
+            if (!$combination) {
+                return response()->json([
+                    'message' => 'آیتم مورد نظر یافت نشد',
+                ], 404);
+            }
+
+            // حذف ترکیب
+            $combination->delete();
+        }
+
+        // اگر آیتم بدون ترکیب باقی نماند، آن را از سبد خرید حذف کن
+        if (!$request->filled('combinationsID') || !$orderItem->combinations()->exists()) {
+            $orderItem->delete();
+        }
+
+        return response()->json([
+            'message' => 'محصول با موفقیت از سبد خرید حذف شد',
+        ]);
+    }
+
+
 
 }
