@@ -25,6 +25,7 @@ use App\Http\Controllers\API\FavoriteController;
 use App\Http\Controllers\Admin\SessionController;
 use App\Http\Controllers\API\FastOrderController;
 use App\Http\Controllers\API\Holo\WebhookController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\API\SellerProductController;
 use App\Http\Controllers\API\SessionMessageController;
 use App\Http\Controllers\API\SupplierReviewController;
@@ -441,7 +442,7 @@ Route::group([
     Route::post('/shop', [ShopController::class, 'getProducts']);
     Route::post('/fastorder', [FastOrderController::class, 'getFastOrderProducts']);
     Route::post('/compare', [CompareController::class, 'compare']);
-
+    Route::get('/notifications', [NotificationController::class, 'index']);
 });
 Route::post('/webhook', [WebhookController::class, 'handleWebhook']);
 
