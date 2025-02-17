@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\API\CouponController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\API\SellerController;
+use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\API\PaymentController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\ProfileController;
@@ -423,7 +424,7 @@ Route::group([
     Route::post('/cart/remove', [CartController::class, 'cartRemove'])->middleware('auth:api');
     Route::get('/cart', [CartController::class, 'index'])->middleware('auth:api');
     Route::get('/cartinfo', [CartController::class, 'cartInfo'])->middleware('auth:api');
-
+    Route::get('/myaccount', [AccountController::class, 'myaccount'])->middleware('auth:api');
 
 
     Route::post('/submitcoupon', [CouponController::class, 'submitCoupon'])->middleware('auth:api');
