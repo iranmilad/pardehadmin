@@ -428,6 +428,7 @@ Route::group([
     Route::get('/cart', [CartController::class, 'index'])->middleware('auth:api');
     Route::get('/cartinfo', [CartController::class, 'cartInfo'])->middleware('auth:api');
     Route::get('/myaccount', [AccountController::class, 'myaccount'])->middleware('auth:api');
+    Route::post('/upload/{sessionId}', [SessionMessageController::class, 'uploadImage'])->middleware('auth:api');
 
 
     Route::post('/submitcoupon', [CouponController::class, 'submitCoupon'])->middleware('auth:api');

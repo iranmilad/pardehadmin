@@ -155,4 +155,53 @@ class SessionMessageController extends Controller
         ]);
     }
 
+    public function uploadImage(Request $request, $sessionId)
+    {
+        // بررسی وجود سشن
+        $session = Session::findOrFail($sessionId);
+
+        // بررسی اینکه کاربر عضو این سشن باشد یا خیر
+        if (!Auth::user()->sessions->contains($session)) {
+            return response()->json([
+                'message' => 'Access Denied'
+            ], 403);
+        }
+
+        // اعتبارسنجی فایل ورودی
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        // ذخیره فایل در storage/app/public/messages/
+        $file = $request->file('file');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $filePath = $file->storeAs('public/messages', $fileName);
+
+        // ذخیره پیام با لینک تصویر
+        $message = new Message();
+        $message->session_id = $session->id;
+        $message->sender_id = Auth::id();
+        $message->message = ""; // این پیام متنی ندارد، فقط تصویر دارد
+        $message->image = str_replace('public/', 'storage/', $filePath);
+        $message->save();
+
+        // بازگشت لینک تصویر
+        return response()->json([
+            'message' => 'ok',
+            'data' => [
+                'url' => asset($message->image),
+                'id' => $message->id
+            ]
+        ]);
+    }
+
+
+
 }
