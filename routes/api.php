@@ -6,11 +6,12 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CartController;
+use App\Http\Controllers\Api\PageController;
 use App\Http\Controllers\API\ShopController;
 use App\Http\Controllers\API\SiteController;
 use App\Http\Controllers\PageViewController;
-use App\Http\Controllers\Api\OrderController;
 
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\API\CouponController;
 use App\Http\Controllers\Api\SearchController;
@@ -443,6 +444,7 @@ Route::group([
     Route::post('/fastorder', [FastOrderController::class, 'getFastOrderProducts']);
     Route::post('/compare', [CompareController::class, 'compare']);
     Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::post('/page', [PageController::class, 'show']);
 });
 Route::post('/webhook', [WebhookController::class, 'handleWebhook']);
 
