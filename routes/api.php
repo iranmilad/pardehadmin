@@ -16,6 +16,7 @@ use App\Http\Controllers\API\CouponController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\API\SellerController;
 use App\Http\Controllers\Api\AccountController;
+use App\Http\Controllers\Api\CompareController;
 use App\Http\Controllers\API\PaymentController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\ProfileController;
@@ -439,7 +440,7 @@ Route::group([
     Route::post('/seller/{id}/comments', [SupplierReviewController::class, 'getSupplierComments']);
     Route::post('/shop', [ShopController::class, 'getProducts']);
     Route::post('/fastorder', [FastOrderController::class, 'getFastOrderProducts']);
-
+    Route::post('/compare', [CompareController::class, 'compare']);
 
 });
 Route::post('/webhook', [WebhookController::class, 'handleWebhook']);
