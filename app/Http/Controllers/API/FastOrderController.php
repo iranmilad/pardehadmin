@@ -84,9 +84,9 @@ class FastOrderController extends Controller
                 $query->where('few', '>=', $filters['minStock']);
             }
 
-            if (!empty($filters['deliveryTime'])) {
-                $query->where('delivery_time', '<=', $filters['deliveryTime']);
-            }
+            // if (!empty($filters['deliveryTime'])) {
+            //     $query->where('delivery_time', '<=', $filters['deliveryTime']);
+            // }
 
             if (!empty($filters['paymentType'])) {
                 $query->where('payment_type', $filters['paymentType']);
