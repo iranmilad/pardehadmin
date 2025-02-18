@@ -17,7 +17,7 @@ class FastOrderController extends Controller
 
         if ($request->searchType === 'category') {
 
-        
+
             // اگر زیرمجموعه (subcategory) ست شده باشد، فیلتر بر اساس زیرمجموعه
             if ($request->subCategory) {
                 $query->whereHas('categories', function ($q) use ($request) {
@@ -54,9 +54,9 @@ class FastOrderController extends Controller
                 });
             }
 
-            
+
         }
-        
+
 
         // فیلترهای اضافی
         if ($request->filters) {
@@ -64,7 +64,7 @@ class FastOrderController extends Controller
 
             if (!empty($filters['province'])) {
                 $areas = explode(',', $filters['province']); // تبدیل رشته به آرایه از نواحی
-                
+
                 // جستجو در فیلد delivery_areas برای هر تامین‌کننده
                 $query->whereHas('suppliers', function ($q) use ($areas) {
                     $q->where(function($q) use ($areas) {
@@ -76,12 +76,12 @@ class FastOrderController extends Controller
                 });
             }
 
-            if (!empty($filters['stockStatus'])) {
-                $query->where('stock_status', $filters['stockStatus']);
+            if (!empty($filters['stockStatus']) and $filters['stockStatus']=="exist") {
+                $query->where('few',">",0);
             }
 
             if (!empty($filters['minStock'])) {
-                $query->where('stock', '>=', $filters['minStock']);
+                $query->where('few', '>=', $filters['minStock']);
             }
 
             if (!empty($filters['deliveryTime'])) {
@@ -138,10 +138,10 @@ class FastOrderController extends Controller
                         return $supplier->created_at ?? now();
                 }
             });
-        
+
             // انتخاب بهترین `node` به عنوان پیش‌فرض
             $defaultNode = $sortedNodes->first();  // اولین node بعد از مرتب‌سازی به عنوان پیش‌فرض در نظر گرفته می‌شود
-        
+
             return [
                 'id' => (string) $product->id,
                 'image' => $product->img ?? '',
@@ -176,8 +176,8 @@ class FastOrderController extends Controller
                 }),
             ];
         });
-        
-        
+
+
 
         // برندها: گرفتن تمامی برندها از دیتابیس و تبدیل آن‌ها به فرمت مورد نیاز
         $brands = Brand::all()->map(function ($brand) {

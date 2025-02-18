@@ -418,7 +418,7 @@ Route::group([
     Route::get('/tickets/{id}', [SessionMessageController::class, 'getSessionDetails'])->middleware('auth:api');
     Route::post('/tickets/send', [SessionMessageController::class, 'sendMessage'])->middleware('auth:api');
 
-    Route::get('/product/related', [RelatedProductsController::class, 'showRelatedProducts'])->middleware('auth:api');
+    Route::post('/product/related', [RelatedProductsController::class, 'showRelatedProducts'])->middleware('auth:api');
 
     Route::post('/orders', [OrderController::class, 'index'])->middleware('auth:api');
     Route::post('/orders/{id}', [OrderController::class, 'getOrderResponse'])->middleware('auth:api');
