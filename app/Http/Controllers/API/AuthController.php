@@ -10,29 +10,38 @@ use Illuminate\Support\Carbon;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Http\Controllers\API\BaseController as BaseController;
 
 class AuthController extends BaseController
 {
 
-    public function register(Request $request)
+    public function register(Request $request): JsonResponse
     {
-        // اعتبارسنجی ورودی‌ها
-        // $validatedData = $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'family' => 'required|string|max:255',
-        //     'nationalCode' => 'required|string|size:10|unique:users,national_code',
-        //     'mobile' => 'required|string|regex:/^09\d{9}$/|unique:users,mobile',
-        // ]);
+        try {
+            // اعتبارسنجی ورودی‌ها
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:255',
+                'family' => 'required|string|max:255',
+                'nationalCode' => 'required|string|size:10|unique:users,national_code',
+                'mobile' => 'required|string|regex:/^09\d{9}$/|unique:users,mobile',
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'خطای اعتبارسنجی',
+                'errors' => $e->errors(), // ارسال خطاهای اعتبارسنجی به‌صورت آرایه
+            ], 422);
+        }
 
         // بررسی وجود کاربر با شماره موبایل یا کد ملی
-        $existingUser = User::where('mobile', $validatedData['mobile'])
-            ->orWhere('national_code', $validatedData['nationalCode'])
-            ->first();
-
-        if ($existingUser) {
+        if (User::where('mobile', $validatedData['mobile'])
+                ->orWhere('national_code', $validatedData['nationalCode'])
+                ->exists()) {
             return response()->json([
-                'error' => ["code"=>'این کاربر از قبل وجود دارد'],
+                'success' => false,
+                'message' => 'این کاربر از قبل وجود دارد',
             ], 400);
         }
 
@@ -42,15 +51,20 @@ class AuthController extends BaseController
             'last_name' => $validatedData['family'],
             'national_code' => $validatedData['nationalCode'],
             'mobile' => $validatedData['mobile'],
-            'password' => Hash::make('default_password'), // رمز عبور پیش‌فرض (در صورت نیاز)
+            'password' => Hash::make('default_password'), // رمز عبور پیش‌فرض
             'active' => 0,
         ]);
 
         return response()->json([
-            'message' => 'ok',
+            'success' => true,
+            'message' => 'ثبت‌نام با موفقیت انجام شد',
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->first_name . ' ' . $user->last_name,
+                'mobile' => $user->mobile,
+            ],
         ], 201);
     }
-
 
 
     public function verifyregister(Request $request)
