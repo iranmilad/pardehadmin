@@ -18,12 +18,12 @@ class AuthController extends BaseController
     public function register(Request $request)
     {
         // اعتبارسنجی ورودی‌ها
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'family' => 'required|string|max:255',
-            'nationalCode' => 'required|string|size:10|unique:users,national_code',
-            'mobile' => 'required|string|regex:/^09\d{9}$/|unique:users,mobile',
-        ]);
+        // $validatedData = $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'family' => 'required|string|max:255',
+        //     'nationalCode' => 'required|string|size:10|unique:users,national_code',
+        //     'mobile' => 'required|string|regex:/^09\d{9}$/|unique:users,mobile',
+        // ]);
 
         // بررسی وجود کاربر با شماره موبایل یا کد ملی
         $existingUser = User::where('mobile', $validatedData['mobile'])
