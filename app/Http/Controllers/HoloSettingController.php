@@ -48,6 +48,7 @@ class HoloSettingController extends Controller
 
     public function update(Request $request)
     {
+        // اعتبارسنجی ورودی
         $validatedData = $request->validate([
             'privateKey' => 'nullable|string',
             'publicKey' => 'nullable|string',
@@ -61,29 +62,47 @@ class HoloSettingController extends Controller
             'special_price_field' => 'nullable|integer',
             'wholesale_price_field' => 'nullable|integer',
             'product_stock_field' => 'nullable|integer',
-            'update_product_stock'  => 'nullable|integer',
+            'update_product_stock' => 'nullable|integer',
             'update_product_price' => 'nullable|integer',
             'update_product_name' => 'nullable|integer',
             'insert_new_product' => 'nullable|integer',
             'save_sale_invoice' => 'nullable|integer',
             'config.bank_accounts' => 'nullable|array',
-            'config.bank_accounts.*' => 'nullable|string', // شماره حساب‌ها به عنوان رشته ذخیره شوند
+            'config.bank_accounts.*' => 'nullable|string',
         ]);
 
+        \Log::info('Validated Data:', $validatedData);
+
         // دریافت تنظیمات قبلی
-        $setting = Setting::where('group', 'holo')->where('section', 'holo')->first();
-
-        // تنظیمات فعلی را نگه داشته و مقادیر جدید را جایگزین کنیم
-        $updatedSettings = array_merge($setting->settings ?? [], $validatedData);
-
-        // ذخیره تنظیمات به‌روز شده
-        Setting::updateOrCreate(
+        $setting = Setting::firstOrCreate(
             ['group' => 'holo', 'section' => 'holo'],
-            ['settings' => $updatedSettings]
+            ['settings' => []]
         );
+
+        // مقدار تنظیمات فعلی را با مقدار جدید ادغام کنیم
+        $updatedSettings = $setting->settings ?? [];
+
+        // مقادیر جدید را روی تنظیمات اعمال کنیم
+        foreach ($validatedData as $key => $value) {
+            $updatedSettings[$key] = $value;
+        }
+
+        // مقداردهی `bank_accounts`
+        if (isset($validatedData['config']['bank_accounts'])) {
+            $updatedSettings['bank_accounts'] = $validatedData['config']['bank_accounts'];
+        }
+
+        // ذخیره تنظیمات جدید در دیتابیس
+        $setting->update(['settings' => $updatedSettings]);
+
+        \Log::info('Updated Settings:', ['settings' => $setting->settings]);
+
+        cache()->forget('settings.holo');
 
         return redirect()->route('settings.holo.edit')->with('success', 'تنظیمات با موفقیت به‌روزرسانی شد.');
     }
+
+
 
 
     public function getAttribute(Request $request)
