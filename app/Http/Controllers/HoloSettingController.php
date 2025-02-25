@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Artisan;
 
 class HoloSettingController extends Controller
 {
@@ -93,5 +95,20 @@ class HoloSettingController extends Controller
     {
         app('App\Http\Controllers\API\Holo\ProductUpdateController')->updateAllProducts($request);
         return redirect()->route('settings.holo.edit')->with('success', 'درخواست ارسال شد.');
+    }
+
+    public function deleteJob(){
+
+            // حذف تمام jobهای موجود در جدول jobs
+            DB::table('jobs')->truncate();
+
+            // حذف تمام jobهای موجود در جدول failed_jobs
+            DB::table('failed_jobs')->truncate();
+
+            // اجرای دستور artisan برای حذف کش صف‌ها
+            Artisan::call('queue:flush');
+
+            return back()->with('success', 'تمام jobها با موفقیت حذف شدند.');
+
     }
 }

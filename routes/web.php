@@ -463,6 +463,7 @@ Route::group(['prefix' => 'services'], function () {
     Route::get('/holo/getCategory', [HoloSettingController::class, 'getCategory'])->name('settings.holo.getCategory')->middleware('check.permission:manage_third_party_services,write_own');
     Route::get('/holo/import-products', [HoloSettingController::class, 'importAllProducts'])->name('settings.holo.importAllProducts')->middleware('check.permission:manage_third_party_services,write_own');
     Route::get('/holo/update-products', [HoloSettingController::class, 'updateAllProducts'])->name('settings.holo.updateAllProducts')->middleware('check.permission:manage_third_party_services,write_own');
+    Route::get('/holo/deleteJob', [HoloSettingController::class, 'deleteJob'])->name('settings.holo.deleteJob')->middleware('check.permission:manage_third_party_services,write_own');
 
     Route::get('/sms', [SettingController::class, 'editSms'])->name("services.sms.edit")->middleware('check.permission:manage_third_party_services,write_own');
     Route::post('/update/sms', [SettingController::class, 'updateSms'])->name("services.update.sms")->middleware('check.permission:manage_third_party_services,write_own');

@@ -87,7 +87,7 @@
                 <a href="{{ route('settings.holo.getCategory') }}" class="btn btn-info">دریافت دسته بندی ها</a>
                 <a href="{{ route('settings.holo.importAllProducts') }}" class="btn btn-danger">دریافت همه کالاها</a>
                 <a href="{{ route('settings.holo.updateAllProducts') }}" class="btn btn-success">به روزرسانی همه کالاها</a>
-
+                <a href="{{ route('settings.holo.deleteJob') }}" class="btn btn-warning">پاک کردن عملیات برنامه ریزی شده</a>
             </div>
         </div>
     </div>
