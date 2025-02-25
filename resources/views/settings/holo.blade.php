@@ -87,7 +87,7 @@
                 <a href="{{ route('settings.holo.getCategory') }}" class="btn btn-info">دریافت دسته بندی ها</a>
                 <a href="{{ route('settings.holo.importAllProducts') }}" class="btn btn-danger">دریافت همه کالاها</a>
                 <a href="{{ route('settings.holo.updateAllProducts') }}" class="btn btn-success">به روزرسانی همه کالاها</a>
-                <a href="{{ route('settings.holo.deleteJob') }}" class="btn btn-warning">پاک کردن عملیات برنامه ریزی شده</a>
+                <a href="{{ route('settings.holo.deleteJob') }}" class="btn btn-danger">پاک کردن عملیات برنامه ریزی شده</a>
             </div>
         </div>
     </div>
@@ -182,6 +182,21 @@
                     </select>
                 </div>
             </div>
+
+            @foreach ($gateways as $gateway)
+                <div class="row mb-6">
+                    <label for="bank_account_{{ $gateway->id }}" class="required form-label">
+                        شماره حساب برای درگاه {{ $gateway->title }}
+                    </label>
+                    <input type="text" name="config[bank_accounts][{{ $gateway->id }}]"
+                        id="bank_account_{{ $gateway->id }}"
+                        class="form-control form-control-solid"
+                        placeholder="شماره حساب را وارد کنید"
+                        value="{{ old("config.bank_accounts.$gateway->id", $setting->settings['bank_accounts'][$gateway->id] ?? '') }}" />
+                </div>
+            @endforeach
+
+
         </div>
         <div class="card-footer d-flex justify-content-end py-6 px-9">
             <button type="submit" class="btn btn-primary" id="kt_account_profile_details_submit">ذخیره تغییرات</button>

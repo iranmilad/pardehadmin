@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gateway;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -37,16 +38,17 @@ class HoloSettingController extends Controller
                     'update_product_name' => 0,
                     'insert_new_product' => 0,
                     'save_sale_invoice' => 0,
+                    'bank_accounts' => [],
                 ],
             ]);
         }
-
-        return view('settings.holo', ['setting' => $setting]);
+        $gateways = Gateway::with('bankAccounts')->get();
+        return view('settings.holo', compact('setting', 'gateways'));
     }
 
     public function update(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'privateKey' => 'nullable|string',
             'publicKey' => 'nullable|string',
             'serial' => 'nullable|string',
@@ -59,20 +61,30 @@ class HoloSettingController extends Controller
             'special_price_field' => 'nullable|integer',
             'wholesale_price_field' => 'nullable|integer',
             'product_stock_field' => 'nullable|integer',
-            'update_product_stock'  =>'nullable|integer',
+            'update_product_stock'  => 'nullable|integer',
             'update_product_price' => 'nullable|integer',
             'update_product_name' => 'nullable|integer',
             'insert_new_product' => 'nullable|integer',
             'save_sale_invoice' => 'nullable|integer',
+            'config.bank_accounts' => 'nullable|array',
+            'config.bank_accounts.*' => 'nullable|string', // شماره حساب‌ها به عنوان رشته ذخیره شوند
         ]);
 
-        $setting = Setting::updateOrCreate(
+        // دریافت تنظیمات قبلی
+        $setting = Setting::where('group', 'holo')->where('section', 'holo')->first();
+
+        // تنظیمات فعلی را نگه داشته و مقادیر جدید را جایگزین کنیم
+        $updatedSettings = array_merge($setting->settings ?? [], $validatedData);
+
+        // ذخیره تنظیمات به‌روز شده
+        Setting::updateOrCreate(
             ['group' => 'holo', 'section' => 'holo'],
-            ['settings' => $request->except('_token')]
+            ['settings' => $updatedSettings]
         );
 
         return redirect()->route('settings.holo.edit')->with('success', 'تنظیمات با موفقیت به‌روزرسانی شد.');
     }
+
 
     public function getAttribute(Request $request)
     {
