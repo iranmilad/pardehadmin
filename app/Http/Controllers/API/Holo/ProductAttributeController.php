@@ -75,7 +75,7 @@ class ProductAttributeController extends Controller
 
     private function fetchPrivateKey($publicKey)
     {
-        $url = 'https://mng.holootech.ir/api/CloudServiceClientsControllers/GetPrivateKey';
+        $url = 'http://mng.holoo.cloud:85/api/CloudServiceClientsControllers/GetPrivateKey';
         $body = [
             'publicKey' => $publicKey,
         ];
@@ -99,7 +99,7 @@ class ProductAttributeController extends Controller
 
     private function getAttributesFromHolo($serial, $token)
     {
-        $url = 'https://apigw.holootech.ir/api/Product/GetProductAttributes';
+        $url = 'http://apigw.holoo.cloud:82/api/Product/GetProductAttributes';
         $headers = [
             'serial: ' . $serial,
             'Accept: text/plain',

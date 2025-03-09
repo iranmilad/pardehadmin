@@ -1,12 +1,14 @@
 <?php
 namespace App\Jobs;
 
+use Throwable;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Category;
 use App\Models\Property;
 use App\Models\Attribute;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Queue\SerializesModels;
 use App\Models\ProductAttributeProperty;
@@ -14,7 +16,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use App\Models\ProductAttributeCombination;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Support\Facades\Log;
 
 class ProcessProductPage implements ShouldQueue
 {
@@ -24,6 +25,8 @@ class ProcessProductPage implements ShouldQueue
     protected $serial;
     protected $token;
     protected $page;
+    public $timeout = 60;
+    public $tries = 1;
 
     public function __construct($url, $serial, $token, $page)
     {
@@ -33,24 +36,32 @@ class ProcessProductPage implements ShouldQueue
         $this->page = $page;
     }
 
+
     public function handle()
     {
-        $response = Http::withoutVerifying()->withHeaders([
-            'serial' => $this->serial,
-            'Accept' => 'text/plain',
-            'Token' => $this->token,
-            'isResponseOnWebhook' => 'false',
-        ])->get($this->url . '?page=' . $this->page . '&itemsPerPage=100&getAttributes=true');
+        try {
+            $response = Http::timeout($this->timeout)
+                ->withoutVerifying()
+                ->withHeaders([
+                    'serial' => $this->serial,
+                    'Accept' => 'text/plain',
+                    'Token' => $this->token,
+                    'isResponseOnWebhook' => 'false',
+                ])->get($this->url . '?page=' . $this->page . '&itemsPerPage=100&getAttributes=true');
 
-        if ($response->successful() && $response->json('Data.isSuccess')) {
-            $products = $response->json('Data.content.list', []);
-            foreach ($products as $product) {
-                if (!empty($product['attributeInfos'])) {
-                    $this->storeVariableProduct($product);
-                } else {
-                    $this->storeSimpleProduct($product);
+            if ($response->successful() && $response->json('Data.isSuccess')) {
+                $products = $response->json('Data.content.list', []);
+                foreach ($products as $product) {
+                    if (!empty($product['attributeInfos'])) {
+                        $this->storeVariableProduct($product);
+                    } else {
+                        $this->storeSimpleProduct($product);
+                    }
                 }
             }
+        } catch (Throwable $e) {
+            Log::error('Job Failed: ' . $e->getMessage());
+            $this->fail($e); // اگر Job خطا دهد، Fail می‌شود
         }
     }
 

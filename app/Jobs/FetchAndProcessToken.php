@@ -2,8 +2,10 @@
 
 namespace App\Jobs;
 
+use Throwable;
 use App\Models\Setting;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -13,7 +15,8 @@ use Illuminate\Foundation\Bus\Dispatchable;
 class FetchAndProcessToken implements ShouldQueue
 {
     use Dispatchable, Queueable, InteractsWithQueue, SerializesModels;
-
+    public $timeout = 60; // حداکثر زمان اجرای این جاب
+    public $tries = 1; // فقط یکبار اجرا شود، در صورت شکست تکرار نشود
     protected $settings;
 
     public function __construct($settings)
@@ -23,16 +26,20 @@ class FetchAndProcessToken implements ShouldQueue
 
     public function handle()
     {
-        $settings = $this->settings;
+        try {
+            $settings = $this->settings;
 
-        // بررسی یا دریافت توکن
-        $token = $this->ensureToken($settings);
-        if ($token) {
-            // اگر توکن موفقیت‌آمیز بود، درخواست محصول را ارسال می‌کنیم
-            $this->fetchProductData($settings, $token);
-        } else {
-            // اگر توکن در دسترس نیست، پیام خطا را می‌دهیم
-            logger()->error('Failed to fetch or validate token.');
+            // بررسی یا دریافت توکن
+            $token = $this->ensureToken($settings);
+            if ($token) {
+                // اگر توکن موفقیت‌آمیز بود، درخواست محصول را ارسال می‌کنیم
+                $this->fetchProductData($settings, $token);
+            } else {
+                throw new \Exception('Failed to fetch or validate token.');
+            }
+        } catch (Throwable $e) {
+            Log::error('FetchAndProcessToken Job failed: ' . $e->getMessage());
+            $this->fail($e); // این جاب را به عنوان fail ثبت می‌کند
         }
     }
 
@@ -71,49 +78,52 @@ class FetchAndProcessToken implements ShouldQueue
 
     private function fetchPrivateKey($publicKey)
     {
-        $url = 'https://mng.holootech.ir/api/CloudServiceClientsControllers/GetPrivateKey';
-        $body = [
-            'publicKey' => $publicKey,
-        ];
+        $url = 'http://mng.holoo.cloud:85/api/CloudServiceClientsControllers/GetPrivateKey';
+        $body = ['publicKey' => $publicKey];
 
-        $response = Http::withoutVerifying()->post($url, $body);
+        try {
+            $response = Http::timeout($this->timeout)->withoutVerifying()->post($url, $body);
 
-        if ($response->successful() && $response->json('Status')) {
-            $data = $response->json('Data', []);
-            return [
-                'success' => true,
-                'privateKey' => $data['privateKey'] ?? '',
-                'expirationDate' => $data['expirationDate'] ?? '',
-            ];
+            if ($response->successful() && $response->json('Status')) {
+                $data = $response->json('Data', []);
+                return [
+                    'success' => true,
+                    'privateKey' => $data['privateKey'] ?? '',
+                    'expirationDate' => $data['expirationDate'] ?? '',
+                ];
+            }
+
+            throw new \Exception($response->json('Message') ?? 'Unknown error');
+        } catch (Throwable $e) {
+            Log::error('Failed to fetch private key: ' . $e->getMessage());
+            return ['success' => false, 'message' => $e->getMessage()];
         }
-
-        return [
-            'success' => false,
-            'message' => $response->json('Message') ?? 'Unknown error',
-        ];
     }
 
     private function fetchProductData($settings, $token)
     {
-        $url = 'https://apigw.holootech.ir/api/Product/GetProduct';
-        $response = Http::withoutVerifying()->withHeaders([
-            'serial' => $settings['serial'],
-            'Accept' => 'text/plain',
-            'Token' => $token,
-            'isResponseOnWebhook' => 'false',
-        ])->get($url . '?page=1&itemsPerPage=100&getAttributes=true');
+        $url = 'http://apigw.holoo.cloud:82/api/Product/GetProduct';
 
-        if ($response->successful() && $response->json('Data.isSuccess')) {
-            $totalPages = $response->json('Data.content.totalPages');
+        try {
+            $response = Http::timeout($this->timeout)->withoutVerifying()->withHeaders([
+                'serial' => $settings['serial'],
+                'Accept' => 'text/plain',
+                'Token' => $token,
+                'isResponseOnWebhook' => 'false',
+            ])->get($url . '?page=1&itemsPerPage=100&getAttributes=true');
 
-            // صف‌بندی عملیات پردازش برای هر صفحه
-            for ($page = 1; $page <= $totalPages; $page++) {
+            if ($response->successful() && $response->json('Data.isSuccess')) {
+                $totalPages = $response->json('Data.content.totalPages');
 
-                ProcessProductPage::dispatch($url, $settings['serial'], $token, $page)->onQueue('default');
-
+                for ($page = 1; $page <= $totalPages; $page++) {
+                    ProcessProductPage::dispatch($url, $settings['serial'], $token, $page)->onQueue('default');
+                }
+            } else {
+                throw new \Exception('Failed to fetch product data.');
             }
-        } else {
-            logger()->error('Failed to fetch product data.');
+        } catch (Throwable $e) {
+            Log::error('Error fetching product data: ' . $e->getMessage());
+            $this->fail($e);
         }
     }
 }

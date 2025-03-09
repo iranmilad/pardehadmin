@@ -72,7 +72,7 @@ class UpdateProductsPage implements ShouldQueue
 
     private function fetchPrivateKey($publicKey)
     {
-        $url = 'https://mng.holootech.ir/api/CloudServiceClientsControllers/GetPrivateKey';
+        $url = 'http://mng.holoo.cloud:85/api/CloudServiceClientsControllers/GetPrivateKey';
         $body = [
             'publicKey' => $publicKey,
         ];
@@ -96,7 +96,7 @@ class UpdateProductsPage implements ShouldQueue
 
     private function fetchAndUpdateProducts($settings, $token)
     {
-        $url = 'https://apigw.holootech.ir/api/Product/GetProduct';
+        $url = 'http://apigw.holoo.cloud:82/api/Product/GetProduct';
         $response = Http::withoutVerifying()->withHeaders([
             'serial' => $settings['serial'],
             'Accept' => 'text/plain',
