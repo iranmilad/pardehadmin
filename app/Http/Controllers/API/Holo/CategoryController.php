@@ -73,7 +73,7 @@ class CategoryController extends Controller
 
     private function fetchPrivateKey($publicKey)
     {
-        $url = 'http://mng.holoo.cloud:85/api/CloudServiceClientsControllers/GetPrivateKey';
+        $url = 'http://mng.holoo.cloud/api/CloudServiceClientsControllers/GetPrivateKey';
         $body = [
             'publicKey' => $publicKey,
         ];
@@ -97,7 +97,7 @@ class CategoryController extends Controller
 
     private function getCategoriesFromHolo($serial, $token)
     {
-        $url = 'http://apigw.holoo.cloud:82/api/Product/GetSideGroup';
+        $url = 'http://apigw.holoo.cloud/api/Product/GetSideGroup';
         $headers = [
             'serial: ' . $serial,
             'Accept: text/plain',

@@ -78,7 +78,7 @@ class FetchAndProcessToken implements ShouldQueue
 
     private function fetchPrivateKey($publicKey)
     {
-        $url = 'http://mng.holoo.cloud:85/api/CloudServiceClientsControllers/GetPrivateKey';
+        $url = 'http://mng.holoo.cloud/api/CloudServiceClientsControllers/GetPrivateKey';
         $body = ['publicKey' => $publicKey];
 
         try {
@@ -102,7 +102,7 @@ class FetchAndProcessToken implements ShouldQueue
 
     private function fetchProductData($settings, $token)
     {
-        $url = 'http://apigw.holoo.cloud:82/api/Product/GetProduct';
+        $url = 'http://apigw.holoo.cloud/api/Product/GetProduct';
 
         try {
             $response = Http::timeout($this->timeout)->withoutVerifying()->withHeaders([

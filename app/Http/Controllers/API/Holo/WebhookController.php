@@ -101,7 +101,7 @@ class WebhookController extends Controller
 
     private function fetchPrivateKey($publicKey)
     {
-        $url = 'http://mng.holoo.cloud:85/api/CloudServiceClientsControllers/GetPrivateKey';
+        $url = 'http://mng.holoo.cloud/api/CloudServiceClientsControllers/GetPrivateKey';
         $body = [
             'publicKey' => $publicKey,
         ];
@@ -132,7 +132,7 @@ class WebhookController extends Controller
         $results = [];
         foreach ($productCodes as $code) {
             $code = explode('-', $code)[0];
-            $url = 'http://apigw.holoo.cloud:82/api/Product/GetProduct?code=' . urlencode($code) . '&getAttributes=true';
+            $url = 'http://apigw.holoo.cloud/api/Product/GetProduct?code=' . urlencode($code) . '&getAttributes=true';
             $headers = [
                 'serial: ' . $serial,
                 'Accept: text/plain',
