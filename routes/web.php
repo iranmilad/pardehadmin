@@ -447,6 +447,11 @@ Route::group(['prefix' => 'banners'], function () {
 Route::group(['prefix' => 'settings'], function () {
     Route::get('/create', [SettingController::class, 'create'])->name("settings.create")->middleware('check.permission:manage_settings,write_own');
     Route::post('/store', [SettingController::class, 'store'])->name("settings.store")->middleware('check.permission:manage_settings,write_own');
+    Route::get('/settingsMaintenance', [SettingController::class, 'settingsMaintenance'])->name("settings.maintenance")->middleware('check.permission:manage_settings,write_own');
+    Route::get('/clearAllCategory', [SettingController::class, 'clearAllCategory'])->name('settings.clearAllCategory');
+    Route::get('/clearAllAttribute', [SettingController::class, 'clearAllAttribute'])->name('settings.clearAllAttribute');
+    Route::get('/clearAllProducts', [SettingController::class, 'clearAllProducts'])->name('settings.clearAllProducts');
+
     Route::get('/{group}', [SettingController::class, 'edit'])->name("settings.edit")->middleware('check.permission:manage_settings,write_own');
     Route::post('/update/{group}', [SettingController::class, 'update'])->name("settings.update")->middleware('check.permission:manage_settings,write_own');
     Route::post('/delete', [SettingController::class, 'delete'])->name("settings.delete")->middleware('check.permission:manage_settings,write_own');

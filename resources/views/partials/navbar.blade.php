@@ -649,7 +649,7 @@
         </div>
         <!--end:Menu item-->
     @endif
-    <!--end:Menu item-->        
+    <!--end:Menu item-->
 
     <!--begin:Menu item-->
     @if(userHasPermission('manage_users'))
@@ -1163,7 +1163,7 @@
 		<!--end:Menu link-->
 	</div>
 	<!--end:Menu item-->
-    
+
     <!--begin:Menu item-->
     @if(userHasPermission('manage_customize'))
         <div class="menu-item">
@@ -1287,6 +1287,27 @@
                 <!--end:Menu item-->
             </div>
             <!--end:Menu sub-->
+
+            <!--begin:Menu sub-->
+            <div class="menu-sub menu-sub-accordion">
+                <!--begin:Menu item-->
+                @if(userHasPermission('manage_settings'))
+                    <div class="menu-item">
+                        <!--begin:Menu link-->
+                        <a class="menu-link {{ Route::is('settings.maintenance') ? 'active' : '' }}" href="{{ route('settings.maintenance') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">تعمیر و نگهداری</span>
+                        </a>
+                        <!--end:Menu link-->
+                    </div>
+                @endif
+                <!--end:Menu item-->
+            </div>
+            <!--end:Menu sub-->
+
+
         </div>
     @endif
     <!--end:Menu item-->

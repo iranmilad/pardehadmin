@@ -1,9 +1,14 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Setting;
+use App\Models\Category;
+use App\Models\Attribute;
 use Illuminate\Http\Request;
 use App\Traits\AuthorizeAccess;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Artisan;
 
 class SettingController extends Controller
 {
@@ -245,5 +250,58 @@ class SettingController extends Controller
         // ویو را با استفاده از مقادیر پیش‌فرض ارسال کنید
         return view($view, $defaultSettings);
     }
+
+    public function settingsMaintenance(){
+
+        return view('settingsMaintenance');
+    }
+
+
+    /**
+     * حذف تمام دسته‌بندی‌ها و زیردسته‌های آن‌ها
+     */
+    public function clearAllCategory()
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Category::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        return redirect()->back()->with('success', 'تمام دسته‌بندی‌ها با موفقیت حذف شدند.');
+    }
+
+    /**
+     * حذف تمام ویژگی‌ها و مقادیر مربوط به آن‌ها
+     */
+    public function clearAllAttribute()
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Attribute::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        return redirect()->back()->with('success', 'تمام ویژگی‌ها با موفقیت حذف شدند.');
+    }
+
+    /**
+     * حذف تمام محصولات و ترکیب‌های مربوطه
+     */
+    public function clearAllProducts()
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Product::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        return redirect()->back()->with('success', 'تمام محصولات با موفقیت حذف شدند.');
+    }
+
+    /**
+     * حذف تمام عملیات‌های برنامه‌ریزی شده (Job ها)
+     */
+    public function deleteJob()
+    {
+        Artisan::call('queue:clear');
+
+        return redirect()->back()->with('success', 'تمام عملیات‌های برنامه‌ریزی شده حذف شدند.');
+    }
+
 
 }
