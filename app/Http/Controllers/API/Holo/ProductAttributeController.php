@@ -141,27 +141,28 @@ class ProductAttributeController extends Controller
 
     private function storeAttributesAndProperties($attributes)
     {
-        foreach ($attributes as $attributeData) {
+        if($attributes)
+            foreach ($attributes as $attributeData) {
 
-            if ($attributeData['parentId'] === 0) {
-                // ذخیره ویژگی اصلی
-                $attribute = Attribute::firstOrCreate(
-                    ['name' => trim($attributeData['name']), 'independent' => 0],
-                    ['countable' => false, 'unit' => '', 'display_type' => 'options']
-                );
-            } else {
-                $attribute =  explode('/',$attributeData['treeName'])[0];
-                // پیدا کردن ویژگی والد
-                $parentAttribute = Attribute::where('name', trim($attribute))->first();
-
-                if ($parentAttribute) {
-                    // ذخیره خصوصیت
-                    Property::firstOrCreate(
-                        ['attribute_id' => $parentAttribute->id, 'value' => trim($attributeData['name'])],
-                        ['description' => trim($attributeData['name'])]
+                if ($attributeData['parentId'] === 0) {
+                    // ذخیره ویژگی اصلی
+                    $attribute = Attribute::firstOrCreate(
+                        ['name' => trim($attributeData['name']), 'independent' => 0],
+                        ['countable' => false, 'unit' => '', 'display_type' => 'options']
                     );
+                } else {
+                    $attribute =  explode('/',$attributeData['treeName'])[0];
+                    // پیدا کردن ویژگی والد
+                    $parentAttribute = Attribute::where('name', trim($attribute))->first();
+
+                    if ($parentAttribute) {
+                        // ذخیره خصوصیت
+                        Property::firstOrCreate(
+                            ['attribute_id' => $parentAttribute->id, 'value' => trim($attributeData['name'])],
+                            ['description' => trim($attributeData['name'])]
+                        );
+                    }
                 }
             }
-        }
     }
 }
