@@ -410,6 +410,8 @@ Route::group(['prefix' => 'orders'], function () {
     Route::put('/{order}/update-shipping-note', [OrderController::class, 'updateShippingNote'])->name('orders.updateShippingNote')->middleware('check.permission:manage_orders,write_own');
     Route::post('/{order}/add-product', [OrderController::class, 'addProduct'])->name('orders.addProduct')->middleware('check.permission:manage_orders,write_own');
     Route::post('/product-details/{id}/update', [OrderController::class, 'updateProductDetails'])->name('updateProductDetails')->middleware('check.permission:manage_orders,write_own');
+    Route::put('/orders/{id}/update-status', [OrderController::class, 'updateStatusAndDate'])->name('orders.updateStatus')->middleware('check.permission:manage_orders,write_own');
+
 });
 
 // Sliders Routes

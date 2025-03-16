@@ -408,10 +408,14 @@ class Product extends Model
             ->latest() // ترتیب نزولی بر اساس تاریخ
             ->take(12); // گرفتن 12 رکورد آخر
     }
-    
+
     public function productSuppliers()
     {
         return $this->hasMany(ProductSupplier::class);
-    }    
+    }
 
+    public function getImgAttribute($value)
+    {
+        return $value ?? asset('images/blank_image.jpg');
+    }
 }

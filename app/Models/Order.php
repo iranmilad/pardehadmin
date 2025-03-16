@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
+use App\Events\OrderCreated;
 use Morilog\Jalali\Jalalian;
+use PhpMonsters\Larapay\Payable;
+use App\Events\OrderStatusUpdated;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\Log;
-use App\Events\OrderCreated;
 
 class Order extends Model
 {
     use HasFactory;
-
     protected $fillable = [
 
         'customer_name',
@@ -36,17 +37,30 @@ class Order extends Model
         // اضافه کردن فیلد کد تخفیف
         'discount_code_id',
         'deliveryType',
+        'status'
     ];
 
     protected static function booted()
     {
         parent::booted();
-        static::created(function ($order) {
 
+        static::created(function ($order) {
             OrderCreated::dispatch($order);
         });
-    }
 
+        static::updating(function ($order) {
+            Log::info("🚀 Order updating triggered. Order ID: {$order->id}");
+
+            if ($order->isDirty('status')) {
+                $oldStatus = $order->getOriginal('status');
+                $newStatus = $order->status;
+
+                OrderStatusUpdated::dispatch($order, $oldStatus, $newStatus);
+            } else {
+                Log::info("ℹ️ Status did not change for Order ID: {$order->id}");
+            }
+        });
+    }
 
     public function user()
     {

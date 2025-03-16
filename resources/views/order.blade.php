@@ -21,25 +21,42 @@
     <div class="card-body">
         <div class="row">
             <div class="col-lg">
-                <div class="mb-5">
-                    <label class="form-label" for="date_time">تاریخ و زمان ایجاد</label>
-                    <input class="form-control form-control-solid" type="text" data-jdp id="date_time" value="{{ $order->created_at }}" readonly>
-                </div>
-                <div class="mb-5">
-                    <label class="form-label" for="status">وضعیت</label>
-                    <select class="form-select form-select-solid" data-placeholder="انتخاب وضعیت" data-control="select2" name="status" id="status" readonly>
-                        <option value="basket" {{ $order->status == 'basket' ? 'selected' : '' }}>سبد خرید</option>
-                        <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>در انتظار بررسی</option>
-                        <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>درحال بررسی</option>
-                        <option value="complete" {{ $order->status == 'complete' ? 'selected' : '' }}>انجام شده</option>
-                        <option value="cancel" {{ $order->status == 'cancel' ? 'selected' : '' }}>لغو شده</option>
-                        <option value="reject" {{ $order->status == 'reject' ? 'selected' : '' }}>رد شده</option>
-                    </select>
-                </div>
-                <div class="mb-5">
-                    <label class="form-label" for="customer">مشتری</label>
-                    <input class="form-control form-control-solid" type="text" id="customer" value="{{ $order->customer_name }}" readonly>
-                </div>
+                <form action="{{ route('orders.updateStatus', $order->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+
+
+                        <!-- تاریخ و زمان ایجاد -->
+                        <div class="mb-5">
+                            <label class="form-label" for="date_time">تاریخ و زمان ایجاد</label>
+                            <input class="form-control form-control-solid" name="created_at" type="text" data-jdp id="date_time" value="{{ $order->created_at }}" readonly>
+                        </div>
+
+                        <!-- وضعیت سفارش -->
+                        <div class="mb-5">
+                            <label class="form-label" for="status">وضعیت</label>
+                            <select class="form-select form-select-solid" name="status" id="status">
+                                <option value="basket" {{ $order->status == 'basket' ? 'selected' : '' }}>سبد خرید</option>
+                                <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>در انتظار بررسی</option>
+                                <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>درحال بررسی</option>
+                                <option value="complete" {{ $order->status == 'complete' ? 'selected' : '' }}>انجام شده</option>
+                                <option value="cancel" {{ $order->status == 'cancel' ? 'selected' : '' }}>لغو شده</option>
+                                <option value="reject" {{ $order->status == 'reject' ? 'selected' : '' }}>رد شده</option>
+                            </select>
+                        </div>
+
+                        <!-- اطلاعات مشتری -->
+                        <div class="mb-5">
+                            <label class="form-label" for="customer">مشتری</label>
+                            <input class="form-control form-control-solid" type="text" id="customer" value="{{ $order->customer_name }}" readonly>
+                        </div>
+
+                        <!-- دکمه ذخیره تغییرات -->
+                        <div class="mb-5">
+                            <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
+                        </div>
+
+                </form>
             </div>
             <div class="col-lg">
                 <div class="d-flex align-items-center justify-content-between">
@@ -98,91 +115,95 @@
             </thead>
             <tbody>
             @forelse ($order->orderItems as $item)
-                <tr>
-                    <td>
-                        <a href="{{ route('products.edit', ['id' => $item->product_id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">
-                            <img class="tw-size-16 tw-rounded-md" src="{{ $item->product->img }}" alt="">
-                            <span>{{ $item->product->title }}</span>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{{ route('products.edit', ['id' => $item->product_id]) }}">{{ $item->sale_price>0 ? $item->sale_price:$item->price }} تومان</a>
-                    </td>
-                    <td>
-                        <span>{{ $item->quantity }}</span>
-                    </td>
-                    <td>
-                        <span>{{ number_format($item->total) }} تومان</span>
-                    </td>
-                    <td>
-                        <button class="btn btn-sm btn-info" onclick="toggleDetails('details-{{ $item->id }}')">جزئیات</button>
-                    </td>
-                    <td class="text-end">
-                        <a href="{{ route('products.edit', ['id' => $item->product_id]) }}" class="btn btn-danger btn-sm">
-                            حذف
-                        </a>
-                    </td>
-                </tr>
-                <tr id="details-{{ $item->id }}" style="display:none;">
-                    <td colspan="6">
-                        <form id="product-details-{{ $item->id }}" action="{{ route('updateProductDetails', ['id' => $item->id]) }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="product_id" value="{{ $item->product_id }}">
+                @if (isset($item->product))
 
-                            @php
-                                $property = [];
-                                $selectedProperties = [];
 
-                                // دریافت ترکیبات ویژگی‌های آیتم سفارش با استفاده از متد getCombinationAttributesProperties
-                                $combinations = $item->getCombinationAttributesProperties();
+                    <tr>
+                        <td>
+                            <a href="{{ route('products.edit', ['id' => $item->product_id]) }}" class="text-gray-800 text-hover-primary fs-6 fw-bolder mb-1">
+                                <img class="tw-size-16 tw-rounded-md" src="{{ $item->product->img }}" alt="">
+                                <span>{{ $item->product->title }}</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ route('products.edit', ['id' => $item->product_id]) }}">{{ $item->sale_price>0 ? $item->sale_price:$item->price }} تومان</a>
+                        </td>
+                        <td>
+                            <span>{{ $item->quantity }}</span>
+                        </td>
+                        <td>
+                            <span>{{ number_format($item->total) }} تومان</span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-info" onclick="toggleDetails('details-{{ $item->id }}')">جزئیات</button>
+                        </td>
+                        <td class="text-end">
+                            <a href="{{ route('products.edit', ['id' => $item->product_id]) }}" class="btn btn-danger btn-sm">
+                                حذف
+                            </a>
+                        </td>
+                    </tr>
+                    <tr id="details-{{ $item->id }}" style="display:none;">
+                        <td colspan="6">
+                            <form id="product-details-{{ $item->id }}" action="{{ route('updateProductDetails', ['id' => $item->id]) }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $item->product_id }}">
 
-                                foreach($combinations as $combination) {
-                                    $property[$combination['attribute_id']][$combination['attribute_name']][] = $combination['property_id'];
-                                    // ذخیره ویژگی‌های انتخاب شده
-                                    $selectedProperties[$combination['attribute_id']] = ["property_value"=>$combination['property_value'],"property_id"=>$combination['property_id']];
-                                }
-                            @endphp
-                            @if ($property)
-                                @foreach ($property as $id => $attributes)
-                                    @foreach ($attributes as $attribute => $props)
-                                        <label class="form-label">{{ $attribute }}:
-                                            <select class="form-select" name="param[attribute][{{ $id }}]">
-                                                @foreach($props as $select)
-                                                    <option value="{{ $selectedProperties[$id]["property_id"] }}" {{ $selectedProperties[$id]["property_id"] == $select ? 'selected' : '' }}>{{ $selectedProperties[$id]["property_value"] }}</option>
-                                                @endforeach
-                                            </select>
-                                        </label>
+                                @php
+                                    $property = [];
+                                    $selectedProperties = [];
+
+                                    // دریافت ترکیبات ویژگی‌های آیتم سفارش با استفاده از متد getCombinationAttributesProperties
+                                    $combinations = $item->getCombinationAttributesProperties();
+
+                                    foreach($combinations as $combination) {
+                                        $property[$combination['attribute_id']][$combination['attribute_name']][] = $combination['property_id'];
+                                        // ذخیره ویژگی‌های انتخاب شده
+                                        $selectedProperties[$combination['attribute_id']] = ["property_value"=>$combination['property_value'],"property_id"=>$combination['property_id']];
+                                    }
+                                @endphp
+                                @if ($property)
+                                    @foreach ($property as $id => $attributes)
+                                        @foreach ($attributes as $attribute => $props)
+                                            <label class="form-label">{{ $attribute }}:
+                                                <select class="form-select" name="param[attribute][{{ $id }}]">
+                                                    @foreach($props as $select)
+                                                        <option value="{{ $selectedProperties[$id]["property_id"] }}" {{ $selectedProperties[$id]["property_id"] == $select ? 'selected' : '' }}>{{ $selectedProperties[$id]["property_value"] }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </label>
+                                        @endforeach
                                     @endforeach
-                                @endforeach
-                            @else
+                                @else
 
-                                @foreach ($item->product->attributes as $attribute)
+                                    @foreach ($item->product->attributes as $attribute)
 
-                                    @if ($attribute->independent != 1)
-                                        <label class="form-label">{{ $attribute->name }}:
-                                            <select class="form-select" name="param[attribute][{{ $attribute->id }}]">
-                                                @foreach($attribute->properties as $property)
-                                                    <option value="{{ $property->id }}">{{ $property->value }}</option>
-                                                @endforeach
-                                            </select>
-                                        </label>
-                                    @endif
-                                @endforeach
-                            @endif
+                                        @if ($attribute->independent != 1)
+                                            <label class="form-label">{{ $attribute->name }}:
+                                                <select class="form-select" name="param[attribute][{{ $attribute->id }}]">
+                                                    @foreach($attribute->properties as $property)
+                                                        <option value="{{ $property->id }}">{{ $property->value }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </label>
+                                        @endif
+                                    @endforeach
+                                @endif
 
-                            <label class="form-label">تعداد:
-                                <input type="number" class="form-control" name="quantity" value="{{ $item->quantity }}">
-                            </label>
+                                <label class="form-label">تعداد:
+                                    <input type="number" class="form-control" name="quantity" value="{{ $item->quantity }}">
+                                </label>
 
-                            <button type="button" class="btn btn-secondary editOptionsToggleOrder" data-clicked="false">ویرایش</button>
-                            <button class="btn btn-success" type="submit">ذخیره</button>
-                        </form>
-
+                                <button type="button" class="btn btn-secondary editOptionsToggleOrder" data-clicked="false">ویرایش</button>
+                                <button class="btn btn-success" type="submit">ذخیره</button>
+                            </form>
 
 
 
-                    </td>
-                </tr>
+
+                        </td>
+                    </tr>
+                @endif
             @empty
                 <tr><td>هیچ محصولی یافت نشد</td></tr>
             @endforelse

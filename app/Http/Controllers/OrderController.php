@@ -346,4 +346,46 @@ class OrderController extends Controller
 
 
 
+    public function updateStatusAndDate(Request $request, $id)
+    {
+        // یافتن سفارش
+        $order = Order::findOrFail($id);
+        $this->authorizeAction($order);
+
+        // اعتبارسنجی داده‌ها
+        $validated = $request->validate([
+            'status' => 'required|string|in:basket,pending,processing,complete,cancel,reject',
+            'created_at' => 'required|string', // مقدار تاریخ به‌صورت رشته از فرم ارسال می‌شود
+        ]);
+
+        $createdAtInput = $validated['created_at'];
+
+        // بررسی اینکه تاریخ در فرمت شمسی است (1300/xx/xx یا 1400/xx/xx)
+        if (preg_match('/^(13|14)\d{2}\/\d{2}\/\d{2} \d{2}:\d{2}$/', $createdAtInput)) {
+            try {
+                // تبدیل تاریخ شمسی به میلادی
+                $createdAtGregorian = Jalalian::fromFormat('Y/m/d H:i', $createdAtInput)->toCarbon();
+            } catch (\Exception $e) {
+                return redirect()->back()->withErrors(['created_at' => 'فرمت تاریخ شمسی وارد شده نادرست است.']);
+            }
+
+            // بروزرسانی وضعیت و تاریخ سفارش
+            $order->update([
+                'status' => $validated['status'],
+                'created_at' => $createdAtGregorian, // ذخیره تاریخ میلادی
+            ]);
+        } else {
+            // فقط وضعیت را بروزرسانی کن و تاریخ را تغییر نده
+            $order->update([
+                'status' => $validated['status'],
+            ]);
+        }
+
+        // بازگرداندن پیام موفقیت
+        return redirect()->route('orders.edit', $order->id)->with('success', 'وضعیت و تاریخ سفارش با موفقیت بروزرسانی شد.');
+    }
+
+
+
+
 }
