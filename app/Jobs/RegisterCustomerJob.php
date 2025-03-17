@@ -48,19 +48,19 @@ class RegisterCustomerJob implements ShouldQueue
                 "postalCode" => $this->order->shipping_postal_code,
                 "address" => $this->order->shipping_address,
                 "isLegal" => false,
-                "thirdPartyAccountCode": "",
-                "thirdPartyAccountId":0,
-                "isSeller": false,
-                "isBlocked": false,
-                "isBroker": false,
-                "isDebtor": false,
-                "nationalCode": "",
-                "economicCode": "",
-                "creditAmount": 0,
-                "phoneNumber": "",
-                "faxNumber": "",
-                "addressTitle": "",
-                "moreAddresses": []
+                "thirdPartyAccountCode" => "",
+                "thirdPartyAccountId" => 0,
+                "isSeller" => false,
+                "isBlocked" => false,
+                "isBroker" =>  false,
+                "isDebtor" =>  false,
+                "nationalCode" => "",
+                "economicCode" => "",
+                "creditAmount" =>  0,
+                "phoneNumber" => "",
+                "faxNumber"=> "",
+                "addressTitle"=> "",
+                "moreAddresses"=>[]
             ];
             $response = Http::timeout(60)->withoutVerifying()->withHeaders([
                 'serial' => $this->serial,
@@ -71,14 +71,14 @@ class RegisterCustomerJob implements ShouldQueue
                 'Accept' => 'text/plain',
                 'Token' => $this->privateKey,
             ])->post('http://apigw.holoo.cloud/api/Account/PostAccount', $customerData);
-            
+
             if ($response->successful()) {
                 Log::info("✅ مشتری با موفقیت ثبت شد: Order ID {$this->order->id}");
                 Log::info($response->body()); // مقدار response به درستی لاگ شود
             } else {
                 throw new \Exception("❌ خطا در ثبت مشتری: " . $response->body());
             }
-            
+
         } catch (\Throwable $e) {
             Log::error("⚠️ خطای غیرمنتظره در RegisterCustomerJob: " . $e->getMessage());
             $this->fail($e);
@@ -97,9 +97,9 @@ class RegisterCustomerJob implements ShouldQueue
             $body = [
                 'publicKey' => $publicKey,
             ];
-    
+
             $data = $this->sendCurlRequest($url, 'POST', $body);
-            
+
             if ($data['Status'] ?? false) {
                 if (isset($data['Data']['privateKey'], $data['Data']['expirationDate'])) {
                     $newprivateKey = $data['Data']['privateKey'];
@@ -108,7 +108,7 @@ class RegisterCustomerJob implements ShouldQueue
                     return $newprivateKey;
                 }
             }
-    
+
 
         } catch (\Throwable $e) {
             Log::error("⚠️ خطا در دریافت توکن جدید: " . $e->getMessage());
