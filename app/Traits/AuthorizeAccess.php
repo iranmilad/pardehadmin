@@ -122,7 +122,7 @@ trait AuthorizeAccess
 
 
         if ($this->hasAccess('write_all')) {
-            
+
         }
         elseif ($model->user) {
             // اگر مدل دارای رابطه‌ی user باشد

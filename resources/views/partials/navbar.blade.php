@@ -331,6 +331,23 @@
                     </div>
                 @endif
                 <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                @if(userHasPermission('manage_suppliers'))
+                    <div class="menu-item">
+                        <!--begin:Menu link-->
+                        <a class="menu-link {{ Route::is('suppliers.*') ? 'active' : '' }}" href="{{ route('suppliers.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">تأمین‌کنندگان</span>
+                        </a>
+                        <!--end:Menu link-->
+                    </div>
+                @endif
+                <!--end:Menu item-->
+
+
                 <!--begin:Menu item-->
                 @if(userHasPermission('manage_reviews'))
                     <div class="menu-item">

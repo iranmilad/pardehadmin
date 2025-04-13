@@ -399,9 +399,13 @@ Route::group([
     'middleware' => 'api',
 ], function ($router) {
 
+    Route::post('/sms/newsmscode', [AuthController::class, 'sendOtp']);
+    Route::post('/sms/verifysms', [AuthController::class, 'verifyOtp']);
+
+
     Route::post('/auth/login', [AuthController::class, 'verifyOtp']);
-    Route::post('/auth/sms', [AuthController::class, 'sendOtp']);
     Route::post('/auth/register', [AuthController::class, 'register']);
+    Route::get('/auth/verify-token', [AuthController::class, 'verifyToken']);
     Route::post('/auth/verifyregister', [AuthController::class, 'verifyregister']);
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
     Route::post('/refresh', [AuthController::class, 'refresh'])->middleware('auth:api');
@@ -423,10 +427,13 @@ Route::group([
     Route::post('/orders', [OrderController::class, 'index'])->middleware('auth:api');
     Route::post('/orders/{id}', [OrderController::class, 'getOrderResponse'])->middleware('auth:api');
     Route::post('/order-confirm/{id}', [OrderController::class, 'confirmOrder'])->middleware('auth:api');
+
     Route::post('/cart/update', [CartController::class, 'update'])->middleware('auth:api');
     Route::post('/cart/remove', [CartController::class, 'cartRemove'])->middleware('auth:api');
     Route::get('/cart', [CartController::class, 'index'])->middleware('auth:api');
     Route::get('/cartinfo', [CartController::class, 'cartInfo'])->middleware('auth:api');
+
+
     Route::get('/myaccount', [AccountController::class, 'myaccount'])->middleware('auth:api');
     Route::post('/upload/{sessionId}', [SessionMessageController::class, 'uploadImage'])->middleware('auth:api');
 

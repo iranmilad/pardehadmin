@@ -55,14 +55,21 @@ class AuthController extends BaseController
             'active' => 0,
         ]);
 
+        // تولید توکن JWT
+        try {
+            $token = JWTAuth::fromUser($user);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => ["code"=>'خطا در تولید توکن.'],
+                ], 500);
+        }
+
+        // Return JSON response with token
         return response()->json([
             'success' => true,
-            'message' => 'ثبت‌نام با موفقیت انجام شد',
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->first_name . ' ' . $user->last_name,
-                'mobile' => $user->mobile,
-            ],
+            'message' => 'User registered successfully',
+            "userId" => $user->id,
+            'token' => $token,
         ], 201);
     }
 
@@ -233,22 +240,20 @@ class AuthController extends BaseController
             'id' => $user->id,
             'name' => $user->first_name,
             'familyName' => $user->last_name,
-            'userTypeLabel' => $user->role->display_name,
-            'userType' => $user->role->title,
+            'roleLabel' => $user->role->display_name,
+            'role' => $user->role->title,
             'nationalCode' => $user->national_code,
             'mobile' => $user->mobile,
             'birthday' => $user->birthday ?? null, // پیش‌فرض اگر تاریخ تولد ثبت نشده باشد
             'email' => $user->email,
-            'status' => $user->active ? 'active' : 'deactive', // فرض بر این که `active` یک فیلد boolean است
+            'status' => $user->active
         ];
 
         return response()->json([
-            'message' => 'ok',
-            'data' => [
-                'user' => $userData,
-                'token' => $token,
-                'maxAge' => '2592000', // ۳۰ روز
-            ],
+            'message' => 'Login successful',
+            'user' => $userData,
+            'token' => $token,
+            'maxAge' => '2592000', // ۳۰ روز
         ]);
     }
 
@@ -274,7 +279,7 @@ class AuthController extends BaseController
         $otp = app()->environment('production') ? rand(1000, 9999) : 2020;
 
         // ذخیره OTP در دیتابیس
-        Otp::updateOrCreate(
+        $sms = Otp::updateOrCreate(
             ['phone_number' => $phoneNumber],
             [
                 'otp' => $otp,
@@ -285,10 +290,9 @@ class AuthController extends BaseController
         // اگر محیط production نباشد، از ارسال پیامک صرف‌نظر شود
         if (!app()->environment('production')) {
             return response()->json([
-                'message' => 'ok',
-                'data' => [
-                    'sms' => $otp, // بازگرداندن OTP در محیط توسعه برای تست
-                ],
+                'message' => 'SMS code generated successfully',
+                'smsId' => $sms->id ?? 1,
+                "smsCode" => $otp,
             ]);
         }
 
@@ -308,10 +312,9 @@ class AuthController extends BaseController
             ]);
 
             return response()->json([
-                'message' => 'ok',
-                'data' => [
-                    'sms' => $otp,
-                ],
+                'message' => 'SMS code generated successfully',
+                'smsId' => $sms->id ?? 1,
+                "smsCode" => $otp,
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -321,5 +324,45 @@ class AuthController extends BaseController
     }
 
 
+    public function verifyToken(Request $request)
+    {
+        try {
+            // دریافت توکن از درخواست
+            $token = JWTAuth::getToken();
 
+            if (!$token) {
+                return response()->json([
+                    'valid' => false,
+                    'message' => 'Token not provided',
+                ], 401);
+            }
+
+            // اعتبارسنجی توکن و دریافت اطلاعات کاربر
+            $payload = JWTAuth::getPayload($token);
+
+            return response()->json([
+                'valid' => true,
+                'user' => [
+                    'id' => $payload->get('sub'), // شناسه کاربر
+                    'role' => $payload->get('role'), // نقش کاربر (در صورت وجود در توکن)
+                    'exp' => $payload->get('exp'), // زمان انقضای توکن
+                ],
+            ]);
+        } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+            return response()->json([
+                'valid' => false,
+                'message' => 'Token has expired',
+            ], 401);
+        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+            return response()->json([
+                'valid' => false,
+                'message' => 'Token is invalid',
+            ], 401);
+        } catch (\Exception $e) {
+            return response()->json([
+                'valid' => false,
+                'message' => 'An error occurred while verifying the token',
+            ], 500);
+        }
+    }
 }

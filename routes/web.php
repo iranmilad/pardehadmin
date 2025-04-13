@@ -32,6 +32,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\PageViewController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\WorkTimeController;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\CodePieceController;
@@ -178,6 +179,16 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/edit/{id}', [AttributeItemController::class, 'edit'])->name("attribute.properties.edit")->middleware('check.permission:manage_attributes,write_own');
         Route::put('/update/{id}', [AttributeItemController::class, 'update'])->name("attribute.properties.update")->middleware('check.permission:manage_attributes,write_own');
         Route::post('/delete', [AttributeItemController::class, 'delete'])->name("attribute.properties.delete")->middleware('check.permission:manage_attributes,write_own');
+    });
+
+    // Product Suppliers Routes
+    Route::group(['prefix' => 'products/suppliers'], function () {
+        Route::get('/', [SupplierController::class, 'index'])->name("suppliers.index")->middleware('check.permission:manage_suppliers,read_own');
+        Route::get('/create', [SupplierController::class, 'create'])->name("suppliers.create")->middleware('check.permission:manage_suppliers,write_own');
+        Route::post('/store', [SupplierController::class, 'store'])->name("suppliers.store")->middleware('check.permission:manage_suppliers,write_own');
+        Route::get('/edit/{id}', [SupplierController::class, 'edit'])->name("suppliers.edit")->middleware('check.permission:manage_suppliers,write_own');
+        Route::put('/update/{id}', [SupplierController::class, 'update'])->name("suppliers.update")->middleware('check.permission:manage_suppliers,write_own');
+        Route::post('/delete', [SupplierController::class, 'delete'])->name("suppliers.delete")->middleware('check.permission:manage_suppliers,write_own');
     });
 
     // Product Routes

@@ -15,15 +15,9 @@ class Post extends Model
 
     public function categories()
     {
-        $categories = $this->belongsToMany(PostCategory::class, 'post_category_post', 'post_id', 'post_category_id')->get();
-
-        // اگر دسته‌بندی‌ای یافت نشد، یک دسته‌بندی پیش‌فرض بازگردانده شود
-        if ($categories->isEmpty()) {
-            return collect([PostCategory::first()]); // بازگرداندن اولین دسته‌بندی به عنوان پیش‌فرض
-        }
-
-        return $categories;
+        return $this->belongsToMany(PostCategory::class, 'post_category_post', 'post_id', 'post_category_id');
     }
+
 
     public function tags()
     {
