@@ -133,23 +133,7 @@
     </div>
     <button class="btn btn-primary mt-5" type="submit">ذخیره تغییرات</button>
 </form>
-<div class="card mt-5 mb-5 mb-xl-10">
-    <div class="card-header">
-        <h4 class="card-title">
-            عملیات برنامه ریزی شده
-        </h4>
-    </div>
-    <div class="card-body">
-        <div class="mb-10">
 
-            <a href="{{ route('settings.holo.getAttribute') }}" class="btn btn-info">دریافت ویژگی ها</a>
-            <a href="{{ route('settings.holo.getCategory') }}" class="btn btn-info">دریافت دسته بندی ها</a>
-            <a href="{{ route('settings.holo.importAllProducts') }}" class="btn btn-danger">دریافت همه کالاها</a>
-            <a href="{{ route('settings.holo.updateAllProducts') }}" class="btn btn-success">به روزرسانی همه کالاها</a>
-            <a href="{{ route('settings.holo.deleteJob') }}" class="btn btn-danger">پاک کردن عملیات برنامه ریزی شده</a>
-        </div>
-    </div>
-</div>
 @endsection
 
 @section('script-before')
