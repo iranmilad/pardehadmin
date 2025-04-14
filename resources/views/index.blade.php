@@ -3,7 +3,7 @@
 @section('title', 'پیشخوان')
 
 @section("toolbar")
-<form action="">
+{{-- <form action="">
     @csrf
     <input id="indexSortableValue" type="hidden" />
 
@@ -11,13 +11,13 @@
     <button type="button" class="btn btn-primary" id="sortButton">
         مرتب کردن
     </button>
-    
+
     <!-- دکمه‌های ذخیره و لغو -->
     <div class="d-none align-items-center tw-gap-2" id="actionButtons" style="display: none;">
         <button type="submit" class="btn btn-success">ذخیره</button>
         <a class="btn btn-danger" href="{{ route('index') }}">لغو</a>
     </div>
-</form>
+</form> --}}
 
 
 
