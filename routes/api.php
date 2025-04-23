@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\API\SellerProductController;
 use App\Http\Controllers\API\SessionMessageController;
 use App\Http\Controllers\API\SupplierReviewController;
+use App\Http\Controllers\API\Holo\WebhookOldController;
 use App\Http\Controllers\API\RelatedProductsController;
 
 
@@ -455,7 +456,7 @@ Route::group([
     Route::post('/page', [PageController::class, 'show']);
 });
 Route::post('/webhook', [WebhookController::class, 'handleWebhook']);
-
+Route::post('/webhookOld', [WebhookOldController::class, 'handleWebhook']);
 
 
 

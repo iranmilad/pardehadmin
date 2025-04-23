@@ -4,7 +4,7 @@
 @section('title', 'سفارش #'.$order->id)
 
 @section("toolbar")
-<div>
+<div class="d-none">
     <a href="#" class="btn btn-success">خروجی csv</a>
     <a href="{{route('orders.print',['id' =>  $order->id])}}" class="btn btn-info" target="_blank">پرینت</a>
 </div>

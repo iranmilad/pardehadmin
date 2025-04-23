@@ -87,10 +87,10 @@ class HoloSettingController extends Controller
             $updatedSettings[$key] = $value;
         }
 
-        // مقداردهی `bank_accounts`
-        if (isset($validatedData['config']['bank_accounts'])) {
-            $updatedSettings['bank_accounts'] = $validatedData['config']['bank_accounts'];
-        }
+        // // مقداردهی `bank_accounts`
+        // if (isset($validatedData['config']['bank_accounts'])) {
+        //     $updatedSettings['bank_accounts'] = $validatedData['config']['bank_accounts'];
+        // }
 
         // ذخیره تنظیمات جدید در دیتابیس
         $setting->update(['settings' => $updatedSettings]);

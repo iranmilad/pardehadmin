@@ -4,10 +4,11 @@ namespace App\Events;
 
 use App\Models\Order;
 use App\Models\Setting;
+use App\Jobs\RegisterInvoiceJob;
 use App\Jobs\RegisterCustomerJob;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Broadcasting\Channel;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -45,13 +46,23 @@ class OrderStatusUpdated
         $serial = $settings['serial'] ?? null;
         $privateKey = $this->ensureValidprivateKey($settings);
         $expirationDate = $settings['expirationDate'] ?? null;
+        $publicKey = $settings['publicKey'] ?? null;
+        $config =  $settings['config'] ?? null;
+
 
         if (!$privateKey) {
             Log::error("❌ توکن معتبر یافت نشد.");
             return;
         }
 
-        RegisterCustomerJob::dispatch($this->order, $serial, $privateKey, $expirationDate);
+        if($settings['save_sale_invoice']==1){
+            RegisterCustomerJob::dispatch($this->order, $serial, $privateKey,$publicKey,$config,$settings, $expirationDate);
+            RegisterInvoiceJob::dispatch($this->order, $serial, $privateKey,$publicKey,$config,$settings, $expirationDate);
+        }
+        elseif($settings['save_sale_invoice']==2){
+            RegisterInvoiceJob::dispatch($this->order, $serial, $privateKey,$publicKey,$config,$settings, $expirationDate);
+        }
+
     }
 
     private function getUserSettings()

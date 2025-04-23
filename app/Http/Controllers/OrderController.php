@@ -276,7 +276,7 @@ class OrderController extends Controller
         $newQuantity = $request->input('quantity');
         $attributes = $request->input('param.attribute');
 
-        // پیدا کردن ترکیب ویژگی‌ها با استفاده از متد findCombinationByAttributes
+        // پیدا کردن ترکیب ویژگی‌ها
         $combination = $orderItem->findCombinationByAttributes($attributes);
 
         if (!$combination) {
@@ -287,23 +287,19 @@ class OrderController extends Controller
         $quantityDifference = $newQuantity - $oldQuantity;
 
         // بررسی موجودی بر اساس تغییرات تعداد
-        if ($quantityDifference > 0) {
-            if ($combination->stock_quantity < $quantityDifference) {
-                return back()->withErrors(['message' => "مقدار موجودی ترکیب ویژگی فعلی تنها {$combination->stock_quantity} است."]);
-            }
+        if ($quantityDifference > 0 && $combination->stock_quantity < $quantityDifference) {
+            return back()->withErrors(['message' => "مقدار موجودی ترکیب ویژگی فعلی تنها {$combination->stock_quantity} است."]);
         }
 
-        // به روز رسانی آیتم سفارش با ترکیب ویژگی جدید
-        $orderItem->combinations()->sync([$combination->id]);
+        // به‌روزرسانی فیلدهای آیتم سفارش
+        $orderItem->combination_id = $combination->id;
         $orderItem->quantity = $newQuantity;
-
-        // به روز رسانی قیمت‌ها
         $orderItem->price = $combination->price;
         $orderItem->sale_price = $combination->sale_price;
         $orderItem->total = $combination->sale_price * $newQuantity;
         $orderItem->save();
 
-        // به روز رسانی موجودی ترکیب ویژگی
+        // به‌روزرسانی موجودی ترکیب ویژگی
         if ($quantityDifference > 0) {
             $combination->stock_quantity -= $quantityDifference;
         } else {
@@ -313,6 +309,7 @@ class OrderController extends Controller
 
         return back()->with('success', 'ویژگی‌های محصول با موفقیت به‌روزرسانی شد.');
     }
+
 
     public function addProduct(Request $request, $orderId)
     {

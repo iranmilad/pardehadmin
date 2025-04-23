@@ -157,226 +157,206 @@ class Order extends Model
 
     public function basket()
     {
-        $status = [];
-        $cartCount = 0; // Initialize cart count
-        $totalPrice = 0; // Initialize total price
-        $availableCreditPlan = 0;
-        $items = []; // Initialize cart items array
-        $summedAmounts = [];
-        $totalDiscount = 0; // Initialize total discount
-        $totalTime = 0; // Initialize total time
         $order = $this;
-
-        if ($order) {
-            $cartItems = $order->orderItems;
-
-            // بررسی و اعمال کد تخفیف
-            $discountCode = $order->discountCode; // دریافت کد تخفیف مربوط به سفارش
-
-            // لیست محصولات مجاز و غیر مجاز برای کد تخفیف
-            $allowedProducts = $discountCode ? $discountCode->allowedProducts->pluck('id')->toArray() : [];
-
-            foreach ($cartItems as $cartItem) {
-                $totalAttributePrice = 0;
-                $totalAttributeSalePrice = 0;
-
-                $product = $cartItem->product;
-                $status[] = $cartItem->status;
-
-                if ($product) {
-                    $review = $order->user->existsProductReview($product->id);
-                    $attributeCombinations = $cartItem->combinations; // دریافت ترکیبات ویژگی‌ها از متد combinations
-                    $attributeCombinationsID = $attributeCombinations[0]->id ?? null;
-                    $quantity = $cartItem->quantity;
-                    if ($product->minimum_quantity == "quantity") {
-                        $cartCount += $quantity;
-                    } else {
-                        $cartCount += 1;
-                    }
-
-                    $attributeNames = [];
-                    $options = [];
-                    $optionsFull = [];
-
-                    $timePerUnit = 0; // Initialize time per unit for current item
-
-                    foreach ($attributeCombinations as $attributeCombination) {
-
-                        $priceAttr = $attributeCombination->sale_price ?? $attributeCombination->price;
-                        $totalAttributePrice += $priceAttr;
-                        foreach ($attributeCombination->attributeProperties as $attributeProperty) {
-                            if (!is_null($attributeProperty->attribute->name)) {
-                                $attributeNames[] = $attributeProperty->attribute->name;
-                                $options[] = [$attributeProperty->attribute->name => $attributeProperty->property->value];
-                                $optionsFull[] = [
-                                    "attributeID"=>$attributeProperty->attribute->id,
-                                    "propertyID"=>$attributeProperty->property->id,
-                                    "propertyName"=>$attributeProperty->property->value,
-                                    "attributeName"=>$attributeProperty->attribute->name,
-                                ];
-                            }
-                        }
-
-                        // جمع زمان هر واحد برای این ترکیب
-                        $timePerUnit += $attributeCombination->time_per_unit ?? 0;
-                    }
-
-                    // محاسبه زمان کل برای این آیتم
-                    $timeTotal = $timePerUnit * $quantity;
-                    $totalTime += $timeTotal;
-
-                    $totalPrice += $cartItem->total * $quantity;
-
-                    // محاسبه تخفیف بر اساس نوع کد تخفیف
-                    if ($discountCode) {
-                        $applyDiscount = false;
-
-                        // بررسی اینکه محصول جزو محصولات مجاز است
-                        if (!empty($allowedProducts) && in_array($product->id, $allowedProducts) || empty($allowedProducts)) {
-                            $applyDiscount = true;
-                        }
-
-                        // محاسبه تخفیف بر اساس نوع تخفیف
-                        if ($applyDiscount) {
-                            switch ($discountCode->discount_type) {
-                                case 'percentage_cart':
-                                    // تخفیف درصدی روی کل سبد خرید
-                                    $totalDiscount += $totalPrice * ($discountCode->discount_amount / 100);
-                                    break;
-
-                                case 'percentage_product':
-                                    // تخفیف درصدی روی محصولات خاص
-                                    $totalDiscount += $cartItem->total * ($discountCode->discount_amount / 100) * $quantity;
-                                    break;
-
-                                case 'fixed_cart':
-                                    // تخفیف ثابت روی کل سبد خرید (برای کل سبد تنها یکبار تخفیف اعمال می‌شود)
-                                    $totalDiscount = $discountCode->discount_amount; // فقط یکبار اعمال می‌شود
-                                    break;
-
-                                case 'fixed_product':
-                                    // تخفیف ثابت روی محصولات خاص
-                                    $totalDiscount += $discountCode->discount_amount * $quantity; // تخفیف ثابت برای هر واحد محصول
-                                    break;
-                            }
-                        }
-                    }
-
-                    $credit = $product->creditInstallmentTimeline($cartItem->total);
-                    $productTimeline = $credit->timeline;
-
-                    foreach ($productTimeline as $key => $value) {
-                        if (isset($summedAmounts[$key])) {
-                            $summedAmounts[$key] += $value->amount;
-                        } else {
-                            $summedAmounts[$key] = $value->amount;
-                        }
-                    }
-
-                    $availableCreditPlan += $credit->totalCredit;
-
-                    $supplier = $cartItem->supplier;
-                    if($supplier)
-                        $supplier = [
-                            "id" => $supplier->id,
-                            "label" => $supplier->name,
-                        ];
-                    else
-                        $supplier = null;
-
-
-                    $items[] = (object)[
-                        "id" => $cartItem->id,
-                        "product_id" => $product->id,
-                        "name" => $product->title,
-                        "img" => $product->img,
-                        "link" => $product->link,
-                        "price" => $cartItem->price,
-                        "sale_price" => $cartItem->sale_price,
-                        "discountPercentage" => $product->discountPercentage,
-                        "review" => $review,
-                        "status" => $cartItem->status,
-                        'options' => $options,
-                        "optionsFull" => $optionsFull,
-                        "quantity" => $quantity,
-                        "combination"=> $attributeCombinationsID,
-                        "attribute" => $attributeNames,
-                        "credit" => $credit,
-                        "service" => $product->service,
-                        "services" => (object)[
-                            "sewing" => $product->services()->where('type', 'sewing')->first(),
-                            "installer" => $product->services()->where('type', 'installer')->first(),
-                            "design" => $product->services()->where('type', 'design')->first(),
-                        ],
-                        "installer" => $cartItem->installer ?? null,
-                        "sewing" => $cartItem->sewing ?? null,
-                        "design" => $cartItem->design ?? null,
-                        "total" => $cartItem->total,
-                        "time_per_unit" => $timePerUnit, // زمان هر واحد
-                        "time_total" => $timeTotal, // زمان کل
-                        "supplier" => $supplier, //
+    
+        $summary = [
+            'count' => 0,
+            'totalPrice' => 0,
+            'totalDiscount' => 0,
+            'totalTime' => 0,
+            'availableCreditPlan' => 0,
+            'availableCheck' => 0,
+            'deliveryCost' => 0,
+        ];
+    
+        $items = [];
+        $summedAmounts = [];
+        $statusList = [];
+    
+        if (!$order) {
+            return $this->emptyBasket();
+        }
+    
+        $cartItems = $order->orderItems;
+        $discountCode = $order->discountCode;
+        $allowedProducts = $discountCode ? $discountCode->allowedProducts->pluck('id')->toArray() : [];
+    
+        foreach ($cartItems as $cartItem) {
+            $product = $cartItem->product;
+    
+            if (!$product) {
+                continue;
+            }
+    
+            $combination = $cartItem->combination;
+            $attributeCombinationsID = $combination?->id;
+            $quantity = $cartItem->quantity;
+            $timePerUnit = 0;
+            $attributeNames = [];
+            $options = [];
+            $optionsFull = [];
+            $totalAttributePrice = 0;
+            
+            if ($combination) {
+                $priceAttr = $combination->sale_price ?? $combination->price;
+                $totalAttributePrice += $priceAttr;
+                $timePerUnit += $combination->time_per_unit ?? 0;
+            
+                foreach ($combination->attributeProperties as $property) {
+                    $attributeNames[] = $property->attribute->name;
+                    $options[] = [$property->attribute->name => $property->property->value];
+                    $optionsFull[] = [
+                        "attributeID" => $property->attribute->id,
+                        "propertyID" => $property->property->id,
+                        "propertyName" => $property->property->value,
+                        "attributeName" => $property->attribute->name,
                     ];
                 }
             }
+            
+    
+            $timeTotal = $timePerUnit * $quantity;
+            $summary['totalTime'] += $timeTotal;
+    
+            // جمع تعداد
+            $summary['count'] += ($product->minimum_quantity == "quantity") ? $quantity : 1;
+    
+            // جمع قیمت
+            $summary['totalPrice'] += $cartItem->total; // ✅ فقط یک بار جمع بشه
 
-            $totalTimeline = $this->calculateDueDates($summedAmounts);
-            $availableCreditPlan = ($order->paymentMethod == 'credit') ? $availableCreditPlan : 0;
-            $availableCheck = ($order->paymentMethod == 'check') ? $order->getTotalUnpaidChecksAmount() : 0;
-            $deliveryCost = $this->deliveryCost($order);
-
-            // محاسبه مبلغ نهایی قابل پرداخت با در نظر گرفتن تخفیف
-            $totalPayed = $totalPrice + $deliveryCost - $availableCreditPlan - $availableCheck - $totalDiscount;
-
-            $orders = (object)[
-                "cart" => (object)[
-                    "id" => $order->id,
-                    "count" => $cartCount,
-                    "status" => $status,
-                    "orderStatus" => $order->status,
-                    "total" => number_format($totalPrice),
-                    'deliveryType' => $order->deliveryType,
-                    'discount_amount' => number_format($totalDiscount), // نمایش مبلغ تخفیف
-                    'paymentMethod' => $order->paymentMethod,
-                    'deliveryCost' => number_format($deliveryCost),
-                    'availableCreditPlan' => number_format($availableCreditPlan),
-                    "availableCheck" => number_format($availableCheck),
-                    'totalTimeline' => $totalTimeline,
-                    'totalCheckTimeline' => $order->checks,
-                    'createdAtDate' => $this->gregorianToJalalian($order->created_at_date),
-                    "totalPayed" => number_format($totalPayed), // نمایش مبلغ نهایی قابل پرداخت
-                    'totalTime' => number_format($totalTime), // نمایش زمان کل
-                    'tax' => 0 ,
-                    'time_delivery' => round($totalTime/24)+2,
+    
+            // تخفیف
+            if ($discountCode && (empty($allowedProducts) || in_array($product->id, $allowedProducts))) {
+                $summary['totalDiscount'] += $this->calculateItemDiscount($cartItem, $quantity, $discountCode);
+            }
+    
+            // اقساط
+            $credit = $product->creditInstallmentTimeline($cartItem->total);
+            foreach ($credit->timeline as $key => $value) {
+                $summedAmounts[$key] = ($summedAmounts[$key] ?? 0) + $value->amount;
+            }
+            $summary['availableCreditPlan'] += $credit->totalCredit;
+    
+            // تأمین‌کننده
+            $supplier = $cartItem->supplier;
+            $supplierData = $supplier ? ["id" => $supplier->id, "label" => $supplier->name] : null;
+    
+            // بررسی نظر کاربر
+            $review = $order->user->existsProductReview($product->id);
+    
+            $items[] = (object)[
+                "id" => $cartItem->id,
+                "product_id" => $product->id,
+                "name" => $product->title,
+                "img" => $product->img,
+                "link" => $product->link,
+                "price" => $cartItem->price,
+                "sale_price" => $cartItem->sale_price,
+                "discountPercentage" => $product->discountPercentage,
+                "review" => $review,
+                "status" => $cartItem->status,
+                "options" => $options,
+                "optionsFull" => $optionsFull,
+                "quantity" => $quantity,
+                "combination" => $attributeCombinationsID,
+                "attribute" => $attributeNames,
+                "credit" => $credit,
+                "service" => $product->service,
+                "services" => (object)[
+                    "sewing" => $product->services()->where('type', 'sewing')->first(),
+                    "installer" => $product->services()->where('type', 'installer')->first(),
+                    "design" => $product->services()->where('type', 'design')->first(),
                 ],
-                "items" => $items,
+                "installer" => $cartItem->installer ?? null,
+                "sewing" => $cartItem->sewing ?? null,
+                "design" => $cartItem->design ?? null,
+                "total" => $cartItem->total,
+                "time_per_unit" => $timePerUnit,
+                "time_total" => $timeTotal,
+                "supplier" => $supplierData,
             ];
-        } else {
-            $orders = (object)[
-                "cart" => (object)[
-                    "count" => $cartCount,
-                    "status" => [],
-                    "orderStatus" => $order->status,
-                    "total" => 0,
-                    'deliveryType' => 'cash',
-                    'discount_amount' => 0,
-                    'paymentMethod' => 'cash',
-                    'deliveryCost' => 0,
-                    'availableCreditPlan' => 0,
-                    "availableCheck" => 0,
-                    'totalTimeline' => [],
-                    'totalCheckTimeline' => [],
-                    'createdAtDate' => '',
-                    "totalPayed" => 0,
-                    'totalTime' => 0, // زمان کل
-                    'tax' => 0 ,
-                    'time_delivery' => 2,
-                ],
-                "items" => [],
-            ];
+    
+            $statusList[] = $cartItem->status;
         }
-
-        return $orders;
+    
+        $summary['deliveryCost'] = $this->deliveryCost($order);
+        $summary['availableCreditPlan'] = $order->paymentMethod == 'credit' ? $summary['availableCreditPlan'] : 0;
+        $summary['availableCheck'] = $order->paymentMethod == 'check' ? $order->getTotalUnpaidChecksAmount() : 0;
+    
+        $totalTimeline = $this->calculateDueDates($summedAmounts);
+        $totalPayed = $summary['totalPrice'] + $summary['deliveryCost'] - $summary['availableCreditPlan'] - $summary['availableCheck'] - $summary['totalDiscount'];
+    
+        return (object)[
+            "cart" => (object)[
+                "id" => $order->id,
+                "count" => $summary['count'],
+                "status" => $statusList,
+                "orderStatus" => $order->status,
+                "total" => number_format($summary['totalPrice']),
+                "deliveryType" => $order->deliveryType,
+                "discount_amount" => number_format($summary['totalDiscount']),
+                "paymentMethod" => $order->paymentMethod,
+                "deliveryCost" => number_format($summary['deliveryCost']),
+                "availableCreditPlan" => number_format($summary['availableCreditPlan']),
+                "availableCheck" => number_format($summary['availableCheck']),
+                "totalTimeline" => $totalTimeline,
+                "totalCheckTimeline" => $order->checks,
+                "createdAtDate" => $this->gregorianToJalalian($order->created_at_date),
+                "totalPayed" => number_format($totalPayed),
+                "totalTime" => number_format($summary['totalTime']),
+                "tax" => 0,
+                "time_delivery" => round($summary['totalTime'] / 24) + 2,
+            ],
+            "items" => $items,
+        ];
     }
+    
+    private function emptyBasket()
+    {
+        return (object)[
+            "cart" => (object)[
+                "count" => 0,
+                "status" => [],
+                "orderStatus" => null,
+                "total" => 0,
+                "deliveryType" => 'cash',
+                "discount_amount" => 0,
+                "paymentMethod" => 'cash',
+                "deliveryCost" => 0,
+                "availableCreditPlan" => 0,
+                "availableCheck" => 0,
+                "totalTimeline" => [],
+                "totalCheckTimeline" => [],
+                "createdAtDate" => '',
+                "totalPayed" => 0,
+                "totalTime" => 0,
+                "tax" => 0,
+                "time_delivery" => 2,
+            ],
+            "items" => [],
+        ];
+    }
+    
+    private function calculateItemDiscount($item, $quantity, $discountCode)
+    {
+        switch ($discountCode->discount_type) {
+            case 'percentage_cart':
+                return $item->total * ($discountCode->discount_amount / 100) * $quantity;
+    
+            case 'percentage_product':
+                return $item->total * ($discountCode->discount_amount / 100) * $quantity;
+    
+            case 'fixed_cart':
+                return $discountCode->discount_amount;
+    
+            case 'fixed_product':
+                return $discountCode->discount_amount * $quantity;
+    
+            default:
+                return 0;
+        }
+    }
+    
 
 
     public function percentOfFinishedItem()

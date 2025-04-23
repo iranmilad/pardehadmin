@@ -179,6 +179,7 @@
                         <option></option>
                         <option value="0" @if(old('save_sale_invoice', $setting->settings['save_sale_invoice'] ?? null) == '0') selected @endif>غیر فعال</option>
                         <option value="1" @if(old('save_sale_invoice', $setting->settings['save_sale_invoice'] ?? null) == '1') selected @endif>ثبت به صورت خودکار</option>
+                        <option value="2" @if(old('save_sale_invoice', $setting->settings['save_sale_invoice'] ?? null) == '2') selected @endif>ثبت به صورت مشتری انلاین</option>
                     </select>
                 </div>
             </div>
@@ -192,7 +193,7 @@
                         id="bank_account_{{ $gateway->id }}"
                         class="form-control form-control-solid"
                         placeholder="شماره حساب را وارد کنید"
-                        value="{{ old("config.bank_accounts.$gateway->id", $setting->settings['bank_accounts'][$gateway->id] ?? '') }}" />
+                        value="{{ old("config.bank_accounts.$gateway->id", $setting->settings['config']['bank_accounts'][$gateway->id] ?? '') }}" />
                 </div>
             @endforeach
 

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Models\OrderItemCombination;
+
 use App\Models\Product;
 use App\Models\ProductAttributeCombination;
 use App\Models\Supplier;
@@ -19,113 +19,79 @@ class CartController extends Controller
         $request->validate([
             'productId' => 'required|integer|exists:products,id',
             'count' => 'required|integer|min:1',
-            'attributes' => 'nullable|array',
+            'combinationsID' => 'nullable|integer|exists:product_attribute_combinations,id',
             'seller' => 'nullable|integer|exists:suppliers,id',
         ]);
 
         $user = Auth::user();
 
-        // پیدا کردن آخرین سفارش در وضعیت basket
+        // گرفتن یا ساختن سفارش سبد خرید
         $order = Order::firstOrCreate([
             'user_id' => $user->id,
             'status' => 'basket',
         ]);
 
-        // دریافت محصول
         $product = Product::findOrFail($request->productId);
-
-        // بررسی تأمین‌کننده (اگر مقدار داشت)
         $supplier = $request->seller ? Supplier::find($request->seller) : null;
-        $combination = ProductAttributeCombination::find($request->combinationsID);
+        $combination = $request->combinationsID ? ProductAttributeCombination::find($request->combinationsID) : null;
 
-        // بررسی وجود آیتم مشابه در سبد خرید
-        $orderItem = null;
+        // جستجوی آیتم موجود در سبد خرید
+        $orderItemQuery = OrderItem::where('order_id', $order->id)
+            ->where('product_id', $product->id)
+            ->where('supplier_id', $supplier ? $supplier->id : null);
 
         if ($combination) {
-            // اگر ترکیب محصول وجود داشت
-            $orderItem = OrderItem::where('order_id', $order->id)
-                ->where('product_id', $product->id)
-                ->where('supplier_id', $supplier ? $supplier->id : null)
-                ->whereHas('combinations', function ($query) use ($combination) {
-                    $query->where('combination_id', $combination->id);
-                })
-                ->first();
-
-            // اگر آیتم مشابه پیدا شد، تعداد آن را به‌روز می‌کنیم
-            if ($orderItem) {
-                $orderItem->quantity = $request->count;
-                $orderItem->total = $orderItem->quantity * ($combination->sale_price ?? $combination->price);
-                $orderItem->save();
-            } else {
-                // اگر آیتم مشابه پیدا نشد، آیتم جدید ایجاد می‌کنیم
-                $orderItem = OrderItem::create([
-                    'id' => rand(1111111, 9999999),
-                    'order_id' => $order->id,
-                    'product_id' => $product->id,
-                    'quantity' => $request->count,
-                    'price' => $combination->price,
-                    'sale_price' => $combination->sale_price,
-                    'total' => $request->count * ($combination->sale_price ?? $combination->price),
-                    'status' => 'waiting',
-                    'supplier_id' => $supplier ? $supplier->id : null,
-                ]);
-
-                // ثبت ترکیب محصول در جدول میانی
-                OrderItemCombination::create([
-                    'order_item_id' => $orderItem->id,
-                    'combination_id' => $combination->id,
-                ]);
-            }
-        }
-        else {
-            // اگر ترکیب محصول وجود نداشت
-            $orderItem = OrderItem::where('order_id', $order->id)
-                ->where('product_id', $product->id)
-                ->where('supplier_id', $supplier ? $supplier->id : null)
-                ->first();
-
-            // اگر آیتم مشابه پیدا شد، تعداد آن را به‌روز می‌کنیم
-            if ($orderItem) {
-                $orderItem->quantity += $request->count;
-                $orderItem->total = $orderItem->quantity * ($product->sale_price ?? $product->price);
-                $orderItem->save();
-            } else {
-                // اگر آیتم مشابه پیدا نشد، آیتم جدید ایجاد می‌کنیم
-                $orderItem = OrderItem::create([
-                    'id' => rand(1111111, 9999999),
-                    'order_id' => $order->id,
-                    'product_id' => $product->id,
-                    'quantity' => $request->count,
-                    'price' => $product->price,
-                    'sale_price' => $product->sale_price,
-                    'total' => $request->count * ($product->sale_price ?? $product->price),
-                    'status' => 'waiting',
-                    'supplier_id' => $supplier ? $supplier->id : null,
-                ]);
-            }
+            $orderItemQuery->where('combination_id', $combination->id);
+        } else {
+            $orderItemQuery->whereNull('combination_id');
         }
 
+        $orderItem = $orderItemQuery->first();
+
+        // قیمت نهایی بر اساس ترکیب یا خود محصول
+        $price = $combination ? $combination->price : $product->price;
+        $salePrice = $combination ? $combination->sale_price : $product->sale_price;
+        $finalPrice = $salePrice ?? $price;
+
+        if ($orderItem) {
+            // بروزرسانی تعداد و قیمت
+            $orderItem->quantity = $request->count;
+            $orderItem->total = $request->count * $finalPrice;
+            $orderItem->save();
+        } else {
+            // ایجاد آیتم جدید
+            $orderItem = OrderItem::create([
+                'id' => rand(1111111, 9999999),
+                'order_id' => $order->id,
+                'product_id' => $product->id,
+                'quantity' => $request->count,
+                'price' => $price,
+                'sale_price' => $salePrice,
+                'total' => $request->count * $finalPrice,
+                'status' => 'waiting',
+                'supplier_id' => $supplier ? $supplier->id : null,
+                'combination_id' => $combination ? $combination->id : null,
+            ]);
+        }
+
+        // ساخت اطلاعات سبد خرید
         $cartItems = [];
 
-        foreach ($order->basket()->items as $item) {
-            $attributes = [];
-
-            // استخراج ویژگیها از ترکیبات محصول
-
+        foreach ($order->items as $item) {
             $cartItems[] = [
                 'productId' => $item->product_id,
-                'attributes' => $item->combinations->id ?? null,
-                'seller' => $item->supplier->id ?? null,
+                'attributes' => $item->combination_id,
+                'seller' => $item->supplier_id,
                 'count' => $item->quantity,
             ];
         }
 
-        // ساخت پاسخ نهایی
         return response()->json([
             'message' => 'ok',
             'cart' => $cartItems
         ]);
     }
+
 
     public function index()
     {
@@ -259,7 +225,7 @@ class CartController extends Controller
             $supplier = Supplier::find($request->sellerId);
             if (!$supplier) {
                 return response()->json([
-                    'message' => 'آیتم مورد نظر یافت نشد',
+                    'message' => 'فروشنده مورد نظر یافت نشد',
                 ], 404);
             }
         }
@@ -272,38 +238,26 @@ class CartController extends Controller
             $orderItemQuery->where('supplier_id', $supplier->id);
         }
 
+        if ($request->filled('combinationsID')) {
+            $orderItemQuery->where('combination_id', $request->combinationsID);
+        }
+
         $orderItem = $orderItemQuery->first();
+
         if (!$orderItem) {
             return response()->json([
                 'message' => 'آیتم مورد نظر یافت نشد',
             ], 404);
         }
 
-        // بررسی ترکیب محصول (در صورت ارسال)
-        if ($request->filled('combinationsID')) {
-            $combination = OrderItemCombination::where('order_item_id', $orderItem->id)
-                ->where('combination_id', $request->combinationsID)
-                ->first();
-
-            if (!$combination) {
-                return response()->json([
-                    'message' => 'آیتم مورد نظر یافت نشد',
-                ], 404);
-            }
-
-            // حذف ترکیب
-            $combination->delete();
-        }
-
-        // اگر آیتم بدون ترکیب باقی نماند، آن را از سبد خرید حذف کن
-        if (!$request->filled('combinationsID') || !$orderItem->combinations()->exists()) {
-            $orderItem->delete();
-        }
+        // حذف آیتم از سبد خرید
+        $orderItem->delete();
 
         return response()->json([
             'message' => 'محصول با موفقیت از سبد خرید حذف شد',
         ]);
     }
+
 
 
 
