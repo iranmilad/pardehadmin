@@ -91,6 +91,7 @@ class HoloSettingController extends Controller
         // if (isset($validatedData['config']['bank_accounts'])) {
         //     $updatedSettings['bank_accounts'] = $validatedData['config']['bank_accounts'];
         // }
+        $updatedSettings['expirationDate'] = null;
 
         // ذخیره تنظیمات جدید در دیتابیس
         $setting->update(['settings' => $updatedSettings]);
