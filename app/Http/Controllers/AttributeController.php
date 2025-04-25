@@ -73,7 +73,7 @@ class AttributeController extends Controller
             'guide_link' => 'nullable|string|max:255',
             'independent' => 'nullable|boolean',
         ]);
-        
+
         $attribute = Attribute::findOrFail($id);
         $attribute->update($validated);
         return redirect()->route('attributes.edit',$id)->with('success', 'ویژگی با موفقیت به روز رسانی شد.');
@@ -99,9 +99,9 @@ class AttributeController extends Controller
 
     public function getOptions($attributeId)
     {
-        $attribute = Attribute::with('items')->findOrFail($attributeId);
+        $attribute = Attribute::with('properties')->findOrFail($attributeId);
 
-        $options = $attribute->items->map(function ($item) {
+        $options = $attribute->properties->map(function ($item) {
             return [
                 'id' => $item->id,
                 'name' => $item->name,

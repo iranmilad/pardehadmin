@@ -38,7 +38,7 @@ class OrderStatusUpdated
             $this->deductInventory();
         }
 
-        if (in_array($newStatus, ['basket', 'reject']) && $oldStatus !== 'basket') {
+        if (in_array($newStatus, ['basket', 'cancel']) && $oldStatus !== 'basket') {
             $this->restoreInventory();
         }
 

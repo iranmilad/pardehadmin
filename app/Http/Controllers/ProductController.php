@@ -186,11 +186,11 @@ class ProductController extends Controller
         $categories = Category::all();
         $tags = Tag::all();
         $attributes = Attribute::all();
-        $attributeOptions = Attribute::with('items')->get()->mapWithKeys(function ($attribute) use ($product) {
+        $attributeOptions = Attribute::with('properties')->get()->mapWithKeys(function ($attribute) use ($product) {
             return [
                 $attribute->id => [
                     'name' => $attribute->name,
-                    'options' => $attribute->items->map(function ($item) use ($product) {
+                    'options' => $attribute->properties->map(function ($item) use ($product) {
                         return [
                             'id' => $item->id,
                             'name' => $item->name,
