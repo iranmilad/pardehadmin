@@ -30,9 +30,19 @@ class OrderStatusUpdated
         $this->oldStatus = $oldStatus;
         $this->newStatus = $newStatus;
 
-        if ($newStatus === 'processing') {
+        if ($newStatus === 'pending') {
             $this->handleProcessingStatus();
         }
+
+        if ($this->oldStatus === 'basket') {
+            $this->deductInventory();
+        }
+
+        if (in_array($newStatus, ['basket', 'reject']) && $oldStatus !== 'basket') {
+            $this->restoreInventory();
+        }
+
+
     }
 
     private function handleProcessingStatus()
@@ -92,9 +102,9 @@ class OrderStatusUpdated
             $body = [
                 'publicKey' => $publicKey,
             ];
-    
+
             $data = $this->sendCurlRequest($url, 'POST', $body);
-            
+
             if ($data['Status'] ?? false) {
                 if (isset($data['Data']['privateKey'], $data['Data']['expirationDate'])) {
                     $newprivateKey = $data['Data']['privateKey'];
@@ -103,7 +113,7 @@ class OrderStatusUpdated
                     return $newprivateKey;
                 }
             }
-    
+
 
         } catch (\Throwable $e) {
             Log::error("⚠️ خطا در دریافت توکن جدید: " . $e->getMessage());
@@ -157,4 +167,53 @@ class OrderStatusUpdated
 
         return json_decode($response, true);
     }
+
+    private function deductInventory()
+    {
+        foreach ($this->order->orderItems as $item) {
+            // اگر محصول ساده است
+            if (is_null($item->combination_id)) {
+                $product = $item->product;
+                if ($product) {
+                    $product->few = max(0, $product->few - $item->quantity);
+                    $product->save();
+                    Log::info("📦 موجودی محصول ساده ({$product->id}) کاهش یافت. موجودی جدید: {$product->few}");
+                }
+            }
+            // اگر ترکیب ویژگی دارد
+            else {
+                $combination = $item->combination;
+                if ($combination) {
+                    $combination->stock_quantity = max(0, $combination->stock_quantity - $item->quantity);
+                    $combination->save();
+                    Log::info("🧩 موجودی ترکیب ویژگی ({$combination->id}) کاهش یافت. موجودی جدید: {$combination->stock_quantity}");
+                }
+            }
+        }
+    }
+
+    private function restoreInventory()
+    {
+        foreach ($this->order->orderItems as $item) {
+            // اگر محصول ساده است
+            if (is_null($item->combination_id)) {
+                $product = $item->product;
+                if ($product) {
+                    $product->few += $item->quantity;
+                    $product->save();
+                    Log::info("↩️ موجودی محصول ساده ({$product->id}) بازگردانده شد. موجودی جدید: {$product->few}");
+                }
+            }
+            // اگر ترکیب ویژگی دارد
+            else {
+                $combination = $item->combination;
+                if ($combination) {
+                    $combination->stock_quantity += $item->quantity;
+                    $combination->save();
+                    Log::info("🔄 موجودی ترکیب ویژگی ({$combination->id}) بازگردانده شد. موجودی جدید: {$combination->stock_quantity}");
+                }
+            }
+        }
+    }
+
 }

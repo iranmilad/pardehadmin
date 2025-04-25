@@ -418,4 +418,30 @@ class Product extends Model
     {
         return $value ?? asset('images/blank_image.jpg');
     }
+
+
+    /**
+     * بررسی موجود بودن کلی محصول (با در نظر گرفتن ترکیب‌ها)
+     *
+     * @return bool
+     */
+    public function isFullyAvailable(): bool
+    {
+        // اگر محصول ساده (بدون ترکیب) و موجود باشد
+        if ($this->type=="simple" and $this->isAvailable()) {
+            return true;
+        }
+        else{
+            // اگر ترکیب‌هایی دارد، بررسی کنیم که آیا حداقل یکی از آنها موجود است یا نه
+            return $this->attributeCombinations()
+                        ->where(function ($query) {
+                            $query->where('stock_quantity', '>', 0);
+                        })
+                        ->exists();
+
+        }
+
+    }
+
+
 }

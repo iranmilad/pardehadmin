@@ -10,11 +10,6 @@ class Attribute extends Model
         'name', 'countable', 'unit', 'display_type', 'guide_link','independent'
     ];
 
-    public function items()
-    {
-        return $this->hasMany(AttributeItem::class);
-    }
-
     public function properties()
     {
         return $this->hasMany(Property::class);

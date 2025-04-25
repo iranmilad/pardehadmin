@@ -8,11 +8,14 @@ use PhpMonsters\Larapay\Payable;
 use App\Events\OrderStatusUpdated;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\ShippingCostAndTimeCalculator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
     use HasFactory;
+    use ShippingCostAndTimeCalculator;
+
     protected $fillable = [
 
         'customer_name',
@@ -158,7 +161,7 @@ class Order extends Model
     public function basket()
     {
         $order = $this;
-    
+
         $summary = [
             'count' => 0,
             'totalPrice' => 0,
@@ -168,26 +171,27 @@ class Order extends Model
             'availableCheck' => 0,
             'deliveryCost' => 0,
         ];
-    
+
         $items = [];
         $summedAmounts = [];
         $statusList = [];
-    
+        $allAvailable = true;
+
         if (!$order) {
             return $this->emptyBasket();
         }
-    
+
         $cartItems = $order->orderItems;
         $discountCode = $order->discountCode;
         $allowedProducts = $discountCode ? $discountCode->allowedProducts->pluck('id')->toArray() : [];
-    
+
         foreach ($cartItems as $cartItem) {
             $product = $cartItem->product;
-    
+
             if (!$product) {
                 continue;
             }
-    
+
             $combination = $cartItem->combination;
             $attributeCombinationsID = $combination?->id;
             $quantity = $cartItem->quantity;
@@ -196,12 +200,14 @@ class Order extends Model
             $options = [];
             $optionsFull = [];
             $totalAttributePrice = 0;
-            
+            $isAvailable = false;
+
             if ($combination) {
                 $priceAttr = $combination->sale_price ?? $combination->price;
                 $totalAttributePrice += $priceAttr;
                 $timePerUnit += $combination->time_per_unit ?? 0;
-            
+                $isAvailable = $combination->stock_quantity >= $quantity;
+
                 foreach ($combination->attributeProperties as $property) {
                     $attributeNames[] = $property->attribute->name;
                     $options[] = [$property->attribute->name => $property->property->value];
@@ -212,38 +218,36 @@ class Order extends Model
                         "attributeName" => $property->attribute->name,
                     ];
                 }
+            } else {
+                $isAvailable = $product->few >= $quantity;
             }
-            
-    
+
+            // اگر حتی یک مورد ناموجود باشد
+            if (!$isAvailable) {
+                $allAvailable = false;
+            }
+
             $timeTotal = $timePerUnit * $quantity;
             $summary['totalTime'] += $timeTotal;
-    
-            // جمع تعداد
-            $summary['count'] += ($product->minimum_quantity == "quantity") ? $quantity : 1;
-    
-            // جمع قیمت
-            $summary['totalPrice'] += $cartItem->total; // ✅ فقط یک بار جمع بشه
 
-    
-            // تخفیف
+            $summary['count'] += ($product->minimum_quantity == "quantity") ? $quantity : 1;
+            $summary['totalPrice'] += $cartItem->total;
+
             if ($discountCode && (empty($allowedProducts) || in_array($product->id, $allowedProducts))) {
                 $summary['totalDiscount'] += $this->calculateItemDiscount($cartItem, $quantity, $discountCode);
             }
-    
-            // اقساط
+
             $credit = $product->creditInstallmentTimeline($cartItem->total);
             foreach ($credit->timeline as $key => $value) {
                 $summedAmounts[$key] = ($summedAmounts[$key] ?? 0) + $value->amount;
             }
             $summary['availableCreditPlan'] += $credit->totalCredit;
-    
-            // تأمین‌کننده
+
             $supplier = $cartItem->supplier;
             $supplierData = $supplier ? ["id" => $supplier->id, "label" => $supplier->name] : null;
-    
-            // بررسی نظر کاربر
+
             $review = $order->user->existsProductReview($product->id);
-    
+
             $items[] = (object)[
                 "id" => $cartItem->id,
                 "product_id" => $product->id,
@@ -274,18 +278,23 @@ class Order extends Model
                 "time_per_unit" => $timePerUnit,
                 "time_total" => $timeTotal,
                 "supplier" => $supplierData,
+                "is_available" => $isAvailable,
             ];
-    
+
             $statusList[] = $cartItem->status;
         }
-    
-        $summary['deliveryCost'] = $this->deliveryCost($order);
+
+        $deliveryOptions = $this->deliveryCost();
+        $selectedRegionId = $order->deliveryType;
+        $selectedDelivery = collect($deliveryOptions)->firstWhere('region_id', $selectedRegionId);
+        $summary['deliveryCost'] = $selectedDelivery['cost'] ?? 0;
+
         $summary['availableCreditPlan'] = $order->paymentMethod == 'credit' ? $summary['availableCreditPlan'] : 0;
         $summary['availableCheck'] = $order->paymentMethod == 'check' ? $order->getTotalUnpaidChecksAmount() : 0;
-    
+
         $totalTimeline = $this->calculateDueDates($summedAmounts);
         $totalPayed = $summary['totalPrice'] + $summary['deliveryCost'] - $summary['availableCreditPlan'] - $summary['availableCheck'] - $summary['totalDiscount'];
-    
+
         return (object)[
             "cart" => (object)[
                 "id" => $order->id,
@@ -306,11 +315,13 @@ class Order extends Model
                 "totalTime" => number_format($summary['totalTime']),
                 "tax" => 0,
                 "time_delivery" => round($summary['totalTime'] / 24) + 2,
+                "allAvailable" => $allAvailable,
             ],
             "items" => $items,
         ];
     }
-    
+
+
     private function emptyBasket()
     {
         return (object)[
@@ -336,27 +347,26 @@ class Order extends Model
             "items" => [],
         ];
     }
-    
+
     private function calculateItemDiscount($item, $quantity, $discountCode)
     {
         switch ($discountCode->discount_type) {
             case 'percentage_cart':
                 return $item->total * ($discountCode->discount_amount / 100) * $quantity;
-    
+
             case 'percentage_product':
                 return $item->total * ($discountCode->discount_amount / 100) * $quantity;
-    
+
             case 'fixed_cart':
                 return $discountCode->discount_amount;
-    
+
             case 'fixed_product':
                 return $discountCode->discount_amount * $quantity;
-    
+
             default:
                 return 0;
         }
     }
-    
 
 
     public function percentOfFinishedItem()
@@ -413,85 +423,6 @@ class Order extends Model
 
         return $totalTimeline;
     }
-
-    private function deliveryCost($order)
-    {
-        if ($order->deliveryType == 'home_delivery') {
-            if ($order->shipping_city && $order->shipping_province) {
-                // دریافت تمامی مناطق حمل‌ونقل
-                $transportRegions = TransportRegion::all();
-
-                // متغیر جمع هزینه نهایی
-                $totalCost = 0;
-
-                // محاسبه هزینه برای هر آیتم موجود در سفارش
-                foreach ($order->orderItems as $orderItem) {
-                    $product = $orderItem->product;
-                    $cartValue = $orderItem->total;
-                    $weight = $product->weight;
-                    $dimensions = [
-                        'length' => $product->length,
-                        'width' => $product->width,
-                        'height' => $product->height,
-                    ];
-
-                    // بررسی تطابق شهر و استان با مناطق موجود
-                    foreach ($transportRegions as $region) {
-                        // اگر regions خالی بود، منظور همه مناطق است
-                        if ($region->regions==[] || in_array($order->shipping_city, $region->regions)) {
-                            // مطابقت نوع هزینه حمل‌ونقل با محصول
-                            if ($region->cost_type == $product->cost_calculation_class) {
-                                switch ($region->cost_type) {
-                                    case 'fixed_rate':
-                                        $totalCost += $region->price; // هزینه ثابت
-                                        break;
-
-                                    case 'weight_based':
-                                        $totalCost += $this->calculateWeightBasedCost($region, $weight); // محاسبه براساس وزن
-                                        break;
-
-                                    case 'volume_based':
-                                        $totalCost += $this->calculateVolumeBasedCost($region, $dimensions); // محاسبه براساس حجم
-                                        break;
-
-                                    case 'value_based':
-                                        $totalCost += $this->calculateValueBasedCost($region, $cartValue); // محاسبه براساس ارزش
-                                        break;
-
-                                    default:
-                                        $totalCost += 0; // اگر نوع حمل‌ونقل مشخص نبود، هزینه صفر
-                                }
-                                // یک منطقه تطابق یافت، ادامه نمی‌دهیم
-                                break;
-                            }
-                        }
-                    }
-                }
-                return $totalCost;
-            }
-        }
-
-        // اگر منطقه‌ای یافت نشود یا اطلاعات نامعتبر باشد، هزینه ارسال صفر برمی‌گردد
-        return 0;
-    }
-
-
-    private function calculateWeightBasedCost($region, $weight)
-    {
-        return $region->weight_based_cost * $weight;
-    }
-
-    private function calculateValueBasedCost($region, $cartValue)
-    {
-        return $region->percentage_of_cart_value * $cartValue;
-    }
-
-    private function calculateVolumeBasedCost($region, $dimensions)
-    {
-        $volume = $dimensions['length'] * $dimensions['width'] * $dimensions['height'];
-        return $region->dimension_based_cost * $volume;
-    }
-
 
     public function getTotalChecksCount()
     {
